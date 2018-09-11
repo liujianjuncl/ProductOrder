@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="contentPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="362.0" prefWidth="615.0" style="-fx-background-color: #5789DC;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nii.desktop.controller.LoginUIController">
+   <children>
+      <ImageView fitHeight="364.0" fitWidth="245.0" layoutX="14.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/login_left.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="268.0" layoutY="75.0" text="UserName" textFill="#f5f2f2">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="268.0" layoutY="151.0" text="Password" textFill="#f5f2f2">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <TextField fx:id="userNameTextField" layoutX="398.0" layoutY="80.0" text="wzj">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="passwordTextField" layoutX="398.0" layoutY="156.0" text="1111">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <Button fx:id="entryButton" layoutX="286.0" layoutY="238.0" mnemonicParsing="false" onAction="#entryButtonClickAction" prefHeight="46.0" prefWidth="121.0" text="Entry">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Button>
+      <Button fx:id="clearButton" layoutX="447.0" layoutY="238.0" mnemonicParsing="false" onAction="#clearButtonClickAction" prefHeight="46.0" prefWidth="121.0" text="Clear">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Button>
+      <Button fx:id="configButton" layoutX="286.0" layoutY="325.0" mnemonicParsing="false" onAction="#configButtonClickAction" text="config" />
+   </children>
+
+    <stylesheets>
+        <URL value="@../css/LoginUI.css" />
+    </stylesheets>
+</AnchorPane>
