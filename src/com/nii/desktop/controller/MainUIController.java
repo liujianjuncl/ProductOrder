@@ -8,6 +8,7 @@ import com.nii.desktop.util.ui.ResourceLoader;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
@@ -36,9 +37,7 @@ public class MainUIController implements Initializable {
     @FXML
     private TextField numTextField;
 
-    /**
-     * Ãû×Ö¿ò
-     */
+    /**Ãû×Ö¿ò*/
     @FXML
     private TextField nameTextField;
 
@@ -58,6 +57,12 @@ public class MainUIController implements Initializable {
      * web engine
      */
     WebEngine webEngine;
+    
+    @FXML
+    Button userManageButton;
+    
+    @FXML
+    Button dailyManageButton;
 
     /**
      * Called to initialize a controller after its root element has been completely
@@ -80,6 +85,20 @@ public class MainUIController implements Initializable {
         loadListViewTestTab();
         loadTableViewTestTab();
 
+    }
+    
+    @FXML
+    private void userLabelClickAction() {
+        System.out.println("=========userLabelClickAction=========");
+        userManageButton.setStyle("-fx-background-color: red");
+        dailyManageButton.setStyle(null);
+    }
+    
+    @FXML
+    private void dailyLabelClickAction() {
+        System.out.println("=========dailyLabelClickAction=========");
+        dailyManageButton.setStyle("-fx-background-color: red");
+        userManageButton.setStyle(null);
     }
 
     private void loadListViewTestTab() {

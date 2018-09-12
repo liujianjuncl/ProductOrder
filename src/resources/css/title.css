@@ -2,6 +2,13 @@
     -fx-background-color: #4aa3ff;
 }
 
+#label{
+	-fx-font-size: 30px;
+	-fx-alignment: top-left;
+	-fx-translate-y: 12px;
+	-fx-translate-x: 10px;
+}
+
 #closeButton{
     -fx-graphic: url("/resources/image/close.png") ;
     -fx-background-color: transparent;

@@ -7,9 +7,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<SplitPane dividerPositions="0.27148703956343795"  prefHeight="600.0" prefWidth="800.0" style="-fx-border-color: red" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nii.desktop.controller.MainUIController">
+<SplitPane dividerPositions="0.27148703956343795" prefHeight="600.0" prefWidth="800.0" style="-fx-border-color: red" stylesheets="/resources/css/MainUI.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nii.desktop.controller.MainUIController">
   <items>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="626.0" prefWidth="221.0" />
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="626.0" prefWidth="221.0">
+         <children>
+            <Button fx:id="userManageButton" layoutX="-2.0" layoutY="-1.0" mnemonicParsing="false" onAction="#userLabelClickAction" prefHeight="83.0" prefWidth="219.0" text="用户管理" />
+            <Button fx:id="dailyManageButton" layoutY="82.0" mnemonicParsing="false" onAction="#dailyLabelClickAction" prefHeight="97.0" prefWidth="213.0" text="日报管理" />
+         </children></AnchorPane>
       <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Device">
