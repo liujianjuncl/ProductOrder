@@ -8,8 +8,7 @@ import javafx.scene.control.TextField;
 /**
  * Created by wzj on 2017/1/2.
  */
-public class HostServerDialog<R> extends ModalDialog
-{
+public class HostServerDialog<R> extends ModalDialog {
     @FXML
     private TextField serverTextField;
 
@@ -19,13 +18,11 @@ public class HostServerDialog<R> extends ModalDialog
      * click ok button
      */
     @FXML
-    private void okButtonClickAction()
-    {
+    private void okButtonClickAction() {
         hostServer.setServerName(serverTextField.getText());
 
         isOkClicked = true;
         dialogStage.close();
-
 
     }
 
@@ -33,8 +30,7 @@ public class HostServerDialog<R> extends ModalDialog
      * click cancel button
      */
     @FXML
-    private void cancelButtonClickAction()
-    {
+    private void cancelButtonClickAction() {
         isOkClicked = false;
         dialogStage.close();
     }
@@ -45,8 +41,7 @@ public class HostServerDialog<R> extends ModalDialog
      * @param param
      */
     @Override
-    public void setParam(Object param)
-    {
+    public void setParam(Object param) {
         this.hostServer = (HostServer) param;
         serverTextField.setText(hostServer.getServerName());
     }

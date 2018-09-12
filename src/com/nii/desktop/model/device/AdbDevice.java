@@ -7,28 +7,28 @@ import com.nii.desktop.signal.type.DeviceEventType;
  * Created by wzj on 2017/1/22.
  */
 public class AdbDevice extends ModeManager<DeviceEventType> {
-	private int deviceNumber;
+    private int deviceNumber;
 
-	private String deviceName;
+    private String deviceName;
 
-	public int getDeviceNumber() {
-		return deviceNumber;
-	}
+    public int getDeviceNumber() {
+        return deviceNumber;
+    }
 
-	public void setDeviceNumber(int deviceNumber) {
-		this.deviceNumber = deviceNumber;
+    public void setDeviceNumber(int deviceNumber) {
+        this.deviceNumber = deviceNumber;
 
-		// 閫氱煡鐩戝惉鍣�
-		notifyListener(DeviceEventType.NUMBER_CHANGE, deviceNumber);
-	}
+        // 閫氱煡鐩戝惉鍣�
+        notifyListener(DeviceEventType.NUMBER_CHANGE, deviceNumber);
+    }
 
-	public String getDeviceName() {
-		return deviceName;
-	}
+    public String getDeviceName() {
+        return deviceName;
+    }
 
-	public void setDeviceName(String deviceName) {
-		this.deviceName = deviceName;
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
 
-		notifyListener(DeviceEventType.NAME_CHANGE, deviceName);
-	}
+        notifyListener(DeviceEventType.NAME_CHANGE, deviceName);
+    }
 }

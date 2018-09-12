@@ -24,8 +24,7 @@ import java.util.UUID;
 /**
  * Created by wzj on 2017/1/4.
  */
-public class MainUIController implements Initializable
-{
+public class MainUIController implements Initializable {
     /**
      * 设备对象
      */
@@ -50,7 +49,7 @@ public class MainUIController implements Initializable
     private TextField urlTextField;
 
     /**
-     * 容器
+       * 容器
      */
     @FXML
     private TabPane tabPane;
@@ -60,19 +59,17 @@ public class MainUIController implements Initializable
      */
     WebEngine webEngine;
 
-
-
     /**
-     * Called to initialize a controller after its root element has been
-     * completely processed.
+     * Called to initialize a controller after its root element has been completely
+     * processed.
      *
-     * @param location  The location used to resolve relative paths for the root object, or
-     *                  <tt>null</tt> if the location is not known.
-     * @param resources The resources used to localize the root object, or <tt>null</tt> if
+     * @param location  The location used to resolve relative paths for the root
+     *                  object, or <tt>null</tt> if the location is not known.
+     * @param resources The resources used to localize the root object, or
+     *                  <tt>null</tt> if
      */
     @Override
-    public void initialize(URL location, ResourceBundle resources)
-    {
+    public void initialize(URL location, ResourceBundle resources) {
         registerListener();
 
         numTextField.setEditable(false);
@@ -85,63 +82,49 @@ public class MainUIController implements Initializable
 
     }
 
-    private void loadListViewTestTab()
-    {
+    private void loadListViewTestTab() {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(ResourceLoader.getFxmlResource("ListViewTest.fxml"));
 
-        try
-        {
+        try {
             Pane pane = fxmlLoader.load();
 
             Tab listViewTab = new Tab("ListView");
             listViewTab.setContent(pane);
             tabPane.getTabs().add(listViewTab);
 
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void loadTableViewTestTab()
-    {
+    private void loadTableViewTestTab() {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(ResourceLoader.getFxmlResource("TableViewTest.fxml"));
 
-        try
-        {
+        try {
             Pane pane = fxmlLoader.load();
 
             Tab tableViewTab = new Tab("TableView");
             tableViewTab.setContent(pane);
             tabPane.getTabs().add(tableViewTab);
 
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-
-    private void registerListener()
-    {
-        adbDevice.addChangeListener(DeviceEventType.NUMBER_CHANGE, new ModeListener()
-        {
+    private void registerListener() {
+        adbDevice.addChangeListener(DeviceEventType.NUMBER_CHANGE, new ModeListener() {
             @Override
-            public void handleEvent(ModeEvent event)
-            {
+            public void handleEvent(ModeEvent event) {
                 numTextField.setText(String.valueOf(adbDevice.getDeviceNumber()));
             }
         });
 
-        adbDevice.addChangeListener(DeviceEventType.NAME_CHANGE, new ModeListener()
-        {
+        adbDevice.addChangeListener(DeviceEventType.NAME_CHANGE, new ModeListener() {
             @Override
-            public void handleEvent(ModeEvent event)
-            {
+            public void handleEvent(ModeEvent event) {
                 nameTextField.setText(event.getSource().toString());
             }
         });
@@ -151,8 +134,7 @@ public class MainUIController implements Initializable
      * 点击+按钮
      */
     @FXML
-    private void upButtonClickAction()
-    {
+    private void upButtonClickAction() {
         int num = adbDevice.getDeviceNumber() + 1;
         adbDevice.setDeviceNumber(num);
     }
@@ -161,8 +143,7 @@ public class MainUIController implements Initializable
      * 点击-按钮
      */
     @FXML
-    private void downButtonClickAction()
-    {
+    private void downButtonClickAction() {
         int num = adbDevice.getDeviceNumber() - 1;
         adbDevice.setDeviceNumber(num);
 
@@ -173,8 +154,7 @@ public class MainUIController implements Initializable
      * 回车事件
      */
     @FXML
-    private void urlTextFieldAction()
-    {
+    private void urlTextFieldAction() {
         goBtClickAction();
     }
 
@@ -182,8 +162,7 @@ public class MainUIController implements Initializable
      * Go按钮点击事件
      */
     @FXML
-    private void goBtClickAction()
-    {
+    private void goBtClickAction() {
         webEngine.load(urlTextField.getText());
     }
 }

@@ -1,11 +1,9 @@
 package com.nii.desktop.type;
 
 /**
- * 常用的字符串常量
- * Created by wzj on 2016/12/19.
+ * 常用的字符串常量 Created by wzj on 2016/12/19.
  */
-public interface CommonConstant
-{
+public interface CommonConstant {
     /**
      * Desktop Version
      */
@@ -35,6 +33,5 @@ public interface CommonConstant
      * 没有在资源文件定义
      */
     String NO_RESOURCE_DEFINE = "No define in resource.";
-
 
 }

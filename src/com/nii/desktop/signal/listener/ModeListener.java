@@ -7,8 +7,7 @@ import java.util.EventListener;
 /**
  * Created by wzj on 2017/1/23.
  */
-public interface ModeListener extends EventListener
-{
-    //必须实现的接口
+public interface ModeListener extends EventListener {
+    // 必须实现的接口
     void handleEvent(ModeEvent event);
 }

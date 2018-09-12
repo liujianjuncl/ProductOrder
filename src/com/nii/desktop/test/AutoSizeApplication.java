@@ -12,18 +12,13 @@ import java.io.IOException;
 /**
  * Created by wzj on 2018/2/7.
  */
-public class AutoSizeApplication extends Application
-{
+public class AutoSizeApplication extends Application {
     @Override
-    public void start(Stage primaryStage) throws Exception
-    {
+    public void start(Stage primaryStage) throws Exception {
         AnchorPane pane = null;
-        try
-        {
+        try {
             pane = FXMLLoader.load(ResourceLoader.getFxmlResource("Container.fxml"));
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -37,8 +32,7 @@ public class AutoSizeApplication extends Application
 
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         launch(args);
     }
 }

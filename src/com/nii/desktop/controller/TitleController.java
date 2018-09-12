@@ -17,8 +17,7 @@ import javafx.stage.Stage;
 /**
  * Created by wzj on 2017/8/20.
  */
-public class TitleController
-{
+public class TitleController {
     /**
      * 鼠标双击两下
      */
@@ -47,31 +46,24 @@ public class TitleController
     @FXML
     public Button menuButton;
 
-    public void setStage(Stage stage, int height)
-    {
+    public void setStage(Stage stage, int height) {
         this.stage = stage;
         bannerClickAction();
         banner.setPrefHeight(height);
         new StageMove(this.stage).bindDrag(banner);
     }
 
-    public void addContent(Parent content)
-    {
+    public void addContent(Parent content) {
         this.rootPane.getChildren().add(content);
         VBox.setVgrow(content, Priority.ALWAYS);
     }
 
-    private void bannerClickAction()
-    {
-        banner.setOnMouseClicked(new EventHandler<MouseEvent>()
-        {
+    private void bannerClickAction() {
+        banner.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(MouseEvent mouseEvent)
-            {
-                if (mouseEvent.getButton().equals(MouseButton.PRIMARY))
-                {
-                    if (mouseEvent.getClickCount() == DOUBLE_CLICK)
-                    {
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                    if (mouseEvent.getClickCount() == DOUBLE_CLICK) {
                         maxButtonClickAction();
                     }
                 }
@@ -79,13 +71,11 @@ public class TitleController
         });
     }
 
-
     /**
      * 窗口关闭事件
      */
     @FXML
-    public void closeButtonCilciAction()
-    {
+    public void closeButtonCilciAction() {
         stage.close();
     }
 
@@ -93,8 +83,7 @@ public class TitleController
      * 窗口最大化事件
      */
     @FXML
-    public void maxButtonClickAction()
-    {
+    public void maxButtonClickAction() {
         stage.setMaximized(!stage.isMaximized());
     }
 
@@ -102,8 +91,7 @@ public class TitleController
      * 窗口最小化事件
      */
     @FXML
-    public void minButtonClickAction()
-    {
+    public void minButtonClickAction() {
         stage.setIconified(true);
     }
 
@@ -111,8 +99,7 @@ public class TitleController
      * 菜单点击事件
      */
     @FXML
-    public void menuButtonClickAction()
-    {
-        GlobalMenu.getInstance().show(menuButton, Side.BOTTOM,0,0);
+    public void menuButtonClickAction() {
+        GlobalMenu.getInstance().show(menuButton, Side.BOTTOM, 0, 0);
     }
 }

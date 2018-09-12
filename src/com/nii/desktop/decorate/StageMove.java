@@ -8,45 +8,36 @@ import javafx.stage.Stage;
 /**
  * Created by wzj on 2016-03-03.
  */
-public class StageMove
-{
+public class StageMove {
 
     private Stage stage;
     private Light.Point point = new Light.Point();
 
-    public StageMove(Stage stage)
-    {
+    public StageMove(Stage stage) {
         this.stage = stage;
     }
 
-    public void bindDrag(Pane control)
-    {
-        control.setOnMousePressed(event ->
-        {
+    public void bindDrag(Pane control) {
+        control.setOnMousePressed(event -> {
             point.setX(stage.getX() - event.getScreenX());
             point.setY(stage.getY() - event.getScreenY());
         });
 
-        control.setOnMouseReleased(event ->
-        {
-            if (stage.getY() < 0)
-            {
+        control.setOnMouseReleased(event -> {
+            if (stage.getY() < 0) {
                 stage.setY(0);
             }
         });
 
-        control.setOnMouseDragged(event ->
-        {
-            if (stage.isFullScreen())
-            {
+        control.setOnMouseDragged(event -> {
+            if (stage.isFullScreen()) {
                 return;
             }
 
             double x = (event.getScreenX() + point.getX());
             double y = (event.getScreenY() + point.getY());
 
-            Platform.runLater(() ->
-            {
+            Platform.runLater(() -> {
                 stage.setX(x);
                 stage.setY(y);
             });

@@ -3,7 +3,7 @@
 }
 
 #closeButton{
-    -fx-graphic: url("/image/close.png") ;
+    -fx-graphic: url("/resources/image/close.png") ;
     -fx-background-color: transparent;
 }
 #closeButton:hover{
@@ -15,7 +15,7 @@
 }
 
 #maxButton{
-    -fx-graphic: url("/image/max.png") ;
+    -fx-graphic: url("/resources/image/max.png") ;
     -fx-background-color: transparent;
 }
 #maxButton:hover{
@@ -28,7 +28,7 @@
 
 
 #minButton{
-    -fx-graphic: url("/image/min.png") ;
+    -fx-graphic: url("/resources/image/min.png") ;
     -fx-background-color: transparent;
 }
 #minButton:hover{
@@ -41,7 +41,7 @@
 
 
 #menuButton{
-    -fx-graphic: url("/image/menu.png") ;
+    -fx-graphic: url("/resources/image/menu.png") ;
     -fx-background-color: transparent;
 }
 #menuButton:hover{

@@ -19,8 +19,7 @@ import java.util.ResourceBundle;
 /**
  * Created by wzj on 2018/2/7.
  */
-public class ContainerController implements Initializable
-{
+public class ContainerController implements Initializable {
     /**
      * »’÷æ
      */
@@ -32,27 +31,22 @@ public class ContainerController implements Initializable
     @FXML
     private StackPane containerPane;
 
-
-
     /**
-     * Called to initialize a controller after its root element has been
-     * completely processed.
+     * Called to initialize a controller after its root element has been completely
+     * processed.
      *
-     * @param location  The location used to resolve relative paths for the root object, or
-     *                  <tt>null</tt> if the location is not known.
-     * @param resources The resources used to localize the root object, or <tt>null</tt> if
+     * @param location  The location used to resolve relative paths for the root
+     *                  object, or <tt>null</tt> if the location is not known.
+     * @param resources The resources used to localize the root object, or
+     *                  <tt>null</tt> if
      */
     @Override
-    public void initialize(URL location, ResourceBundle resources)
-    {
+    public void initialize(URL location, ResourceBundle resources) {
         SplitPane pane = null;
-        try
-        {
+        try {
             pane = FXMLLoader.load(ResourceLoader.getFxmlResource("MainUI.fxml"));
-        }
-        catch (IOException e)
-        {
-            LOGGER.error("Switch main UI failed",e);
+        } catch (IOException e) {
+            LOGGER.error("Switch main UI failed", e);
         }
 
         containerPane.getChildren().addAll(pane);

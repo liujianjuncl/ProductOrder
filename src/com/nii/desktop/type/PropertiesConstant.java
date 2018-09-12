@@ -3,8 +3,7 @@ package com.nii.desktop.type;
 /**
  * Created by wzj on 2017/1/2.
  */
-public interface PropertiesConstant
-{
+public interface PropertiesConstant {
     /**
      * GET_APK_LIST_TIMEOUT
      */

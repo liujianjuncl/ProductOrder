@@ -5,8 +5,7 @@ import javafx.stage.Stage;
 /**
  * Created by wzj on 2017/1/2.
  */
-public abstract class ModalDialog<R>
-{
+public abstract class ModalDialog<R> {
     /**
      * stage
      */
@@ -20,33 +19,32 @@ public abstract class ModalDialog<R>
     /**
      * 构造函数
      */
-    public ModalDialog()
-    {
+    public ModalDialog() {
         isOkClicked = false;
     }
 
     /**
      * 设置stage
+     * 
      * @param stage stage
      */
-    public void setDialogStage(Stage stage)
-    {
+    public void setDialogStage(Stage stage) {
         this.dialogStage = stage;
     }
 
     /**
      * is ok click
+     * 
      * @return true 点击了 | false 没有点击
      */
-    public boolean isOkClicked()
-    {
+    public boolean isOkClicked() {
         return isOkClicked;
     }
 
     /**
      * set param
+     * 
      * @param param
      */
     abstract public void setParam(R param);
 }
-

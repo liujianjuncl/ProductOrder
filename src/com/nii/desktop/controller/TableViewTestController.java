@@ -16,15 +16,13 @@ import java.util.ResourceBundle;
 /**
  * Created by wzj on 2018/1/7.
  */
-public class TableViewTestController implements Initializable
-{
+public class TableViewTestController implements Initializable {
 
     /**
      * 表格
      */
     @FXML
     private TableView<Student> studentTableView;
-
 
     /**
      * 数据
@@ -35,43 +33,40 @@ public class TableViewTestController implements Initializable
      * name列
      */
     @FXML
-    TableColumn<Student,String> nameCol;
+    TableColumn<Student, String> nameCol;
 
     /**
      * name列
      */
     @FXML
-    TableColumn<Student,Integer> ageCol;
+    TableColumn<Student, Integer> ageCol;
 
     /**
      * name列
      */
     @FXML
-    TableColumn<Student,String> descCol;
-
+    TableColumn<Student, String> descCol;
 
     /**
-     * Called to initialize a controller after its root element has been
-     * completely processed.
+     * Called to initialize a controller after its root element has been completely
+     * processed.
      *
-     * @param location  The location used to resolve relative paths for the root object, or
-     *                  <tt>null</tt> if the location is not known.
-     * @param resources The resources used to localize the root object, or <tt>null</tt> if
+     * @param location  The location used to resolve relative paths for the root
+     *                  object, or <tt>null</tt> if the location is not known.
+     * @param resources The resources used to localize the root object, or
+     *                  <tt>null</tt> if
      */
     @Override
-    public void initialize(URL location, ResourceBundle resources)
-    {
+    public void initialize(URL location, ResourceBundle resources) {
         nameCol.setCellValueFactory(new PropertyValueFactory<Student, String>("name"));
         ageCol.setCellValueFactory(new PropertyValueFactory<Student, Integer>("age"));
         descCol.setCellValueFactory(new PropertyValueFactory<Student, String>("desc"));
 
         studentTableView.setItems(data);
 
-        Platform.runLater(new Runnable()
-        {
+        Platform.runLater(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 initData();
             }
         });
@@ -81,10 +76,9 @@ public class TableViewTestController implements Initializable
     /**
      * 初始化表格数据
      */
-    private void initData()
-    {
-        data.add(new Student("张三",10,"数学好"));
-        data.add(new Student("李四",13,"学习非常努力"));
-        data.add(new Student("王五",16,"好学生"));
+    private void initData() {
+        data.add(new Student("张三", 10, "数学好"));
+        data.add(new Student("李四", 13, "学习非常努力"));
+        data.add(new Student("王五", 16, "好学生"));
     }
 }

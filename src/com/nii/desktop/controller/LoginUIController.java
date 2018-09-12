@@ -67,12 +67,12 @@ public class LoginUIController implements Initializable {
 		String password = passwordTextField.getText().trim();
 
 		if ("".equals(username) || "".equals(password)) {
-			AlertUtil.alertInfoLater("用户名密码不能为空！");
+			AlertUtil.alertInfoLater(PropertiesUtil.getDefaultProperties().getProperty("login.user.pwd.isnull"));
 			return;
 		}
 
-		if (!(StringUtils.equals(userNameTextField.getText(), "wzj")
-				&& StringUtils.equals(passwordTextField.getText(), "1111"))) {
+		if (!(StringUtils.equals(userNameTextField.getText(), "1")
+				&& StringUtils.equals(passwordTextField.getText(), "1"))) {
 			AlertUtil.alertErrorLater(PropertiesUtil.getDefaultProperties().getProperty("login.failed"));
 			return;
 		}
