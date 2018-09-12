@@ -11,21 +11,21 @@ import java.util.*;
 public class ModeManager<T>
 {
     /**
-     * äº‹ä»¶ç›‘å¬å™¨çš„å­˜å‚¨Map
+     * ÊÂ¼ş¼àÌıÆ÷µÄ´æ´¢Map
      */
     private Map<T, List<ModeListener>> listenerMap =
             new HashMap<T, List<ModeListener>>();
 
     /**
-     * æ³¨å†Œç›‘å¬å™¨
-     * @param type ç±»å‹
-     * @param listener ç›‘å¬å™¨ç±»å‹
+     * ×¢²á¼àÌıÆ÷
+     * @param type ÀàĞÍ
+     * @param listener ¼àÌıÆ÷ÀàĞÍ
      */
     public void addChangeListener(T type,ModeListener listener)
     {
         List<ModeListener> listenerList = listenerMap.get(type);
 
-        //å¦‚æœæš‚æ—¶æ²¡æœ‰è¯¥ç±»å‹çš„ç›‘å¬å™¨
+        //Èç¹ûÔİÊ±Ã»ÓĞ¸ÃÀàĞÍµÄ¼àÌıÆ÷
         if (listenerList == null)
         {
             listenerList = new ArrayList<ModeListener>();
@@ -39,10 +39,10 @@ public class ModeManager<T>
     }
 
     /**
-     * æ˜¯å¦æˆåŠŸç§»é™¤
-     * @param type ç±»å‹
-     * @param listener ç›‘å¬å™¨
-     * @return ç§»é™¤ç»“æœ true æˆåŠŸ | false ä¸å­˜åœ¨æˆ–è€…ç§»é™¤å¤±è´¥
+     * ÊÇ·ñ³É¹¦ÒÆ³ı
+     * @param type ÀàĞÍ
+     * @param listener ¼àÌıÆ÷
+     * @return ÒÆ³ı½á¹û true ³É¹¦ | false ²»´æÔÚ»òÕßÒÆ³ıÊ§°Ü
      */
     public boolean removeChangeListener(T type,ModeListener listener)
     {
@@ -57,7 +57,7 @@ public class ModeManager<T>
     }
 
     /**
-     * é€šçŸ¥æ‰€æœ‰çš„ç›‘å¬å™¨
+     * Í¨ÖªËùÓĞµÄ¼àÌıÆ÷
      * @param type
      * @param source
      */

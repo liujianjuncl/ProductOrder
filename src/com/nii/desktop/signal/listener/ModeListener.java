@@ -9,6 +9,6 @@ import java.util.EventListener;
  */
 public interface ModeListener extends EventListener
 {
-    //å¿…é¡»å®ç°çš„æ¥å£
+    //±ØĞëÊµÏÖµÄ½Ó¿Ú
     void handleEvent(ModeEvent event);
 }

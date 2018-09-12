@@ -1,7 +1,7 @@
 package com.nii.desktop.type;
 
 /**
- * å¸¸ç”¨çš„å­—ç¬¦ä¸²å¸¸é‡
+ * ³£ÓÃµÄ×Ö·û´®³£Á¿
  * Created by wzj on 2016/12/19.
  */
 public interface CommonConstant
@@ -32,7 +32,7 @@ public interface CommonConstant
     String ALERT_CONFIRM_TITLE = "Confirm";
 
     /**
-     * æ²¡æœ‰åœ¨èµ„æºæ–‡ä»¶å®šä¹‰
+     * Ã»ÓĞÔÚ×ÊÔ´ÎÄ¼ş¶¨Òå
      */
     String NO_RESOURCE_DEFINE = "No define in resource.";
 

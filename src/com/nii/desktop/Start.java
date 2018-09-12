@@ -5,7 +5,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 /**
- * desktop 鐨勫惎鍔ㄧ被 Created by wzj on 2016/12/18.
+ * desktop 的启动类 Created by wzj on 2016/12/18.
  */
 public class Start extends Application {
 	/**
@@ -27,9 +27,9 @@ public class Start extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		UIManager.setPrimaryStage(primaryStage);
 
-		UIManager.switchMainUI();
+//		UIManager.switchMainUI();
 
-//        UIManager.switchLoginUI();
+        UIManager.switchLoginUI();
 	}
 
 	public static void main(String[] args) {

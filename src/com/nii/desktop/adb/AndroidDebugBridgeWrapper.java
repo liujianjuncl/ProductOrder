@@ -24,9 +24,9 @@ public class AndroidDebugBridgeWrapper
     }
 
     /**
-     * æ³¨å†Œè®¾å¤‡ç›‘å¬å™¨
+     * ×¢²áÉè±¸¼àÌıÆ÷
      *
-     * @param listener ç›‘å¬å™¨
+     * @param listener ¼àÌıÆ÷
      */
     public void addDeviceChangeListener(AndroidDebugBridge.IDeviceChangeListener listener)
     {
@@ -34,9 +34,9 @@ public class AndroidDebugBridgeWrapper
     }
 
     /**
-     * ç§»é™¤ç›‘å¬å™¨
+     * ÒÆ³ı¼àÌıÆ÷
      *
-     * @param listener ç›‘å¬å™¨
+     * @param listener ¼àÌıÆ÷
      */
     public void removeDeviceChangeListener(AndroidDebugBridge.IDeviceChangeListener listener)
     {

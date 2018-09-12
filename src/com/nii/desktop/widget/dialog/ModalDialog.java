@@ -18,7 +18,7 @@ public abstract class ModalDialog<R>
     protected boolean isOkClicked = false;
 
     /**
-     * æž„é€ å‡½æ•°
+     * ¹¹Ôìº¯Êý
      */
     public ModalDialog()
     {
@@ -26,7 +26,7 @@ public abstract class ModalDialog<R>
     }
 
     /**
-     * è®¾ç½®stage
+     * ÉèÖÃstage
      * @param stage stage
      */
     public void setDialogStage(Stage stage)
@@ -36,7 +36,7 @@ public abstract class ModalDialog<R>
 
     /**
      * is ok click
-     * @return true ç‚¹å‡»äº† | false æ²¡æœ‰ç‚¹å‡»
+     * @return true µã»÷ÁË | false Ã»ÓÐµã»÷
      */
     public boolean isOkClicked()
     {

@@ -1,6 +1,5 @@
 package com.nii.desktop.controller;
 
-import com.nii.desktop.core.task.TaskExecutor;
 import com.nii.desktop.model.student.Student;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -21,31 +20,31 @@ public class TableViewTestController implements Initializable
 {
 
     /**
-     * è¡¨æ ¼
+     * ±í¸ñ
      */
     @FXML
     private TableView<Student> studentTableView;
 
 
     /**
-     * æ•°æ®
+     * Êı¾İ
      */
     ObservableList<Student> data = FXCollections.observableArrayList();
 
     /**
-     * nameåˆ—
+     * nameÁĞ
      */
     @FXML
     TableColumn<Student,String> nameCol;
 
     /**
-     * nameåˆ—
+     * nameÁĞ
      */
     @FXML
     TableColumn<Student,Integer> ageCol;
 
     /**
-     * nameåˆ—
+     * nameÁĞ
      */
     @FXML
     TableColumn<Student,String> descCol;
@@ -80,12 +79,12 @@ public class TableViewTestController implements Initializable
     }
 
     /**
-     * åˆå§‹åŒ–è¡¨æ ¼æ•°æ®
+     * ³õÊ¼»¯±í¸ñÊı¾İ
      */
     private void initData()
     {
-        data.add(new Student("å¼ ä¸‰",10,"æ•°å­¦å¥½"));
-        data.add(new Student("æå››",13,"å­¦ä¹ éå¸¸åŠªåŠ›"));
-        data.add(new Student("ç‹äº”",16,"å¥½å­¦ç”Ÿ"));
+        data.add(new Student("ÕÅÈı",10,"ÊıÑ§ºÃ"));
+        data.add(new Student("ÀîËÄ",13,"Ñ§Ï°·Ç³£Å¬Á¦"));
+        data.add(new Student("ÍõÎå",16,"ºÃÑ§Éú"));
     }
 }

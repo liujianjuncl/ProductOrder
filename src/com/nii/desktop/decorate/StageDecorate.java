@@ -13,34 +13,30 @@ import java.io.IOException;
 /**
  * Created by wzj on 2017/8/20.
  */
-public abstract class StageDecorate
-{
-    /**
-     * è£…é¥°æŸä¸ªé¢æ¿
-     * @param stage stage
-     * @param parent
-     * @param height titleçš„é«˜åº¦
-     */
-    public static void decorate(Stage stage, Parent parent,int height)
-    {
-        try
-        {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(ResourceLoader.getFxmlResource("title2.fxml"));
-            fxmlLoader.load();
+public abstract class StageDecorate {
+	/**
+	 * ×°ÊÎÄ³¸öÃæ°å
+	 * 
+	 * @param stage  stage
+	 * @param parent
+	 * @param height titleµÄ¸ß¶È
+	 */
+	public static void decorate(Stage stage, Parent parent, int height) {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader();
+			fxmlLoader.setLocation(ResourceLoader.getFxmlResource("title2.fxml"));
+			fxmlLoader.load();
 
-            TitleController controller = fxmlLoader.getController();
-            controller.setStage(stage,height);
-            controller.addContent(parent);
+			TitleController controller = fxmlLoader.getController();
+			controller.setStage(stage, height);
+			controller.addContent(parent);
 
-            Scene scene = new Scene(fxmlLoader.getRoot());
-            scene.setFill(Color.TRANSPARENT);
+			Scene scene = new Scene(fxmlLoader.getRoot());
+			scene.setFill(Color.TRANSPARENT);
 //            scene.getStylesheets().add(StageDecorate.class.getResource("/resource/css/default.css").toExternalForm());
-            stage.setScene(scene);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
+			stage.setScene(scene);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

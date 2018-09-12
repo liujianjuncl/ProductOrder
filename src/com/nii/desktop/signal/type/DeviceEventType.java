@@ -7,12 +7,12 @@ public enum DeviceEventType
 {
 
     /**
-     * æ•°å­—æ”¹å˜
+     * Êı×Ö¸Ä±ä
      */
     NUMBER_CHANGE("Number Change"),
 
     /**
-     * åå­—æ”¹å˜
+     * Ãû×Ö¸Ä±ä
      */
     NAME_CHANGE("Name Change");
 
@@ -20,8 +20,8 @@ public enum DeviceEventType
     private String desc;
 
     /**
-     * æ„é€ å‡½æ•°
-     * @param desc æè¿°ä¿¡æ¯
+     * ¹¹Ôìº¯Êı
+     * @param desc ÃèÊöĞÅÏ¢
       */
     DeviceEventType(String desc)
     {
@@ -29,8 +29,8 @@ public enum DeviceEventType
     }
 
     /**
-     * è·å–æè¿°ä¿¡æ¯
-     * @return æè¿°ä¿¡æ¯
+     * »ñÈ¡ÃèÊöĞÅÏ¢
+     * @return ÃèÊöĞÅÏ¢
      */
     public String getDesc()
     {

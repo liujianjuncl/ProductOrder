@@ -22,22 +22,22 @@ import java.io.IOException;
 public final class UIManager {
 
    /**
-    * æ—¥å¿—
+    * ÈÕÖ¾
     */
    private final static Logger LOGGER = LoggerFactory.getLogger(UIManager.class);
 
    /**
-    * titleçš„ä¸ªé«˜åº¦
+    * titleµÄ¸ö¸ß¶È
     */
    private final static int MAIN_TITLE_HEIGHT = 70;
 
    /**
-    * ç³»ç»Ÿstage
+    * ÏµÍ³stage
     */
    private static Stage primaryStage;
 
    /**
-    * ç§æœ‰æ„é€ å‡½æ•°
+    * Ë½ÓĞ¹¹Ôìº¯Êı
     */
    private UIManager() {
 
@@ -52,12 +52,12 @@ public final class UIManager {
    }
 
    /**
-    * åˆ‡æ¢åˆ°ç™»å½•ç•Œé¢
+    * ÇĞ»»µ½µÇÂ¼½çÃæ
     */
    public static void switchLoginUI() {
       primaryStage.setTitle(CommonConstant.LOGIN_WINDOW_TITLE);
 
-      //éšè—æ ‡é¢˜æ 
+      //Òş²Ø±êÌâÀ¸
       primaryStage.initStyle(StageStyle.TRANSPARENT);
 
       Pane pane = null;
@@ -75,11 +75,11 @@ public final class UIManager {
    }
 
    /**
-    * åˆ‡æ¢åˆ°ä¸»çª—å£é¡µé¢
+    * ÇĞ»»µ½Ö÷´°¿ÚÒ³Ãæ
     */
    public static void switchMainUI() {
       primaryStage.setTitle(CommonConstant.LOGIN_WINDOW_TITLE);
-System.out.println("MainUI==============");
+      System.out.println("===============MainUI==============");
       AnchorPane pane = null;
       try {
          pane = FXMLLoader.load(ResourceLoader.getFxmlResource("Container.fxml"));

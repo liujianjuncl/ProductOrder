@@ -42,12 +42,12 @@
             <Font size="15.0" />
          </font>
       </TextField>
-      <Button fx:id="entryButton" layoutX="286.0" layoutY="238.0" mnemonicParsing="false" onAction="#entryButtonClickAction" prefHeight="46.0" prefWidth="121.0" text="Entry">
+      <Button fx:id="entryButton" layoutX="286.0" layoutY="238.0" mnemonicParsing="false" onAction="#entryButtonClickAction" prefHeight="46.0" prefWidth="121.0" text="登录">
          <font>
             <Font size="23.0" />
          </font>
       </Button>
-      <Button fx:id="clearButton" layoutX="447.0" layoutY="238.0" mnemonicParsing="false" onAction="#clearButtonClickAction" prefHeight="46.0" prefWidth="121.0" text="Clear">
+      <Button fx:id="clearButton" layoutX="447.0" layoutY="238.0" mnemonicParsing="false" onAction="#clearButtonClickAction" prefHeight="46.0" prefWidth="121.0" text="重置">
          <font>
             <Font size="23.0" />
          </font>

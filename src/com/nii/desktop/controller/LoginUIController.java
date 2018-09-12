@@ -3,8 +3,8 @@ package com.nii.desktop.controller;
 import com.nii.desktop.decorate.StageMove;
 import com.nii.desktop.dialog.HostServerDialog;
 import com.nii.desktop.model.host.HostServer;
+import com.nii.desktop.util.conf.PropertiesUtil;
 import com.nii.desktop.util.ui.AlertUtil;
-import com.nii.desktop.util.ui.ResourceBundleUtil;
 import com.nii.desktop.util.ui.ResourceLoader;
 import com.nii.desktop.util.ui.UIManager;
 import javafx.fxml.FXML;
@@ -24,111 +24,109 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-
 /**
  * Created by wzj on 2016/12/25.
  */
-public class LoginUIController implements Initializable
-{
-    /**
-     * 鏃ュ織
-     */
-    private final static Logger LOGGER = LoggerFactory.getLogger(LoginUIController.class);
+public class LoginUIController implements Initializable {
+	/**
+	 * 日志
+	 */
+	private final static Logger LOGGER = LoggerFactory.getLogger(LoginUIController.class);
 
-    @FXML
-    private TextField userNameTextField;
+	@FXML
+	private TextField userNameTextField;
 
-    @FXML
-    private TextField passwordTextField;
+	@FXML
+	private TextField passwordTextField;
 
-    /**
-     * 涓嬮潰闈㈡澘
-     */
-    @FXML
-    private AnchorPane contentPanel;
+	/**
+	 * 下面面板
+	 */
+	@FXML
+	private AnchorPane contentPanel;
 
+	/**
+	 * Called to initialize a controller after its root element has been completely
+	 * processed.
+	 *
+	 * @param location  The location used to resolve relative paths for the root
+	 *                  object, or <tt>null</tt> if the location is not known.
+	 * @param resources The resources used to localize the root object, or
+	 *                  <tt>null</tt> if
+	 */
+	public void initialize(URL location, ResourceBundle resources) {
+		new StageMove(UIManager.getPrimaryStage()).bindDrag(contentPanel);
+	}
 
-    /**
-     * Called to initialize a controller after its root element has been
-     * completely processed.
-     *
-     * @param location  The location used to resolve relative paths for the root object, or
-     *                  <tt>null</tt> if the location is not known.
-     * @param resources The resources used to localize the root object, or <tt>null</tt> if
-     */
-    public void initialize(URL location, ResourceBundle resources)
-    {
-        new StageMove(UIManager.getPrimaryStage()).bindDrag(contentPanel);
-    }
+	/**
+	 * Click Entry Button
+	 */
+	@FXML
+	private void entryButtonClickAction() {
+		String username = userNameTextField.getText().trim();
+		String password = passwordTextField.getText().trim();
 
-    /**
-     * Click Entry Button
-     */
-    @FXML
-    private void entryButtonClickAction()
-    {
-        if (!(StringUtils.equals(userNameTextField.getText(), "wzj") && StringUtils.equals(passwordTextField.getText(), "1111")))
-        {
-            AlertUtil.alertErrorLater(ResourceBundleUtil.getStringValue("login.failed"));
-            return;
-        }
+		if ("".equals(username) || "".equals(password)) {
+			AlertUtil.alertInfoLater("用户名密码不能为空！");
+			return;
+		}
 
-        UIManager.switchMainUI();
-    }
+		if (!(StringUtils.equals(userNameTextField.getText(), "wzj")
+				&& StringUtils.equals(passwordTextField.getText(), "1111"))) {
+			AlertUtil.alertErrorLater(PropertiesUtil.getDefaultProperties().getProperty("login.failed"));
+			return;
+		}
 
-    /**
-     * Click Clear Button
-     */
-    @FXML
-    private void clearButtonClickAction()
-    {
-        userNameTextField.clear();
-        passwordTextField.clear();
-    }
+		UIManager.switchMainUI();
+	}
 
-    /**
-     * click config button
-     */
-    @FXML
-    private void configButtonClickAction()
-    {
-        HostServer hostServer = new HostServer("10.10.10.10");
-        if (showHoserServerDialog(hostServer))
-        {
-            AlertUtil.alertInfoLater(hostServer.getServerName());
-        }
-    }
+	/**
+	 * Click Clear Button
+	 */
+	@FXML
+	private void clearButtonClickAction() {
+		userNameTextField.clear();
+		passwordTextField.clear();
+	}
 
-    private boolean showHoserServerDialog(HostServer hostServer)
-    {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(ResourceLoader.getFxmlResource("HostServerDialog.fxml"));
+	/**
+	 * click config button
+	 */
+	@FXML
+	private void configButtonClickAction() {
+		HostServer hostServer = new HostServer("10.10.10.10");
+		if (showHoserServerDialog(hostServer)) {
+			AlertUtil.alertInfoLater(hostServer.getServerName());
+		}
+	}
 
-        Pane page = null;
-        try
-        {
-            page = (Pane) loader.load();
-        }
-        catch (IOException e)
-        {
-            LOGGER.error("Load HostServerDialog.fxml failed.", e);
-            return false;
-        }
+	private boolean showHoserServerDialog(HostServer hostServer) {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(ResourceLoader.getFxmlResource("HostServerDialog.fxml"));
 
-        Stage dialogStage = new Stage();
-        dialogStage.setTitle("Config Host Server");
+		Pane page = null;
+		try {
+			page = (Pane) loader.load();
+		} catch (IOException e) {
+			LOGGER.error("Load HostServerDialog.fxml failed.", e);
+			return false;
+		}
 
-        dialogStage.initModality(Modality.WINDOW_MODAL);
-        dialogStage.initOwner(UIManager.getPrimaryStage());
-        Scene scene = new Scene(page);
-        dialogStage.setScene(scene);
+		Stage dialogStage = new Stage();
+		dialogStage.setTitle("Config Host Server");
 
-        HostServerDialog<HostServer> controller = loader.getController();
-        controller.setDialogStage(dialogStage);
-        controller.setParam(hostServer);
+		dialogStage.initModality(Modality.WINDOW_MODAL);
+		dialogStage.initOwner(UIManager.getPrimaryStage());
+		Scene scene = new Scene(page);
+		dialogStage.setScene(scene);
 
-        dialogStage.showAndWait();
+		HostServerDialog<HostServer> controller = loader.getController();
+		controller.setDialogStage(dialogStage);
+		controller.setParam(hostServer);
 
-        return controller.isOkClicked();
-    }
+		dialogStage.showAndWait();
+
+		return controller.isOkClicked();
+	}
+	
 }

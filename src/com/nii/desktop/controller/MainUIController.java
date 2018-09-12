@@ -27,18 +27,18 @@ import java.util.UUID;
 public class MainUIController implements Initializable
 {
     /**
-     * è®¾å¤‡å¯¹è±¡
+     * Éè±¸¶ÔÏó
      */
     private AdbDevice adbDevice = new AdbDevice();
 
     /**
-     * æ•°å­—æ¡†
+     * Êı×Ö¿ò
      */
     @FXML
     private TextField numTextField;
 
     /**
-     * åå­—æ¡†
+     * Ãû×Ö¿ò
      */
     @FXML
     private TextField nameTextField;
@@ -50,7 +50,7 @@ public class MainUIController implements Initializable
     private TextField urlTextField;
 
     /**
-     * å®¹å™¨
+     * ÈİÆ÷
      */
     @FXML
     private TabPane tabPane;
@@ -148,7 +148,7 @@ public class MainUIController implements Initializable
     }
 
     /**
-     * ç‚¹å‡»+æŒ‰é’®
+     * µã»÷+°´Å¥
      */
     @FXML
     private void upButtonClickAction()
@@ -158,7 +158,7 @@ public class MainUIController implements Initializable
     }
 
     /**
-     * ç‚¹å‡»-æŒ‰é’®
+     * µã»÷-°´Å¥
      */
     @FXML
     private void downButtonClickAction()
@@ -170,7 +170,7 @@ public class MainUIController implements Initializable
     }
 
     /**
-     * å›è½¦äº‹ä»¶
+     * »Ø³µÊÂ¼ş
      */
     @FXML
     private void urlTextFieldAction()
@@ -179,7 +179,7 @@ public class MainUIController implements Initializable
     }
 
     /**
-     * GoæŒ‰é’®ç‚¹å‡»äº‹ä»¶
+     * Go°´Å¥µã»÷ÊÂ¼ş
      */
     @FXML
     private void goBtClickAction()

@@ -21,7 +21,7 @@ public class ListViewTestController implements Initializable
     private ListView studentListView;
 
     /**
-     * listciew鏁版嵁
+     * listciew数据
      */
     private ObservableList<String> dataList = FXCollections.observableArrayList();
 
@@ -38,20 +38,20 @@ public class ListViewTestController implements Initializable
     {
         studentListView.setItems(dataList);
 
-        dataList.add("寮犱笁");
-        dataList.add("鏉庡洓");
-        dataList.add("鐜嬩簲");
-        dataList.add("鏉庡崕");
+        dataList.add("张三");
+        dataList.add("李四");
+        dataList.add("王五");
+        dataList.add("李华");
 
-        dataList.add("寮犱笁");
-        dataList.add("鏉庡洓");
-        dataList.add("鐜嬩簲");
-        dataList.add("鏉庡崕");
+        dataList.add("张三");
+        dataList.add("李四");
+        dataList.add("王五");
+        dataList.add("李华");
 
-        dataList.add("寮犱笁");
-        dataList.add("鏉庡洓");
-        dataList.add("鐜嬩簲");
-        dataList.add("鏉庡崕");
+        dataList.add("张三");
+        dataList.add("李四");
+        dataList.add("王五");
+        dataList.add("李华");
 
     }
 }

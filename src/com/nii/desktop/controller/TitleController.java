@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 public class TitleController
 {
     /**
-     * 榧犳爣鍙屽嚮涓や笅
+     * 鼠标双击两下
      */
     private final static int DOUBLE_CLICK = 2;
 
@@ -30,7 +30,7 @@ public class TitleController
     private Stage stage;
 
     /**
-     * 鐣岄潰
+     * 界面
      */
     @FXML
     private VBox rootPane;
@@ -42,7 +42,7 @@ public class TitleController
     public HBox banner;
 
     /**
-     * 鑿滃崟
+     * 菜单
      */
     @FXML
     public Button menuButton;
@@ -81,7 +81,7 @@ public class TitleController
 
 
     /**
-     * 绐楀彛鍏抽棴浜嬩欢
+     * 窗口关闭事件
      */
     @FXML
     public void closeButtonCilciAction()
@@ -90,7 +90,7 @@ public class TitleController
     }
 
     /**
-     * 绐楀彛鏈�澶у寲浜嬩欢
+     * 窗口最大化事件
      */
     @FXML
     public void maxButtonClickAction()
@@ -99,7 +99,7 @@ public class TitleController
     }
 
     /**
-     * 绐楀彛鏈�灏忓寲浜嬩欢
+     * 窗口最小化事件
      */
     @FXML
     public void minButtonClickAction()
@@ -108,7 +108,7 @@ public class TitleController
     }
 
     /**
-     * 鑿滃崟鐐瑰嚮浜嬩欢
+     * 菜单点击事件
      */
     @FXML
     public void menuButtonClickAction()

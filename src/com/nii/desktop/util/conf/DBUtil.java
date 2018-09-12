@@ -7,6 +7,8 @@ package com.nii.desktop.util.conf;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.Properties;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,14 +17,16 @@ import java.util.logging.Logger;
  * @author Forever
  */
 public class DBUtil {
+	
+   private static final Properties properties = PropertiesUtil.getDefaultProperties();
    
-   private static final String CALSSDRIVER = PropertiesUtil.getProperty("db.driver.classname");
+   private static final String CALSSDRIVER = properties.getProperty("db.driver.classname");
    
-   private static final String URL = PropertiesUtil.getProperty("db.url");
+   private static final String URL = properties.getProperty("db.url");
    
-   private static final String USERNAME = PropertiesUtil.getProperty("db.username");
+   private static final String USERNAME = properties.getProperty("db.username");
    
-   private static final String PASSWORD = PropertiesUtil.getProperty("db.password");
+   private static final String PASSWORD = properties.getProperty("db.password");
    
    private static Connection conn = null;
    

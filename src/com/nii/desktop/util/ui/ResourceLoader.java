@@ -8,7 +8,7 @@ import java.net.URL;
 public final class ResourceLoader
 {
     /**
-     * ç§æœ‰æ„é€ å‡½æ•°
+     * Ë½ÓĞ¹¹Ôìº¯Êı
      */
     private ResourceLoader()
     {

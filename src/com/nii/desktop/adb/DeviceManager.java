@@ -1,28 +1,28 @@
 package com.nii.desktop.adb;
 
 /**
- * è®¾å¤‡ç®¡ç†ç±»
+ * Éè±¸¹ÜÀíÀà
  * Created by wzj on 2017/8/21.
  */
 public class DeviceManager
 {
     /*
-     * å•ä¾‹
+     * µ¥Àı
      */
     private static DeviceManager INSTANCE = null;
 
     /**
-     * åŒ…è£…ç±»
+     * °ü×°Àà
      */
     private AndroidDebugBridgeWrapper androidDebugBridgeWrapper;
 
     /**
-     * è®¾å¤‡ç›‘å¬å™¨
+     * Éè±¸¼àÌıÆ÷
      */
     private DeviceChangeListener deviceChangeListener;
 
     /**
-     * ç§æœ‰æ„é€ å‡½æ•°
+     * Ë½ÓĞ¹¹Ôìº¯Êı
      */
     private DeviceManager()
     {
@@ -30,7 +30,7 @@ public class DeviceManager
     }
 
     /**
-     * è·å–å•ä¾‹ç±»
+     * »ñÈ¡µ¥ÀıÀà
      * @return DeviceManager
      */
     public static DeviceManager getInstance()
@@ -44,7 +44,7 @@ public class DeviceManager
     }
 
     /**
-     * å¯åŠ¨æ–¹æ³•
+     * Æô¶¯·½·¨
      */
     public void start()
     {
@@ -58,7 +58,7 @@ public class DeviceManager
     }
 
     /**
-     * é”€æ¯æ–¹æ³•
+     * Ïú»Ù·½·¨
      */
     public void destory()
     {

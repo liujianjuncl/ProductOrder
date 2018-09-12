@@ -27,10 +27,10 @@ public class AutoSizeApplication extends Application
             e.printStackTrace();
         }
 
-        // å°†paneåŠ å…¥åˆ°Scenä¸­
+        // ½«pane¼ÓÈëµ½ScenÖĞ
         Scene scene = new Scene(pane, 500, 700);
 
-        // è®¾ç½®stageçš„scenï¼Œç„¶åæ˜¾ç¤ºæˆ‘ä»¬çš„stage
+        // ÉèÖÃstageµÄscen£¬È»ºóÏÔÊ¾ÎÒÃÇµÄstage
         primaryStage.setScene(scene);
         primaryStage.setTitle("Hello World");
         primaryStage.show();

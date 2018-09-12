@@ -21,7 +21,7 @@ public final class AlertUtil
     /**
      * info alert
      *
-     * @param message 淇℃伅
+     * @param message 信息
      */
     public static void alertInfoLater(final String message)
     {
@@ -81,7 +81,7 @@ public final class AlertUtil
     /**
      * alert confirm message
      * @param message message
-     * @return true 纭 | false 娌℃湁纭
+     * @return true 确认 | false 没有确认
      */
     public static boolean alertConfirmLater(final String message)
     {

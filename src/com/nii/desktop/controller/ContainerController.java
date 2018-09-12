@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 public class ContainerController implements Initializable
 {
     /**
-     * æ—¥å¿—
+     * ÈÕÖ¾
      */
     private final static Logger LOGGER = LoggerFactory.getLogger(ContainerController.class);
 

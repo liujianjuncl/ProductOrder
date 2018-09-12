@@ -9,20 +9,20 @@ import javafx.scene.control.MenuItem;
 public class GlobalMenu extends ContextMenu
 {
     /**
-     * å•ä¾‹
+     * µ¥Àı
      */
     private static GlobalMenu INSTANCE = null;
 
     /**
-     * ç§æœ‰æ„é€ å‡½æ•°
+     * Ë½ÓĞ¹¹Ôìº¯Êı
      */
     private GlobalMenu()
     {
-        MenuItem settingMenuItem = new MenuItem("è®¾ç½®");
-        MenuItem updateMenuItem = new MenuItem("æ£€æŸ¥æ›´æ–°");
-        MenuItem feedbackMenuItem = new MenuItem("å®˜æ–¹è®ºå›");
-        MenuItem aboutMenuItem = new MenuItem("é—®é¢˜ä¸å»ºè®®");
-        MenuItem companyMenuItem = new MenuItem("å…³äº");
+        MenuItem settingMenuItem = new MenuItem("ÉèÖÃ");
+        MenuItem updateMenuItem = new MenuItem("¼ì²é¸üĞÂ");
+        MenuItem feedbackMenuItem = new MenuItem("¹Ù·½ÂÛÌ³");
+        MenuItem aboutMenuItem = new MenuItem("ÎÊÌâÓë½¨Òé");
+        MenuItem companyMenuItem = new MenuItem("¹ØÓÚ");
 
 
         getItems().add(settingMenuItem);
@@ -33,7 +33,7 @@ public class GlobalMenu extends ContextMenu
     }
 
     /**
-     * è·å–å®ä¾‹
+     * »ñÈ¡ÊµÀı
      * @return GlobalMenu
      */
     public static GlobalMenu getInstance()
