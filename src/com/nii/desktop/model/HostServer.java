@@ -1,4 +1,4 @@
-package com.nii.desktop.model.host;
+package com.nii.desktop.model;
 
 /**
  * Created by wzj on 2017/1/2.

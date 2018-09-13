@@ -9,7 +9,7 @@
 
 /*设置表格头高度*/
 .table-view > .column-header-background{
-    -fx-pref-height: 40;
+    -fx-pref-height: 40px;
 }
 
 /*设置每一列内容居中，每一行高度*/
@@ -30,7 +30,7 @@
 }
 
 #userLabel{
-   -fx-alternative-column-fill-visible: false;
-   -fx-alignment: top-left;
+   -fx-alignment: center-left ;
    -fx-font-size: 20px;
+   -fx-pref-height: 40px;
 }

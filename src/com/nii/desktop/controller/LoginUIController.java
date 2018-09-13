@@ -2,7 +2,7 @@ package com.nii.desktop.controller;
 
 import com.nii.desktop.decorate.StageMove;
 import com.nii.desktop.dialog.HostServerDialog;
-import com.nii.desktop.model.host.HostServer;
+import com.nii.desktop.model.HostServer;
 import com.nii.desktop.util.conf.PropertiesUtil;
 import com.nii.desktop.util.ui.AlertUtil;
 import com.nii.desktop.util.ui.ResourceLoader;

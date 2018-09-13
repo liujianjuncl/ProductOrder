@@ -8,14 +8,17 @@
 
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" prefHeight="400.0" prefWidth="534.0" stylesheets="@../css/TableViewTestCss.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nii.desktop.controller.TableViewTestController">
+<VBox VBox.vgrow="ALWAYS" stylesheets="@../css/TableViewTestCss.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nii.desktop.controller.TableViewTestController">
    <children>
       <Label fx:id="userLabel" text="用户管理" />
-      <TableView fx:id="studentTableView">
+      <TableView fx:id="userTableView">
         <columns>
-          <TableColumn fx:id="nameCol" prefWidth="75.0" text="Name" />
-          <TableColumn fx:id="ageCol" prefWidth="75.0" text="Age" />
-          <TableColumn fx:id="descCol" prefWidth="75.0" text="Desc" />
+          <TableColumn fx:id="userNoCol" prefWidth="75.0" text="用户编号" />
+          <TableColumn fx:id="userNameCol" prefWidth="75.0" text="用户名称" />
+          <TableColumn fx:id="isPieceworkCol" prefWidth="75.0" text="是否计件" />
+          <TableColumn fx:id="isManagerCol" prefWidth="75.0" text="是否管理员" />
+          <TableColumn fx:id="isDisableCol" prefWidth="75.0" text="是否禁用" />
+          <TableColumn fx:id="operation" prefWidth="75.0" text="操作" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

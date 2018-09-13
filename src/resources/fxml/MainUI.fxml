@@ -14,6 +14,6 @@
          <Button fx:id="userManageButton" layoutX="0.0" layoutY="0.0" mnemonicParsing="false" onAction="#userLabelClickAction" prefHeight="90.0" prefWidth="300.0" text="用户管理" />
          <Button fx:id="dailyManageButton" layoutX="0.0" layoutY="90.0" mnemonicParsing="false" onAction="#dailyLabelClickAction" prefHeight="90.0" prefWidth="300.0" text="日报管理" />
       </children></AnchorPane>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+      <AnchorPane fx:id="rightPane"  />
   </items>
 </SplitPane>

@@ -1,9 +1,5 @@
 package com.nii.desktop.controller;
 
-import com.nii.desktop.model.device.AdbDevice;
-import com.nii.desktop.signal.event.ModeEvent;
-import com.nii.desktop.signal.listener.ModeListener;
-import com.nii.desktop.signal.type.DeviceEventType;
 import com.nii.desktop.util.ui.ResourceLoader;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,23 +12,18 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.EventListener;
 import java.util.ResourceBundle;
-import java.util.UUID;
 
 /**
  * Created by wzj on 2017/1/4.
  */
 public class MainUIController implements Initializable {
-    /**
-     * 设备对象
-     */
-    private AdbDevice adbDevice = new AdbDevice();
     
     @FXML
     private SplitPane splitPane;
@@ -85,8 +76,6 @@ public class MainUIController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        registerListener();
-        
         loadTableViewTestTab();
         
         
@@ -105,6 +94,7 @@ public class MainUIController implements Initializable {
         System.out.println("=========userLabelClickAction=========");
         userManageButton.setStyle("-fx-background-color: red");
         dailyManageButton.setStyle(null);
+        loadTableViewTestTab();
     }
     
     @FXML
@@ -135,9 +125,14 @@ public class MainUIController implements Initializable {
         fxmlLoader.setLocation(ResourceLoader.getFxmlResource("TableViewTest.fxml"));
 
         try {
-            Pane pane = fxmlLoader.load();
             
-            rightPane.getChildren().add(pane);
+            VBox vbox = fxmlLoader.load();
+            rightPane.setLeftAnchor(vbox, 0.0);
+            rightPane.setRightAnchor(vbox, 0.0);
+            rightPane.setBottomAnchor(vbox, 0.0);
+            rightPane.setTopAnchor(vbox, 0.0);
+            rightPane.getChildren().add(vbox);
+            
 //            Tab tableViewTab = new Tab("TableView");
 //            tableViewTab.setContent(pane);
 //            tabPane.getTabs().add(tableViewTab);
@@ -145,42 +140,6 @@ public class MainUIController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private void registerListener() {
-        adbDevice.addChangeListener(DeviceEventType.NUMBER_CHANGE, new ModeListener() {
-            @Override
-            public void handleEvent(ModeEvent event) {
-                numTextField.setText(String.valueOf(adbDevice.getDeviceNumber()));
-            }
-        });
-
-        adbDevice.addChangeListener(DeviceEventType.NAME_CHANGE, new ModeListener() {
-            @Override
-            public void handleEvent(ModeEvent event) {
-                nameTextField.setText(event.getSource().toString());
-            }
-        });
-    }
-
-    /**
-     * 点击+按钮
-     */
-    @FXML
-    private void upButtonClickAction() {
-        int num = adbDevice.getDeviceNumber() + 1;
-        adbDevice.setDeviceNumber(num);
-    }
-
-    /**
-     * 点击-按钮
-     */
-    @FXML
-    private void downButtonClickAction() {
-        int num = adbDevice.getDeviceNumber() - 1;
-        adbDevice.setDeviceNumber(num);
-
-        adbDevice.setDeviceName(UUID.randomUUID().toString());
     }
 
     /**
