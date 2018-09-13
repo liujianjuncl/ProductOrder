@@ -1,5 +1,6 @@
 .coeltentPanel{
     -fx-background-color: #5789DC;
+    -fx-border-color: red
 }
 
 #userManageButton{

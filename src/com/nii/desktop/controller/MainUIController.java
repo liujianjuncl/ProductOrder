@@ -9,9 +9,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -30,6 +33,9 @@ public class MainUIController implements Initializable {
      * 设备对象
      */
     private AdbDevice adbDevice = new AdbDevice();
+    
+    @FXML
+    private SplitPane splitPane;
 
     /**
      * 数字框
@@ -47,11 +53,15 @@ public class MainUIController implements Initializable {
     @FXML
     private TextField urlTextField;
 
-    /**
-       * 容器
-     */
+    /** 容器*/
     @FXML
     private TabPane tabPane;
+    
+    @FXML
+    private AnchorPane rightPane;
+    
+    @FXML
+    private TableView userTableView;
 
     /**
      * web engine
@@ -76,14 +86,17 @@ public class MainUIController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         registerListener();
-
-        numTextField.setEditable(false);
-        adbDevice.setDeviceNumber(0);
-
-        webEngine = webview.getEngine();
-
-        loadListViewTestTab();
+        
         loadTableViewTestTab();
+        
+        
+//        numTextField.setEditable(false);
+//        adbDevice.setDeviceNumber(0);
+//
+//        webEngine = webview.getEngine();
+//
+//        loadListViewTestTab();
+//        loadTableViewTestTab();
 
     }
     
@@ -104,7 +117,7 @@ public class MainUIController implements Initializable {
     private void loadListViewTestTab() {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(ResourceLoader.getFxmlResource("ListViewTest.fxml"));
-
+        
         try {
             Pane pane = fxmlLoader.load();
 
@@ -123,10 +136,11 @@ public class MainUIController implements Initializable {
 
         try {
             Pane pane = fxmlLoader.load();
-
-            Tab tableViewTab = new Tab("TableView");
-            tableViewTab.setContent(pane);
-            tabPane.getTabs().add(tableViewTab);
+            
+            rightPane.getChildren().add(pane);
+//            Tab tableViewTab = new Tab("TableView");
+//            tableViewTab.setContent(pane);
+//            tabPane.getTabs().add(tableViewTab);
 
         } catch (IOException e) {
             e.printStackTrace();

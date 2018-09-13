@@ -58,7 +58,7 @@ public final class UIManager {
       primaryStage.setTitle(CommonConstant.LOGIN_WINDOW_TITLE);
 
       //Òþ²Ø±êÌâÀ¸
-      primaryStage.initStyle(StageStyle.TRANSPARENT);
+//      primaryStage.initStyle(StageStyle.TRANSPARENT);
 
       Pane pane = null;
       try {

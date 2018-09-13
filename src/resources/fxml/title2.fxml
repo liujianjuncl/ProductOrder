@@ -20,28 +20,6 @@
          <children>
             <Label fx:id="label" mnemonicParsing="false" text="生产日报管理系统"></Label>
             <AnchorPane prefHeight="70.0" HBox.hgrow="ALWAYS" />
-            <HBox alignment="TOP_RIGHT">
-               <children>
-                  <Button fx:id="minButton" mnemonicParsing="false" onAction="#minButtonClickAction" prefHeight="25.0" prefWidth="25.0">
-                     <HBox.margin>
-                        <Insets right="10.0" top="5.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button fx:id="maxButton" mnemonicParsing="false" onAction="#maxButtonClickAction" prefHeight="25.0" prefWidth="25.0">
-                     <HBox.margin>
-                        <Insets right="10.0" top="5.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button fx:id="closeButton" mnemonicParsing="false" onAction="#closeButtonCilciAction" prefHeight="25.0" prefWidth="25.0">
-                     <padding>
-                        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-                     </padding>
-                     <HBox.margin>
-                        <Insets right="10.0" top="5.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
          </children>
       </HBox>
    </children>

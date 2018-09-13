@@ -7,7 +7,7 @@ public interface CommonConstant {
     /**
      * Desktop Version
      */
-    String LOGIN_WINDOW_TITLE = "Desktop 1.0.0";
+    String LOGIN_WINDOW_TITLE = "生产日报管理系统";
 
     /**
      * alert info title

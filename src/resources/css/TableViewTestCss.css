@@ -1,5 +1,5 @@
 
-/*è®¾ç½®è¡¨æ ¼å¤´é å·¦ã€å­—ä½“å¤§å°ï¼Œå­—ä½“é¢œè‰²*/
+/*ÉèÖÃ±í¸ñÍ·¿¿×ó¡¢×ÖÌå´óĞ¡£¬×ÖÌåÑÕÉ«*/
 .table-view .column-header .label{
     -fx-alignment: center-left;
     -fx-font-family: "Arial";
@@ -7,12 +7,12 @@
     -fx-font-size: 12;
 }
 
-/*è®¾ç½®è¡¨æ ¼å¤´é«˜åº¦*/
+/*ÉèÖÃ±í¸ñÍ·¸ß¶È*/
 .table-view > .column-header-background{
     -fx-pref-height: 40;
 }
 
-/*è®¾ç½®æ¯ä¸€åˆ—å†…å®¹å±…ä¸­ï¼Œæ¯ä¸€è¡Œé«˜åº¦*/
+/*ÉèÖÃÃ¿Ò»ÁĞÄÚÈİ¾ÓÖĞ£¬Ã¿Ò»ĞĞ¸ß¶È*/
 .table-row-cell{
     -fx-cell-size: 45px;
     -fx-alignment: center;
@@ -24,7 +24,13 @@
     -fx-alignment: center-left;
 }
 
-/*è®¾ç½®æ¯ä¸€åˆ—å†…å®¹å±…ä¸­*/
+/*ÉèÖÃÃ¿Ò»ÁĞÄÚÈİ¾ÓÖĞ*/
 #studentTableView .table-column{
   -fx-alignment: center-left;
+}
+
+#userLabel{
+   -fx-alternative-column-fill-visible: false;
+   -fx-alignment: top-left;
+   -fx-font-size: 20px;
 }

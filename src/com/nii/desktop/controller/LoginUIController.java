@@ -28,105 +28,105 @@ import java.util.ResourceBundle;
  * Created by wzj on 2016/12/25.
  */
 public class LoginUIController implements Initializable {
-	/**
-	 * 日志
-	 */
-	private final static Logger LOGGER = LoggerFactory.getLogger(LoginUIController.class);
+    /**
+     * 日志
+     */
+    private final static Logger LOGGER = LoggerFactory.getLogger(LoginUIController.class);
 
-	@FXML
-	private TextField userNameTextField;
+    @FXML
+    private TextField userNameTextField;
 
-	@FXML
-	private TextField passwordTextField;
+    @FXML
+    private TextField passwordTextField;
 
-	/**
-	 * 下面面板
-	 */
-	@FXML
-	private AnchorPane contentPanel;
+    /**
+     * 下面面板
+     */
+    @FXML
+    private AnchorPane contentPanel;
 
-	/**
-	 * Called to initialize a controller after its root element has been completely
-	 * processed.
-	 *
-	 * @param location  The location used to resolve relative paths for the root
-	 *                  object, or <tt>null</tt> if the location is not known.
-	 * @param resources The resources used to localize the root object, or
-	 *                  <tt>null</tt> if
-	 */
-	public void initialize(URL location, ResourceBundle resources) {
-		new StageMove(UIManager.getPrimaryStage()).bindDrag(contentPanel);
-	}
+    /**
+     * Called to initialize a controller after its root element has been completely
+     * processed.
+     *
+     * @param location  The location used to resolve relative paths for the root
+     *                  object, or <tt>null</tt> if the location is not known.
+     * @param resources The resources used to localize the root object, or
+     *                  <tt>null</tt> if
+     */
+    public void initialize(URL location, ResourceBundle resources) {
+        new StageMove(UIManager.getPrimaryStage()).bindDrag(contentPanel);
+    }
 
-	/**
-	 * Click Entry Button
-	 */
-	@FXML
-	private void entryButtonClickAction() {
-		String username = userNameTextField.getText().trim();
-		String password = passwordTextField.getText().trim();
+    /**
+     * Click Entry Button
+     */
+    @FXML
+    private void entryButtonClickAction() {
+        String username = userNameTextField.getText().trim();
+        String password = passwordTextField.getText().trim();
 
-		if ("".equals(username) || "".equals(password)) {
-			AlertUtil.alertInfoLater(PropertiesUtil.getDefaultProperties().getProperty("login.user.pwd.isnull"));
-			return;
-		}
+        if ("".equals(username) || "".equals(password)) {
+            AlertUtil.alertInfoLater(PropertiesUtil.getDefaultProperties().getProperty("login.user.pwd.isnull"));
+            return;
+        }
 
-		if (!(StringUtils.equals(userNameTextField.getText(), "1")
-				&& StringUtils.equals(passwordTextField.getText(), "1"))) {
-			AlertUtil.alertErrorLater(PropertiesUtil.getDefaultProperties().getProperty("login.failed"));
-			return;
-		}
+        if (!(StringUtils.equals(userNameTextField.getText(), "1")
+                && StringUtils.equals(passwordTextField.getText(), "1"))) {
+            AlertUtil.alertErrorLater(PropertiesUtil.getDefaultProperties().getProperty("login.failed"));
+            return;
+        }
 
-		UIManager.switchMainUI();
-	}
+        UIManager.switchMainUI();
+    }
 
-	/**
-	 * Click Clear Button
-	 */
-	@FXML
-	private void clearButtonClickAction() {
-		userNameTextField.clear();
-		passwordTextField.clear();
-	}
+    /**
+     * Click Clear Button
+     */
+    @FXML
+    private void clearButtonClickAction() {
+        userNameTextField.clear();
+        passwordTextField.clear();
+    }
 
-	/**
-	 * click config button
-	 */
-	@FXML
-	private void configButtonClickAction() {
-		HostServer hostServer = new HostServer("10.10.10.10");
-		if (showHoserServerDialog(hostServer)) {
-			AlertUtil.alertInfoLater(hostServer.getServerName());
-		}
-	}
+    /**
+     * click config button
+     */
+    @FXML
+    private void configButtonClickAction() {
+        HostServer hostServer = new HostServer("10.10.10.10");
+        if (showHoserServerDialog(hostServer)) {
+            AlertUtil.alertInfoLater(hostServer.getServerName());
+        }
+    }
 
-	private boolean showHoserServerDialog(HostServer hostServer) {
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(ResourceLoader.getFxmlResource("HostServerDialog.fxml"));
+    private boolean showHoserServerDialog(HostServer hostServer) {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(ResourceLoader.getFxmlResource("HostServerDialog.fxml"));
 
-		Pane page = null;
-		try {
-			page = (Pane) loader.load();
-		} catch (IOException e) {
-			LOGGER.error("Load HostServerDialog.fxml failed.", e);
-			return false;
-		}
+        Pane page = null;
+        try {
+            page = (Pane) loader.load();
+        } catch (IOException e) {
+            LOGGER.error("Load HostServerDialog.fxml failed.", e);
+            return false;
+        }
 
-		Stage dialogStage = new Stage();
-		dialogStage.setTitle("Config Host Server");
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Config Host Server");
 
-		dialogStage.initModality(Modality.WINDOW_MODAL);
-		dialogStage.initOwner(UIManager.getPrimaryStage());
-		Scene scene = new Scene(page);
-		dialogStage.setScene(scene);
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(UIManager.getPrimaryStage());
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
 
-		HostServerDialog<HostServer> controller = loader.getController();
-		controller.setDialogStage(dialogStage);
-		controller.setParam(hostServer);
+        HostServerDialog<HostServer> controller = loader.getController();
+        controller.setDialogStage(dialogStage);
+        controller.setParam(hostServer);
 
-		dialogStage.showAndWait();
+        dialogStage.showAndWait();
 
-		return controller.isOkClicked();
-	}
-	
+        return controller.isOkClicked();
+    }
+
 }
