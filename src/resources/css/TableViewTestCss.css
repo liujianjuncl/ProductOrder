@@ -1,7 +1,7 @@
 
 /*设置表格头靠左、字体大小，字体颜色*/
 .table-view .column-header .label{
-    -fx-alignment: center-left;
+    -fx-alignment: center;
     -fx-font-family: "Arial";
     -fx-text-fill: rgba(68,68,68,0.96);
     -fx-font-size: 12;
