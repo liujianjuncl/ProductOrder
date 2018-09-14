@@ -56,6 +56,7 @@ public class TitleController {
     public void addContent(Parent content) {
         this.rootPane.getChildren().add(content);
         VBox.setVgrow(content, Priority.ALWAYS);
+        
     }
 
     private void bannerClickAction() {
