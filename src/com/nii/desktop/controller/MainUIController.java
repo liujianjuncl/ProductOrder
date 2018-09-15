@@ -76,6 +76,7 @@ public class MainUIController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        userManageButton.setStyle("-fx-background-color: #808080");
         loadTableViewTestTab();
         
         
@@ -92,7 +93,7 @@ public class MainUIController implements Initializable {
     @FXML
     private void userLabelClickAction() {
         System.out.println("=========userLabelClickAction=========");
-        userManageButton.setStyle("-fx-background-color: red");
+        userManageButton.setStyle("-fx-background-color: #808080");
         dailyManageButton.setStyle(null);
         loadTableViewTestTab();
     }
@@ -100,25 +101,10 @@ public class MainUIController implements Initializable {
     @FXML
     private void dailyLabelClickAction() {
         System.out.println("=========dailyLabelClickAction=========");
-        dailyManageButton.setStyle("-fx-background-color: red");
+        dailyManageButton.setStyle("-fx-background-color: #808080");
         userManageButton.setStyle(null);
     }
 
-    private void loadListViewTestTab() {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(ResourceLoader.getFxmlResource("ListViewTest.fxml"));
-        
-        try {
-            Pane pane = fxmlLoader.load();
-
-            Tab listViewTab = new Tab("ListView");
-            listViewTab.setContent(pane);
-            tabPane.getTabs().add(listViewTab);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     private void loadTableViewTestTab() {
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -133,9 +119,6 @@ public class MainUIController implements Initializable {
             rightPane.setTopAnchor(vbox, 0.0);
             rightPane.getChildren().add(vbox);
             
-//            Tab tableViewTab = new Tab("TableView");
-//            tableViewTab.setContent(pane);
-//            tabPane.getTabs().add(tableViewTab);
 
         } catch (IOException e) {
             e.printStackTrace();

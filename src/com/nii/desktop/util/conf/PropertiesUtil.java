@@ -32,10 +32,10 @@ public final class PropertiesUtil {
      */
     public static Properties getDefaultProperties() {
         Properties defaultProperties = new Properties();
-
-        InputStream inStream = PropertiesUtil.class.getResourceAsStream("/resources/conf/config.properties");
+        
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inStream, "GBK"));
+            FileInputStream fin = new FileInputStream(new File(new File("").getCanonicalPath() + "/config.properties"));
+            InputStreamReader reader = new InputStreamReader(fin,"GBK");
             defaultProperties.load(reader);
 
         } catch (IOException e) {
@@ -98,5 +98,11 @@ public final class PropertiesUtil {
         }
 
         return true;
+    }
+    
+    public static void main(String[] args) {
+        Properties prop = getDefaultProperties();
+        System.out.println(prop);
+        
     }
 }

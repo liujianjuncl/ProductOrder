@@ -1,25 +1,42 @@
 package com.nii.desktop.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.nii.desktop.dialog.HostServerDialog;
+import com.nii.desktop.model.HostServer;
 import com.nii.desktop.model.User;
+import com.nii.desktop.util.ui.ResourceLoader;
+import com.nii.desktop.util.ui.UIManager;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 /**
@@ -27,157 +44,127 @@ import javafx.util.Callback;
  */
 public class TableViewTestController implements Initializable {
 
-	/**
-	 * 表格
-	 */
-	@FXML
-	private TableView<User> userTableView;
+    @FXML
+    private VBox userVBox;
+    
+    /*表格*/
+    @FXML
+    private TableView<User> userTableView;
 
-	/**
-	 * 数据
-	 */
-	ObservableList<User> data = FXCollections.observableArrayList();
+    /*数据*/
+    private ObservableList<User> data = FXCollections.observableArrayList();
 
-	@FXML
-	Label userLabel;
+    @FXML
+    private Label userLabel;
 
-	/**
-	 * name列
-	 */
-	@FXML
-	TableColumn<User, String> userNoCol;
+    @FXML
+    private HBox userHbox;
 
-	/**
-	 * name列
-	 */
-	@FXML
-	TableColumn<User, String> userNameCol;
+    /*selectCol*/
+    @FXML
+    private TableColumn<User, CheckBox> selectCol;
 
-	/**
-	 * 是否计件
-	 */
-	@FXML
-	TableColumn<User, String> isPieceworkCol;
+    /*userNo列*/
+    @FXML
+    private TableColumn<User, String> userNoCol;
 
-	/**
-	 * 是否管理员
-	 */
-	@FXML
-	TableColumn<User, String> isManagerCol;
+    /*name列*/
+    @FXML
+    private TableColumn<User, String> userNameCol;
 
-	/**
-	 * 是否禁用
-	 */
-	@FXML
-	TableColumn<User, String> isDisableCol;
+    /*是否计件*/
+    @FXML
+    private TableColumn<User, String> isPieceworkCol;
 
-	/**
-	 * 操作列
-	 */
-	@FXML
-	TableColumn operationCol;
+    /*是否管理员*/
+    @FXML
+    private TableColumn<User, String> isManagerCol;
 
-	/**
-	 * Called to initialize a controller after its root element has been completely
-	 * processed.
-	 *
-	 * @param location  The location used to resolve relative paths for the root
-	 *                  object, or <tt>null</tt> if the location is not known.
-	 * @param resources The resources used to localize the root object, or
-	 *                  <tt>null</tt> if
-	 */
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+    /*是否禁用*/
+    @FXML
+    private TableColumn<User, String> isDisableCol;
+
+    /*系统stage*/
+    private static Stage dialogStage;
+    
+    public static Stage getdialogStage() {
+        return dialogStage;
+     }
+
+     public static void setPrimaryStage(Stage stage) {
+         dialogStage = stage;
+     }
+     
+    /** 初始化 */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
 //        
-		userNoCol.setCellValueFactory(new PropertyValueFactory<User, String>("userNo"));
-		userNameCol.setCellValueFactory(new PropertyValueFactory<User, String>("userName"));
-		isPieceworkCol.setCellValueFactory(new PropertyValueFactory<User, String>("isPiecework"));
-		isManagerCol.setCellValueFactory(new PropertyValueFactory<User, String>("isManager"));
-		isDisableCol.setCellValueFactory(new PropertyValueFactory<User, String>("isDisable"));
+        selectCol.setCellValueFactory(new PropertyValueFactory<User, CheckBox>("checkbox"));
+        userNoCol.setCellValueFactory(new PropertyValueFactory<User, String>("userNo"));
+        userNameCol.setCellValueFactory(new PropertyValueFactory<User, String>("userName"));
+        isPieceworkCol.setCellValueFactory(new PropertyValueFactory<User, String>("isPiecework"));
+        isManagerCol.setCellValueFactory(new PropertyValueFactory<User, String>("isManager"));
+        isDisableCol.setCellValueFactory(new PropertyValueFactory<User, String>("isDisable"));
 
-		userTableView.setItems(data);
+        userTableView.setItems(data);
 
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				initData();
-			}
-		});
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                initData();
+            }
+        });
+    }
+    
+    /**
+     * 初始化表格数据
+     */
+    private void initData() {
+        System.out.println("===========init=============");
+        data.add(new User(new CheckBox(), "123456", "张三", "是", "是", "是"));
+        data.add(new User(new CheckBox(), "654321", "张三", "是", "是", "是"));
+        data.add(new User(new CheckBox(), "123456", "张三", "是", "是", "是"));
+        data.add(new User(new CheckBox(), "123456", "张三", "是", "是", "是"));
+        data.add(new User(new CheckBox(), "123456", "张三", "是", "是", "是"));
+        data.add(new User(new CheckBox(), "123456", "张三", "是", "是", "是"));
+        data.add(new User(new CheckBox(), "123456", "张三", "是", "是", "是"));
+        data.add(new User(new CheckBox(), "123456", "张三", "是", "是", "是"));
+        data.add(new User(new CheckBox(), "123456", "张三", "是", "是", "是"));
+        data.add(new User(new CheckBox(), "123456", "张三", "是", "是", "是"));
+        data.add(new User(new CheckBox(), "123456", "张三", "是", "是", "是"));
+        data.add(new User(new CheckBox(), "123456", "张三", "是", "是", "是"));
+        data.add(new User(new CheckBox(), "123456", "张三", "是", "是", "是"));
+        data.add(new User(new CheckBox(), "123456", "张三", "是", "是", "是"));
+        data.add(new User(new CheckBox(), "123456", "张三", "是", "是", "是"));
+        data.add(new User(new CheckBox(), "123456", "张三", "是", "是", "是"));
+        data.add(new User(new CheckBox(), "123456", "张三", "是", "是", "是"));
 
-		operationCol.setCellFactory(new Callback() {
-			@Override
-			public Object call(Object param) {
-				TableCell<User, String> cell = new TableCell<User, String>() {
-					public HBox paddedButton = new HBox();
-					Label delBtn = new Label("删除");
-					Label editBtn = new Label("编辑");
-					Label pwdBtn = new Label("密码修改");
-					{
-						paddedButton.getStylesheets().add("/resources/image/TableViewTestCss.css");
+    }
 
-						delBtn.getStyleClass().addAll("ob");
-						ImageView delImageView = new ImageView(new Image("/resources/image/delete.png"));
-						delImageView.setFitWidth(20);
-						delImageView.setFitHeight(20);
-						delBtn.setGraphic(delImageView);
+    @FXML
+    private void addUser() {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(ResourceLoader.getFxmlResource("AddUser.fxml"));
+        
+        AnchorPane addUserPane;
+        
+        try {
+            addUserPane = fxmlLoader.load();
 
-						editBtn.getStyleClass().addAll("ob");
-						ImageView editImageView = new ImageView(new Image("/resources/image/edit.png"));
-						editImageView.setFitWidth(20);
-						editImageView.setFitHeight(20);
-						editBtn.setGraphic(editImageView);
+            dialogStage = new Stage();
+            dialogStage.setTitle("添加用户");
 
-						pwdBtn.getStyleClass().addAll("ob");
-						ImageView pwdImageView = new ImageView(new Image("/resources/image/reset_pwd.png"));
-						pwdImageView.setFitWidth(20);
-						pwdImageView.setFitHeight(20);
-						pwdBtn.setGraphic(pwdImageView);
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(UIManager.getPrimaryStage());
+            Scene scene = new Scene(addUserPane);
+            dialogStage.setScene(scene);
 
-						paddedButton.getChildren().addAll(editBtn, delBtn, pwdBtn);
-					}
+            dialogStage.setResizable(false);
+            dialogStage.showAndWait();
 
-//					@Override
-//					protected void updateItem(String item, boolean empty) {
-//						super.updateItem(item, empty);
-//						if (!empty) {
-//							paddedButton.setPadding(new Insets(3));
-//							delBtn.setOnMouseClicked((m) -> {
-//								System.out.println("OperButtonCell...del");
-//								UserDto userDto = (UserDto) table.getSelectionModel().getSelectedItem();
-//								del(userDto.getId());
-//							});
-//							editBtn.setOnMouseClicked((m) -> {
-//								System.out.println("OperButtonCell...edit");
-//								UserDto dto = (UserDto) table.getSelectionModel().getSelectedItem();
-//								idialog.openDialog("用户编辑", userEditView, 650.0, 450.0);
-//								showInfo(dto);
-//							});
-//							pwdBtn.setOnMouseClicked((m) -> {
-//								System.out.println("OperButtonCell...pwdBtn");
-//								UserDto dto = (UserDto) table.getSelectionModel().getSelectedItem();
-//								idialog.openDialog("密码修改", userPwdView, 650.0, 450.0);
-//								idT.setText("" + dto.getId());
-//							});
-//							setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-//							setGraphic(paddedButton);
-//						} else {
-//							setGraphic(null);
-//						}
-//					}
-				};
-				return null;
-			}
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-		});
-	}
-
-	/**
-	 * 初始化表格数据
-	 */
-	private void initData() {
-		data.add(new User("123456", "张三", "是", "是", "是"));
-		data.add(new User("123456", "张三", "是", "是", "是"));
-		data.add(new User("123456", "张三", "是", "是", "是"));
-
-	}
 }

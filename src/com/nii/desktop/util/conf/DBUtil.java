@@ -7,6 +7,9 @@ package com.nii.desktop.util.conf;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -44,12 +47,47 @@ public class DBUtil {
       return conn;
    }
    
+   public static void release(Object obj) {
+       if(obj instanceof Connection) {
+           try {
+            ((Connection) obj).close();
+        } catch (SQLException e) {
+            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
+        }
+       }
+       
+       if(obj instanceof PreparedStatement) {
+           try {
+            ((PreparedStatement) obj).close();
+        } catch (SQLException e) {
+            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
+        }
+       }
+       
+       if(obj instanceof ResultSet) {
+           try {
+            ((ResultSet) obj).close();
+        } catch (SQLException e) {
+            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
+        }
+       }
+   }
+   
+   public static void release(Object obj1, Object obj2) {
+       release(obj1);
+       release(obj2);
+   }
+   
+   public static void release(Object obj1, Object obj2, Object obj3) {
+       release(obj1);
+       release(obj2);
+       release(obj3);
+   }
+   
    public static void main(String[] args) {
-      System.out.println(CALSSDRIVER);
-      System.out.println(URL);
-      System.out.println(USERNAME);
-      System.out.println(PASSWORD);
-      System.out.println(conn);
+       System.out.println(getConnection());
+       String str = "0000001";
+       System.out.println(Integer.parseInt(str));
    }
    
 }

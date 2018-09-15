@@ -9,7 +9,7 @@
 
 <SplitPane dividerPositions="0.5" prefHeight="600.0" prefWidth="1000.0" stylesheets="/resources/css/MainUI.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nii.desktop.controller.MainUIController">
   <items>
-    <AnchorPane fx:id="leftPane" maxWidth="300" minHeight="0.0" minWidth="300.0" prefHeight="626.0" prefWidth="300.0">
+    <AnchorPane fx:id="leftPane" maxWidth="300" minHeight="0.0" minWidth="300.0" prefWidth="300.0">
       <children>
          <Button fx:id="userManageButton" layoutX="0.0" layoutY="0.0" mnemonicParsing="false" onAction="#userLabelClickAction" prefHeight="90.0" prefWidth="300.0" text="用户管理" />
          <Button fx:id="dailyManageButton" layoutX="0.0" layoutY="90.0" mnemonicParsing="false" onAction="#dailyLabelClickAction" prefHeight="90.0" prefWidth="300.0" text="日报管理" />

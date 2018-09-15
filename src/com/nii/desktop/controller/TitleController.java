@@ -4,6 +4,7 @@ import com.nii.desktop.decorate.StageMove;
 import com.nii.desktop.widget.menu.GlobalMenu;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.geometry.Side;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;

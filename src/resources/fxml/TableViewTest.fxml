@@ -8,17 +8,26 @@
 
 <?import javafx.scene.layout.VBox?>
 
-<VBox VBox.vgrow="ALWAYS" stylesheets="@../css/TableViewTestCss.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nii.desktop.controller.TableViewTestController">
+<VBox fx:id="userVBox" stylesheets="@../css/TableViewTestCss.css" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nii.desktop.controller.TableViewTestController">
    <children>
-      <Label fx:id="userLabel" text="用户管理" />
+      <HBox fx:id="userHbox" >
+         <children>
+            <Label fx:id="userLabel" text="用户管理" style="-fx-alignment: baseline-left;" />
+            <TextField fx:id="searchField"/>
+            <Button fx:id="searchBtn" mnemonicParsing="false" text="搜索" />
+            <Button fx:id="addUserBtn" onAction="#addUser" mnemonicParsing="false" text="新增" />
+            <Button fx:id="editUserBtn" mnemonicParsing="false" text="编辑" />
+            <Button fx:id="delUserBtn" mnemonicParsing="false" text="删除" />
+         </children>
+      </HBox>
       <TableView fx:id="userTableView">
         <columns>
+          <TableColumn fx:id="selectCol" prefWidth="30.0" text="勾选" />
           <TableColumn fx:id="userNoCol" prefWidth="75.0" text="用户编号" />
           <TableColumn fx:id="userNameCol" prefWidth="75.0" text="用户名称" />
           <TableColumn fx:id="isPieceworkCol" prefWidth="75.0" text="是否计件" />
           <TableColumn fx:id="isManagerCol" prefWidth="75.0" text="是否管理员" />
           <TableColumn fx:id="isDisableCol" prefWidth="75.0" text="是否禁用" />
-          <TableColumn fx:id="operationCol" prefWidth="75.0" text="操作" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
