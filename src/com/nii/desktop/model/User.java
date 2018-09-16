@@ -1,16 +1,15 @@
 package com.nii.desktop.model;
 
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.control.CheckBox;
 
 /**
  * Created by ljj on 2018/9/13
  */
 public class User {
-//
-//    // 复选框
+
+    // 复选框
     private CheckBox checkbox = new CheckBox();
 
     // 用户编号
@@ -31,8 +30,11 @@ public class User {
     // 是否禁用 1:是，0：否
     private SimpleStringProperty isDisable = new SimpleStringProperty();
 
-    public User() {
+    // 定义为 final 好像是一种规范做法
+    private StringProperty status = new SimpleStringProperty();
 
+    public User() {
+        
     }
 
     public User(String userNo, String userName, String password, String isPiecework, String isManager,
@@ -58,7 +60,7 @@ public class User {
     public CheckBox getCheckbox() {
         return checkbox;
     }
-    
+
     public void setCheckbox(CheckBox checkbox) {
         this.checkbox = checkbox;
     }
@@ -133,6 +135,21 @@ public class User {
 
     public void setIsDisable(String isDisable) {
         this.isDisable.set(isDisable);
+    }
+
+    // * 特别说明： xxxProperty 方法名，是 fx 的规范，只要属性名加上 Peoperty() 作为方法名，fx 就能自动监听该属性的变化！
+    public StringProperty statusProperty() {
+        return status;
+    }
+
+    // 原有的 set 方法，并不受字段类型变化而改变，仍然接受同样的参数，只是方法体需要修改一下
+    public void setStatus(String status) {
+        this.status.set(status);
+    }
+
+    // 原有的 get 方法，并不受字段类型变化而改变，仍然返回同样的类型，只是方法体需要修改一下
+    public String getStatus() {
+        return status.get();
     }
 
 }

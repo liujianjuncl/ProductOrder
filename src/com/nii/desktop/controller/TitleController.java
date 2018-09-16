@@ -19,31 +19,21 @@ import javafx.stage.Stage;
  * Created by wzj on 2017/8/20.
  */
 public class TitleController {
-    /**
-     * 鼠标双击两下
-     */
+    /* 鼠标双击两下 */
     private final static int DOUBLE_CLICK = 2;
 
-    /**
-     * stage
-     */
+    /* stage */
     private Stage stage;
 
-    /**
-     * 界面
-     */
+    /** 界面 */
     @FXML
     private VBox rootPane;
 
-    /**
-     * title
-     */
+    /* title */
     @FXML
     public HBox banner;
 
-    /**
-     * 菜单
-     */
+    /* 菜单 */
     @FXML
     public Button menuButton;
 
@@ -57,7 +47,7 @@ public class TitleController {
     public void addContent(Parent content) {
         this.rootPane.getChildren().add(content);
         VBox.setVgrow(content, Priority.ALWAYS);
-        
+
     }
 
     private void bannerClickAction() {
@@ -73,33 +63,25 @@ public class TitleController {
         });
     }
 
-    /**
-     * 窗口关闭事件
-     */
+    /* 窗口关闭事件 */
     @FXML
     public void closeButtonCilciAction() {
         stage.close();
     }
 
-    /**
-     * 窗口最大化事件
-     */
+    /* 窗口最大化事件 */
     @FXML
     public void maxButtonClickAction() {
         stage.setMaximized(!stage.isMaximized());
     }
 
-    /**
-     * 窗口最小化事件
-     */
+    /* 窗口最小化事件 */
     @FXML
     public void minButtonClickAction() {
         stage.setIconified(true);
     }
 
-    /**
-     * 菜单点击事件
-     */
+    /* 菜单点击事件 */
     @FXML
     public void menuButtonClickAction() {
         GlobalMenu.getInstance().show(menuButton, Side.BOTTOM, 0, 0);

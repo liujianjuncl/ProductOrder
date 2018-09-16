@@ -21,16 +21,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Created by wzj on 2017/1/4.
+ * Created by ljj on 2018/9/14
  */
 public class MainUIController implements Initializable {
     
     @FXML
     private SplitPane splitPane;
 
-    /**
-     * 数字框
-     */
+    /* 数字框*/
     @FXML
     private TextField numTextField;
 
@@ -44,7 +42,7 @@ public class MainUIController implements Initializable {
     @FXML
     private TextField urlTextField;
 
-    /** 容器*/
+    /* 容器*/
     @FXML
     private TabPane tabPane;
     
@@ -54,9 +52,7 @@ public class MainUIController implements Initializable {
     @FXML
     private TableView userTableView;
 
-    /**
-     * web engine
-     */
+    /*web engine*/
     WebEngine webEngine;
     
     @FXML
@@ -64,20 +60,16 @@ public class MainUIController implements Initializable {
     
     @FXML
     Button dailyManageButton;
+    
+    VBox userVbox;
+    
+    VBox dailyVbox;
 
-    /**
-     * Called to initialize a controller after its root element has been completely
-     * processed.
-     *
-     * @param location  The location used to resolve relative paths for the root
-     *                  object, or <tt>null</tt> if the location is not known.
-     * @param resources The resources used to localize the root object, or
-     *                  <tt>null</tt> if
-     */
+    /***/
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         userManageButton.setStyle("-fx-background-color: #808080");
-        loadTableViewTestTab();
+        loadUserTableView();
         
         
 //        numTextField.setEditable(false);
@@ -95,7 +87,8 @@ public class MainUIController implements Initializable {
         System.out.println("=========userLabelClickAction=========");
         userManageButton.setStyle("-fx-background-color: #808080");
         dailyManageButton.setStyle(null);
-        loadTableViewTestTab();
+        rightPane.getChildren().removeAll(dailyVbox);
+        loadUserTableView();
     }
     
     @FXML
@@ -103,39 +96,56 @@ public class MainUIController implements Initializable {
         System.out.println("=========dailyLabelClickAction=========");
         dailyManageButton.setStyle("-fx-background-color: #808080");
         userManageButton.setStyle(null);
+        rightPane.getChildren().removeAll(userVbox);
+        loadDailyTableView();
     }
 
 
-    private void loadTableViewTestTab() {
+    private void loadUserTableView() {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(ResourceLoader.getFxmlResource("TableViewTest.fxml"));
+        fxmlLoader.setLocation(ResourceLoader.getFxmlResource("UserTableView.fxml"));
 
         try {
             
-            VBox vbox = fxmlLoader.load();
-            rightPane.setLeftAnchor(vbox, 0.0);
-            rightPane.setRightAnchor(vbox, 0.0);
-            rightPane.setBottomAnchor(vbox, 0.0);
-            rightPane.setTopAnchor(vbox, 0.0);
-            rightPane.getChildren().add(vbox);
+            userVbox = fxmlLoader.load();
+            rightPane.setLeftAnchor(userVbox, 0.0);
+            rightPane.setRightAnchor(userVbox, 0.0);
+            rightPane.setBottomAnchor(userVbox, 0.0);
+            rightPane.setTopAnchor(userVbox, 0.0);
+            rightPane.getChildren().add(userVbox);
             
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+    
+    private void loadDailyTableView() {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(ResourceLoader.getFxmlResource("DailyTableView.fxml"));
 
-    /**
-     * 回车事件
-     */
+        try {
+            
+            dailyVbox = fxmlLoader.load();
+            rightPane.setLeftAnchor(dailyVbox, 0.0);
+            rightPane.setRightAnchor(dailyVbox, 0.0);
+            rightPane.setBottomAnchor(dailyVbox, 0.0);
+            rightPane.setTopAnchor(dailyVbox, 0.0);
+            rightPane.getChildren().add(dailyVbox);
+            
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /*回车事件*/
     @FXML
     private void urlTextFieldAction() {
         goBtClickAction();
     }
 
-    /**
-     * Go按钮点击事件
-     */
+    /*Go按钮点击事件*/
     @FXML
     private void goBtClickAction() {
         webEngine.load(urlTextField.getText());

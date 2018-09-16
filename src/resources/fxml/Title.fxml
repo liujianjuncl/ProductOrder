@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="rootPane" prefHeight="70.0" stylesheets="/resources/css/title.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nii.desktop.controller.TitleController">
+<VBox fx:id="rootPane" prefHeight="70.0" stylesheets="/resources/css/Title.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nii.desktop.controller.TitleController">
    <children>
       <HBox fx:id="banner" maxHeight="70.0" minHeight="70.0" prefHeight="70.0" VBox.vgrow="ALWAYS" >
          <children>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="addUserPane" stylesheets="@../css/AddUser.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nii.desktop.controller.AddUserController">
+   <children>
+      <Label fx:id="addUserLabel" layoutX="185.0" layoutY="37.0" text="新增用户" />
+      <Label fx:id="userNameLabel" layoutX="20.0" layoutY="100.0" text="用户名" />
+      <TextField fx:id="userNameField" layoutX="160.0" layoutY="100.0" />
+      <Label fx:id="passwordLabel" layoutX="20.0" layoutY="150.0" prefWidth="100" text="密    码" />
+      <PasswordField fx:id="passwordField" layoutX="160.0" layoutY="150.0" />
+      <Label fx:id="isPieceworkLabel" layoutX="20.0" layoutY="200.0" text="是否计件" />
+      <ComboBox fx:id="isPieceworkCbox" layoutX="160.0" layoutY="200.0" />
+      <Label fx:id="isManagerLabel" layoutX="20.0" layoutY="250.0" text="是否管理员" />
+      <ComboBox fx:id="isManagerCbox" layoutX="160.0" layoutY="250.0" />
+      <Button fx:id="confirmBtn" layoutX="120.0" layoutY="349.0" mnemonicParsing="false" onAction="#confirmBtnAction" text="确定" />
+      <Button fx:id="cancelBtn" layoutX="235.0" layoutY="349.0" mnemonicParsing="false" onAction="#cancelBtnAction" text="取消" />
+      <CheckBox fx:id="defaultPasswordCheckBox" layoutX="317.0" layoutY="154.0" mnemonicParsing="false" text="默认密码" />
+      
+   </children>
+</AnchorPane>

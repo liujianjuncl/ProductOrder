@@ -3,6 +3,8 @@ package com.nii.desktop.util.conf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.nii.desktop.util.ui.ResourceLoader;
+
 import java.io.*;
 import java.net.URL;
 import java.util.Properties;
@@ -34,7 +36,7 @@ public final class PropertiesUtil {
         Properties defaultProperties = new Properties();
         
         try {
-            FileInputStream fin = new FileInputStream(new File(new File("").getCanonicalPath() + "/config.properties"));
+            FileInputStream fin = new FileInputStream(ResourceLoader.getPropertiesResource("config.properties").getFile());
             InputStreamReader reader = new InputStreamReader(fin,"GBK");
             defaultProperties.load(reader);
 
@@ -103,6 +105,7 @@ public final class PropertiesUtil {
     public static void main(String[] args) {
         Properties prop = getDefaultProperties();
         System.out.println(prop);
+//        System.out.println(ResourceLoader.getPropertiesResource("config.properties").getFile());
         
     }
 }

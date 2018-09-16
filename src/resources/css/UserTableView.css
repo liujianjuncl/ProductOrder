@@ -17,25 +17,30 @@
 }
 
 #userHbox{
-	-fx-alignment: baseline-center ;
 	-fx-pref-height: 40.0px;
-	-fx-spacing: 20px;
 	-fx-padding: 5 0 5 0;
-	-fx-border-color: red
+	-fx-border-color: red;
+	-fx-spacing: 100px;
 }
 
 #userLabel{
-   -fx-alignment: baseline-left ;
-   -fx-font-size: 20.0px;
+   -fx-font-size: 15.0px;
    -fx-pref-height: 40.0px;
-   -fx-pref-width: 150.0px;
-   -fx-border-color: red;
+   -fx-border-color: blue;
 }
 
-
+#searchHBox{
+	-fx-alignment: center;
+}
 
 #searchField{
 	-fx-border-color: red;
+	-fx-spacing: 10px;
+}
+
+#operationHBox{
+	-fx-alignment: center-right;
+	-fx-spacing: 10px;
 }
 
 #searchBtn{
@@ -52,4 +57,8 @@
 
 #delUserBtn{
 	-fx-border-color: red
+}
+
+#selectCol{
+	-fx-alignment: center ;
 }

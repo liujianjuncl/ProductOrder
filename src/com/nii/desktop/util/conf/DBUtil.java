@@ -20,74 +20,78 @@ import java.util.logging.Logger;
  * @author Forever
  */
 public class DBUtil {
-	
-   private static final Properties properties = PropertiesUtil.getDefaultProperties();
-   
-   private static final String CALSSDRIVER = properties.getProperty("db.driver.classname");
-   
-   private static final String URL = properties.getProperty("db.url");
-   
-   private static final String USERNAME = properties.getProperty("db.username");
-   
-   private static final String PASSWORD = properties.getProperty("db.password");
-   
-   private static Connection conn = null;
-   
-   static {
-      try {
-         Class.forName(CALSSDRIVER);
-         conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);   
-      } catch (Exception ex) {
-         Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, ex);
-      }
-      
-   }
-   
-   public static Connection getConnection() {
-      return conn;
-   }
-   
-   public static void release(Object obj) {
-       if(obj instanceof Connection) {
-           try {
-            ((Connection) obj).close();
-        } catch (SQLException e) {
-            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
+
+    private static final Properties properties = PropertiesUtil.getDefaultProperties();
+
+    private static final String CALSSDRIVER = properties.getProperty("db.driver.classname");
+
+    private static final String URL = properties.getProperty("db.url");
+
+    private static final String USERNAME = properties.getProperty("db.username");
+
+    private static final String PASSWORD = properties.getProperty("db.password");
+
+    static {
+        try {
+            Class.forName(CALSSDRIVER);
+        } catch (Exception ex) {
+            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
-       }
-       
-       if(obj instanceof PreparedStatement) {
-           try {
-            ((PreparedStatement) obj).close();
+
+    }
+
+    public static Connection getConnection() {
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (SQLException e) {
-            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
-       }
-       
-       if(obj instanceof ResultSet) {
-           try {
-            ((ResultSet) obj).close();
-        } catch (SQLException e) {
-            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
+        return conn;
+    }
+
+    public static void release(Object obj) {
+        if (obj instanceof Connection) {
+            try {
+                ((Connection) obj).close();
+            } catch (SQLException e) {
+                Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
+            }
         }
-       }
-   }
-   
-   public static void release(Object obj1, Object obj2) {
-       release(obj1);
-       release(obj2);
-   }
-   
-   public static void release(Object obj1, Object obj2, Object obj3) {
-       release(obj1);
-       release(obj2);
-       release(obj3);
-   }
-   
-   public static void main(String[] args) {
-       System.out.println(getConnection());
-       String str = "0000001";
-       System.out.println(Integer.parseInt(str));
-   }
-   
+
+        if (obj instanceof PreparedStatement) {
+            try {
+                ((PreparedStatement) obj).close();
+            } catch (SQLException e) {
+                Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+
+        if (obj instanceof ResultSet) {
+            try {
+                ((ResultSet) obj).close();
+            } catch (SQLException e) {
+                Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+    }
+
+    public static void release(Object obj1, Object obj2) {
+        release(obj1);
+        release(obj2);
+    }
+
+    public static void release(Object obj1, Object obj2, Object obj3) {
+        release(obj1);
+        release(obj2);
+        release(obj3);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(getConnection());
+        String str = "0000001";
+        System.out.println(Integer.parseInt(str));
+    }
+
 }

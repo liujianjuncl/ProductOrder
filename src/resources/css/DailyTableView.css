@@ -1,0 +1,59 @@
+
+/*设置表格头高度*/
+.table-view > .column-header-background{
+    -fx-pref-height: 40.0px;
+    -fx-pref-width: 75.0px;
+}
+
+/*设置每一列内容居中，每一行高度*/
+.table-row-cell{
+    -fx-cell-size: 45.0px;
+    -fx-alignment: center;
+}
+
+/*设置每一列内容居中*/
+#userTableView .table-column{
+  -fx-alignment: center-left;
+}
+
+#userHbox{
+	-fx-pref-height: 40.0px;
+	-fx-padding: 5 0 5 0;
+	-fx-border-color: red;
+	-fx-spacing: 100px;
+}
+
+#userLabel{
+   -fx-font-size: 15.0px;
+   -fx-pref-height: 40.0px;
+   -fx-border-color: blue;
+}
+
+#searchHBox{
+	-fx-alignment: center;
+}
+
+#searchField{
+	-fx-border-color: red;
+}
+
+#operationHBox{
+	-fx-alignment: center-right;
+	-fx-spacing: 10px;
+}
+
+#searchBtn{
+	-fx-border-color: red;
+}
+
+#addUserBtn{
+	-fx-border-color: red;
+}
+
+#editUserBtn{
+	-fx-border-color: red;
+}
+
+#delUserBtn{
+	-fx-border-color: red
+}

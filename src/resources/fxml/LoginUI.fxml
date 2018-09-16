@@ -22,26 +22,26 @@
             <Image url="@../image/login_left.png" />
          </image>
       </ImageView>
-      <Label layoutX="268.0" layoutY="75.0" text="UserName" textFill="#f5f2f2">
+      <Label layoutX="268.0" layoutY="75.0" text="用户编号" textFill="#f5f2f2">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Label layoutX="268.0" layoutY="151.0" text="Password" textFill="#f5f2f2">
+      <Label layoutX="268.0" layoutY="151.0" text="密码" textFill="#f5f2f2">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <TextField fx:id="userNameTextField" layoutX="398.0" layoutY="80.0" text="1">
+      <TextField fx:id="userNoTextField" layoutX="398.0" layoutY="80.0">
          <font>
             <Font size="15.0" />
          </font>
       </TextField>
-      <TextField fx:id="passwordTextField" layoutX="398.0" layoutY="156.0" text="1">
+      <PasswordField fx:id="passwordTextField" layoutX="398.0" layoutY="156.0">
          <font>
             <Font size="15.0" />
          </font>
-      </TextField>
+      </PasswordField>
       <Button fx:id="entryButton" layoutX="286.0" layoutY="238.0" mnemonicParsing="false" onAction="#entryButtonClickAction" prefHeight="46.0" prefWidth="121.0" text="登录">
          <font>
             <Font size="23.0" />

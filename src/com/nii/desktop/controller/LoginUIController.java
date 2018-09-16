@@ -3,7 +3,11 @@ package com.nii.desktop.controller;
 import com.nii.desktop.decorate.StageMove;
 import com.nii.desktop.dialog.HostServerDialog;
 import com.nii.desktop.model.HostServer;
+import com.nii.desktop.model.User;
+import com.nii.desktop.util.conf.DataManager;
+import com.nii.desktop.util.conf.Encoder;
 import com.nii.desktop.util.conf.PropertiesUtil;
+import com.nii.desktop.util.conf.UserUtil;
 import com.nii.desktop.util.ui.AlertUtil;
 import com.nii.desktop.util.ui.ResourceLoader;
 import com.nii.desktop.util.ui.UIManager;
@@ -16,7 +20,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,73 +28,62 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Created by wzj on 2016/12/25.
+ * Created by ljj on 2018/9/15.
  */
 public class LoginUIController implements Initializable {
-    /**
-     * 日志
-     */
+
+    /* 日志 */
     private final static Logger LOGGER = LoggerFactory.getLogger(LoginUIController.class);
 
     @FXML
-    private TextField userNameTextField;
+    private TextField userNoTextField;
 
     @FXML
     private TextField passwordTextField;
 
-    /**
-     * 下面面板
-     */
+    /* 下面面板 */
     @FXML
     private AnchorPane contentPanel;
 
-    /**
-     * Called to initialize a controller after its root element has been completely
-     * processed.
-     *
-     * @param location  The location used to resolve relative paths for the root
-     *                  object, or <tt>null</tt> if the location is not known.
-     * @param resources The resources used to localize the root object, or
-     *                  <tt>null</tt> if
-     */
+    /* 初始化方法 */
     public void initialize(URL location, ResourceBundle resources) {
         new StageMove(UIManager.getPrimaryStage()).bindDrag(contentPanel);
     }
 
-    /**
-     * Click Entry Button
-     */
+    /* 登录 */
     @FXML
     private void entryButtonClickAction() {
-        String username = userNameTextField.getText().trim();
+        String userNo = userNoTextField.getText().trim();
         String password = passwordTextField.getText().trim();
 
-        if ("".equals(username) || "".equals(password)) {
+        if ("".equals(userNo.trim()) || "".equals(password.trim())) {
             AlertUtil.alertInfoLater(PropertiesUtil.getDefaultProperties().getProperty("login.user.pwd.isnull"));
             return;
         }
 
-        if (!(StringUtils.equals(userNameTextField.getText(), "1")
-                && StringUtils.equals(passwordTextField.getText(), "1"))) {
-            AlertUtil.alertErrorLater(PropertiesUtil.getDefaultProperties().getProperty("login.failed"));
-            return;
-        }
+        User user = UserUtil.getUser(userNo);
 
-        UIManager.switchMainUI();
+        if (user == null) {
+            AlertUtil.alertInfoLater(PropertiesUtil.getDefaultProperties().getProperty("login.user.notExist"));
+            return;
+        } else {
+            if (!user.getPassword().equals(Encoder.EncoderByMd5(password))) {
+                AlertUtil.alertInfoLater(PropertiesUtil.getDefaultProperties().getProperty("login.user.password.error"));
+                return;
+            }
+            DataManager.USERS.put("loginUser", user);
+            UIManager.switchMainUI();
+        }
     }
 
-    /**
-     * Click Clear Button
-     */
+    /* 重置 */
     @FXML
     private void clearButtonClickAction() {
-        userNameTextField.clear();
+        userNoTextField.clear();
         passwordTextField.clear();
     }
 
-    /**
-     * click config button
-     */
+    /* 配置服务器 */
     @FXML
     private void configButtonClickAction() {
         HostServer hostServer = new HostServer("10.10.10.10");

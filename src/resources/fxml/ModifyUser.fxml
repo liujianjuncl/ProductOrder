@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="modifyUserPane" stylesheets="@../css/ModifyUser.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nii.desktop.controller.ModifyUserController">
+   <children>
+      <Label fx:id="modifyUserLabel" layoutX="185.0" layoutY="37.0" text="编辑用户" />
+      <Label fx:id="userNoLabel" layoutX="20.0" layoutY="100.0" text="用户编号" />
+      <Label fx:id="userNoLabelShow" layoutX="160.0" layoutY="100.0" />
+      <Label fx:id="userNameLabel" layoutX="20.0" layoutY="140.0" text="用户名称" />
+      <TextField fx:id="userNameField" layoutX="160.0" layoutY="135.0" />
+      <Label fx:id="passwordLabel" layoutX="20.0" layoutY="180.0" text="密    码" />
+      <PasswordField fx:id="passwordField" layoutX="160.0" layoutY="175.0" />
+      <Label fx:id="isPieceworkLabel" layoutX="20.0" layoutY="220.0" text="是否计件" />
+      <ComboBox fx:id="isPieceworkCbox" layoutX="160.0" layoutY="215.0" />
+      <Label fx:id="isManagerLabel" layoutX="20.0" layoutY="260.0" text="是否管理员" />
+      <ComboBox fx:id="isManagerCbox" layoutX="160.0" layoutY="255.0" />
+      <Label fx:id="isDisableLabel" layoutX="20.0" layoutY="300.0" text="是否禁用" />
+      <ComboBox fx:id="isDisableCbox" layoutX="160.0" layoutY="295.0" />
+      <Button fx:id="confirmBtn" layoutX="120.0" layoutY="385.0" mnemonicParsing="false" onAction="#confirmBtnAction" text="确定" />
+      <Button fx:id="cancelBtn" layoutX="233.0" layoutY="385.0" mnemonicParsing="false" onAction="#cancelBtnAction" text="取消" />
+      <CheckBox fx:id="defaultPasswordCheckBox" layoutX="316.0" layoutY="179.0" mnemonicParsing="false" text="默认密码" />
+   </children>
+</AnchorPane>

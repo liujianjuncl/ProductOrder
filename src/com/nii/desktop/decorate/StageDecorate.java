@@ -24,7 +24,7 @@ public abstract class StageDecorate {
     public static void decorate(Stage stage, Parent parent, int height) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(ResourceLoader.getFxmlResource("title2.fxml"));
+            fxmlLoader.setLocation(ResourceLoader.getFxmlResource("Title.fxml"));
             fxmlLoader.load();
 
             TitleController controller = fxmlLoader.getController();

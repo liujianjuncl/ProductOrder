@@ -1,0 +1,57 @@
+#addUserPane{
+	-fx-pref-height: 500px;
+	-fx-pref-width: 400px;
+}
+
+
+#addUserLabel{
+	-fx-pref-width: 100px;
+}
+
+#userNameLabel{
+	-fx-alignment: BASELINE_RIGHT;
+	-fx-pref-width: 100px;
+}
+
+#userNameField{
+	-fx-pref-width: 150px;
+}
+
+#passwordLabel{
+	-fx-alignment: BASELINE_RIGHT;
+	-fx-pref-width: 100px;
+}
+
+#passwordField{
+	-fx-pref-width: 150px;
+}
+
+#confirmBtn{
+	-fx-pref-height: 10px;
+	-fx-pref-width: 60px;
+}
+
+#cancelBtn{
+	-fx-pref-height: 10px;
+	-fx-pref-width: 60px;
+}
+
+#isPieceworkLabel{
+	-fx-alignment: BASELINE_RIGHT;
+	-fx-pref-width: 100px;
+}
+
+#isManagerLabel{
+	-fx-alignment: BASELINE_RIGHT;
+	-fx-pref-width: 100px;
+}
+
+#isPieceworkCbox{
+	-fx-pref-width: 150px;
+}
+
+#isManagerCbox{
+	-fx-pref-width: 150px;
+}
+
+
