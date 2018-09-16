@@ -59,16 +59,6 @@ public class AddUserController implements Initializable {
     @FXML
     CheckBox defaultPasswordCheckBox;
 
-    static UserTableViewController tableViewController;
-
-    public static void setTableViewController(UserTableViewController tableViewController) {
-        tableViewController = tableViewController;
-    }
-
-    public static UserTableViewController getTableViewController() {
-        return tableViewController;
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // TODO Auto-generated method stub
@@ -132,7 +122,7 @@ public class AddUserController implements Initializable {
                 DBUtil.release(conn, stmt);
             }
 
-            AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("user.add.success"));
+            AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("user.add.success") + userNo);
             UserTableViewController.getdialogStage().close();
             //新建完成刷新数据
             ((UserTableViewController) DataManager.CONTROLLERS.get("UserTableViewController")).refresh();

@@ -29,6 +29,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Pagination;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -51,6 +52,10 @@ public class UserTableViewController implements Initializable {
     @FXML
     private TableView<User> userTableView;
 
+    /*分页*/
+    @FXML
+    private Pagination userTablePagination;
+    
     /* 数据 */
     private ObservableList<User> userDataList = FXCollections.observableArrayList();
 
@@ -86,7 +91,7 @@ public class UserTableViewController implements Initializable {
 
     @FXML
     private TextField searchField;
-    
+
     /* 系统stage */
     private static Stage dialogStage;
 
@@ -103,6 +108,7 @@ public class UserTableViewController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         addDatatoTableView();
         DataManager.CONTROLLERS.put("UserTableViewController", this);
+        userTablePagination.setPageCount(5);
     }
 
     /* 初始化表格数据 */
@@ -139,6 +145,7 @@ public class UserTableViewController implements Initializable {
         }
     }
 
+    /* 新建用户 */
     @FXML
     private void addUserAction() {
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -159,7 +166,6 @@ public class UserTableViewController implements Initializable {
 
             dialogStage.setResizable(false);
             dialogStage.showAndWait();
-            AddUserController.setTableViewController(this);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -168,7 +174,7 @@ public class UserTableViewController implements Initializable {
 
     public void addDatatoTableView() {
         userDataList.clear();
-        
+
         selectCol.setCellValueFactory(new PropertyValueFactory<User, CheckBox>("checkbox"));
         userNoCol.setCellValueFactory(new PropertyValueFactory<User, String>("userNo"));
         userNameCol.setCellValueFactory(new PropertyValueFactory<User, String>("userName"));
@@ -186,7 +192,7 @@ public class UserTableViewController implements Initializable {
         });
     }
 
-    /* 修改用户窗口 */
+    /* 修改用户 */
     @FXML
     public void modifyUserAction() {
         if (getSelectedNum() == 0) {
@@ -196,7 +202,7 @@ public class UserTableViewController implements Initializable {
         } else {
             User user = getSingleSelectedUser();
             DataManager.USERS.put("editUser", user);
-            
+
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(ResourceLoader.getFxmlResource("ModifyUser.fxml"));
 
@@ -215,36 +221,36 @@ public class UserTableViewController implements Initializable {
 
                 dialogStage.setResizable(false);
                 dialogStage.showAndWait();
-                AddUserController.setTableViewController(this);
 
             } catch (IOException e) {
                 Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
             }
         }
     }
-    
+
+    /* 删除用户 */
     @FXML
     public void deleteUserAction() {
         if (getSelectedNum() == 0) {
             AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("comboBox.delete.noSelected"));
         } else {
             List<String> userNoList = getSelectedUserNoList();
-            
+
             Connection conn = null;
             PreparedStatement stmt = null;
-            
+
             try {
                 String sql = "update dbo.t_product_daily_user set isDelete = 1 where userNo = ?";
                 conn = DBUtil.getConnection();
                 stmt = conn.prepareStatement(sql);
-                
-                for(int i = 0; i < userNoList.size(); i++) {
+
+                for (int i = 0; i < userNoList.size(); i++) {
                     String userNo = userNoList.get(i);
                     stmt.setString(1, userNo);
                     stmt.execute();
                 }
-                
-            } catch(Exception e) {
+
+            } catch (Exception e) {
                 Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
                 return;
             } finally {
@@ -255,10 +261,10 @@ public class UserTableViewController implements Initializable {
             ((UserTableViewController) DataManager.CONTROLLERS.get("UserTableViewController")).refresh();
         }
     }
-    
+
     @FXML
     public void userSearchAction() {
-        
+
     }
 
     /* 获取被勾选的数量 */
@@ -285,7 +291,7 @@ public class UserTableViewController implements Initializable {
         User user = UserUtil.getUser(userNo);
         return user;
     }
-    
+
     /* 获取所有被勾选的用户编号 */
     public List<String> getSelectedUserNoList() {
         List<String> userNoList = new ArrayList<String>();
@@ -294,11 +300,11 @@ public class UserTableViewController implements Initializable {
                 userNoList.add(userDataList.get(i).getUserNo());
             }
         }
-        
+
         return userNoList;
     }
-    
-    /*刷新数据*/
+
+    /* 刷新数据 */
     public void refresh() {
         initData();
         addDatatoTableView();

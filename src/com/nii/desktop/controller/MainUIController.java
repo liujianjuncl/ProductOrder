@@ -84,7 +84,6 @@ public class MainUIController implements Initializable {
     
     @FXML
     private void userLabelClickAction() {
-        System.out.println("=========userLabelClickAction=========");
         userManageButton.setStyle("-fx-background-color: #808080");
         dailyManageButton.setStyle(null);
         rightPane.getChildren().removeAll(dailyVbox);
@@ -93,7 +92,6 @@ public class MainUIController implements Initializable {
     
     @FXML
     private void dailyLabelClickAction() {
-        System.out.println("=========dailyLabelClickAction=========");
         dailyManageButton.setStyle("-fx-background-color: #808080");
         userManageButton.setStyle(null);
         rightPane.getChildren().removeAll(userVbox);
