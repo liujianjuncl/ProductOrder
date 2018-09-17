@@ -119,7 +119,7 @@ public class ModifyUserController implements Initializable {
                 stmt = conn.prepareStatement(sql);
 
                 stmt.setString(1, userName);
-                stmt.setString(2, Encoder.EncoderByMd5(password));
+                stmt.setString(2, Encoder.encrypt(password));
                 stmt.setInt(3, isPiecework == "ÊÇ" ? 1 : 0);
                 stmt.setInt(4, isManager == "ÊÇ" ? 1 : 0);
                 stmt.setInt(5, isDisable == "ÊÇ" ? 1 : 0);

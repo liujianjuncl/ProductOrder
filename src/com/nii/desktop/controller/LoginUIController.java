@@ -67,7 +67,7 @@ public class LoginUIController implements Initializable {
             AlertUtil.alertInfoLater(PropertiesUtil.getDefaultProperties().getProperty("login.user.notExist"));
             return;
         } else {
-            if (!user.getPassword().equals(Encoder.EncoderByMd5(password))) {
+            if (!user.getPassword().equals(Encoder.encrypt(password))) {
                 AlertUtil.alertInfoLater(PropertiesUtil.getDefaultProperties().getProperty("login.user.password.error"));
                 return;
             }

@@ -34,33 +34,15 @@ public final class PropertiesUtil {
      */
     public static Properties getDefaultProperties() {
         Properties defaultProperties = new Properties();
-        
+
         try {
-            FileInputStream fin = new FileInputStream(ResourceLoader.getPropertiesResource("config.properties").getFile());
-            InputStreamReader reader = new InputStreamReader(fin,"GBK");
+            FileInputStream fin = new FileInputStream(
+                    ResourceLoader.getPropertiesResource("config.properties").getFile());
+            InputStreamReader reader = new InputStreamReader(fin, "GBK");
             defaultProperties.load(reader);
 
         } catch (IOException e) {
             LOGGER.error("获取默认配置文件失败！", e);
-        }
-
-        return defaultProperties;
-    }
-
-    /**
-     * 获取指定路径的properties
-     * 
-     * @return Properties
-     */
-    public static Properties getProperties(String filePath) {
-        Properties defaultProperties = new Properties();
-
-        InputStream inStream = PropertiesUtil.class.getResourceAsStream(filePath);
-
-        try {
-            defaultProperties.load(inStream);
-        } catch (IOException e) {
-            LOGGER.error("获取配置文件失败！", e);
         }
 
         return defaultProperties;
@@ -78,6 +60,33 @@ public final class PropertiesUtil {
     }
 
     /**
+     * 获取指定路径的properties
+     * 
+     * @return Properties
+     */
+    public static Properties getProperties(String filePath) {
+        Properties prop = new Properties();
+        FileInputStream fin = null;
+        InputStreamReader reader = null;
+        try {
+            fin = new FileInputStream(ResourceLoader.getPropertiesResource(filePath).getFile());
+            reader = new InputStreamReader(fin, "GBK");
+            prop.load(reader);
+        } catch (IOException e) {
+            LOGGER.error("获取配置文件失败！", e);
+        } finally {
+            try {
+                reader.close();
+                fin.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return prop;
+    }
+
+    /**
      * 往文件里面写入内容
      * 
      * @param key   key
@@ -85,27 +94,38 @@ public final class PropertiesUtil {
      * @return true 成功 | false 失败
      */
     public static boolean writeKeyValue(String key, String value) {
-        Properties defaultProperties = getDefaultProperties();
-        defaultProperties.setProperty(key, value);
+        Properties prop = new Properties();
+        prop.setProperty(key, value);
+
+        FileOutputStream outputStream = null;
 
         try {
-            FileOutputStream outputStream = new FileOutputStream("d:/test.properties");
-            defaultProperties.store(outputStream, "save");
+            outputStream = new FileOutputStream(ResourceLoader.getPropertiesResource("host.properties").getFile());
+            prop.store(outputStream, "save");
+            prop.list(System.out);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return false;
         } catch (IOException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            try {
+                outputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return true;
     }
-    
+
     public static void main(String[] args) {
         Properties prop = getDefaultProperties();
         System.out.println(prop);
+        boolean res = writeKeyValue("host", "127.0.0.1");
+        System.out.println(res);
 //        System.out.println(ResourceLoader.getPropertiesResource("config.properties").getFile());
-        
+
     }
 }

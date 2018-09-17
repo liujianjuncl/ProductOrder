@@ -107,7 +107,7 @@ public class AddUserController implements Initializable {
 
                 stmt.setString(1, userNo);
                 stmt.setString(2, userName);
-                stmt.setString(3, Encoder.EncoderByMd5(password));
+                stmt.setString(3, Encoder.encrypt(password));
                 stmt.setInt(4, isPiecework == "ÊÇ" ? 1 : 0);
                 stmt.setInt(5, isManager == "ÊÇ" ? 1 : 0);
                 stmt.setInt(6, 0);
