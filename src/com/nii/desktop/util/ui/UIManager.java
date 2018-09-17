@@ -47,9 +47,6 @@ public final class UIManager {
     public static void switchLoginUI() {
         primaryStage.setTitle(CommonConstant.LOGIN_WINDOW_TITLE);
 
-        // 隐藏标题栏
-//      primaryStage.initStyle(StageStyle.TRANSPARENT);
-
         Pane pane = null;
         try {
             pane = (Pane) FXMLLoader.load(ResourceLoader.getFxmlResource("LoginUI.fxml"));
@@ -63,9 +60,7 @@ public final class UIManager {
         primaryStage.show();
     }
 
-    /**
-     * 切换到主窗口页面
-     */
+    /*切换到主窗口页面*/
     public static void switchMainUI() {
         primaryStage.setTitle(CommonConstant.LOGIN_WINDOW_TITLE);
         AnchorPane pane = null;
@@ -83,7 +78,7 @@ public final class UIManager {
 
     private static void setStageOnCenter() {
         Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
-        primaryStage.setX((primScreenBounds.getWidth() - primaryStage.getWidth()) / 2);
-        primaryStage.setY((primScreenBounds.getHeight() - primaryStage.getHeight()) / 2);
+//        primaryStage.setX((primScreenBounds.getWidth() - primaryStage.getWidth()) / 2);
+//        primaryStage.setY((primScreenBounds.getHeight() - primaryStage.getHeight()) / 2);
     }
 }

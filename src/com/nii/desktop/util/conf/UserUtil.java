@@ -3,9 +3,6 @@ package com.nii.desktop.util.conf;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,6 +11,7 @@ import com.nii.desktop.util.ui.AlertUtil;
 
 public class UserUtil {
 
+    //或最大用户编号
     public static String getMaxUserNo() {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -30,7 +28,6 @@ public class UserUtil {
             int userNum = 0;
             while (rs.next()) {
                 String userNo = rs.getString("userNo");
-                System.out.println("==========" + userNo);
                 if (userNo != null) {
                     userNum = Integer.parseInt(userNo);
                 }
@@ -81,7 +78,7 @@ public class UserUtil {
 
         User user = null;
 
-        String sql = "select * from dbo.t_product_daily_user where userNo = ?";
+        String sql = "select * from dbo.t_product_daily_user where userNo = ? and isDelete = 0";
         try {
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
@@ -118,7 +115,6 @@ public class UserUtil {
             AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("password.notnull"));
             return false;
         }
-        
 
         if (userName.trim().length() > 10) {
             AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("userName.length"));
@@ -129,7 +125,7 @@ public class UserUtil {
             AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("password.length.min"));
             return false;
         }
-        
+
         if (password.trim().length() > 18) {
             AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("password.length.max"));
             return false;
@@ -145,12 +141,12 @@ public class UserUtil {
             return false;
         }
 
-
         return true;
     }
 
     /* 校验新建用户信息 */
-    public static boolean verifyUserInfo(String userName, String password, String isPiecework, String isManager, String isDisable) {
+    public static boolean verifyUserInfo(String userName, String password, String isPiecework, String isManager,
+            String isDisable) {
         if ("".equals(userName.trim())) {
             AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("userName.notnull"));
             return false;
@@ -160,7 +156,6 @@ public class UserUtil {
             AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("password.notnull"));
             return false;
         }
-        
 
         if (userName.trim().length() > 10) {
             AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("userName.length"));
@@ -171,7 +166,7 @@ public class UserUtil {
             AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("password.length.min"));
             return false;
         }
-        
+
         if (password.trim().length() > 18) {
             AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("password.length.max"));
             return false;
@@ -186,7 +181,7 @@ public class UserUtil {
             AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("isManager.notnull"));
             return false;
         }
-        
+
         if (isDisable == null) {
             AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("isDisable.notnull"));
             return false;

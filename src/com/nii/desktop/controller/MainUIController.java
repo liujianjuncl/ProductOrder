@@ -6,12 +6,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -50,7 +48,7 @@ public class MainUIController implements Initializable {
     private AnchorPane rightPane;
     
     @FXML
-    private TableView userTableView;
+    private TableView<?> userTableView;
 
     /*web engine*/
     WebEngine webEngine;
@@ -99,6 +97,7 @@ public class MainUIController implements Initializable {
     }
 
 
+    @SuppressWarnings("static-access")
     private void loadUserTableView() {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(ResourceLoader.getFxmlResource("UserTableView.fxml"));
@@ -118,6 +117,7 @@ public class MainUIController implements Initializable {
         }
     }
     
+    @SuppressWarnings("static-access")
     private void loadDailyTableView() {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(ResourceLoader.getFxmlResource("DailyTableView.fxml"));

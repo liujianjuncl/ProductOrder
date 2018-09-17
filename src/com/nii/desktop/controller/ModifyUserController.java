@@ -3,9 +3,7 @@ package com.nii.desktop.controller;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -26,14 +24,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
 
 public class ModifyUserController implements Initializable {
 
@@ -56,28 +51,18 @@ public class ModifyUserController implements Initializable {
     Button cancelBtn;
 
     @FXML
-    ComboBox isPieceworkCbox;
+    ComboBox<String> isPieceworkCbox;
 
     @FXML
-    ComboBox isManagerCbox;
+    ComboBox<String> isManagerCbox;
 
     @FXML
-    ComboBox isDisableCbox;
+    ComboBox<String> isDisableCbox;
 
     @FXML
     CheckBox defaultPasswordCheckBox;
 
     private User user;
-
-    static UserTableViewController tableViewController;
-
-    public static void setTableViewController(UserTableViewController tableViewController) {
-        tableViewController = tableViewController;
-    }
-
-    public static UserTableViewController getTableViewController() {
-        return tableViewController;
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -87,7 +72,6 @@ public class ModifyUserController implements Initializable {
         isDisableCbox.setItems(FXCollections.observableArrayList("是", "否"));
 
         user = DataManager.USERS.get("editUser");
-        System.out.println("================" + user.getUserNo());
         userNoLabelShow.setText(user.getUserNo());
         userNameField.setText(user.getUserName());
         isPieceworkCbox.setValue(user.getIsPiecework());
@@ -130,7 +114,7 @@ public class ModifyUserController implements Initializable {
 
             try {
                 String sql = "update dbo.t_product_daily_user set userName = ?, password = ?, isPiecework = ?, "
-                        + "isManager = ?, isDisable = ?, lastModifyTime = ?, disableTime = ? where isDelete = 0 and userNo = ?";
+                        + "isManager = ?, isDisable = ?, lastModifyTime = ? where isDelete = 0 and userNo = ?";
                 conn = DBUtil.getConnection();
                 stmt = conn.prepareStatement(sql);
 
@@ -140,8 +124,7 @@ public class ModifyUserController implements Initializable {
                 stmt.setInt(4, isManager == "是" ? 1 : 0);
                 stmt.setInt(5, isDisable == "是" ? 1 : 0);
                 stmt.setTimestamp(6, new Timestamp(new Date().getTime()));
-                stmt.setTimestamp(7, isDisable == "是" ? new Timestamp(new Date().getTime()) : null);
-                stmt.setString(8, userNo);
+                stmt.setString(7, userNo);
 
                 stmt.execute();
 

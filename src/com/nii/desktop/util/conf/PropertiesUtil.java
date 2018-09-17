@@ -48,7 +48,7 @@ public final class PropertiesUtil {
     }
 
     /**
-     * 获取默认的properties
+     * 获取指定路径的properties
      * 
      * @return Properties
      */

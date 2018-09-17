@@ -7,7 +7,7 @@
 
 <AnchorPane fx:id="addUserPane" stylesheets="@../css/AddUser.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nii.desktop.controller.AddUserController">
    <children>
-      <Label fx:id="addUserLabel" layoutX="185.0" layoutY="37.0" text="新增用户" />
+      <Label fx:id="addUserLabel" layoutX="185.0" layoutY="37.0" text="新建用户" />
       <Label fx:id="userNameLabel" layoutX="20.0" layoutY="100.0" text="用户名" />
       <TextField fx:id="userNameField" layoutX="160.0" layoutY="100.0" />
       <Label fx:id="passwordLabel" layoutX="20.0" layoutY="150.0" prefWidth="100" text="密    码" />
