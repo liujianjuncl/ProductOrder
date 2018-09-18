@@ -57,18 +57,18 @@ public class LoginUIController implements Initializable {
         String password = passwordTextField.getText().trim();
 
         if ("".equals(userNo.trim()) || "".equals(password.trim())) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getDefaultProperties().getProperty("login.user.pwd.isnull"));
+            AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("login.user.pwd.isnull"));
             return;
         }
 
         User user = UserUtil.getUser(userNo);
 
         if (user == null) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getDefaultProperties().getProperty("login.user.notExist"));
+            AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("login.user.notExist"));
             return;
         } else {
             if (!user.getPassword().equals(Encoder.encrypt(password))) {
-                AlertUtil.alertInfoLater(PropertiesUtil.getDefaultProperties().getProperty("login.user.password.error"));
+                AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("login.user.password.error"));
                 return;
             }
             DataManager.USERS.put("loginUser", user);
@@ -100,12 +100,12 @@ public class LoginUIController implements Initializable {
         try {
             page = (Pane) loader.load();
         } catch (IOException e) {
-            LOGGER.error("Load HostServerDialog.fxml failed.", e);
+            LOGGER.error("加载HostServerDialog.fxml文件失败", e);
             return false;
         }
 
         Stage dialogStage = new Stage();
-        dialogStage.setTitle("Config Host Server");
+        dialogStage.setTitle("服务器地址配置");
 
         dialogStage.initModality(Modality.WINDOW_MODAL);
         dialogStage.initOwner(UIManager.getPrimaryStage());

@@ -36,28 +36,28 @@ import javafx.stage.Modality;
 public class AddUserController implements Initializable {
 
     @FXML
-    AnchorPane addUserPane;
+    private AnchorPane addUserPane;
 
     @FXML
-    TextField userNameField;
+    private TextField userNameField;
 
     @FXML
-    PasswordField passwordField;
+    private PasswordField passwordField;
 
     @FXML
-    Button confirmBtn;
+    private Button confirmBtn;
 
     @FXML
-    Button cancelBtn;
+    private Button cancelBtn;
 
     @FXML
-    ComboBox isPieceworkCbox;
+    private ComboBox isPieceworkCbox;
 
     @FXML
-    ComboBox isManagerCbox;
+    private ComboBox isManagerCbox;
 
     @FXML
-    CheckBox defaultPasswordCheckBox;
+    private CheckBox defaultPasswordCheckBox;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

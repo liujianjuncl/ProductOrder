@@ -5,7 +5,11 @@ import org.slf4j.LoggerFactory;
 
 import com.nii.desktop.util.ui.ResourceLoader;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Properties;
 
@@ -34,13 +38,14 @@ public final class PropertiesUtil {
      */
     public static Properties getDefaultProperties() {
         Properties defaultProperties = new Properties();
+        FileInputStream fin = null;
 
         try {
-            FileInputStream fin = new FileInputStream(
-                    ResourceLoader.getPropertiesResource("config.properties").getFile());
+            fin = new FileInputStream(ResourceLoader.getPropertiesResource("config.properties").getFile());
             InputStreamReader reader = new InputStreamReader(fin, "GBK");
             defaultProperties.load(reader);
-
+            
+            fin.close();
         } catch (IOException e) {
             LOGGER.error("获取默认配置文件失败！", e);
         }
@@ -72,15 +77,11 @@ public final class PropertiesUtil {
             fin = new FileInputStream(ResourceLoader.getPropertiesResource(filePath).getFile());
             reader = new InputStreamReader(fin, "GBK");
             prop.load(reader);
+            
+            reader.close();
+            fin.close();
         } catch (IOException e) {
             LOGGER.error("获取配置文件失败！", e);
-        } finally {
-            try {
-                reader.close();
-                fin.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
 
         return prop;
@@ -93,37 +94,29 @@ public final class PropertiesUtil {
      * @param value value
      * @return true 成功 | false 失败
      */
-    public static boolean writeKeyValue(String key, String value) {
+    public static boolean writeHostInfo(String key, String value) {
         Properties prop = new Properties();
-        prop.setProperty(key, value);
-
-        FileOutputStream outputStream = null;
+        FileOutputStream fos = null;
 
         try {
-            outputStream = new FileOutputStream(ResourceLoader.getPropertiesResource("host.properties").getFile());
-            prop.store(outputStream, "save");
-            prop.list(System.out);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return false;
+            System.out.println(ResourceLoader.getPropertiesResource("host.properties").getFile());
+            fos = new FileOutputStream(ResourceLoader.getPropertiesResource("host.properties").getPath());
+            prop.setProperty(key, value);
+            prop.store(fos, "服务器配置");
+            
+            fos.close();
         } catch (IOException e) {
             e.printStackTrace();
             return false;
-        } finally {
-            try {
-                outputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        } 
 
         return true;
     }
 
     public static void main(String[] args) {
         Properties prop = getDefaultProperties();
-        System.out.println(prop);
-        boolean res = writeKeyValue("host", "127.0.0.1");
+//        System.out.println(prop);
+        boolean res = writeHostInfo("host", "127.0.0.1");
         System.out.println(res);
 //        System.out.println(ResourceLoader.getPropertiesResource("config.properties").getFile());
 

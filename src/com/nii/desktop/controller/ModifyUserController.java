@@ -33,34 +33,34 @@ import javafx.scene.layout.AnchorPane;
 public class ModifyUserController implements Initializable {
 
     @FXML
-    AnchorPane modifyUserPane;
+    private AnchorPane modifyUserPane;
 
     @FXML
-    Label userNoLabelShow;
+    private Label userNoLabelShow;
 
     @FXML
-    TextField userNameField;
+    private TextField userNameField;
 
     @FXML
-    PasswordField passwordField;
+    private PasswordField passwordField;
 
     @FXML
-    Button confirmBtn;
+    private Button confirmBtn;
 
     @FXML
-    Button cancelBtn;
+    private Button cancelBtn;
 
     @FXML
-    ComboBox<String> isPieceworkCbox;
+    private ComboBox<String> isPieceworkCbox;
 
     @FXML
-    ComboBox<String> isManagerCbox;
+    private ComboBox<String> isManagerCbox;
 
     @FXML
-    ComboBox<String> isDisableCbox;
+    private ComboBox<String> isDisableCbox;
 
     @FXML
-    CheckBox defaultPasswordCheckBox;
+    private CheckBox defaultPasswordCheckBox;
 
     private User user;
 
