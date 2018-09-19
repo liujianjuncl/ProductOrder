@@ -101,7 +101,7 @@ public class ModifyUserController implements Initializable {
         String isDisable = (String) isDisableCbox.getValue();
 
         if (defaultPasswordCheckBox.isSelected()) {
-            password = PropertiesUtil.getStringValue("user.default.password"); // 默认密码
+            password = PropertiesUtil.getConfigValue("user.default.password"); // 默认密码
         }
 
         boolean result = UserUtil.verifyUserInfo(userName, password, isPiecework, isManager, isDisable);
@@ -135,7 +135,7 @@ public class ModifyUserController implements Initializable {
                 DBUtil.release(conn, stmt);
             }
 
-            AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("user.modify.success"));
+            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("user.modify.success"));
             UserTableViewController.getdialogStage().close();
             // 修改完成刷新数据
             ((UserTableViewController) DataManager.CONTROLLERS.get("UserTableViewController")).refresh();

@@ -196,9 +196,9 @@ public class UserTableViewController implements Initializable {
     @FXML
     public void modifyUserAction() {
         if (getSelectedNum() == 0) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("comboBox.modify.noSelected"));
+            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("comboBox.modify.noSelected"));
         } else if (getSelectedNum() > 1) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("comboBox.selected.count"));
+            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("comboBox.selected.count"));
         } else {
             User user = getSingleSelectedUser();
             DataManager.USERS.put("editUser", user);
@@ -232,7 +232,7 @@ public class UserTableViewController implements Initializable {
     @FXML
     public void deleteUserAction() {
         if (getSelectedNum() == 0) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("comboBox.delete.noSelected"));
+            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("comboBox.delete.noSelected"));
         } else {
             List<String> userNoList = getSelectedUserNoList();
 
@@ -256,7 +256,7 @@ public class UserTableViewController implements Initializable {
             } finally {
                 DBUtil.release(conn, stmt);
             }
-            AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("user.delete.success"));
+            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("user.delete.success"));
             // 删除完成刷新数据
             ((UserTableViewController) DataManager.CONTROLLERS.get("UserTableViewController")).refresh();
         }

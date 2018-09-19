@@ -59,6 +59,7 @@ public class AddUserController implements Initializable {
     @FXML
     private CheckBox defaultPasswordCheckBox;
 
+    @SuppressWarnings("unchecked")
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // TODO Auto-generated method stub
@@ -87,7 +88,7 @@ public class AddUserController implements Initializable {
         String isManager = (String) isManagerCbox.getValue();
 
         if (defaultPasswordCheckBox.isSelected()) {
-            password = PropertiesUtil.getStringValue("user.default.password"); // 默认密码
+            password = PropertiesUtil.getConfigValue("user.default.password"); // 默认密码
         }
         System.out.println(userName + "===" + password + "===" + isPiecework + "===" + isManager);
 
@@ -122,7 +123,7 @@ public class AddUserController implements Initializable {
                 DBUtil.release(conn, stmt);
             }
 
-            AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("user.add.success") + userNo);
+            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("user.add.success") + userNo);
             UserTableViewController.getdialogStage().close();
             //新建完成刷新数据
             ((UserTableViewController) DataManager.CONTROLLERS.get("UserTableViewController")).refresh();

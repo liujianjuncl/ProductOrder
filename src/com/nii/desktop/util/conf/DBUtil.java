@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  */
 public class DBUtil {
 
-    private static final Properties properties = PropertiesUtil.getDefaultProperties();
+    private static final Properties properties = PropertiesUtil.getConfigProperties();
 
     private static final String CALSSDRIVER = properties.getProperty("db.driver.classname");
 

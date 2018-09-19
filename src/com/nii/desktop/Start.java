@@ -12,9 +12,9 @@ public class Start extends Application {
     public void start(Stage primaryStage) throws Exception {
         UIManager.setPrimaryStage(primaryStage);
 
-        UIManager.switchMainUI();
+//        UIManager.switchMainUI();
 
-//        UIManager.switchLoginUI();
+        UIManager.switchLoginUI();
     }
 
     public static void main(String[] args) {

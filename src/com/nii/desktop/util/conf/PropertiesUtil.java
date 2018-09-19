@@ -6,14 +6,11 @@ import org.slf4j.LoggerFactory;
 import com.nii.desktop.util.ui.ResourceLoader;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URL;
+import java.io.OutputStreamWriter;
 import java.util.Properties;
-
-import javax.tools.Tool;
 
 /**
  * Created by wzj on 2017/1/1.
@@ -24,6 +21,13 @@ public final class PropertiesUtil {
      */
     private final static Logger LOGGER = LoggerFactory.getLogger(PropertiesUtil.class);
 
+    /* config.properties路径 */
+    private final static String CONFIG_FILE_PATH = ResourceLoader.getPropertiesResource("config.properties").getPath();
+
+    /* message.properties路径 */
+    private final static String MESSAGE_FILE_PATH = ResourceLoader.getPropertiesResource("message.properties")
+            .getPath();
+
     /**
      * 私有构造函数
      */
@@ -32,93 +36,92 @@ public final class PropertiesUtil {
     }
 
     /**
-     * 获取默认的properties
-     * 
-     * @return Properties
+     * 获取config.properties
      */
-    public static Properties getDefaultProperties() {
-        Properties defaultProperties = new Properties();
+    public static Properties getConfigProperties() {
+        Properties configProperties = new Properties();
         FileInputStream fin = null;
 
         try {
-            fin = new FileInputStream(ResourceLoader.getPropertiesResource("config.properties").getFile());
+            fin = new FileInputStream(CONFIG_FILE_PATH);
             InputStreamReader reader = new InputStreamReader(fin, "GBK");
-            defaultProperties.load(reader);
-            
+            configProperties.load(reader);
+
             fin.close();
         } catch (IOException e) {
             LOGGER.error("获取默认配置文件失败！", e);
         }
-
-        return defaultProperties;
+        return configProperties;
     }
 
     /**
-     * get String vale
-     * 
-     * @param key key
-     * @return 结果
+     * 获取config.properties中的属性值
      */
-    public static String getStringValue(String key) {
-        Properties defaultProperties = getDefaultProperties();
-        return defaultProperties.getProperty(key);
+    public static String getConfigValue(String key) {
+        Properties configProperties = getConfigProperties();
+        return configProperties.getProperty(key);
     }
 
     /**
-     * 获取指定路径的properties
-     * 
-     * @return Properties
+     * 获取message.properties中的信息
      */
-    public static Properties getProperties(String filePath) {
-        Properties prop = new Properties();
+    public static String getMessage(String key) {
+        Properties messageProps = new Properties();
         FileInputStream fin = null;
-        InputStreamReader reader = null;
+
         try {
-            fin = new FileInputStream(ResourceLoader.getPropertiesResource(filePath).getFile());
-            reader = new InputStreamReader(fin, "GBK");
-            prop.load(reader);
-            
-            reader.close();
+            fin = new FileInputStream(MESSAGE_FILE_PATH);
+            InputStreamReader reader = new InputStreamReader(fin, "GBK");
+            messageProps.load(reader);
+
             fin.close();
         } catch (IOException e) {
-            LOGGER.error("获取配置文件失败！", e);
+            LOGGER.error("获取默认配置文件失败！", e);
+
         }
-
-        return prop;
+        return messageProps.getProperty(key);
     }
-
+    
     /**
-     * 往文件里面写入内容
-     * 
-     * @param key   key
-     * @param value value
-     * @return true 成功 | false 失败
+     * 更新config.properties中的内容
      */
-    public static boolean writeHostInfo(String key, String value) {
-        Properties prop = new Properties();
+    public static boolean updateKeyValue(String key, String value) {
+        Properties prop = getConfigProperties();
         FileOutputStream fos = null;
+        OutputStreamWriter writer = null;
 
         try {
-            System.out.println(ResourceLoader.getPropertiesResource("host.properties").getFile());
-            fos = new FileOutputStream(ResourceLoader.getPropertiesResource("host.properties").getPath());
+            fos = new FileOutputStream(CONFIG_FILE_PATH);
+            writer = new OutputStreamWriter(fos, "GBK");
             prop.setProperty(key, value);
-            prop.store(fos, "服务器配置");
-            
+            prop.store(writer, key);
+
+            writer.close();
             fos.close();
         } catch (IOException e) {
             e.printStackTrace();
             return false;
-        } 
+        }
 
         return true;
     }
 
+    /**
+     * 更新config.properties中db.url
+     */
+    public static void updateHostAndDBUrl(String key, String value) {
+        updateKeyValue(key, value); // 更新服务器地址
+
+        String dbUrl = "jdbc:sqlserver://" + value + ":1433;DatabaseName=AIS";
+
+        updateKeyValue("db.url", dbUrl); // 更新db.url
+    }
+
     public static void main(String[] args) {
-        Properties prop = getDefaultProperties();
-//        System.out.println(prop);
-        boolean res = writeHostInfo("host", "127.0.0.1");
-        System.out.println(res);
-//        System.out.println(ResourceLoader.getPropertiesResource("config.properties").getFile());
+        System.out.println("host:" + getConfigValue("host"));
+        System.out.println(getConfigValue("db.url"));
+        updateHostAndDBUrl("host", "3.0.0.2");
+        System.out.println(getConfigValue("db.url"));
 
     }
 }

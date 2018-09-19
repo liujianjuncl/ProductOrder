@@ -57,18 +57,18 @@ public class LoginUIController implements Initializable {
         String password = passwordTextField.getText().trim();
 
         if ("".equals(userNo.trim()) || "".equals(password.trim())) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("login.user.pwd.isnull"));
+            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("login.user.pwd.isnull"));
             return;
         }
 
         User user = UserUtil.getUser(userNo);
 
         if (user == null) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("login.user.notExist"));
+            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("login.user.notExist"));
             return;
         } else {
             if (!user.getPassword().equals(Encoder.encrypt(password))) {
-                AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("login.user.password.error"));
+                AlertUtil.alertInfoLater(PropertiesUtil.getMessage("login.user.password.error"));
                 return;
             }
             DataManager.USERS.put("loginUser", user);
@@ -86,9 +86,10 @@ public class LoginUIController implements Initializable {
     /* ÅäÖÃ·þÎñÆ÷ */
     @FXML
     private void configButtonClickAction() {
-        HostServer hostServer = new HostServer("10.10.10.10");
+        HostServer hostServer = new HostServer(PropertiesUtil.getConfigValue("host"));
         if (showHoserServerDialog(hostServer)) {
-            AlertUtil.alertInfoLater(hostServer.getServerName());
+            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("host.server") + hostServer.getServerName());
+            PropertiesUtil.updateHostAndDBUrl("host", hostServer.getServerName());
         }
     }
 

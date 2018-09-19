@@ -27,7 +27,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Label layoutX="268.0" layoutY="151.0" text="密码" textFill="#f5f2f2">
+      <Label layoutX="268.0" layoutY="151.0" text="密       码" textFill="#f5f2f2">
          <font>
             <Font size="24.0" />
          </font>
@@ -52,7 +52,7 @@
             <Font size="23.0" />
          </font>
       </Button>
-      <Button fx:id="configButton" layoutX="286.0" layoutY="325.0" mnemonicParsing="false" onAction="#configButtonClickAction" text="config" />
+      <Button fx:id="configButton" layoutX="286.0" layoutY="325.0" mnemonicParsing="false" onAction="#configButtonClickAction" text="服务器地址" />
    </children>
 
     <stylesheets>

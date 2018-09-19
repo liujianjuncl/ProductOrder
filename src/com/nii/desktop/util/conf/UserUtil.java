@@ -107,37 +107,37 @@ public class UserUtil {
     /* 校验新建用户信息 */
     public static boolean verifyUserInfo(String userName, String password, String isPiecework, String isManager) {
         if ("".equals(userName.trim())) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("userName.notnull"));
+            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("userName.notnull"));
             return false;
         }
 
         if ("".equals(password.trim())) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("password.notnull"));
+            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("password.notnull"));
             return false;
         }
 
         if (userName.trim().length() > 10) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("userName.length"));
+            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("userName.length"));
             return false;
         }
 
         if (password.trim().length() < 6) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("password.length.min"));
+            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("password.length.min"));
             return false;
         }
 
         if (password.trim().length() > 18) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("password.length.max"));
+            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("password.length.max"));
             return false;
         }
 
         if (isPiecework == null) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("isPiecework.notnull"));
+            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("isPiecework.notnull"));
             return false;
         }
 
         if (isManager == null) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("isManager.notnull"));
+            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("isManager.notnull"));
             return false;
         }
 
@@ -148,42 +148,42 @@ public class UserUtil {
     public static boolean verifyUserInfo(String userName, String password, String isPiecework, String isManager,
             String isDisable) {
         if ("".equals(userName.trim())) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("userName.notnull"));
+            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("userName.notnull"));
             return false;
         }
 
         if ("".equals(password.trim())) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("password.notnull"));
+            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("password.notnull"));
             return false;
         }
 
         if (userName.trim().length() > 10) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("userName.length"));
+            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("userName.length"));
             return false;
         }
 
         if (password.trim().length() < 6) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("password.length.min"));
+            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("password.length.min"));
             return false;
         }
 
         if (password.trim().length() > 18) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("password.length.max"));
+            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("password.length.max"));
             return false;
         }
 
         if (isPiecework == null) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("isPiecework.notnull"));
+            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("isPiecework.notnull"));
             return false;
         }
 
         if (isManager == null) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("isManager.notnull"));
+            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("isManager.notnull"));
             return false;
         }
 
         if (isDisable == null) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getStringValue("isDisable.notnull"));
+            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("isDisable.notnull"));
             return false;
         }
 
