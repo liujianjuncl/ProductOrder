@@ -5,12 +5,10 @@ import com.nii.desktop.type.CommonConstant;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.control.SplitPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,7 +41,7 @@ public final class UIManager {
         primaryStage = stage;
     }
 
-    /*切换到登录界面*/
+    /* 切换到登录界面 */
     public static void switchLoginUI() {
         primaryStage.setTitle(CommonConstant.LOGIN_WINDOW_TITLE);
 
@@ -60,7 +58,7 @@ public final class UIManager {
         primaryStage.show();
     }
 
-    /*切换到主窗口页面*/
+    /* 切换到主窗口页面 */
     public static void switchMainUI() {
         primaryStage.setTitle(CommonConstant.LOGIN_WINDOW_TITLE);
         AnchorPane pane = null;

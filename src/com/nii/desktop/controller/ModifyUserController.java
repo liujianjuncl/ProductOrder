@@ -13,7 +13,7 @@ import com.nii.desktop.model.User;
 import com.nii.desktop.util.conf.DBUtil;
 import com.nii.desktop.util.conf.DataManager;
 import com.nii.desktop.util.conf.Encoder;
-import com.nii.desktop.util.conf.PropertiesUtil;
+import com.nii.desktop.util.conf.PropsUtil;
 import com.nii.desktop.util.conf.UserUtil;
 import com.nii.desktop.util.ui.AlertUtil;
 
@@ -101,7 +101,7 @@ public class ModifyUserController implements Initializable {
         String isDisable = (String) isDisableCbox.getValue();
 
         if (defaultPasswordCheckBox.isSelected()) {
-            password = PropertiesUtil.getConfigValue("user.default.password"); // 默认密码
+            password = PropsUtil.getConfigValue("user.default.password"); // 默认密码
         }
 
         boolean result = UserUtil.verifyUserInfo(userName, password, isPiecework, isManager, isDisable);
@@ -135,7 +135,7 @@ public class ModifyUserController implements Initializable {
                 DBUtil.release(conn, stmt);
             }
 
-            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("user.modify.success"));
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("user.modify.success"));
             UserTableViewController.getdialogStage().close();
             // 修改完成刷新数据
             ((UserTableViewController) DataManager.CONTROLLERS.get("UserTableViewController")).refresh();

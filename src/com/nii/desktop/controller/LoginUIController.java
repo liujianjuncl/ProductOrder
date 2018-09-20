@@ -6,7 +6,7 @@ import com.nii.desktop.model.HostServer;
 import com.nii.desktop.model.User;
 import com.nii.desktop.util.conf.DataManager;
 import com.nii.desktop.util.conf.Encoder;
-import com.nii.desktop.util.conf.PropertiesUtil;
+import com.nii.desktop.util.conf.PropsUtil;
 import com.nii.desktop.util.conf.UserUtil;
 import com.nii.desktop.util.ui.AlertUtil;
 import com.nii.desktop.util.ui.ResourceLoader;
@@ -48,6 +48,7 @@ public class LoginUIController implements Initializable {
     /* 初始化方法 */
     public void initialize(URL location, ResourceBundle resources) {
         new StageMove(UIManager.getPrimaryStage()).bindDrag(contentPanel);
+        
     }
 
     /* 登录 */
@@ -57,18 +58,18 @@ public class LoginUIController implements Initializable {
         String password = passwordTextField.getText().trim();
 
         if ("".equals(userNo.trim()) || "".equals(password.trim())) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("login.user.pwd.isnull"));
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("login.user.pwd.isnull"));
             return;
         }
 
         User user = UserUtil.getUser(userNo);
 
         if (user == null) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("login.user.notExist"));
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("login.user.notExist"));
             return;
         } else {
             if (!user.getPassword().equals(Encoder.encrypt(password))) {
-                AlertUtil.alertInfoLater(PropertiesUtil.getMessage("login.user.password.error"));
+                AlertUtil.alertInfoLater(PropsUtil.getMessage("login.user.password.error"));
                 return;
             }
             DataManager.USERS.put("loginUser", user);
@@ -86,10 +87,10 @@ public class LoginUIController implements Initializable {
     /* 配置服务器 */
     @FXML
     private void configButtonClickAction() {
-        HostServer hostServer = new HostServer(PropertiesUtil.getConfigValue("host"));
+        HostServer hostServer = new HostServer(PropsUtil.getConfigValue("host"));
         if (showHoserServerDialog(hostServer)) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("host.server") + hostServer.getServerName());
-            PropertiesUtil.updateHostAndDBUrl("host", hostServer.getServerName());
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("host.server") + hostServer.getServerName());
+            PropsUtil.updateHostAndDBUrl("host", hostServer.getServerName());
         }
     }
 
@@ -120,6 +121,11 @@ public class LoginUIController implements Initializable {
         dialogStage.showAndWait();
 
         return controller.isOkClicked();
+    }
+    
+    @FXML
+    public void userOnMouseExited() {
+        System.out.println("userOnMouseExited");
     }
 
 }

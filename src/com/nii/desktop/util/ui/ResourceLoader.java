@@ -3,7 +3,7 @@ package com.nii.desktop.util.ui;
 import java.net.URL;
 
 /**
- * Created by wzj on 2016/12/25.
+ * Created by ljj on 2018/9/10.
  */
 public final class ResourceLoader {
     /**
@@ -17,8 +17,8 @@ public final class ResourceLoader {
         String resourcePath = "/resources/fxml/" + fxmlName;
         return ResourceLoader.class.getResource(resourcePath);
     }
-    
-    public static URL getPropertiesResource(String propName) {
+
+    public static URL getPropsResource(String propName) {
         String resourcePath = "/resources/conf/" + propName;
         return ResourceLoader.class.getResource(resourcePath);
     }

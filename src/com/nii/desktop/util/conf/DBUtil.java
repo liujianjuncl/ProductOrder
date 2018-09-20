@@ -11,7 +11,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,7 +20,7 @@ import java.util.logging.Logger;
  */
 public class DBUtil {
 
-    private static final Properties properties = PropertiesUtil.getConfigProperties();
+    private static final Properties properties = PropsUtil.getConfigProperties();
 
     private static final String CALSSDRIVER = properties.getProperty("db.driver.classname");
 
@@ -37,7 +36,6 @@ public class DBUtil {
         } catch (Exception ex) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     public static Connection getConnection() {

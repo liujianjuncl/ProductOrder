@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 import com.nii.desktop.util.conf.DBUtil;
 import com.nii.desktop.util.conf.DataManager;
 import com.nii.desktop.util.conf.Encoder;
-import com.nii.desktop.util.conf.PropertiesUtil;
+import com.nii.desktop.util.conf.PropsUtil;
 import com.nii.desktop.util.conf.UserUtil;
 import com.nii.desktop.util.ui.AlertUtil;
 
@@ -88,7 +88,7 @@ public class AddUserController implements Initializable {
         String isManager = (String) isManagerCbox.getValue();
 
         if (defaultPasswordCheckBox.isSelected()) {
-            password = PropertiesUtil.getConfigValue("user.default.password"); // 默认密码
+            password = PropsUtil.getConfigValue("user.default.password"); // 默认密码
         }
         System.out.println(userName + "===" + password + "===" + isPiecework + "===" + isManager);
 
@@ -123,7 +123,7 @@ public class AddUserController implements Initializable {
                 DBUtil.release(conn, stmt);
             }
 
-            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("user.add.success") + userNo);
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("user.add.success") + userNo);
             UserTableViewController.getdialogStage().close();
             //新建完成刷新数据
             ((UserTableViewController) DataManager.CONTROLLERS.get("UserTableViewController")).refresh();

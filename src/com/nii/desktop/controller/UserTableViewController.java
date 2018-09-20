@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 import com.nii.desktop.model.User;
 import com.nii.desktop.util.conf.DBUtil;
 import com.nii.desktop.util.conf.DataManager;
-import com.nii.desktop.util.conf.PropertiesUtil;
+import com.nii.desktop.util.conf.PropsUtil;
 import com.nii.desktop.util.conf.UserUtil;
 import com.nii.desktop.util.ui.AlertUtil;
 import com.nii.desktop.util.ui.ResourceLoader;
@@ -196,9 +196,9 @@ public class UserTableViewController implements Initializable {
     @FXML
     public void modifyUserAction() {
         if (getSelectedNum() == 0) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("comboBox.modify.noSelected"));
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("comboBox.modify.noSelected"));
         } else if (getSelectedNum() > 1) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("comboBox.selected.count"));
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("comboBox.selected.count"));
         } else {
             User user = getSingleSelectedUser();
             DataManager.USERS.put("editUser", user);
@@ -232,7 +232,7 @@ public class UserTableViewController implements Initializable {
     @FXML
     public void deleteUserAction() {
         if (getSelectedNum() == 0) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("comboBox.delete.noSelected"));
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("comboBox.delete.noSelected"));
         } else {
             List<String> userNoList = getSelectedUserNoList();
 
@@ -256,7 +256,7 @@ public class UserTableViewController implements Initializable {
             } finally {
                 DBUtil.release(conn, stmt);
             }
-            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("user.delete.success"));
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("user.delete.success"));
             // 删除完成刷新数据
             ((UserTableViewController) DataManager.CONTROLLERS.get("UserTableViewController")).refresh();
         }

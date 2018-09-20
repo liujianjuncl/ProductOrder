@@ -107,37 +107,37 @@ public class UserUtil {
     /* 校验新建用户信息 */
     public static boolean verifyUserInfo(String userName, String password, String isPiecework, String isManager) {
         if ("".equals(userName.trim())) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("userName.notnull"));
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("userName.notnull"));
             return false;
         }
 
         if ("".equals(password.trim())) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("password.notnull"));
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("password.notnull"));
             return false;
         }
 
         if (userName.trim().length() > 10) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("userName.length"));
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("userName.length"));
             return false;
         }
 
         if (password.trim().length() < 6) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("password.length.min"));
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("password.length.min"));
             return false;
         }
 
         if (password.trim().length() > 18) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("password.length.max"));
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("password.length.max"));
             return false;
         }
 
         if (isPiecework == null) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("isPiecework.notnull"));
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("isPiecework.notnull"));
             return false;
         }
 
         if (isManager == null) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("isManager.notnull"));
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("isManager.notnull"));
             return false;
         }
 
@@ -148,42 +148,42 @@ public class UserUtil {
     public static boolean verifyUserInfo(String userName, String password, String isPiecework, String isManager,
             String isDisable) {
         if ("".equals(userName.trim())) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("userName.notnull"));
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("userName.notnull"));
             return false;
         }
 
         if ("".equals(password.trim())) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("password.notnull"));
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("password.notnull"));
             return false;
         }
 
         if (userName.trim().length() > 10) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("userName.length"));
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("userName.length"));
             return false;
         }
 
         if (password.trim().length() < 6) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("password.length.min"));
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("password.length.min"));
             return false;
         }
 
         if (password.trim().length() > 18) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("password.length.max"));
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("password.length.max"));
             return false;
         }
 
         if (isPiecework == null) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("isPiecework.notnull"));
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("isPiecework.notnull"));
             return false;
         }
 
         if (isManager == null) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("isManager.notnull"));
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("isManager.notnull"));
             return false;
         }
 
         if (isDisable == null) {
-            AlertUtil.alertInfoLater(PropertiesUtil.getMessage("isDisable.notnull"));
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("isDisable.notnull"));
             return false;
         }
 
