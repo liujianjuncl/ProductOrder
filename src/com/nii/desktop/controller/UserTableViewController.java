@@ -41,7 +41,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * Created by ljj on 2018/1/7.
+ * Created by ljj on 2018/9/7.
  */
 public class UserTableViewController implements Initializable {
 
@@ -107,7 +107,9 @@ public class UserTableViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         addDatatoTableView();
-        DataManager.CONTROLLERS.put("UserTableViewController", this);
+        if(DataManager.CONTROLLERS.get("UserTableViewController") == null) {
+            DataManager.CONTROLLERS.put("UserTableViewController", this);
+        };
         userTablePagination.setPageCount(5);
     }
 

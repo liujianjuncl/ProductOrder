@@ -120,7 +120,7 @@ public class MainUIController implements Initializable {
     @SuppressWarnings("static-access")
     private void loadDailyTableView() {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(ResourceLoader.getFxmlResource("DailyTableView.fxml"));
+        fxmlLoader.setLocation(ResourceLoader.getFxmlResource("DailyManage.fxml"));
 
         try {
             

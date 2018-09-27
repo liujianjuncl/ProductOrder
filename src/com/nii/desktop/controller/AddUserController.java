@@ -66,15 +66,14 @@ public class AddUserController implements Initializable {
         isPieceworkCbox.setItems(FXCollections.observableArrayList("是", "否"));
         isManagerCbox.setItems(FXCollections.observableArrayList("是", "否"));
 
-        /**监听CheckBox*/
+        /** 监听CheckBox */
         defaultPasswordCheckBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
             public void changed(ObservableValue<? extends Boolean> ov, Boolean oldValue, Boolean newValue) {
-                if(newValue) {
+                if (newValue) {
                     passwordField.setDisable(true);
                 } else {
                     passwordField.setDisable(false);
                 }
-                
             }
         });
     }
@@ -125,7 +124,7 @@ public class AddUserController implements Initializable {
 
             AlertUtil.alertInfoLater(PropsUtil.getMessage("user.add.success") + userNo);
             UserTableViewController.getdialogStage().close();
-            //新建完成刷新数据
+            // 新建完成刷新数据
             ((UserTableViewController) DataManager.CONTROLLERS.get("UserTableViewController")).refresh();
         }
     }
@@ -134,7 +133,5 @@ public class AddUserController implements Initializable {
     public void cancelBtnAction() {
         UserTableViewController.getdialogStage().close();
     }
-
-    
 
 }

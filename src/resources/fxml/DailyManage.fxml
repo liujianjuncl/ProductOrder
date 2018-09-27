@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="dailyVBox" style="-fx-alignment: CENTER; -fx-spacing: 10px;" layoutX="474.0" layoutY="158.0" prefHeight="229.0" prefWidth="172.0" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nii.desktop.controller.DailyManageController">
+   <children>
+      <Button fx:id="addDailyBtn" onAction="#addDailyAction" mnemonicParsing="false" prefHeight="57.0" prefWidth="222.0" text="新建日报" />
+      <Button fx:id="modifyDailyBtn" onAction="#modifyDailyAction" mnemonicParsing="false" prefHeight="57.0" prefWidth="222.0" text="编辑日报" />
+      <Button fx:id="deleteDailyBtn" onAction="#deleteDailyAction" mnemonicParsing="false" prefHeight="57.0" prefWidth="222.0" text="删除日报" />
+      <Button fx:id="queryDailyBtn" onAction="#queryDailyAction" mnemonicParsing="false" prefHeight="57.0" prefWidth="222.0" text="查询日报" />
+   </children>
+</VBox>

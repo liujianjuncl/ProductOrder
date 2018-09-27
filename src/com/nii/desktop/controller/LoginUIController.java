@@ -11,6 +11,9 @@ import com.nii.desktop.util.conf.UserUtil;
 import com.nii.desktop.util.ui.AlertUtil;
 import com.nii.desktop.util.ui.ResourceLoader;
 import com.nii.desktop.util.ui.UIManager;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,6 +23,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +43,9 @@ public class LoginUIController implements Initializable {
     private TextField userNoTextField;
 
     @FXML
+    private TextField userNameTextField;
+
+    @FXML
     private TextField passwordTextField;
 
     /* 下面面板 */
@@ -48,7 +55,22 @@ public class LoginUIController implements Initializable {
     /* 初始化方法 */
     public void initialize(URL location, ResourceBundle resources) {
         new StageMove(UIManager.getPrimaryStage()).bindDrag(contentPanel);
-        
+
+        /* 当用户编号焦点失去时，获取用户名称 */
+        userNoTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            public void changed(ObservableValue<? extends Boolean> ov, Boolean oldValue, Boolean newValue) {
+                String userNo = userNoTextField.getText().trim();
+                System.out.println(userNo);
+                if (!"".equals(userNo)) {
+                    System.out.println(oldValue + "============" + newValue);
+                    User user = UserUtil.getUser(userNo);
+                    if (user != null && !newValue) {
+                        userNameTextField.setText(user.getUserName());
+                    }
+                }
+            }
+        });
+        userNameTextField.setDisable(true);
     }
 
     /* 登录 */
@@ -122,7 +144,7 @@ public class LoginUIController implements Initializable {
 
         return controller.isOkClicked();
     }
-    
+
     @FXML
     public void userOnMouseExited() {
         System.out.println("userOnMouseExited");

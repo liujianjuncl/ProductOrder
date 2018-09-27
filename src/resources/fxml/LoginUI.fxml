@@ -22,7 +22,7 @@
             <Image url="@../image/login_left.png" />
          </image>
       </ImageView>
-      <Label layoutX="268.0" layoutY="75.0" text="用户编号" textFill="#f5f2f2">
+      <Label layoutX="269.0" layoutY="48.0" text="用户编号" textFill="#f5f2f2">
          <font>
             <Font size="24.0" />
          </font>
@@ -32,7 +32,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <TextField fx:id="userNoTextField" layoutX="398.0" layoutY="80.0">
+      <TextField fx:id="userNoTextField" layoutX="398.0" layoutY="49.0">
          <font>
             <Font size="15.0" />
          </font>
@@ -42,6 +42,16 @@
             <Font size="15.0" />
          </font>
       </PasswordField>
+      <Label layoutX="269.0" layoutY="103.0" text="用户名称" textFill="#f5f2f2">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <TextField fx:id="userNameTextField" layoutX="398.0" layoutY="104.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
       <Button fx:id="entryButton" layoutX="286.0" layoutY="238.0" mnemonicParsing="false" onAction="#entryButtonClickAction" prefHeight="46.0" prefWidth="121.0" text="登录">
          <font>
             <Font size="23.0" />
@@ -53,6 +63,7 @@
          </font>
       </Button>
       <Button fx:id="configButton" layoutX="286.0" layoutY="325.0" mnemonicParsing="false" onAction="#configButtonClickAction" text="服务器地址" />
+      
    </children>
 
     <stylesheets>

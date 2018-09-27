@@ -139,6 +139,7 @@ public class ModifyUserController implements Initializable {
             UserTableViewController.getdialogStage().close();
             // 修改完成刷新数据
             ((UserTableViewController) DataManager.CONTROLLERS.get("UserTableViewController")).refresh();
+            DataManager.USERS.remove("editUser");
         }
     }
 
