@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.nii.desktop.model.User;
 import com.nii.desktop.util.conf.DBUtil;
 import com.nii.desktop.util.conf.DataManager;
 import com.nii.desktop.util.conf.Encoder;
@@ -38,18 +39,49 @@ public class AddDailyController implements Initializable {
     @FXML
     private AnchorPane addUserPane;
 
-   
+    @FXML
+    private TextField billNoTextField;
 
-    @SuppressWarnings("unchecked")
+    @FXML
+    private CheckBox allProcessChkBox;
+
+    @FXML
+    private TextField allProcessQuantity;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // TODO Auto-generated method stub
-        
+        // 复选框勾选时，全工序实作数量可以输入
+        allProcessChkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                // TODO Auto-generated method stub
+                if (newValue) {
+                    allProcessQuantity.setDisable(false);
+                } else {
+                    allProcessQuantity.setDisable(true);
+                }
+            }
+        });
+
+        /* 当全工序实作数量失去焦点时，将计划生产数量分配给所有工序 */
+        billNoTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            public void changed(ObservableValue<? extends Boolean> ov, Boolean oldValue, Boolean newValue) {
+                String billNo = billNoTextField.getText().trim();
+                System.out.println(billNo);
+//                if (!"".equals(billNo)) {
+//                    System.out.println(oldValue + "============" + newValue);
+//                    User user = UserUtil.getUser(userNo);
+//                    if (user != null && !newValue) {
+//                        userNameTextField.setText(user.getUserName());
+//                    }
+//                }
+            }
+        });
     }
-    
+
     @FXML
     public void confirmBtnAction() {
-        
+
     }
 
     @FXML
