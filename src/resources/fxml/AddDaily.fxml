@@ -12,7 +12,7 @@
          <font>
             <Font size="18.0" />
          </font></Label>
-      <HBox fx:id="buttonAction" alignment="TOP_CENTER" layoutX="204.0" layoutY="577.0" prefHeight="23.0" prefWidth="200.0" style="-fx-spacing: 30;">
+      <HBox fx:id="buttonAction" alignment="TOP_CENTER" layoutX="204.0" layoutY="577.0" prefHeight="23.0" prefWidth="200.0" style="-fx-spacing: 50;">
          <children>
             <Button fx:id="confirmBtn" mnemonicParsing="false" onAction="#confirmBtnAction" text="确定" />
             <Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#cancelBtnAction" text="取消" />
@@ -20,10 +20,10 @@
       </HBox>
       <GridPane layoutX="59.0" layoutY="54.0" prefHeight="97.0" prefWidth="464.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="147.0" minWidth="10.0" prefWidth="111.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="208.0" minWidth="10.0" prefWidth="201.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="159.0" minWidth="10.0" prefWidth="107.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="143.0" minWidth="10.0" prefWidth="60.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="147.0" minWidth="10.0" prefWidth="88.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="208.0" minWidth="10.0" prefWidth="181.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="159.0" minWidth="10.0" prefWidth="110.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="143.0" minWidth="10.0" prefWidth="85.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -31,24 +31,27 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label fx:id="userNameLabel" text="生产任务单号" />
-            <Label fx:id="userNameLabel1" text="制造-VP车间180914078" GridPane.columnIndex="1" />
-            <Label fx:id="userNameLabel2" text="物料代码" GridPane.rowIndex="1" />
-            <Label fx:id="userNameLabel21" text="物料代码" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label fx:id="userNameLabel3" text="规格型号" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <Label fx:id="userNameLabel31" text="80*80" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <Label fx:id="userNameLabel311" text="计划生产数量" GridPane.columnIndex="2" />
-            <Label fx:id="userNameLabel3111" text="100" GridPane.columnIndex="3" />
-            <CheckBox alignment="CENTER_RIGHT" mnemonicParsing="false" text="工序全选" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label fx:id="userNameLabel22" text="全工序实作数量" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <TextField prefHeight="23.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <Label fx:id="BillNoLabel" style="-fx-font-weight: bold;" text="生产任务单号" />
+            <Label fx:id="BillNo" text="制造-VP车间180914078" GridPane.columnIndex="1" />
+            <Label fx:id="materialCodeLabel" style="-fx-font-weight: bold;" text="物料代码" GridPane.rowIndex="1" />
+            <Label fx:id="materialCode" text="物料代码" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="modelLabel" style="-fx-font-weight: bold;" text="规格型号" GridPane.rowIndex="2" />
+            <Label fx:id="model" text="80*80" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="planQuantityLabel" style="-fx-font-weight: bold;" text="计划生产数量" GridPane.columnIndex="2" />
+            <Label fx:id="planQuantity" text="100" GridPane.columnIndex="3" />
+            <Label fx:id="allProcessQuantityLabel" style="-fx-font-weight: bold;" text="     全工序实作数量" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <TextField fx:id="allProcessQuantity" disable="true" prefHeight="23.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <Label fx:id="materialNameLabel" style="-fx-font-weight: bold;" text="物料名称" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Label fx:id="materialName" text="机床" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <CheckBox fx:id="allProcessChkBox" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <GridPane layoutX="54.0" layoutY="165.0" prefHeight="390.0" prefWidth="474.0">
+      <GridPane gridLinesVisible="true" layoutX="54.0" layoutY="165.0" prefHeight="390.0" prefWidth="474.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="238.0" minWidth="10.0" prefWidth="147.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="246.0" minWidth="10.0" prefWidth="159.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="192.0" minWidth="10.0" prefWidth="162.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="192.0" minWidth="10.0" prefWidth="104.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="192.0" minWidth="10.0" prefWidth="142.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -66,24 +69,24 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="工序" textFill="#eb3409">
+            <Label text="工序" textFill="#3b09eb">
                <font>
                   <Font name="System Italic" size="14.0" />
                </font>
             </Label>
-            <Label prefHeight="27.0" prefWidth="91.0" text="改制工序1" GridPane.rowIndex="1" />
-            <Label prefHeight="27.0" prefWidth="91.0" text="改制工序2" GridPane.rowIndex="2" />
-            <Label prefHeight="27.0" prefWidth="91.0" text="改制工序3" GridPane.rowIndex="3" />
-            <Label prefHeight="27.0" prefWidth="91.0" text="工序1" GridPane.rowIndex="4" />
-            <Label prefHeight="27.0" prefWidth="91.0" text="工序2" GridPane.rowIndex="5" />
-            <Label prefHeight="27.0" prefWidth="91.0" text="工序3" GridPane.rowIndex="6" />
-            <Label prefHeight="27.0" prefWidth="91.0" text="工序4" GridPane.rowIndex="7" />
-            <Label prefHeight="27.0" prefWidth="91.0" text="工序5" GridPane.rowIndex="8" />
-            <Label prefHeight="27.0" prefWidth="91.0" text="工序6" GridPane.rowIndex="9" />
-            <Label prefHeight="27.0" prefWidth="91.0" text="工序7" GridPane.rowIndex="10" />
-            <Label prefHeight="27.0" prefWidth="91.0" text="工序8" GridPane.rowIndex="11" />
-            <Label prefHeight="27.0" prefWidth="91.0" text="工序9" GridPane.rowIndex="12" />
-            <Label text="工序名称" textFill="#f55318" GridPane.columnIndex="1">
+            <Label prefHeight="27.0" prefWidth="91.0" style="-fx-font-weight: bold;" text="改制工序1" GridPane.rowIndex="1" />
+            <Label prefHeight="27.0" prefWidth="91.0" style="-fx-font-weight: bold;" text="改制工序2" GridPane.rowIndex="2" />
+            <Label prefHeight="27.0" prefWidth="91.0" style="-fx-font-weight: bold;" text="改制工序3" GridPane.rowIndex="3" />
+            <Label prefHeight="27.0" prefWidth="91.0" style="-fx-font-weight: bold;" text="工序1" GridPane.rowIndex="4" />
+            <Label prefHeight="27.0" prefWidth="91.0" style="-fx-font-weight: bold;" text="工序2" GridPane.rowIndex="5" />
+            <Label prefHeight="27.0" prefWidth="91.0" style="-fx-font-weight: bold;" text="工序3" GridPane.rowIndex="6" />
+            <Label prefHeight="27.0" prefWidth="91.0" style="-fx-font-weight: bold;" text="工序4" GridPane.rowIndex="7" />
+            <Label prefHeight="27.0" prefWidth="91.0" style="-fx-font-weight: bold;" text="工序5" GridPane.rowIndex="8" />
+            <Label prefHeight="27.0" prefWidth="91.0" style="-fx-font-weight: bold;" text="工序6" GridPane.rowIndex="9" />
+            <Label prefHeight="27.0" prefWidth="91.0" style="-fx-font-weight: bold;" text="工序7" GridPane.rowIndex="10" />
+            <Label prefHeight="27.0" prefWidth="91.0" style="-fx-font-weight: bold;" text="工序8" GridPane.rowIndex="11" />
+            <Label prefHeight="27.0" prefWidth="91.0" style="-fx-font-weight: bold;" text="工序9" GridPane.rowIndex="12" />
+            <Label text="工序名称" textFill="#3f18f5" GridPane.columnIndex="1">
                <font>
                   <Font size="14.0" />
                </font>
@@ -100,23 +103,40 @@
             <Label fx:id="process7" prefHeight="27.0" prefWidth="91.0" text="工序7" GridPane.columnIndex="1" GridPane.rowIndex="10" />
             <Label fx:id="process8" prefHeight="27.0" prefWidth="91.0" text="工序8" GridPane.columnIndex="1" GridPane.rowIndex="11" />
             <Label fx:id="process9" prefHeight="27.0" prefWidth="91.0" text="工序9" GridPane.columnIndex="1" GridPane.rowIndex="12" />
-            <Label text="本次实作数量" textFill="#ff3213" GridPane.columnIndex="2">
+            <Label text="单价" textFill="#3618f5" GridPane.columnIndex="2">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="resProcessNum1" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <TextField fx:id="resProcessNum2" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <TextField fx:id="resProcessNum3" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-            <TextField fx:id="processNum2" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-            <TextField fx:id="processNum3" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-            <TextField fx:id="processNum5" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-            <TextField fx:id="processNum6" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-            <TextField fx:id="processNum4" GridPane.columnIndex="2" GridPane.rowIndex="8" />
-            <TextField fx:id="processNum7" GridPane.columnIndex="2" GridPane.rowIndex="9" />
-            <TextField fx:id="processNum8" GridPane.columnIndex="2" GridPane.rowIndex="10" />
-            <TextField fx:id="processNum9" GridPane.columnIndex="2" GridPane.rowIndex="11" />
-            <TextField fx:id="processNum1" GridPane.columnIndex="2" GridPane.rowIndex="12" />
+            <Label fx:id="resProcessPrice1" prefHeight="27.0" prefWidth="91.0" text="0.1" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Label fx:id="resProcessPrice2" prefHeight="27.0" prefWidth="91.0" text="0.1" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Label fx:id="resProcessPrice3" prefHeight="27.0" prefWidth="91.0" text="0.1" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <Label fx:id="processPrice1" prefHeight="27.0" prefWidth="91.0" text="0.1" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <Label fx:id="processPrice2" prefHeight="27.0" prefWidth="91.0" text="0.1" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            <Label fx:id="processPrice3" prefHeight="27.0" prefWidth="91.0" text="0.1" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+            <Label fx:id="processPrice4" prefHeight="27.0" prefWidth="91.0" text="0.1" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+            <Label fx:id="processPrice5" prefHeight="27.0" prefWidth="91.0" text="0.1" GridPane.columnIndex="2" GridPane.rowIndex="8" />
+            <Label fx:id="processPrice6" prefHeight="27.0" prefWidth="91.0" text="0.1" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+            <Label fx:id="processPrice7" prefHeight="27.0" prefWidth="91.0" text="0.1" GridPane.columnIndex="2" GridPane.rowIndex="10" />
+            <Label fx:id="processPrice8" prefHeight="27.0" prefWidth="91.0" text="0.1" GridPane.columnIndex="2" GridPane.rowIndex="11" />
+            <Label fx:id="processPrice9" prefHeight="27.0" prefWidth="91.0" text="0.1" GridPane.columnIndex="2" GridPane.rowIndex="12" />
+            <Label text="本次实作数量" textFill="#3914ff" GridPane.columnIndex="3">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="resProcessQuantity1" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <TextField fx:id="resProcessQuantity2" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <TextField fx:id="resProcessQuantity3" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <TextField fx:id="processQuantity1" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <TextField fx:id="processQuantity2" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+            <TextField fx:id="processQuantity3" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+            <TextField fx:id="processQuantity4" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+            <TextField fx:id="processQuantity5" GridPane.columnIndex="3" GridPane.rowIndex="8" />
+            <TextField fx:id="processQuantity6" GridPane.columnIndex="3" GridPane.rowIndex="9" />
+            <TextField fx:id="processQuantity7" GridPane.columnIndex="3" GridPane.rowIndex="10" />
+            <TextField fx:id="processQuantity8" GridPane.columnIndex="3" GridPane.rowIndex="11" />
+            <TextField fx:id="processQuantity9" GridPane.columnIndex="3" GridPane.rowIndex="12" />
          </children>
       </GridPane>
       
