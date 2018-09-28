@@ -1,7 +1,7 @@
 package com.nii.desktop.util.conf;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.nii.desktop.util.ui.ResourceLoader;
 
@@ -16,10 +16,6 @@ import java.util.Properties;
  * Created by wzj on 2017/1/1.
  */
 public final class PropsUtil {
-    /**
-     * 日志
-     */
-    private final static Logger LOGGER = LoggerFactory.getLogger(PropsUtil.class);
 
     /* config.properties路径 */
     private final static String CONFIG_FILE_PATH = ResourceLoader.getPropsResource("config.properties").getPath();
@@ -48,7 +44,7 @@ public final class PropsUtil {
 
             fin.close();
         } catch (IOException e) {
-            LOGGER.error("获取配置文件失败！", e);
+            Logger.getLogger(PropsUtil.class.getName()).log(Level.SEVERE, null, e);
         }
         return configProperties;
     }
@@ -75,7 +71,7 @@ public final class PropsUtil {
 
             fin.close();
         } catch (IOException e) {
-            LOGGER.error("获取配置文件失败！", e);
+            Logger.getLogger(PropsUtil.class.getName()).log(Level.SEVERE, null, e);
 
         }
         return messageProps.getProperty(key);

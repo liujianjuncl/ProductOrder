@@ -28,15 +28,15 @@
             <Label fx:id="billNoLabel" style="-fx-font-weight: bold;" text="生产任务单号" />
             <TextField fx:id="billNoTextField" GridPane.columnIndex="1" />
             <Label fx:id="materialCodeLabel" style="-fx-font-weight: bold;" text="物料代码" GridPane.rowIndex="1" />
-            <Label fx:id="materialCode" text="物料代码" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="materialCode" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label fx:id="modelLabel" style="-fx-font-weight: bold;" text="规格型号" GridPane.rowIndex="2" />
-            <Label fx:id="model" text="80*80" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="model" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label fx:id="planQuantityLabel" style="-fx-font-weight: bold;" text="计划生产数量" GridPane.columnIndex="2" />
-            <Label fx:id="planQuantity" text="100" GridPane.columnIndex="3" />
+            <Label fx:id="planQuantity" GridPane.columnIndex="3" />
             <Label fx:id="materialNameLabel" style="-fx-font-weight: bold;" text="物料名称" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <Label fx:id="materialName" text="机床" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <Label fx:id="allProcessQuantityLabel" style="-fx-font-weight: bold;" text="     全工序实作数量" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <TextField fx:id="allProcessQuantityTextField" disable="true" prefHeight="23.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <Label fx:id="allProcessQtyLabel" style="-fx-font-weight: bold;" text="     全工序实作数量" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <TextField fx:id="allProcessQtyTextField" disable="true" prefHeight="23.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
             <CheckBox fx:id="allProcessChkBox" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="2" />
          </children>
       </GridPane>
@@ -119,18 +119,18 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="resProcessQuantity1" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <TextField fx:id="resProcessQuantity2" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-            <TextField fx:id="resProcessQuantity3" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-            <TextField fx:id="processQuantity1" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-            <TextField fx:id="processQuantity2" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-            <TextField fx:id="processQuantity3" GridPane.columnIndex="3" GridPane.rowIndex="6" />
-            <TextField fx:id="processQuantity4" GridPane.columnIndex="3" GridPane.rowIndex="7" />
-            <TextField fx:id="processQuantity5" GridPane.columnIndex="3" GridPane.rowIndex="8" />
-            <TextField fx:id="processQuantity6" GridPane.columnIndex="3" GridPane.rowIndex="9" />
-            <TextField fx:id="processQuantity7" GridPane.columnIndex="3" GridPane.rowIndex="10" />
-            <TextField fx:id="processQuantity8" GridPane.columnIndex="3" GridPane.rowIndex="11" />
-            <TextField fx:id="processQuantity9" GridPane.columnIndex="3" GridPane.rowIndex="12" />
+            <TextField fx:id="resProcessQty1" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <TextField fx:id="resProcessQty2" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <TextField fx:id="resProcessQty3" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <TextField fx:id="processQty1" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <TextField fx:id="processQty2" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+            <TextField fx:id="processQty3" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+            <TextField fx:id="processQty4" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+            <TextField fx:id="processQty5" GridPane.columnIndex="3" GridPane.rowIndex="8" />
+            <TextField fx:id="processQty6" GridPane.columnIndex="3" GridPane.rowIndex="9" />
+            <TextField fx:id="processQty7" GridPane.columnIndex="3" GridPane.rowIndex="10" />
+            <TextField fx:id="processQty8" GridPane.columnIndex="3" GridPane.rowIndex="11" />
+            <TextField fx:id="processQty9" GridPane.columnIndex="3" GridPane.rowIndex="12" />
          </children>
       </GridPane>
       <HBox fx:id="buttonAction" alignment="TOP_CENTER" layoutX="204.0" layoutY="577.0" prefHeight="23.0" prefWidth="200.0" style="-fx-spacing: 50;">

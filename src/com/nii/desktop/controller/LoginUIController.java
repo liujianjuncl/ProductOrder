@@ -24,8 +24,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -35,10 +35,7 @@ import java.util.ResourceBundle;
  * Created by ljj on 2018/9/15.
  */
 public class LoginUIController implements Initializable {
-
-    /* 日志 */
-    private final static Logger LOGGER = LoggerFactory.getLogger(LoginUIController.class);
-
+    
     @FXML
     private TextField userNoTextField;
 
@@ -62,7 +59,6 @@ public class LoginUIController implements Initializable {
                 String userNo = userNoTextField.getText().trim();
                 System.out.println(userNo);
                 if (!"".equals(userNo)) {
-                    System.out.println(oldValue + "============" + newValue);
                     User user = UserUtil.getUser(userNo);
                     if (user != null && !newValue) {
                         userNameTextField.setText(user.getUserName());
@@ -124,7 +120,7 @@ public class LoginUIController implements Initializable {
         try {
             page = (Pane) loader.load();
         } catch (IOException e) {
-            LOGGER.error("加载HostServerDialog.fxml文件失败", e);
+            Logger.getLogger(LoginUIController.class.getName()).log(Level.SEVERE, null, e);
             return false;
         }
 

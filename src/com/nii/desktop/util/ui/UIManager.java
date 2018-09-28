@@ -2,6 +2,8 @@ package com.nii.desktop.util.ui;
 
 import com.nii.desktop.decorate.StageDecorate;
 import com.nii.desktop.type.CommonConstant;
+import com.nii.desktop.util.conf.PropsUtil;
+
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -9,8 +11,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import java.io.IOException;
 
@@ -18,9 +20,6 @@ import java.io.IOException;
  * Created by ljj on 2018/9/16.
  */
 public final class UIManager {
-
-    /* 日志 */
-    private final static Logger LOGGER = LoggerFactory.getLogger(UIManager.class);
 
     /* title的个高度 */
     private final static int MAIN_TITLE_HEIGHT = 70;
@@ -49,7 +48,7 @@ public final class UIManager {
         try {
             pane = (Pane) FXMLLoader.load(ResourceLoader.getFxmlResource("LoginUI.fxml"));
         } catch (IOException e) {
-            LOGGER.error("Switch login UI failed", e);
+            Logger.getLogger(UIManager.class.getName()).log(Level.SEVERE, null, e);
         }
         System.out.println(pane);
         Scene scene = new Scene(pane);
@@ -65,7 +64,7 @@ public final class UIManager {
         try {
             pane = FXMLLoader.load(ResourceLoader.getFxmlResource("Container.fxml"));
         } catch (IOException e) {
-            LOGGER.error("Switch main UI failed", e);
+            Logger.getLogger(UIManager.class.getName()).log(Level.SEVERE, null, e);
         }
 
         StageDecorate.decorate(primaryStage, pane, MAIN_TITLE_HEIGHT);

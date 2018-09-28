@@ -89,7 +89,6 @@ public class AddUserController implements Initializable {
         if (defaultPasswordCheckBox.isSelected()) {
             password = PropsUtil.getConfigValue("user.default.password"); // ƒ¨»œ√‹¬Î
         }
-        System.out.println(userName + "===" + password + "===" + isPiecework + "===" + isManager);
 
         boolean result = UserUtil.verifyUserInfo(userName, password, isPiecework, isManager);
 
