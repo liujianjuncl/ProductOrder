@@ -16,6 +16,7 @@
 
 #userNameField{
 	-fx-pref-width: 150px;
+	-fx-text-fill: BLACK;
 }
 
 #passwordLabel{

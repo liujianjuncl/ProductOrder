@@ -9,8 +9,8 @@ import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 import com.nii.desktop.util.conf.DBUtil;
 import com.nii.desktop.util.conf.DataManager;
@@ -21,11 +21,14 @@ import com.nii.desktop.util.ui.AlertUtil;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class AddDailyController implements Initializable {
@@ -37,21 +40,21 @@ public class AddDailyController implements Initializable {
     @FXML
     private TextField billNoTextField;
 
+    // 计划生产数量
+    @FXML
+    private TextField planQuantity;
+
     // 物料代码
     @FXML
-    private Label materialCode;
+    private TextField materialCode;
 
     // 物料名称
     @FXML
-    private Label materialName;
+    private TextField materialName;
 
     // 规格型号
     @FXML
-    private Label model;
-
-    // 计划生产数量
-    @FXML
-    private Label planQuantity;
+    private TextField model;
 
     @FXML
     private CheckBox allProcessChkBox;
@@ -206,35 +209,310 @@ public class AddDailyController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        billNoTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode().equals(KeyCode.ENTER)) {
+                    System.out.println(billNoTextField.getText().trim());
+                    if (!getProductDailyInfo(billNoTextField.getText().trim())) {
+                        AlertUtil.alertInfoLater(PropsUtil.getMessage("billNo.isNotExist"));
+                    }
+                    ;
+                }
+            }
+        });
+
         // 复选框勾选时，全工序实作数量可以输入
         allProcessChkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 // TODO Auto-generated method stub
-                if (newValue) {
+                if (newValue) { // 当全工序勾选时，所有实作数量均不允许输入
                     allProcessQtyTextField.setDisable(false);
-                } else {
+                    resProcessQty1.setDisable(true);
+                    resProcessQty2.setDisable(true);
+                    resProcessQty3.setDisable(true);
+                    processQty1.setDisable(true);
+                    processQty2.setDisable(true);
+                    processQty3.setDisable(true);
+                    processQty4.setDisable(true);
+                    processQty5.setDisable(true);
+                    processQty6.setDisable(true);
+                    processQty7.setDisable(true);
+                    processQty8.setDisable(true);
+                    processQty9.setDisable(true);
+                } else { // 当全工序去勾选时，所有实作数量可以输入
                     allProcessQtyTextField.setDisable(true);
+                    resProcessQty1.setDisable(false);
+                    resProcessQty2.setDisable(false);
+                    resProcessQty3.setDisable(false);
+                    processQty1.setDisable(false);
+                    processQty2.setDisable(false);
+                    processQty3.setDisable(false);
+                    processQty4.setDisable(false);
+                    processQty5.setDisable(false);
+                    processQty6.setDisable(false);
+                    processQty7.setDisable(false);
+                    processQty8.setDisable(false);
+                    processQty9.setDisable(false);
                 }
             }
         });
 
-        /* 当全工序实作数量失去焦点时，将计划生产数量分配给所有工序 */
-        billNoTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            public void changed(ObservableValue<? extends Boolean> ov, Boolean oldValue, Boolean newValue) {
-                String billNo = billNoTextField.getText().trim();
-                System.out.println(billNo);
-//                if (!"".equals(billNo)) {
-//                    System.out.println(oldValue + "============" + newValue);
-//                    User user = UserUtil.getUser(userNo);
-//                    if (user != null && !newValue) {
-//                        userNameTextField.setText(user.getUserName());
-//                    }
-//                }
+        // 当全工序实作数量输入时，数量将同步给其他工序，除了改制工序
+        allProcessQtyTextField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                Pattern pattern = Pattern.compile("[0-9]*");
+                // 只允许输入数字
+                if (pattern.matcher(newValue).matches()) {
+                    processQty1.setText(newValue);
+                    processQty2.setText(newValue);
+                    processQty3.setText(newValue);
+                    processQty4.setText(newValue);
+                    processQty5.setText(newValue);
+                    processQty6.setText(newValue);
+                    processQty7.setText(newValue);
+                    processQty8.setText(newValue);
+                    processQty9.setText(newValue);
+                } else {
+                    allProcessQtyTextField.setEditable(false);
+                    allProcessQtyTextField.setText(oldValue);
+                    allProcessQtyTextField.setEditable(true);
+                }
+            }
+        });
+
+        // 改制工序1数量只允许输入数字
+        resProcessQty1.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                Pattern pattern = Pattern.compile("[0-9]*");
+                if (!pattern.matcher(newValue).matches()) {
+                    resProcessQty1.setEditable(false);
+                    resProcessQty1.setText(oldValue);
+                    resProcessQty1.setEditable(true);
+                }
+            }
+        });
+
+        // 改制工序2数量只允许输入数字
+        resProcessQty2.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                Pattern pattern = Pattern.compile("[0-9]*");
+                if (!pattern.matcher(newValue).matches()) {
+                    resProcessQty2.setEditable(false);
+                    resProcessQty2.setText(oldValue);
+                    resProcessQty2.setEditable(true);
+                }
+            }
+        });
+
+        // 改制工序3数量只允许输入数字
+        resProcessQty3.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                Pattern pattern = Pattern.compile("[0-9]*");
+                if (!pattern.matcher(newValue).matches()) {
+                    resProcessQty3.setEditable(false);
+                    resProcessQty3.setText(oldValue);
+                    resProcessQty3.setEditable(true);
+                }
+            }
+        });
+
+        // 工序1数量只允许输入数字
+        processQty1.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                Pattern pattern = Pattern.compile("[0-9]*");
+                if (!pattern.matcher(newValue).matches()) {
+                    processQty1.setEditable(false);
+                    processQty1.setText(oldValue);
+                    processQty1.setEditable(true);
+                }
+            }
+        });
+
+        // 工序2数量只允许输入数字
+        processQty2.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                Pattern pattern = Pattern.compile("[0-9]*");
+                if (!pattern.matcher(newValue).matches()) {
+                    processQty2.setEditable(false);
+                    processQty2.setText(oldValue);
+                    processQty2.setEditable(true);
+                }
+            }
+        });
+
+        // 工序3数量只允许输入数字
+        processQty3.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                Pattern pattern = Pattern.compile("[0-9]*");
+                if (!pattern.matcher(newValue).matches()) {
+                    processQty3.setEditable(false);
+                    processQty3.setText(oldValue);
+                    processQty3.setEditable(true);
+                }
+            }
+        });
+
+        // 工序4数量只允许输入数字
+        processQty4.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                Pattern pattern = Pattern.compile("[0-9]*");
+                if (!pattern.matcher(newValue).matches()) {
+                    processQty4.setEditable(false);
+                    processQty4.setText(oldValue);
+                    processQty4.setEditable(true);
+                }
+            }
+        });
+
+        // 工序5数量只允许输入数字
+        processQty5.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                Pattern pattern = Pattern.compile("[0-9]*");
+                if (!pattern.matcher(newValue).matches()) {
+                    processQty5.setEditable(false);
+                    processQty5.setText(oldValue);
+                    processQty5.setEditable(true);
+                }
+            }
+        });
+
+        // 工序6数量只允许输入数字
+        processQty6.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                Pattern pattern = Pattern.compile("[0-9]*");
+                if (!pattern.matcher(newValue).matches()) {
+                    processQty6.setEditable(false);
+                    processQty6.setText(oldValue);
+                    processQty6.setEditable(true);
+                }
+            }
+        });
+
+        // 工序6数量只允许输入数字
+        processQty7.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                Pattern pattern = Pattern.compile("[0-9]*");
+                if (!pattern.matcher(newValue).matches()) {
+                    processQty7.setEditable(false);
+                    processQty7.setText(oldValue);
+                    processQty7.setEditable(true);
+                }
+            }
+        });
+
+        // 工序8数量只允许输入数字
+        processQty8.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                Pattern pattern = Pattern.compile("[0-9]*");
+                if (!pattern.matcher(newValue).matches()) {
+                    processQty8.setEditable(false);
+                    processQty8.setText(oldValue);
+                    processQty8.setEditable(true);
+                }
+            }
+        });
+
+        // 工序9数量只允许输入数字
+        processQty9.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                Pattern pattern = Pattern.compile("[0-9]*");
+                if (!pattern.matcher(newValue).matches()) {
+                    processQty9.setEditable(false);
+                    processQty9.setText(oldValue);
+                    processQty9.setEditable(true);
+                }
             }
         });
     }
 
+    // 根据生产任务单号查询出当前生产任务单的信息并显示到界面上
+    public boolean getProductDailyInfo(String billNo) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        boolean result = false;
+
+        try {
+            String sql = "select c.FBillNo as billNo, icc.FNumber as materialCode, icc.FName as materialName, icc.FModel as model, "
+                    + "c.FQty as planQuantity, item1.FName as resProcess1, c.FHeadSelfJ01104 as resProcessPrice1, "
+                    + "item2.FName as resProcess2, c.FHeadSelfJ01106 as resProcessPrice2, "
+                    + "item3.FName as resProcess3, c.FHeadSelfJ01108 as resProcessPrice3, "
+                    + "c.FHeadSelfJ0185 as process1,c.FHeadSelfJ0186 as processPrice1, "
+                    + "c.FHeadSelfJ0187 as process2, c.FHeadSelfJ0188 as processPrice2, "
+                    + "c.FHeadSelfJ0189 as process3,c.FHeadSelfJ0190 as processPrice3, "
+                    + "c.FHeadSelfJ0191 as process4,c.FHeadSelfJ0192 as processPrice4, "
+                    + "c.FHeadSelfJ0193 as process5,c.FHeadSelfJ0194 as processPrice5, "
+                    + "c.FHeadSelfJ0195 as process6,c.FHeadSelfJ0196 as processPrice6, "
+                    + "c.FHeadSelfJ0197 as process7,c.FHeadSelfJ0198 as processPrice7, "
+                    + "c.FHeadSelfJ0199 as process8,c.FHeadSelfJ01100 as processPrice8, "
+                    + "c.FHeadSelfJ01101 as process9,c.FHeadSelfJ01102 as processPrice9 " + "from dbo.ICMO c "
+                    + "left join dbo.t_ICItemCore icc on c.FItemID = icc.FItemID "
+                    + "left join dbo.t_Item item1 on c.FHeadSelfJ01103 = item1.FitemID "
+                    + "left join dbo.t_Item item2 on c.FHeadSelfJ01105 = item2.FitemID "
+                    + "left join dbo.t_Item item3 on c.FHeadSelfJ01107 = item3.FitemID " + "where c.FBillNo = ? ";
+
+            conn = DBUtil.getConnection();
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, billNo);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                result = true;
+                planQuantity.setText(String.valueOf(rs.getDouble("planQuantity")));
+                materialCode.setText(rs.getString("materialCode"));
+                materialName.setText(rs.getString("materialName"));
+                model.setText(rs.getString("model"));
+                resProcess1.setText(rs.getString("resProcess1"));
+                resProcess2.setText(rs.getString("resProcess2"));
+                resProcess3.setText(rs.getString("resProcess3"));
+                process1.setText(rs.getString("process1"));
+                process2.setText(rs.getString("process2"));
+                process3.setText(rs.getString("process3"));
+                process4.setText(rs.getString("process4"));
+                process5.setText(rs.getString("process5"));
+                process6.setText(rs.getString("process6"));
+                process7.setText(rs.getString("process7"));
+                process8.setText(rs.getString("process8"));
+                process9.setText(rs.getString("process9"));
+                resProcessPrice1.setText(rs.getString("resProcessPrice1"));
+                resProcessPrice2.setText(rs.getString("resProcessPrice2"));
+                resProcessPrice3.setText(rs.getString("resProcessPrice3"));
+                processPrice1.setText(rs.getString("processPrice1"));
+                processPrice2.setText(rs.getString("processPrice2"));
+                processPrice3.setText(rs.getString("processPrice3"));
+                processPrice4.setText(rs.getString("processPrice4"));
+                processPrice5.setText(rs.getString("processPrice5"));
+                processPrice6.setText(rs.getString("processPrice6"));
+                processPrice7.setText(rs.getString("processPrice7"));
+                processPrice8.setText(rs.getString("processPrice8"));
+                processPrice9.setText(rs.getString("processPrice9"));
+            }
+        } catch (Exception e) {
+            Logger.getLogger(AddDailyController.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        } finally {
+            DBUtil.release(conn, stmt, rs);
+        }
+
+        return result;
+    }
+
+    // 将生产任务表中的数据同步到生产任务执行汇总表中
     public void addProductDailyTotal(String billNo) {
         Connection conn = null;
         PreparedStatement stmt = null;

@@ -20,15 +20,13 @@ import java.util.logging.Logger;
  */
 public class DBUtil {
 
-    private static final Properties properties = PropsUtil.getConfigProperties();
+    private static final String CALSSDRIVER = PropsUtil.getConfigValue("db.driver.classname");
 
-    private static final String CALSSDRIVER = properties.getProperty("db.driver.classname");
+    private static final String URL = PropsUtil.getConfigValue("db.url");
 
-    private static final String URL = properties.getProperty("db.url");
+    private static final String USERNAME = PropsUtil.getConfigValue("db.username");
 
-    private static final String USERNAME = properties.getProperty("db.username");
-
-    private static final String PASSWORD = properties.getProperty("db.password");
+    private static final String PASSWORD = PropsUtil.getConfigValue("db.password");
 
     static {
         try {
