@@ -602,7 +602,7 @@ public class AddDailyController implements Initializable {
         });
     }
 
-    // 判断工序录入顺序，必须顺序录入，不允许隔着录入
+    // 判断所有工序的累计实作数量，前一个工序累计实作数量必须大于或等于后一个工序累计实作数量
     public String verifyProcess(String billNo) {
         DailyProcessTotalQty d = getProcessTotalQty(billNo);
 
@@ -644,7 +644,7 @@ public class AddDailyController implements Initializable {
         return "OK";
     }
 
-    // 获取工序累计实作数量值
+    // 获取所有工序累计实作数量值
     public DailyProcessTotalQty getProcessTotalQty(String billNo) {
         Connection conn = null;
         PreparedStatement stmt = null;
