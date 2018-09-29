@@ -47,9 +47,6 @@ public class UserUtil {
             } else {
                 userNoRes = Integer.toString(userNum);
             }
-
-            System.out.println(userNoRes);
-
         } catch (Exception e) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
         } finally {

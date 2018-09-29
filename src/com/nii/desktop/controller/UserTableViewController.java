@@ -125,6 +125,9 @@ public class UserTableViewController implements Initializable {
         String isManager = null;
         String isDisable = null;
 
+        //添加表格数据前先清空
+        userDataList.clear();
+        
         try {
             String sql = "select userNo, userName, isPiecework, isManager, isDisable from dbo.t_product_daily_user where isDelete = 0";
             conn = DBUtil.getConnection();
@@ -175,8 +178,6 @@ public class UserTableViewController implements Initializable {
     }
 
     public void addDatatoTableView() {
-        userDataList.clear();
-
         selectCol.setCellValueFactory(new PropertyValueFactory<User, CheckBox>("checkbox"));
         userNoCol.setCellValueFactory(new PropertyValueFactory<User, String>("userNo"));
         userNameCol.setCellValueFactory(new PropertyValueFactory<User, String>("userName"));
@@ -280,7 +281,7 @@ public class UserTableViewController implements Initializable {
         return count;
     }
 
-    /* 获取被勾选的记录状态 */
+    /* 获取被勾选的记录 */
     public User getSingleSelectedUser() {
         String userNo = null;
         for (int i = 0; i < userDataList.size(); i++) {

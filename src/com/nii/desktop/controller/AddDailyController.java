@@ -209,6 +209,7 @@ public class AddDailyController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // 根据生产任务单号获取生产任务单信息
         billNoTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -217,11 +218,135 @@ public class AddDailyController implements Initializable {
                     if (!getProductDailyInfo(billNoTextField.getText().trim())) {
                         AlertUtil.alertInfoLater(PropsUtil.getMessage("billNo.isNotExist"));
                     }
-                    ;
                 }
             }
         });
 
+        // 全工序实作数量逻辑处理
+        allProcessHandler();
+
+        // 工序逻辑处理
+        processOnlyNumber();
+    }
+
+    // 根据生产任务单号查询出当前生产任务单的信息并显示到界面上
+    public boolean getProductDailyInfo(String billNo) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        boolean result = false;
+
+        try {
+            String sql = "select c.FBillNo as billNo, icc.FNumber as materialCode, icc.FName as materialName, icc.FModel as model, "
+                    + "c.FQty as planQuantity, item1.FName as resProcess1, c.FHeadSelfJ01104 as resProcessPrice1, "
+                    + "item2.FName as resProcess2, c.FHeadSelfJ01106 as resProcessPrice2, "
+                    + "item3.FName as resProcess3, c.FHeadSelfJ01108 as resProcessPrice3, "
+                    + "c.FHeadSelfJ0185 as process1,c.FHeadSelfJ0186 as processPrice1, "
+                    + "c.FHeadSelfJ0187 as process2, c.FHeadSelfJ0188 as processPrice2, "
+                    + "c.FHeadSelfJ0189 as process3,c.FHeadSelfJ0190 as processPrice3, "
+                    + "c.FHeadSelfJ0191 as process4,c.FHeadSelfJ0192 as processPrice4, "
+                    + "c.FHeadSelfJ0193 as process5,c.FHeadSelfJ0194 as processPrice5, "
+                    + "c.FHeadSelfJ0195 as process6,c.FHeadSelfJ0196 as processPrice6, "
+                    + "c.FHeadSelfJ0197 as process7,c.FHeadSelfJ0198 as processPrice7, "
+                    + "c.FHeadSelfJ0199 as process8,c.FHeadSelfJ01100 as processPrice8, "
+                    + "c.FHeadSelfJ01101 as process9,c.FHeadSelfJ01102 as processPrice9 " + "from dbo.ICMO c "
+                    + "left join dbo.t_ICItemCore icc on c.FItemID = icc.FItemID "
+                    + "left join dbo.t_Item item1 on c.FHeadSelfJ01103 = item1.FitemID "
+                    + "left join dbo.t_Item item2 on c.FHeadSelfJ01105 = item2.FitemID "
+                    + "left join dbo.t_Item item3 on c.FHeadSelfJ01107 = item3.FitemID " + "where c.FBillNo = ? ";
+
+            conn = DBUtil.getConnection();
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, billNo);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                result = true;
+                planQuantity.setText(String.valueOf(rs.getDouble("planQuantity")));
+                materialCode.setText(rs.getString("materialCode"));
+                materialName.setText(rs.getString("materialName"));
+                model.setText(rs.getString("model"));
+                resProcess1.setText(rs.getString("resProcess1"));
+                resProcess2.setText(rs.getString("resProcess2"));
+                resProcess3.setText(rs.getString("resProcess3"));
+                process1.setText(rs.getString("process1"));
+                process2.setText(rs.getString("process2"));
+                process3.setText(rs.getString("process3"));
+                process4.setText(rs.getString("process4"));
+                process5.setText(rs.getString("process5"));
+                process6.setText(rs.getString("process6"));
+                process7.setText(rs.getString("process7"));
+                process8.setText(rs.getString("process8"));
+                process9.setText(rs.getString("process9"));
+                resProcessPrice1.setText(rs.getString("resProcessPrice1"));
+                resProcessPrice2.setText(rs.getString("resProcessPrice2"));
+                resProcessPrice3.setText(rs.getString("resProcessPrice3"));
+                processPrice1.setText(rs.getString("processPrice1"));
+                processPrice2.setText(rs.getString("processPrice2"));
+                processPrice3.setText(rs.getString("processPrice3"));
+                processPrice4.setText(rs.getString("processPrice4"));
+                processPrice5.setText(rs.getString("processPrice5"));
+                processPrice6.setText(rs.getString("processPrice6"));
+                processPrice7.setText(rs.getString("processPrice7"));
+                processPrice8.setText(rs.getString("processPrice8"));
+                processPrice9.setText(rs.getString("processPrice9"));
+            }
+        } catch (Exception e) {
+            Logger.getLogger(AddDailyController.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        } finally {
+            DBUtil.release(conn, stmt, rs);
+        }
+
+        return result;
+    }
+
+    // 将生产任务表中的数据同步到生产任务执行汇总表中
+    public void addProductDailyTotal(String billNo) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            String sql1 = "select c.FBillNo as billNo, icc.FNumber as materialCode, icc.FName as materialName, icc.FModel as model, "
+                    + "c.FQty as planQuantity, item1.FName as resProcess1, c.FHeadSelfJ01104 as resProcessPrice1, 0, "
+                    + "item2.FName as resProcess2, c.FHeadSelfJ01106 as resProcessPrice2, 0, "
+                    + "item3.FName as resProcess3, c.FHeadSelfJ01108 as resProcessPrice3, 0, "
+                    + "c.FHeadSelfJ0185 as process1,c.FHeadSelfJ0186 as processPrice1, 0, "
+                    + "c.FHeadSelfJ0187 as process2, c.FHeadSelfJ0188 as processPrice2, 0, "
+                    + "c.FHeadSelfJ0189 as process3,c.FHeadSelfJ0190 as processPrice3, 0, "
+                    + "c.FHeadSelfJ0191 as process4,c.FHeadSelfJ0192 as processPrice4, 0, "
+                    + "c.FHeadSelfJ0193 as process5,c.FHeadSelfJ0194 as processPrice5, 0, "
+                    + "c.FHeadSelfJ0195 as process6,c.FHeadSelfJ0196 as processPrice6, 0, "
+                    + "c.FHeadSelfJ0197 as process7,c.FHeadSelfJ0198 as processPrice7, 0, "
+                    + "c.FHeadSelfJ0199 as process8,c.FHeadSelfJ01100 as processPrice8, 0, "
+                    + "c.FHeadSelfJ01101 as process9,c.FHeadSelfJ01102 as processPrice9, 0 " + "from dbo.ICMO c "
+                    + "left join dbo.t_ICItemCore icc on c.FItemID = icc.FItemID "
+                    + "left join dbo.t_Item item1 on c.FHeadSelfJ01103 = item1.FitemID "
+                    + "left join dbo.t_Item item2 on c.FHeadSelfJ01105 = item2.FitemID "
+                    + "left join dbo.t_Item item3 on c.FHeadSelfJ01107 = item3.FitemID " + "where c.FBillNo = ? ";
+
+            conn = DBUtil.getConnection();
+            stmt = conn.prepareStatement(sql1);
+            stmt.setString(1, billNo);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String sql = "insert into dbo.t_product_daily_bill_total  " + sql1;
+                stmt = conn.prepareStatement(sql);
+                stmt.setString(1, billNo);
+                stmt.execute();
+            }
+        } catch (Exception e) {
+            Logger.getLogger(AddDailyController.class.getName()).log(Level.SEVERE, null, e);
+            return;
+        } finally {
+            DBUtil.release(conn, stmt, rs);
+        }
+    }
+
+    // 全工序实作数量逻辑处理
+    public void allProcessHandler() {
         // 复选框勾选时，全工序实作数量可以输入
         allProcessChkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -282,7 +407,10 @@ public class AddDailyController implements Initializable {
                 }
             }
         });
+    }
 
+    // 工序输入框限制数字输入处理
+    public void processOnlyNumber() {
         // 改制工序1数量只允许输入数字
         resProcessQty1.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -438,122 +566,6 @@ public class AddDailyController implements Initializable {
                 }
             }
         });
-    }
-
-    // 根据生产任务单号查询出当前生产任务单的信息并显示到界面上
-    public boolean getProductDailyInfo(String billNo) {
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        boolean result = false;
-
-        try {
-            String sql = "select c.FBillNo as billNo, icc.FNumber as materialCode, icc.FName as materialName, icc.FModel as model, "
-                    + "c.FQty as planQuantity, item1.FName as resProcess1, c.FHeadSelfJ01104 as resProcessPrice1, "
-                    + "item2.FName as resProcess2, c.FHeadSelfJ01106 as resProcessPrice2, "
-                    + "item3.FName as resProcess3, c.FHeadSelfJ01108 as resProcessPrice3, "
-                    + "c.FHeadSelfJ0185 as process1,c.FHeadSelfJ0186 as processPrice1, "
-                    + "c.FHeadSelfJ0187 as process2, c.FHeadSelfJ0188 as processPrice2, "
-                    + "c.FHeadSelfJ0189 as process3,c.FHeadSelfJ0190 as processPrice3, "
-                    + "c.FHeadSelfJ0191 as process4,c.FHeadSelfJ0192 as processPrice4, "
-                    + "c.FHeadSelfJ0193 as process5,c.FHeadSelfJ0194 as processPrice5, "
-                    + "c.FHeadSelfJ0195 as process6,c.FHeadSelfJ0196 as processPrice6, "
-                    + "c.FHeadSelfJ0197 as process7,c.FHeadSelfJ0198 as processPrice7, "
-                    + "c.FHeadSelfJ0199 as process8,c.FHeadSelfJ01100 as processPrice8, "
-                    + "c.FHeadSelfJ01101 as process9,c.FHeadSelfJ01102 as processPrice9 " + "from dbo.ICMO c "
-                    + "left join dbo.t_ICItemCore icc on c.FItemID = icc.FItemID "
-                    + "left join dbo.t_Item item1 on c.FHeadSelfJ01103 = item1.FitemID "
-                    + "left join dbo.t_Item item2 on c.FHeadSelfJ01105 = item2.FitemID "
-                    + "left join dbo.t_Item item3 on c.FHeadSelfJ01107 = item3.FitemID " + "where c.FBillNo = ? ";
-
-            conn = DBUtil.getConnection();
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, billNo);
-            rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                result = true;
-                planQuantity.setText(String.valueOf(rs.getDouble("planQuantity")));
-                materialCode.setText(rs.getString("materialCode"));
-                materialName.setText(rs.getString("materialName"));
-                model.setText(rs.getString("model"));
-                resProcess1.setText(rs.getString("resProcess1"));
-                resProcess2.setText(rs.getString("resProcess2"));
-                resProcess3.setText(rs.getString("resProcess3"));
-                process1.setText(rs.getString("process1"));
-                process2.setText(rs.getString("process2"));
-                process3.setText(rs.getString("process3"));
-                process4.setText(rs.getString("process4"));
-                process5.setText(rs.getString("process5"));
-                process6.setText(rs.getString("process6"));
-                process7.setText(rs.getString("process7"));
-                process8.setText(rs.getString("process8"));
-                process9.setText(rs.getString("process9"));
-                resProcessPrice1.setText(rs.getString("resProcessPrice1"));
-                resProcessPrice2.setText(rs.getString("resProcessPrice2"));
-                resProcessPrice3.setText(rs.getString("resProcessPrice3"));
-                processPrice1.setText(rs.getString("processPrice1"));
-                processPrice2.setText(rs.getString("processPrice2"));
-                processPrice3.setText(rs.getString("processPrice3"));
-                processPrice4.setText(rs.getString("processPrice4"));
-                processPrice5.setText(rs.getString("processPrice5"));
-                processPrice6.setText(rs.getString("processPrice6"));
-                processPrice7.setText(rs.getString("processPrice7"));
-                processPrice8.setText(rs.getString("processPrice8"));
-                processPrice9.setText(rs.getString("processPrice9"));
-            }
-        } catch (Exception e) {
-            Logger.getLogger(AddDailyController.class.getName()).log(Level.SEVERE, null, e);
-            return false;
-        } finally {
-            DBUtil.release(conn, stmt, rs);
-        }
-
-        return result;
-    }
-
-    // 将生产任务表中的数据同步到生产任务执行汇总表中
-    public void addProductDailyTotal(String billNo) {
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        try {
-            String sql1 = "select c.FBillNo as billNo, icc.FNumber as materialCode, icc.FName as materialName, icc.FModel as model, "
-                    + "c.FQty as planQuantity, item1.FName as resProcess1, c.FHeadSelfJ01104 as resProcessPrice1, 0, "
-                    + "item2.FName as resProcess2, c.FHeadSelfJ01106 as resProcessPrice2, 0, "
-                    + "item3.FName as resProcess3, c.FHeadSelfJ01108 as resProcessPrice3, 0, "
-                    + "c.FHeadSelfJ0185 as process1,c.FHeadSelfJ0186 as processPrice1, 0, "
-                    + "c.FHeadSelfJ0187 as process2, c.FHeadSelfJ0188 as processPrice2, 0, "
-                    + "c.FHeadSelfJ0189 as process3,c.FHeadSelfJ0190 as processPrice3, 0, "
-                    + "c.FHeadSelfJ0191 as process4,c.FHeadSelfJ0192 as processPrice4, 0, "
-                    + "c.FHeadSelfJ0193 as process5,c.FHeadSelfJ0194 as processPrice5, 0, "
-                    + "c.FHeadSelfJ0195 as process6,c.FHeadSelfJ0196 as processPrice6, 0, "
-                    + "c.FHeadSelfJ0197 as process7,c.FHeadSelfJ0198 as processPrice7, 0, "
-                    + "c.FHeadSelfJ0199 as process8,c.FHeadSelfJ01100 as processPrice8, 0, "
-                    + "c.FHeadSelfJ01101 as process9,c.FHeadSelfJ01102 as processPrice9, 0 " + "from dbo.ICMO c "
-                    + "left join dbo.t_ICItemCore icc on c.FItemID = icc.FItemID "
-                    + "left join dbo.t_Item item1 on c.FHeadSelfJ01103 = item1.FitemID "
-                    + "left join dbo.t_Item item2 on c.FHeadSelfJ01105 = item2.FitemID "
-                    + "left join dbo.t_Item item3 on c.FHeadSelfJ01107 = item3.FitemID " + "where c.FBillNo = ? ";
-
-            conn = DBUtil.getConnection();
-            stmt = conn.prepareStatement(sql1);
-            stmt.setString(1, billNo);
-            rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                String sql = "insert into dbo.t_product_daily_bill_total  " + sql1;
-                stmt = conn.prepareStatement(sql);
-                stmt.setString(1, billNo);
-                stmt.execute();
-            }
-        } catch (Exception e) {
-            Logger.getLogger(AddDailyController.class.getName()).log(Level.SEVERE, null, e);
-            return;
-        } finally {
-            DBUtil.release(conn, stmt, rs);
-        }
     }
 
     @FXML
