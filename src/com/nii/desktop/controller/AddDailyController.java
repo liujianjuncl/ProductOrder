@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
+import com.nii.desktop.model.DailyProcessTotalQty;
 import com.nii.desktop.util.conf.DBUtil;
 import com.nii.desktop.util.conf.DataManager;
 import com.nii.desktop.util.conf.Encoder;
@@ -207,6 +208,30 @@ public class AddDailyController implements Initializable {
     @FXML
     private TextField processQty9;
 
+    private int resProcessTotalQty1;
+
+    private int resProcessTotalQty2;
+
+    private int resProcessTotalQty3;
+
+    private int processTotalQty1;
+
+    private int processTotalQty2;
+
+    private int processTotalQty3;
+
+    private int processTotalQty4;
+
+    private int processTotalQty5;
+
+    private int processTotalQty6;
+
+    private int processTotalQty7;
+
+    private int processTotalQty8;
+
+    private int processTotalQty9;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // 根据生产任务单号获取生产任务单信息
@@ -312,16 +337,25 @@ public class AddDailyController implements Initializable {
                     + "c.FQty as planQuantity, item1.FName as resProcess1, c.FHeadSelfJ01104 as resProcessPrice1, 0, "
                     + "item2.FName as resProcess2, c.FHeadSelfJ01106 as resProcessPrice2, 0, "
                     + "item3.FName as resProcess3, c.FHeadSelfJ01108 as resProcessPrice3, 0, "
-                    + "c.FHeadSelfJ0185 as process1,c.FHeadSelfJ0186 as processPrice1, 0, "
-                    + "c.FHeadSelfJ0187 as process2, c.FHeadSelfJ0188 as processPrice2, 0, "
-                    + "c.FHeadSelfJ0189 as process3,c.FHeadSelfJ0190 as processPrice3, 0, "
-                    + "c.FHeadSelfJ0191 as process4,c.FHeadSelfJ0192 as processPrice4, 0, "
-                    + "c.FHeadSelfJ0193 as process5,c.FHeadSelfJ0194 as processPrice5, 0, "
-                    + "c.FHeadSelfJ0195 as process6,c.FHeadSelfJ0196 as processPrice6, 0, "
-                    + "c.FHeadSelfJ0197 as process7,c.FHeadSelfJ0198 as processPrice7, 0, "
-                    + "c.FHeadSelfJ0199 as process8,c.FHeadSelfJ01100 as processPrice8, 0, "
-                    + "c.FHeadSelfJ01101 as process9,c.FHeadSelfJ01102 as processPrice9, 0 " + "from dbo.ICMO c "
-                    + "left join dbo.t_ICItemCore icc on c.FItemID = icc.FItemID "
+                    + "(case when charindex('*', c.FHeadSelfJ0185) > 0 then null else c.FHeadSelfJ0185 end) as process1,"
+                    + "(case when charindex('*', c.FHeadSelfJ0186) > 0 then null else c.FHeadSelfJ0186 end) as processPrice1, 0, "
+                    + "(case when charindex('*', c.FHeadSelfJ0187) > 0 then null else c.FHeadSelfJ0187 end) as process2, "
+                    + "(case when charindex('*', c.FHeadSelfJ0188) > 0 then null else c.FHeadSelfJ0188 end) as processPrice2, 0, "
+                    + "(case when charindex('*', c.FHeadSelfJ0189) > 0 then null else c.FHeadSelfJ0189 end) as process3,"
+                    + "(case when charindex('*', c.FHeadSelfJ0190) > 0 then null else c.FHeadSelfJ0190 end) as processPrice3, 0, "
+                    + "(case when charindex('*', c.FHeadSelfJ0191) > 0 then null else c.FHeadSelfJ0191 end) as process4,"
+                    + "(case when charindex('*', c.FHeadSelfJ0192) > 0 then null else c.FHeadSelfJ0192 end) as processPrice4, 0, "
+                    + "(case when charindex('*', c.FHeadSelfJ0193) > 0 then null else c.FHeadSelfJ0193 end) as process5,"
+                    + "(case when charindex('*', c.FHeadSelfJ0194) > 0 then null else c.FHeadSelfJ0194 end) as processPrice5, 0, "
+                    + "(case when charindex('*', c.FHeadSelfJ0195) > 0 then null else c.FHeadSelfJ0195 end) as process6,"
+                    + "(case when charindex('*', c.FHeadSelfJ0196) > 0 then null else c.FHeadSelfJ0196 end) as processPrice6, 0, "
+                    + "(case when charindex('*', c.FHeadSelfJ0197) > 0 then null else c.FHeadSelfJ0197 end) as process7,"
+                    + "(case when charindex('*', c.FHeadSelfJ0198) > 0 then null else c.FHeadSelfJ0198 end) as processPrice7, 0, "
+                    + "(case when charindex('*', c.FHeadSelfJ0199) > 0 then null else c.FHeadSelfJ0199 end) as process8,"
+                    + "(case when charindex('*', c.FHeadSelfJ01100) > 0 then null else c.FHeadSelfJ01100 end) as processPrice8, 0, "
+                    + "(case when charindex('*', c.FHeadSelfJ01101) > 0 then null else c.FHeadSelfJ01101 end) as process9,"
+                    + "(case when charindex('*', c.FHeadSelfJ01102) > 0 then null else c.FHeadSelfJ01102 end) as processPrice9, 0 "
+                    + "from dbo.ICMO c left join dbo.t_ICItemCore icc on c.FItemID = icc.FItemID "
                     + "left join dbo.t_Item item1 on c.FHeadSelfJ01103 = item1.FitemID "
                     + "left join dbo.t_Item item2 on c.FHeadSelfJ01105 = item2.FitemID "
                     + "left join dbo.t_Item item3 on c.FHeadSelfJ01107 = item3.FitemID " + "where c.FBillNo = ? ";
@@ -568,9 +602,97 @@ public class AddDailyController implements Initializable {
         });
     }
 
+    // 判断工序录入顺序，必须顺序录入，不允许隔着录入
+    public String verifyProcess(String billNo) {
+        DailyProcessTotalQty d = getProcessTotalQty(billNo);
+
+        int resProTotalQty1 = "".equals(resProcessQty1.getText().trim()) ? 0
+                : Integer.valueOf(resProcessQty1.getText().trim()) + d.getResProcessTotalQty1();
+        int resProTotalQty2 = "".equals(resProcessQty2.getText().trim()) ? 0
+                : Integer.valueOf(resProcessQty2.getText().trim()) + d.getResProcessTotalQty2();
+        int resProTotalQty3 = "".equals(resProcessQty3.getText().trim()) ? 0
+                : Integer.valueOf(resProcessQty3.getText().trim()) + d.getResProcessTotalQty3();
+        int proTotalQty1 = "".equals(processQty1.getText().trim()) ? 0
+                : Integer.valueOf(processQty1.getText().trim()) + d.getProcessTotalQty1();
+        int proTotalQty2 = "".equals(processQty2.getText().trim()) ? 0
+                : Integer.valueOf(processQty2.getText().trim()) + d.getProcessTotalQty2();
+        int proTotalQty3 = "".equals(processQty3.getText().trim()) ? 0
+                : Integer.valueOf(processQty3.getText().trim()) + d.getProcessTotalQty3();
+        int proTotalQty4 = "".equals(processQty4.getText().trim()) ? 0
+                : Integer.valueOf(processQty4.getText().trim()) + d.getProcessTotalQty4();
+        int proTotalQty5 = "".equals(processQty5.getText().trim()) ? 0
+                : Integer.valueOf(processQty5.getText().trim()) + d.getProcessTotalQty5();
+        int proTotalQty6 = "".equals(processQty6.getText().trim()) ? 0
+                : Integer.valueOf(processQty6.getText().trim()) + d.getProcessTotalQty6();
+        int proTotalQty7 = "".equals(processQty7.getText().trim()) ? 0
+                : Integer.valueOf(processQty7.getText().trim()) + d.getProcessTotalQty7();
+        int proTotalQty8 = "".equals(processQty8.getText().trim()) ? 0
+                : Integer.valueOf(processQty8.getText().trim()) + d.getProcessTotalQty8();
+        int proTotalQty9 = "".equals(processQty9.getText().trim()) ? 0
+                : Integer.valueOf(processQty9.getText().trim()) + d.getProcessTotalQty9();
+
+        int[] totalQty = { proTotalQty1, proTotalQty2, proTotalQty3, proTotalQty4, proTotalQty5, proTotalQty6,
+                proTotalQty7, proTotalQty8, proTotalQty9 };
+        
+        for(int i = 0; i < totalQty.length; i++) {
+            for(int j = i + 1; j < totalQty.length; j++) {
+                if(totalQty[i] < totalQty[j]) {
+                    return "resProcessQty.asc";
+                }
+            }
+        }
+        return "OK";
+    }
+
+    // 获取工序累计实作数量值
+    public DailyProcessTotalQty getProcessTotalQty(String billNo) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        DailyProcessTotalQty dailyProcessTotalQty = null;
+
+        try {
+            String sql = "select * from t_product_daily_bill_total t where t.billNo = ? ";
+
+            conn = DBUtil.getConnection();
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, billNo);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int playQty = rs.getInt("planQuantity");
+                int resProcessTotalQty1 = rs.getInt("resProcessTotalQty1");
+                int resProcessTotalQty2 = rs.getInt("resProcessTotalQty2");
+                int resProcessTotalQty3 = rs.getInt("resProcessTotalQty3");
+                int processTotalQty1 = rs.getInt("processTotalQty1");
+                int processTotalQty2 = rs.getInt("processTotalQty2");
+                int processTotalQty3 = rs.getInt("processTotalQty3");
+                int processTotalQty4 = rs.getInt("processTotalQty4");
+                int processTotalQty5 = rs.getInt("processTotalQty5");
+                int processTotalQty6 = rs.getInt("processTotalQty6");
+                int processTotalQty7 = rs.getInt("processTotalQty7");
+                int processTotalQty8 = rs.getInt("processTotalQty8");
+                int processTotalQty9 = rs.getInt("processTotalQty9");
+
+                dailyProcessTotalQty = new DailyProcessTotalQty(billNo, playQty, resProcessTotalQty1,
+                        resProcessTotalQty2, resProcessTotalQty3, processTotalQty1, processTotalQty2, processTotalQty3,
+                        processTotalQty4, processTotalQty5, processTotalQty6, processTotalQty7, processTotalQty8,
+                        processTotalQty9);
+            }
+        } catch (Exception e) {
+            Logger.getLogger(AddDailyController.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            DBUtil.release(conn, stmt, rs);
+        }
+
+        return dailyProcessTotalQty;
+    }
+
     @FXML
     public void confirmBtnAction() {
-
+        String message = verifyProcess(billNoTextField.getText());
+        AlertUtil.alertInfoLater(PropsUtil.getMessage(message));
     }
 
     @FXML
@@ -579,7 +701,11 @@ public class AddDailyController implements Initializable {
     }
 
     public static void main(String[] args) {
-        new AddDailyController().addProductDailyTotal("制造-VP车间180813428");
+//        new AddDailyController().addProductDailyTotal("制造-CB车间180813427");
+
+        DailyProcessTotalQty d = new AddDailyController().getProcessTotalQty("CBZ1809013");
+        System.out.println(d.getPlanQuantity());
+        System.out.println(Integer.valueOf(""));
     }
 
 }

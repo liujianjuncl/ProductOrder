@@ -1,7 +1,7 @@
 USE [AIS]
 GO
 
-/****** Object:  Table [dbo].[t_product_daily_bill_detail]    Script Date: 09/28/2018 18:30:28 ******/
+/****** Object:  Table [dbo].[t_product_daily_bill_detail]    Script Date: 09/29/2018 21:22:54 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -53,7 +53,9 @@ CREATE TABLE [dbo].[t_product_daily_bill_detail](
 	[processQty9] [int] NULL,
 	[createUser] [nvarchar](50) NULL,
 	[createTime] [datetime] NULL,
-	[isDisable] [smallint] NULL,
+	[isPiecework] [smallint] NULL,
+	[isDelete] [smallint] NULL,
+	[sequence] [smallint] NULL,
  CONSTRAINT [PK_t_product_daily_bill_detail] PRIMARY KEY CLUSTERED 
 (
 	[dailyNo] ASC

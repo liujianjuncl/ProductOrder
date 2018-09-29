@@ -36,9 +36,8 @@
             <TextField fx:id="planQuantity" disable="true" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="4" />
             <Label fx:id="materialNameLabel" style="-fx-font-weight: bold;" text="物料名称" GridPane.columnIndex="3" GridPane.rowIndex="1" />
             <TextField fx:id="materialName" disable="true" prefHeight="23.0" prefWidth="107.0" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-            <Label fx:id="allProcessQtyLabel" style="-fx-font-weight: bold;" text="     全工序实作数量" GridPane.columnIndex="3" GridPane.rowIndex="2" />
             <TextField fx:id="allProcessQtyTextField" disable="true" prefHeight="23.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-            <CheckBox fx:id="allProcessChkBox" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <CheckBox fx:id="allProcessChkBox" style="-fx-font-weight: bold;" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" text="全工序实作数量" GridPane.columnIndex="3" GridPane.rowIndex="2" />
          </children>
       </GridPane>
       <GridPane gridLinesVisible="true" layoutX="54.0" layoutY="165.0" prefHeight="478.0" prefWidth="595.0">
