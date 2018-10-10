@@ -17,7 +17,7 @@
                   <Label fx:id="userLabel" style="-fx-alignment: baseline-left;" text="用户管理" />
                </children>
             </HBox>
-            <HBox fx:id="searchHBox">
+            <HBox fx:id="searchHBox" spacing="10.0">
                <children>
                   <TextField fx:id="searchField" />
                   <Button fx:id="searchBtn" mnemonicParsing="false" onAction="#userSearchAction" text="搜索" />

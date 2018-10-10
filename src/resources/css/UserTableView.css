@@ -19,14 +19,12 @@
 #userHbox{
 	-fx-pref-height: 40.0px;
 	-fx-padding: 5 0 5 0;
-	-fx-border-color: red;
 	-fx-spacing: 100px;
 }
 
 #userLabel{
    -fx-font-size: 15.0px;
    -fx-pref-height: 40.0px;
-   -fx-border-color: blue;
 }
 
 #searchHBox{
@@ -34,29 +32,12 @@
 }
 
 #searchField{
-	-fx-border-color: red;
 	-fx-spacing: 10px;
 }
 
 #operationHBox{
 	-fx-alignment: center-right;
 	-fx-spacing: 10px;
-}
-
-#searchBtn{
-	-fx-border-color: red;
-}
-
-#addUserBtn{
-	-fx-border-color: red;
-}
-
-#editUserBtn{
-	-fx-border-color: red;
-}
-
-#delUserBtn{
-	-fx-border-color: red
 }
 
 #selectCol{

@@ -8,17 +8,38 @@
 <AnchorPane fx:id="addUserPane" stylesheets="@../css/AddUser.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nii.desktop.controller.AddUserController">
    <children>
       <Label fx:id="addUserLabel" layoutX="185.0" layoutY="37.0" text="新建用户" />
-      <Label fx:id="userNameLabel" layoutX="20.0" layoutY="100.0" text="用户名" />
-      <TextField fx:id="userNameField" layoutX="160.0" layoutY="100.0" />
-      <Label fx:id="passwordLabel" layoutX="20.0" layoutY="150.0" prefWidth="100" text="密    码" />
-      <PasswordField fx:id="passwordField" layoutX="160.0" layoutY="150.0" />
-      <Label fx:id="isPieceworkLabel" layoutX="20.0" layoutY="200.0" text="是否计件" />
-      <ComboBox fx:id="isPieceworkCbox" layoutX="160.0" layoutY="200.0" />
-      <Label fx:id="isManagerLabel" layoutX="20.0" layoutY="250.0" text="是否管理员" />
-      <ComboBox fx:id="isManagerCbox" layoutX="160.0" layoutY="250.0" />
-      <Button fx:id="confirmBtn" layoutX="120.0" layoutY="349.0" mnemonicParsing="false" onAction="#confirmBtnAction" text="确定" />
-      <Button fx:id="cancelBtn" layoutX="235.0" layoutY="349.0" mnemonicParsing="false" onAction="#cancelBtnAction" text="取消" />
-      <CheckBox fx:id="defaultPasswordCheckBox" layoutX="317.0" layoutY="154.0" mnemonicParsing="false" text="默认密码" />
+      <GridPane layoutX="62.0" layoutY="98.0" prefHeight="231.0" prefWidth="400.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="52.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="10.0" prefWidth="148.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="75.0" minWidth="10.0" prefWidth="30.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="130.0" minWidth="10.0" prefWidth="130.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label fx:id="userNameLabel" text="用户名" />
+            <TextField fx:id="userNameField" GridPane.columnIndex="2" />
+            <Label fx:id="passwordLabel" prefWidth="100" text="密    码" GridPane.rowIndex="1" />
+            <PasswordField fx:id="passwordField" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <CheckBox fx:id="defaultPasswordCheckBox" mnemonicParsing="false" text="默认密码" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+            <Label fx:id="isPieceworkLabel" text="是否计件" GridPane.rowIndex="2" />
+            <ComboBox fx:id="isPieceworkCbox" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Label fx:id="isManagerLabel" text="是否管理员" GridPane.rowIndex="3" />
+            <ComboBox fx:id="isManagerCbox" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+         </children>
+      </GridPane>
+      <HBox layoutX="153.0" layoutY="386.0" prefHeight="27.0" prefWidth="157.0" spacing="40.0">
+         <children>
+            <Button fx:id="confirmBtn" mnemonicParsing="false" onAction="#confirmBtnAction" text="确定" />
+            <Button fx:id="cancelBtn" lineSpacing="20.0" mnemonicParsing="false" onAction="#cancelBtnAction" text="取消" />
+         </children>
+      </HBox>
       
    </children>
 </AnchorPane>
