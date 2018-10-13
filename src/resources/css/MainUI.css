@@ -5,12 +5,10 @@
 
 #userManageButton{
 	-fx-alignment: center;
-	-fx-border-color: red;
 	-fx-font-size: 20px;
 }
 
 #dailyManageButton{
 	-fx-alignment: center;
-	-fx-border-color: red;
 	-fx-font-size: 20px;
 }

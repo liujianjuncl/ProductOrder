@@ -112,7 +112,7 @@ public class AddUserController implements Initializable {
                 stmt.setInt(6, 0);
                 stmt.setTimestamp(7, new Timestamp(new Date().getTime()));
 
-                stmt.execute();
+                stmt.executeUpdate();
 
             } catch (Exception e) {
                 Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);

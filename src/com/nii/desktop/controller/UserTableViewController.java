@@ -250,7 +250,7 @@ public class UserTableViewController implements Initializable {
                 for (int i = 0; i < userNoList.size(); i++) {
                     String userNo = userNoList.get(i);
                     stmt.setString(1, userNo);
-                    stmt.execute();
+                    stmt.executeUpdate();
                 }
 
             } catch (Exception e) {

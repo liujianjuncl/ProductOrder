@@ -126,7 +126,7 @@ public class ModifyUserController implements Initializable {
                 stmt.setTimestamp(6, new Timestamp(new Date().getTime()));
                 stmt.setString(7, userNo);
 
-                stmt.execute();
+                stmt.executeUpdate();
 
             } catch (Exception e) {
                 Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
