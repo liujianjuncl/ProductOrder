@@ -32,7 +32,7 @@ public class DailyManageController implements Initializable {
     }
     
     @FXML
-    private void addDailyAction() {
+    public void addDailyAction() {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(ResourceLoader.getFxmlResource("AddDaily.fxml"));
 
@@ -58,17 +58,22 @@ public class DailyManageController implements Initializable {
     }
     
     @FXML
-    private void modifyDailyAction() {
+    public void modifyDailyAction() {
         
     }
     
     @FXML
-    private void deleteDailyAction() {
+    public void deleteDailyAction() {
         
     }
     
     @FXML
-    private void queryDailyAction() {
+    public void queryDailyAction() {
+        
+    }
+    
+    @FXML
+    public void dailySearchAction() {
         
     }
     

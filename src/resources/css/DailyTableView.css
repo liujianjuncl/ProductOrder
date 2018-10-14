@@ -12,18 +12,18 @@
 }
 
 /*设置每一列内容居中*/
-#userTableView .table-column{
+#dailyTableView .table-column{
   -fx-alignment: center-left;
 }
 
-#userHbox{
+#dailyHbox{
 	-fx-pref-height: 40.0px;
 	-fx-padding: 5 0 5 0;
 	-fx-border-color: red;
 	-fx-spacing: 100px;
 }
 
-#userLabel{
+#dailyLabel{
    -fx-font-size: 15.0px;
    -fx-pref-height: 40.0px;
    -fx-border-color: blue;
@@ -46,14 +46,14 @@
 	-fx-border-color: red;
 }
 
-#addUserBtn{
+#addDailyBtn{
 	-fx-border-color: red;
 }
 
-#editUserBtn{
+#editDailyBtn{
 	-fx-border-color: red;
 }
 
-#delUserBtn{
+#delDailyBtn{
 	-fx-border-color: red
 }
