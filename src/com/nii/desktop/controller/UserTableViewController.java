@@ -127,6 +127,7 @@ public class UserTableViewController implements Initializable {
             SessionUtil.CONTROLLERS.put("UserTableViewController", this);
         }
 
+        // 双击某一行时，编辑该行
         userTableView.setRowFactory(new Callback<TableView<User>, TableRow<User>>() {
             @Override
             public TableRow<User> call(TableView<User> param) {
@@ -144,14 +145,14 @@ public class UserTableViewController implements Initializable {
                 return row;
             }
         });
-        
+
         // 如果当前登录用户不是管理员，则不显示增加和删除按钮
         if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
             addUserBtn.setVisible(false);
             delUserBtn.setVisible(false);
         }
-
-        userTablePagination.setPageCount(5);
+        //分页
+        userTablePagination.setPageCount(1);
     }
 
     /* 初始化表格数据 */
