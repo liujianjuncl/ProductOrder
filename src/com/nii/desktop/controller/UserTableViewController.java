@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 import com.nii.desktop.model.User;
 import com.nii.desktop.util.conf.DBUtil;
-import com.nii.desktop.util.conf.DataManager;
+import com.nii.desktop.util.conf.SessionUtil;
 import com.nii.desktop.util.conf.PropsUtil;
 import com.nii.desktop.util.conf.UserUtil;
 import com.nii.desktop.util.ui.AlertUtil;
@@ -21,24 +21,31 @@ import com.nii.desktop.util.ui.ResourceLoader;
 import com.nii.desktop.util.ui.UIManager;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 /**
  * Created by ljj on 2018/9/7.
@@ -52,10 +59,10 @@ public class UserTableViewController implements Initializable {
     @FXML
     private TableView<User> userTableView;
 
-    /*分页*/
+    /* 分页 */
     @FXML
     private Pagination userTablePagination;
-    
+
     /* 数据 */
     private ObservableList<User> userDataList = FXCollections.observableArrayList();
 
@@ -92,6 +99,15 @@ public class UserTableViewController implements Initializable {
     @FXML
     private TextField searchField;
 
+    @FXML
+    private Button addUserBtn;
+
+    @FXML
+    private Button editUserBtn;
+
+    @FXML
+    private Button delUserBtn;
+
     /* 系统stage */
     private static Stage dialogStage;
 
@@ -107,9 +123,34 @@ public class UserTableViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         addDatatoTableView();
-        if(DataManager.CONTROLLERS.get("UserTableViewController") == null) {
-            DataManager.CONTROLLERS.put("UserTableViewController", this);
-        };
+        if (SessionUtil.CONTROLLERS.get("UserTableViewController") == null) {
+            SessionUtil.CONTROLLERS.put("UserTableViewController", this);
+        }
+
+        userTableView.setRowFactory(new Callback<TableView<User>, TableRow<User>>() {
+            @Override
+            public TableRow<User> call(TableView<User> param) {
+                TableRow<User> row = new TableRow<User>();
+                row.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        // TODO Auto-generated method stub
+                        if (event.getClickCount() == 2) {
+                            User user = row.getItem();
+                            modifyUserAction(user);
+                        }
+                    }
+                });
+                return row;
+            }
+        });
+        
+        // 如果当前登录用户不是管理员，则不显示增加和删除按钮
+        if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
+            addUserBtn.setVisible(false);
+            delUserBtn.setVisible(false);
+        }
+
         userTablePagination.setPageCount(5);
     }
 
@@ -125,11 +166,14 @@ public class UserTableViewController implements Initializable {
         String isManager = null;
         String isDisable = null;
 
-        //添加表格数据前先清空
+        // 添加表格数据前先清空
         userDataList.clear();
-        
+
         try {
             String sql = "select userNo, userName, isPiecework, isManager, isDisable from dbo.t_product_daily_user where isDelete = 0";
+            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
+                sql = sql + " and userNo = " + SessionUtil.USERS.get("loginUser").getUserNo();
+            }
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
@@ -196,38 +240,30 @@ public class UserTableViewController implements Initializable {
     }
 
     /* 修改用户 */
-    @FXML
-    public void modifyUserAction() {
-        if (getSelectedNum() == 0) {
-            AlertUtil.alertInfoLater(PropsUtil.getMessage("comboBox.modify.noSelected"));
-        } else if (getSelectedNum() > 1) {
-            AlertUtil.alertInfoLater(PropsUtil.getMessage("comboBox.selected.count"));
-        } else {
-            User user = getSingleSelectedUser();
-            DataManager.USERS.put("editUser", user);
+    public void modifyUserAction(User user) {
+        SessionUtil.USERS.put("editUser", user);
 
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(ResourceLoader.getFxmlResource("ModifyUser.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(ResourceLoader.getFxmlResource("ModifyUser.fxml"));
 
-            AnchorPane modifyUserPane;
+        AnchorPane modifyUserPane;
 
-            try {
-                modifyUserPane = fxmlLoader.load();
+        try {
+            modifyUserPane = fxmlLoader.load();
 
-                dialogStage = new Stage();
-                dialogStage.setTitle("编辑用户");
+            dialogStage = new Stage();
+            dialogStage.setTitle("编辑用户");
 
-                dialogStage.initModality(Modality.WINDOW_MODAL);
-                dialogStage.initOwner(UIManager.getPrimaryStage());
-                Scene scene = new Scene(modifyUserPane);
-                dialogStage.setScene(scene);
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(UIManager.getPrimaryStage());
+            Scene scene = new Scene(modifyUserPane);
+            dialogStage.setScene(scene);
 
-                dialogStage.setResizable(false);
-                dialogStage.showAndWait();
+            dialogStage.setResizable(false);
+            dialogStage.showAndWait();
 
-            } catch (IOException e) {
-                Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
-            }
+        } catch (IOException e) {
+            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
@@ -261,7 +297,7 @@ public class UserTableViewController implements Initializable {
             }
             AlertUtil.alertInfoLater(PropsUtil.getMessage("user.delete.success"));
             // 删除完成刷新数据
-            ((UserTableViewController) DataManager.CONTROLLERS.get("UserTableViewController")).refresh();
+            ((UserTableViewController) SessionUtil.CONTROLLERS.get("UserTableViewController")).refresh();
         }
     }
 

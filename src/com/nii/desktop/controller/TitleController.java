@@ -1,6 +1,8 @@
 package com.nii.desktop.controller;
 
 import com.nii.desktop.decorate.StageMove;
+import com.nii.desktop.util.conf.SessionUtil;
+import com.nii.desktop.util.ui.UIManager;
 import com.nii.desktop.widget.menu.GlobalMenu;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -62,28 +64,18 @@ public class TitleController {
             }
         });
     }
-
-    /* 窗口关闭事件 */
+    
     @FXML
-    public void closeButtonCilciAction() {
-        stage.close();
+    public void onActionExitLink() {
+        UIManager.getPrimaryStage().close();
+        UIManager.switchLoginUI();
+        SessionUtil.USERS.clear();
+        SessionUtil.CONTROLLERS.clear();
     }
 
     /* 窗口最大化事件 */
     @FXML
     public void maxButtonClickAction() {
         stage.setMaximized(!stage.isMaximized());
-    }
-
-    /* 窗口最小化事件 */
-    @FXML
-    public void minButtonClickAction() {
-        stage.setIconified(true);
-    }
-
-    /* 菜单点击事件 */
-    @FXML
-    public void menuButtonClickAction() {
-        GlobalMenu.getInstance().show(menuButton, Side.BOTTOM, 0, 0);
     }
 }

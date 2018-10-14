@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.nii.desktop.util.conf.DBUtil;
-import com.nii.desktop.util.conf.DataManager;
+import com.nii.desktop.util.conf.SessionUtil;
 import com.nii.desktop.util.conf.Encoder;
 import com.nii.desktop.util.conf.PropsUtil;
 import com.nii.desktop.util.conf.UserUtil;
@@ -124,7 +124,7 @@ public class AddUserController implements Initializable {
             AlertUtil.alertInfoLater(PropsUtil.getMessage("user.add.success") + userNo);
             UserTableViewController.getdialogStage().close();
             // 新建完成刷新数据
-            ((UserTableViewController) DataManager.CONTROLLERS.get("UserTableViewController")).refresh();
+            ((UserTableViewController) SessionUtil.CONTROLLERS.get("UserTableViewController")).refresh();
         }
     }
 

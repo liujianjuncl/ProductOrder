@@ -17,7 +17,7 @@ import com.nii.desktop.model.Daily;
 import com.nii.desktop.model.DailyProcessTotalQty;
 import com.nii.desktop.util.conf.DBUtil;
 import com.nii.desktop.util.conf.DailyUtil;
-import com.nii.desktop.util.conf.DataManager;
+import com.nii.desktop.util.conf.SessionUtil;
 import com.nii.desktop.util.conf.Encoder;
 import com.nii.desktop.util.conf.PropsUtil;
 import com.nii.desktop.util.conf.UserUtil;
@@ -669,8 +669,10 @@ public class AddDailyController implements Initializable {
                     Double.valueOf(processPrice8.getText()),
                     Integer.valueOf("".equals(processQty8.getText()) ? "0" : processQty8.getText()), process9.getText(),
                     Double.valueOf(processPrice9.getText()),
-                    Integer.valueOf("".equals(processQty9.getText()) ? "0" : processQty9.getText()), null,
-                    new Timestamp(new Date().getTime()), 0, 0, DailyUtil.getDailyDetailSeq(billNo));
+                    Integer.valueOf("".equals(processQty9.getText()) ? "0" : processQty9.getText()),
+                    SessionUtil.USERS.get("loginUser").getUserNo(), new Timestamp(new Date().getTime()),
+                    "ÊÇ".equals(SessionUtil.USERS.get("loginUser").getIsPiecework()) ? 1 : 0, 0,
+                    DailyUtil.getDailyDetailSeq(billNo));
 
             if (DailyUtil.addDaily(daily)) {
                 AlertUtil.alertInfoLater(PropsUtil.getMessage("daily.add.success") + dailyNo);

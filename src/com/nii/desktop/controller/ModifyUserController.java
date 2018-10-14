@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 import com.nii.desktop.model.User;
 import com.nii.desktop.util.conf.DBUtil;
-import com.nii.desktop.util.conf.DataManager;
+import com.nii.desktop.util.conf.SessionUtil;
 import com.nii.desktop.util.conf.Encoder;
 import com.nii.desktop.util.conf.PropsUtil;
 import com.nii.desktop.util.conf.UserUtil;
@@ -71,7 +71,7 @@ public class ModifyUserController implements Initializable {
         isManagerCbox.setItems(FXCollections.observableArrayList("是", "否"));
         isDisableCbox.setItems(FXCollections.observableArrayList("是", "否"));
 
-        user = DataManager.USERS.get("editUser");
+        user = SessionUtil.USERS.get("editUser");
         userNoLabelShow.setText(user.getUserNo());
         userNameField.setText(user.getUserName());
         isPieceworkCbox.setValue(user.getIsPiecework());
@@ -138,8 +138,8 @@ public class ModifyUserController implements Initializable {
             AlertUtil.alertInfoLater(PropsUtil.getMessage("user.modify.success"));
             UserTableViewController.getdialogStage().close();
             // 修改完成刷新数据
-            ((UserTableViewController) DataManager.CONTROLLERS.get("UserTableViewController")).refresh();
-            DataManager.USERS.remove("editUser");
+            ((UserTableViewController) SessionUtil.CONTROLLERS.get("UserTableViewController")).refresh();
+            SessionUtil.USERS.remove("editUser");
         }
     }
 

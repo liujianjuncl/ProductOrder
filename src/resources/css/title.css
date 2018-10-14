@@ -9,52 +9,9 @@
 	-fx-translate-x: 10px;
 }
 
-#closeButton{
-    -fx-graphic: url("/resources/image/close.png") ;
-    -fx-background-color: transparent;
-}
-#closeButton:hover{
-    -fx-background-color: #D84C29;
-}
-
-#closeButton:pressed{
-    -fx-background-color: #D84C29;
-}
-
-#maxButton{
-    -fx-graphic: url("/resources/image/max.png") ;
-    -fx-background-color: transparent;
-}
-#maxButton:hover{
-    -fx-background-color: #D84C29;
-}
-
-#maxButton:pressed{
-    -fx-background-color: #D84C29;
-}
-
-
-#minButton{
-    -fx-graphic: url("/resources/image/min.png") ;
-    -fx-background-color: transparent;
-}
-#minButton:hover{
-    -fx-background-color: #D84C29;
-}
-
-#minButton:pressed{
-    -fx-background-color: #D84C29;
-}
-
-
-#menuButton{
-    -fx-graphic: url("/resources/image/menu.png") ;
-    -fx-background-color: transparent;
-}
-#menuButton:hover{
-    -fx-background-color: #D84C29;
-}
-
-#menuButton:pressed{
-    -fx-background-color: #D84C29;
+#ExitLink{
+	-fx-text-fill: red;
+	-fx-font-size: 15px;
+	-fx-translate-y: 20px;
+	-fx-translate-x: 550px;
 }

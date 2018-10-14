@@ -7,7 +7,7 @@ import com.nii.desktop.model.User;
 
 import javafx.stage.Stage;
 
-public class DataManager {
+public class SessionUtil {
 
     // 用于存储全局Stage
     public static Map<String, Stage> STAGES = new HashMap<String, Stage>();

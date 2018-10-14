@@ -26,7 +26,6 @@
             <HBox fx:id="operationHBox">
                <children>
                   <Button fx:id="addUserBtn" mnemonicParsing="false" onAction="#addUserAction" text="新建" />
-                  <Button fx:id="editUserBtn" mnemonicParsing="false" onAction="#modifyUserAction" text="编辑" />
                   <Button fx:id="delUserBtn" mnemonicParsing="false" onAction="#deleteUserAction" text="删除" />
                </children>
             </HBox>

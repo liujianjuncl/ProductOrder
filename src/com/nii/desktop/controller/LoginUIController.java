@@ -4,7 +4,7 @@ import com.nii.desktop.decorate.StageMove;
 import com.nii.desktop.dialog.HostServerDialog;
 import com.nii.desktop.model.HostServer;
 import com.nii.desktop.model.User;
-import com.nii.desktop.util.conf.DataManager;
+import com.nii.desktop.util.conf.SessionUtil;
 import com.nii.desktop.util.conf.Encoder;
 import com.nii.desktop.util.conf.PropsUtil;
 import com.nii.desktop.util.conf.UserUtil;
@@ -52,6 +52,9 @@ public class LoginUIController implements Initializable {
     /* 初始化方法 */
     public void initialize(URL location, ResourceBundle resources) {
         new StageMove(UIManager.getPrimaryStage()).bindDrag(contentPanel);
+        
+        userNoTextField.setText("000001");
+        passwordTextField.setText("111111");
 
         /* 当用户编号焦点失去时，获取用户名称 */
         userNoTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
@@ -74,7 +77,7 @@ public class LoginUIController implements Initializable {
     private void entryButtonClickAction() {
         String userNo = userNoTextField.getText().trim();
         String password = passwordTextField.getText().trim();
-
+        
         if ("".equals(userNo.trim()) || "".equals(password.trim())) {
             AlertUtil.alertInfoLater(PropsUtil.getMessage("login.user.pwd.isnull"));
             return;
@@ -90,7 +93,7 @@ public class LoginUIController implements Initializable {
                 AlertUtil.alertInfoLater(PropsUtil.getMessage("login.user.password.error"));
                 return;
             }
-            DataManager.USERS.put("loginUser", user);
+            SessionUtil.USERS.put("loginUser", user);
             UIManager.switchMainUI();
         }
     }
@@ -100,6 +103,7 @@ public class LoginUIController implements Initializable {
     private void clearButtonClickAction() {
         userNoTextField.clear();
         passwordTextField.clear();
+        userNameTextField.clear();
     }
 
     /* 配置服务器 */

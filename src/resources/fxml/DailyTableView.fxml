@@ -8,34 +8,34 @@
 
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="dailyVBox" stylesheets="@../css/DailyTableView.css" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nii.desktop.controller.DailyTableViewController">
+<VBox fx:id="userVBox" stylesheets="@../css/UserTableView.css" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nii.desktop.controller.UserTableViewController">
    <children>
-      <HBox fx:id="dailyHbox">
+      <HBox fx:id="userHbox">
          <children>
             <HBox prefHeight="29.0">
                <children>
-                  <Label fx:id="dailyLabel" style="-fx-alignment: baseline-left;" text="用户管理" />
+                  <Label fx:id="userLabel" style="-fx-alignment: baseline-left;" text="用户管理" />
                </children>
             </HBox>
-            <HBox fx:id="searchHBox">
+            <HBox fx:id="searchHBox" spacing="10.0">
                <children>
                   <TextField fx:id="searchField" />
-                  <Button fx:id="searchBtn" mnemonicParsing="false" text="搜索" />
+                  <Button fx:id="searchBtn" mnemonicParsing="false" onAction="#userSearchAction" text="搜索" />
                </children>
             </HBox>
-            <HBox fx:id="operationHBox" >
+            <HBox fx:id="operationHBox">
                <children>
-                  <Button fx:id="addDailyBtn" mnemonicParsing="false"  text="新增" />
-                  <Button fx:id="editDailyBtn" mnemonicParsing="false"  text="编辑" />
-                  <Button fx:id="delDailyBtn" mnemonicParsing="false" text="删除" />
+                  <Button fx:id="addUserBtn" mnemonicParsing="false" onAction="#addUserAction" text="新建" />
+                  <Button fx:id="editUserBtn" mnemonicParsing="false" onAction="#modifyUserAction" text="编辑" />
+                  <Button fx:id="delUserBtn" mnemonicParsing="false" onAction="#deleteUserAction" text="删除" />
                </children>
             </HBox>
          </children>
       </HBox>
-      <TableView fx:id="dailyTableView">
+      <TableView fx:id="userTableView" VBox.vgrow="ALWAYS">
         <columns>
           <TableColumn fx:id="selectCol" prefWidth="30.0" text="勾选" />
-          <TableColumn fx:id="dailyNoCol" prefWidth="75.0" text="用户编号" />
+          <TableColumn fx:id="userNoCol" prefWidth="75.0" text="用户编号" />
           <TableColumn fx:id="userNameCol" prefWidth="75.0" text="用户名称" />
           <TableColumn fx:id="isPieceworkCol" prefWidth="75.0" text="是否计件" />
           <TableColumn fx:id="isManagerCol" prefWidth="75.0" text="是否管理员" />
@@ -45,5 +45,6 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
+      <Pagination fx:id="userTablePagination" prefHeight="9.0" prefWidth="615.0" />
    </children>
 </VBox>
