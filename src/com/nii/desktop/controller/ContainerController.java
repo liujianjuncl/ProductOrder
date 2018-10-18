@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.SplitPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,6 +18,9 @@ import java.util.ResourceBundle;
  * Created by wzj on 2018/2/7.
  */
 public class ContainerController implements Initializable {
+    
+    @FXML
+    private AnchorPane rootPane;
     /**
      * container pane
      */
