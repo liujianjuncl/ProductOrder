@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import com.nii.desktop.controller.AddDailyController;
 import com.nii.desktop.model.Daily;
 import com.nii.desktop.model.DailyProcessTotalQty;
+import com.nii.desktop.model.User;
 
 public class DailyUtil {
 
@@ -369,6 +370,48 @@ public class DailyUtil {
         } finally {
             DBUtil.release(conn, stmt);
         }
+    }
+
+    /* 根据dailyNo获取日报 */
+    public static Daily getDaily(String dailyNumber) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        String dailyNo = null;
+        String billNo = null;
+        String materialCode = null;
+        String materialName = null;
+        String model = null;
+        int planQuantity = 0;
+
+        Daily daily = null;
+
+        String sql = "select dailyNo, billNo, materialCode, materialName, model, planQuantity "
+                + "from dbo.t_product_daily_bill_detail where dailyNo = ? and isDelete = 0";
+        try {
+            conn = DBUtil.getConnection();
+            stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, dailyNumber);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                dailyNo = rs.getString("dailyNo");
+                billNo = rs.getString("billNo");
+                materialCode = rs.getString("materialCode");
+                materialName = rs.getString("materialName");
+                model = rs.getString("model");
+                planQuantity = rs.getInt("planQuantity");
+                daily = new Daily(dailyNo, billNo, materialCode, materialName, model, planQuantity);
+            }
+        } catch (Exception e) {
+            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            DBUtil.release(conn, stmt, rs);
+        }
+
+        return daily;
     }
 
     public static void main(String[] args) {

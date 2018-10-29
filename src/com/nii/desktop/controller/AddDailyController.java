@@ -676,10 +676,12 @@ public class AddDailyController implements Initializable {
 
             if (DailyUtil.addDaily(daily)) {
                 AlertUtil.alertInfoLater(PropsUtil.getMessage("daily.add.success") + dailyNo);
-                DailyManageController.getdialogStage().close();
+                // 新建完成刷新数据
+                ((DailyTableViewController) SessionUtil.CONTROLLERS.get("DailyTableViewController")).refresh();
+                DailyTableViewController.getdialogStage().close();
             } else {
                 AlertUtil.alertInfoLater(PropsUtil.getMessage("daily.add.fail") + dailyNo);
-                DailyManageController.getdialogStage().close();
+                DailyTableViewController.getdialogStage().close();
             }
         }
     }
@@ -732,7 +734,7 @@ public class AddDailyController implements Initializable {
 
     @FXML
     public void cancelBtnAction() {
-        DailyManageController.getdialogStage().close();
+        DailyTableViewController.getdialogStage().close();
     }
 
     public static void main(String[] args) {

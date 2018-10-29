@@ -3,6 +3,7 @@ package com.nii.desktop.util.conf;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.nii.desktop.model.Daily;
 import com.nii.desktop.model.User;
 
 import javafx.stage.Stage;
@@ -17,5 +18,8 @@ public class SessionUtil {
 
     // 用于存储全局用户
     public static Map<String, User> USERS = new HashMap<String, User>();
+    
+ // 用于存储全局日报
+    public static Map<String, Daily> DAILYS = new HashMap<String, Daily>();
 
 }

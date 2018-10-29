@@ -8,13 +8,13 @@
 
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="dailyVBox" stylesheets="@../css/DailyTableView.css" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nii.desktop.controller.DailyManageController">
+<VBox fx:id="dailyVBox" stylesheets="@../css/DailyTableView.css" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nii.desktop.controller.DailyTableViewController">
    <children>
       <HBox fx:id="dailyHbox">
          <children>
             <HBox prefHeight="29.0">
                <children>
-                  <Label fx:id="dailyLabel" style="-fx-alignment: baseline-left;" text="用户管理" />
+                  <Label fx:id="dailyLabel" style="-fx-alignment: baseline-left;" text="日报管理" />
                </children>
             </HBox>
             <HBox fx:id="searchHBox" spacing="10.0">
@@ -26,7 +26,6 @@
             <HBox fx:id="operationHBox">
                <children>
                   <Button fx:id="addDailyBtn" mnemonicParsing="false" onAction="#addDailyAction" text="新建" />
-                  <Button fx:id="editDailyBtn" mnemonicParsing="false" onAction="#modifyDailyAction" text="编辑" />
                   <Button fx:id="delDailyBtn" mnemonicParsing="false" onAction="#deleteDailyAction" text="删除" />
                </children>
             </HBox>
@@ -35,11 +34,12 @@
       <TableView fx:id="dailyTableView" VBox.vgrow="ALWAYS">
         <columns>
           <TableColumn fx:id="selectCol" prefWidth="30.0" text="勾选" />
-          <TableColumn fx:id="dailyNoCol" prefWidth="75.0" text="用户编号" />
-          <TableColumn fx:id="dailyNameCol" prefWidth="75.0" text="用户名称" />
-          <TableColumn fx:id="isPieceworkCol" prefWidth="75.0" text="是否计件" />
-          <TableColumn fx:id="isManagerCol" prefWidth="75.0" text="是否管理员" />
-          <TableColumn fx:id="isDisableCol" prefWidth="75.0" text="是否禁用" />
+          <TableColumn fx:id="dailyNoCol" text="生产日报编号" />
+          <TableColumn fx:id="billNoCol" text="生产任务单号" />
+          <TableColumn fx:id="materialCodeCol" text="物料代码" />
+          <TableColumn fx:id="materialNameCol" text="物料名称" />
+          <TableColumn fx:id="modelCol" text="规格型号" />
+          <TableColumn fx:id="planQuantityCol" text="计划生产数量" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

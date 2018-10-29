@@ -2,7 +2,11 @@ package com.nii.desktop.model;
 
 import java.sql.Timestamp;
 
+import javafx.scene.control.CheckBox;
+
 public class Daily {
+
+    private CheckBox checkbox = new CheckBox(); // 复选框
 
     private String dailyNo; // 生产日报编号
 
@@ -156,6 +160,37 @@ public class Daily {
         this.isPiecework = isPiecework;
         this.isDelete = isDelete;
         this.sequence = sequence;
+    }
+
+    public Daily(CheckBox checkbox, String dailyNo, String billNo, String materialCode, String materialName,
+            String model, int planQuantity) {
+        super();
+        this.checkbox = checkbox;
+        this.dailyNo = dailyNo;
+        this.billNo = billNo;
+        this.materialCode = materialCode;
+        this.materialName = materialName;
+        this.model = model;
+        this.planQuantity = planQuantity;
+    }
+
+    public Daily(String dailyNo, String billNo, String materialCode, String materialName, String model,
+            int planQuantity) {
+        super();
+        this.dailyNo = dailyNo;
+        this.billNo = billNo;
+        this.materialCode = materialCode;
+        this.materialName = materialName;
+        this.model = model;
+        this.planQuantity = planQuantity;
+    }
+
+    public CheckBox getCheckbox() {
+        return checkbox;
+    }
+
+    public void setDailyNo(CheckBox checkbox) {
+        this.checkbox = checkbox;
     }
 
     public String getDailyNo() {

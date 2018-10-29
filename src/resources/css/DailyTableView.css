@@ -19,14 +19,12 @@
 #dailyHbox{
 	-fx-pref-height: 40.0px;
 	-fx-padding: 5 0 5 0;
-	-fx-border-color: red;
 	-fx-spacing: 100px;
 }
 
 #dailyLabel{
    -fx-font-size: 15.0px;
    -fx-pref-height: 40.0px;
-   -fx-border-color: blue;
 }
 
 #searchHBox{
@@ -34,7 +32,7 @@
 }
 
 #searchField{
-	-fx-border-color: red;
+	-fx-spacing: 10px;
 }
 
 #operationHBox{
@@ -42,18 +40,6 @@
 	-fx-spacing: 10px;
 }
 
-#searchBtn{
-	-fx-border-color: red;
-}
-
-#addDailyBtn{
-	-fx-border-color: red;
-}
-
-#editDailyBtn{
-	-fx-border-color: red;
-}
-
-#delDailyBtn{
-	-fx-border-color: red
+#selectCol{
+	-fx-alignment: center ;
 }

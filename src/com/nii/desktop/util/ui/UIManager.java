@@ -50,9 +50,16 @@ public final class UIManager {
         } catch (IOException e) {
             Logger.getLogger(UIManager.class.getName()).log(Level.SEVERE, null, e);
         }
-        System.out.println(pane);
         Scene scene = new Scene(pane);
         primaryStage.setScene(scene);
+        
+//        Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+//        System.out.println(primScreenBounds.getWidth());
+//        System.out.println(primScreenBounds.getHeight());
+//        System.out.println(primaryStage.getWidth());
+//        System.out.println(primaryStage.getHeight());
+//        primaryStage.setX((primScreenBounds.getWidth() - primaryStage.getWidth()) / 2);
+//        primaryStage.setY((primScreenBounds.getHeight() - primaryStage.getHeight()) / 2);
 
         primaryStage.show();
     }
@@ -75,7 +82,7 @@ public final class UIManager {
 
     private static void setStageOnCenter() {
         Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
-//        primaryStage.setX((primScreenBounds.getWidth() - primaryStage.getWidth()) / 2);
-//        primaryStage.setY((primScreenBounds.getHeight() - primaryStage.getHeight()) / 2);
+        primaryStage.setX((primScreenBounds.getWidth() - primaryStage.getWidth()) / 2);
+        primaryStage.setY((primScreenBounds.getHeight() - primaryStage.getHeight()) / 2);
     }
 }
