@@ -222,10 +222,12 @@ public class DailyTableViewController implements Initializable {
 
         try {
             String sql = "select dailyNo, billNo, materialCode, materialName, model, planQuantity "
-                    + "from dbo.t_product_daily_bill_detail where isDelete = 0 order by dailyNo desc";
+                    + "from dbo.t_product_daily_bill_detail where isDelete = 0 ";
             if (!"ÊÇ".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
-                sql = sql + " and userNo = " + SessionUtil.USERS.get("loginUser").getUserNo();
+                sql = sql + " and createUser = " + SessionUtil.USERS.get("loginUser").getUserNo();
             }
+            
+            sql = sql + " order by dailyNo desc";
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
