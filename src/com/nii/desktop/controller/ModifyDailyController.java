@@ -622,6 +622,7 @@ public class ModifyDailyController implements Initializable {
                 // 新建完成刷新数据
                 ((DailyTableViewController) SessionUtil.CONTROLLERS.get("DailyTableViewController")).refresh();
                 DailyTableViewController.getdialogStage().close();
+                SessionUtil.DAILYS.remove("editDaily");
             } else {
                 AlertUtil.alertInfoLater(PropsUtil.getMessage("daily.modify.fail") + dailyNo);
                 DailyTableViewController.getdialogStage().close();
@@ -682,6 +683,7 @@ public class ModifyDailyController implements Initializable {
     @FXML
     public void cancelBtnAction() {
         DailyTableViewController.getdialogStage().close();
+        SessionUtil.DAILYS.remove("editDaily");
     }
 
     public static void main(String[] args) {

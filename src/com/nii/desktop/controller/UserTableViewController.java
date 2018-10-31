@@ -152,7 +152,7 @@ public class UserTableViewController implements Initializable {
             delUserBtn.setVisible(false);
         }
         //分页
-        userTablePagination.setPageCount(1);
+//        userTablePagination.setPageCount(1);
     }
 
     /* 初始化表格数据 */

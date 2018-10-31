@@ -145,5 +145,6 @@ public class ModifyUserController implements Initializable {
     @FXML
     public void cancelBtnAction() {
         UserTableViewController.getdialogStage().close();
+        SessionUtil.USERS.remove("editUser");
     }
 }

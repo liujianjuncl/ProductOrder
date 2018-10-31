@@ -5,6 +5,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -13,19 +14,15 @@ import java.util.logging.Logger;
 
 import com.nii.desktop.model.Daily;
 import com.nii.desktop.model.DailyProcessQty;
-import com.nii.desktop.model.User;
 import com.nii.desktop.util.conf.DBUtil;
 import com.nii.desktop.util.conf.DailyUtil;
 import com.nii.desktop.util.conf.SessionUtil;
 import com.nii.desktop.util.conf.PropsUtil;
-import com.nii.desktop.util.conf.UserUtil;
 import com.nii.desktop.util.ui.AlertUtil;
 import com.nii.desktop.util.ui.ResourceLoader;
 import com.nii.desktop.util.ui.UIManager;
 
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -35,6 +32,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
 import javafx.scene.control.TableColumn;
@@ -104,19 +102,19 @@ public class DailyTableViewController implements Initializable {
     private TableColumn<Daily, String> planQuantityCol;
 
     @FXML
-    private TextField searchField;
-
-    @FXML
-    private Button searchBtn;
-
-    @FXML
     private Button addDailyBtn;
 
     @FXML
-    private Button editDailyBtn;
+    private Button delDailyBtn;
 
     @FXML
-    private Button delDailyBtn;
+    private TextField userNoTextField;
+
+    @FXML
+    private TextField billNoTextField;
+
+    @FXML
+    private DatePicker datePicker;
 
     /* 系统stage */
     private static Stage dialogStage;
@@ -219,7 +217,7 @@ public class DailyTableViewController implements Initializable {
         materialCodeCol.setCellValueFactory(new PropertyValueFactory<Daily, String>("materialCode"));
         materialNameCol.setCellValueFactory(new PropertyValueFactory<Daily, String>("materialName"));
         modelCol.setCellValueFactory(new PropertyValueFactory<Daily, String>("model"));
-        planQuantityCol.setCellValueFactory(new PropertyValueFactory<Daily, String>("planQuantity"));
+        planQuantityCol.setCellValueFactory(new PropertyValueFactory<Daily, String>("planQty"));
 
         dailyTableView.setItems(dailyDataList);
 
@@ -306,15 +304,15 @@ public class DailyTableViewController implements Initializable {
                     stmt.setString(1, dailyNo);
 
                     Daily daily = DailyUtil.getDailyByNoAll(dailyNo);
-                    
-                    //将实作汇总表中的实作数量减掉
+
+                    // 将实作汇总表中的实作数量减掉
                     DailyProcessQty dailyProcessQty = new DailyProcessQty(daily.getBillNo(), daily.getDailyNo(),
                             daily.getPlanQty(), -daily.getResProQty1(), -daily.getResProQty2(), -daily.getResProQty3(),
                             -daily.getProQty1(), -daily.getProQty2(), -daily.getProQty3(), -daily.getProQty4(),
                             -daily.getProQty5(), -daily.getProQty6(), -daily.getProQty7(), -daily.getProQty8(),
                             -daily.getProQty9());
                     DailyUtil.updateDailyTotalQty(dailyProcessQty);
-                    
+
                     stmt.executeUpdate();
                 }
 
@@ -331,13 +329,54 @@ public class DailyTableViewController implements Initializable {
     }
 
     @FXML
-    public void queryDailyAction() {
+    public void searchDailyAction() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
 
-    }
+        String userNo = userNoTextField.getText();
+        String billNo = billNoTextField.getText();
+        String date = datePicker.getValue().toString();
 
-    @FXML
-    public void dailySearchAction() {
+        // 添加表格数据前先清空
+        dailyDataList.clear();
 
+        try {
+            String sql = "select dailyNo, billNo, materialCode, materialName, model, planQuantity "
+                    + "from dbo.t_product_daily_bill_detail where isDelete = 0 ";
+            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
+                sql = sql + " and createUser = " + SessionUtil.USERS.get("loginUser").getUserNo();
+            }
+
+            if (userNo != null) {
+                sql = sql + " and createUser like %" + userNo + "%";
+            }
+
+            if (userNo != null) {
+                sql = sql + " and billNo like %" + billNo + "%";
+            }
+
+            if (userNo != null) {
+                sql = sql + " and createUser like %" + userNo + "%";
+            }
+
+            sql = sql + " order by dailyNo desc";
+            conn = DBUtil.getConnection();
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Daily daily = new Daily(new CheckBox(), rs.getString("dailyNo"), rs.getString("billNo"),
+                        rs.getString("materialCode"), rs.getString("materialName"), rs.getString("model"),
+                        rs.getInt("planQuantity"));
+                dailyDataList.add(daily);
+            }
+
+        } catch (Exception e) {
+            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            DBUtil.release(conn, stmt, rs);
+        }
     }
 
     /* 获取被勾选的数量 */
