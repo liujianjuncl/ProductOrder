@@ -10,7 +10,7 @@ import javafx.scene.control.CheckBox;
 public class User {
 
     // ¸´Ñ¡¿ò
-    private CheckBox checkbox = new CheckBox();
+    private CheckBox checkbox;
 
     // ÓÃ»§±àºÅ
     private SimpleStringProperty userNo = new SimpleStringProperty();

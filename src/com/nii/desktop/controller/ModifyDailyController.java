@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -17,7 +18,9 @@ import com.nii.desktop.model.DailyProcessQty;
 import com.nii.desktop.util.conf.DBUtil;
 import com.nii.desktop.util.conf.DailyUtil;
 import com.nii.desktop.util.conf.SessionUtil;
+import com.nii.desktop.util.conf.Encoder;
 import com.nii.desktop.util.conf.PropsUtil;
+import com.nii.desktop.util.conf.UserUtil;
 import com.nii.desktop.util.ui.AlertUtil;
 
 import javafx.beans.value.ChangeListener;
@@ -32,10 +35,14 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
-public class AddDailyController implements Initializable {
+public class ModifyDailyController implements Initializable {
 
     @FXML
     private AnchorPane addUserPane;
+
+    // 生产日报单号
+    @FXML
+    private Label dailyNoLabel;
 
     // 生产任务单号
     @FXML
@@ -208,20 +215,15 @@ public class AddDailyController implements Initializable {
     @FXML
     private TextField processQty9;
 
+    // 定义需要修改的全局日报对象
+    Daily editDaily = null;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // 根据生产任务单号获取生产任务单信息
-        billNoTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode().equals(KeyCode.ENTER)) {
-                    System.out.println(billNoTextField.getText().trim());
-                    if (!getProductDailyInfo(billNoTextField.getText().trim())) {
-                        AlertUtil.alertInfoLater(PropsUtil.getMessage("billNo.isNotExist"));
-                    }
-                }
-            }
-        });
+
+        editDaily = SessionUtil.DAILYS.get("editDaily");
+        showProductDailyInfo(editDaily);
 
         // 全工序实作数量逻辑处理
         allProcessHandler();
@@ -231,89 +233,51 @@ public class AddDailyController implements Initializable {
     }
 
     // 根据生产任务单号查询出当前生产任务单的信息并显示到界面上
-    public boolean getProductDailyInfo(String billNo) {
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        boolean result = false;
+    public void showProductDailyInfo(Daily daily) {
+        dailyNoLabel.setText(daily.getDailyNo());
+        billNoTextField.setText(daily.getBillNo());
+        planQuantity.setText(String.valueOf(daily.getPlanQty()));
+        materialCode.setText(daily.getMaterialCode());
+        materialName.setText(daily.getMaterialName());
+        model.setText(daily.getModel());
+        resProcess1.setText(daily.getResPro1());
+        resProcess2.setText(daily.getResPro2());
+        resProcess3.setText(daily.getResPro3());
+        process1.setText(daily.getPro1());
+        process2.setText(daily.getPro2());
+        process3.setText(daily.getPro3());
+        process4.setText(daily.getPro4());
+        process5.setText(daily.getPro5());
+        process6.setText(daily.getPro6());
+        process7.setText(daily.getPro7());
+        process8.setText(daily.getPro8());
+        process9.setText(daily.getPro9());
+        resProcessPrice1.setText(String.valueOf(daily.getResProPrice1()));
+        resProcessPrice2.setText(String.valueOf(daily.getResProPrice2()));
+        resProcessPrice3.setText(String.valueOf(daily.getResProPrice3()));
+        processPrice1.setText(String.valueOf(daily.getProPrice1()));
+        processPrice2.setText(String.valueOf(daily.getProPrice2()));
+        processPrice3.setText(String.valueOf(daily.getProPrice3()));
+        processPrice4.setText(String.valueOf(daily.getProPrice4()));
+        processPrice5.setText(String.valueOf(daily.getProPrice5()));
+        processPrice6.setText(String.valueOf(daily.getProPrice6()));
+        processPrice7.setText(String.valueOf(daily.getProPrice7()));
+        processPrice8.setText(String.valueOf(daily.getProPrice8()));
+        processPrice9.setText(String.valueOf(daily.getProPrice9()));
+        resProcessQty1.setText(String.valueOf(daily.getResProQty1()));
+        resProcessQty2.setText(String.valueOf(daily.getResProQty2()));
+        resProcessQty3.setText(String.valueOf(daily.getResProQty3()));
+        processQty1.setText(String.valueOf(daily.getProQty1()));
+        processQty2.setText(String.valueOf(daily.getProQty2()));
+        processQty3.setText(String.valueOf(daily.getProQty3()));
+        processQty4.setText(String.valueOf(daily.getProQty4()));
+        processQty5.setText(String.valueOf(daily.getProQty5()));
+        processQty6.setText(String.valueOf(daily.getProQty6()));
+        processQty7.setText(String.valueOf(daily.getProQty7()));
+        processQty8.setText(String.valueOf(daily.getProQty8()));
+        processQty9.setText(String.valueOf(daily.getProQty9()));
 
-        try {
-            String sql = "select c.FBillNo as billNo, icc.FNumber as materialCode, icc.FName as materialName, icc.FModel as model, "
-                    + "c.FQty as planQuantity, item1.FName as resProcess1, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ01104) > 0 then '0' else c.FHeadSelfJ01104 end) as decimal(18, 4)) as resProcessPrice1, "
-                    + "item2.FName as resProcess2, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ01106) > 0 then '0' else c.FHeadSelfJ01106 end) as decimal(18, 4)) as resProcessPrice2, "
-                    + "item3.FName as resProcess3, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ01108) > 0 then '0' else c.FHeadSelfJ01108 end) as decimal(18, 4)) as resProcessPrice3, "
-                    + "c.FHeadSelfJ0185 as process1,"
-                    + "CAST((case when charindex('*', c.FHeadSelfJ0186) > 0 then '0' else c.FHeadSelfJ0186 end) as decimal(18, 4)) as processPrice1, "
-                    + "c.FHeadSelfJ0187 as process2, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ0188) > 0 then '0' else c.FHeadSelfJ0188 end) as decimal(18, 4)) as processPrice2, "
-                    + "c.FHeadSelfJ0189 as process3, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ0190) > 0 then '0' else c.FHeadSelfJ0190 end) as decimal(18, 4)) as processPrice3, "
-                    + "c.FHeadSelfJ0191 as process4, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ0192) > 0 then '0' else c.FHeadSelfJ0192 end) as decimal(18, 4)) as processPrice4, "
-                    + "c.FHeadSelfJ0193 as process5, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ0194) > 0 then '0' else c.FHeadSelfJ0194 end) as decimal(18, 4)) as processPrice5, "
-                    + "c.FHeadSelfJ0195 as process6, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ0196) > 0 then '0' else c.FHeadSelfJ0196 end) as decimal(18, 4)) as processPrice6, "
-                    + "c.FHeadSelfJ0197 as process7, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ0198) > 0 then '0' else c.FHeadSelfJ0198 end) as decimal(18, 4)) as processPrice7, "
-                    + "c.FHeadSelfJ0199 as process8, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ01100) > 0 then '0' else c.FHeadSelfJ01100 end) as decimal(18, 4)) as processPrice8, "
-                    + "c.FHeadSelfJ01101 as process9, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ01100) > 0 then '0' else c.FHeadSelfJ01100 end) as decimal(18, 4)) as processPrice9 "
-                    + "from dbo.ICMO c left join dbo.t_ICItemCore icc on c.FItemID = icc.FItemID "
-                    + "left join dbo.t_Item item1 on c.FHeadSelfJ01103 = item1.FitemID "
-                    + "left join dbo.t_Item item2 on c.FHeadSelfJ01105 = item2.FitemID "
-                    + "left join dbo.t_Item item3 on c.FHeadSelfJ01107 = item3.FitemID " + "where c.FBillNo = ? ";
-
-            conn = DBUtil.getConnection();
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, billNo);
-            rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                result = true;
-                planQuantity.setText(String.valueOf(rs.getDouble("planQuantity")));
-                materialCode.setText(rs.getString("materialCode"));
-                materialName.setText(rs.getString("materialName"));
-                model.setText(rs.getString("model"));
-                resProcess1.setText(rs.getString("resProcess1"));
-                resProcess2.setText(rs.getString("resProcess2"));
-                resProcess3.setText(rs.getString("resProcess3"));
-                process1.setText(rs.getString("process1"));
-                process2.setText(rs.getString("process2"));
-                process3.setText(rs.getString("process3"));
-                process4.setText(rs.getString("process4"));
-                process5.setText(rs.getString("process5"));
-                process6.setText(rs.getString("process6"));
-                process7.setText(rs.getString("process7"));
-                process8.setText(rs.getString("process8"));
-                process9.setText(rs.getString("process9"));
-                resProcessPrice1.setText(rs.getString("resProcessPrice1"));
-                resProcessPrice2.setText(rs.getString("resProcessPrice2"));
-                resProcessPrice3.setText(rs.getString("resProcessPrice3"));
-                processPrice1.setText(rs.getString("processPrice1"));
-                processPrice2.setText(rs.getString("processPrice2"));
-                processPrice3.setText(rs.getString("processPrice3"));
-                processPrice4.setText(rs.getString("processPrice4"));
-                processPrice5.setText(rs.getString("processPrice5"));
-                processPrice6.setText(rs.getString("processPrice6"));
-                processPrice7.setText(rs.getString("processPrice7"));
-                processPrice8.setText(rs.getString("processPrice8"));
-                processPrice9.setText(rs.getString("processPrice9"));
-            }
-
-            handlerProcessQtyField();
-        } catch (Exception e) {
-            Logger.getLogger(AddDailyController.class.getName()).log(Level.SEVERE, null, e);
-            return false;
-        } finally {
-            DBUtil.release(conn, stmt, rs);
-        }
-
-        return result;
+        handlerProcessQtyField();
     }
 
     // 工序名称为空时，对应的实作数量输入框不可输入
@@ -628,57 +592,38 @@ public class AddDailyController implements Initializable {
     @FXML
     public void confirmBtnAction() {
         String billNo = billNoTextField.getText().trim();
-        // 添加日报之前，首先将该条生产任务单的信息同步到日报汇总表中
-        DailyProcessQty d = DailyUtil.getProcessTotalQty(billNo);
-        if (d == null) {
-            DailyUtil.addProductDailyTotal(billNo);
-        }
+        // 获取所有工序的汇总实作数量
 
         String message = verifyProcess(billNo);
 
         if (!"OK".equals(message)) {
             AlertUtil.alertInfoLater(message);
         } else {
-            String dailyNo = DailyUtil.getDailyNo();
-            int planQty = DailyUtil.getProcessTotalQty(billNo).getPlanQuantity();
+            String dailyNo = dailyNoLabel.getText();
 
-            Daily daily = new Daily(dailyNo, billNo, materialCode.getText(), materialName.getText(), model.getText(),
-                    planQty, resProcess1.getText(), Double.valueOf(resProcessPrice1.getText()),
+            DailyProcessQty dailyProcessQty = new DailyProcessQty(billNo, dailyNo,
+                    Integer.valueOf(planQuantity.getText()),
                     Integer.valueOf("".equals(resProcessQty1.getText()) ? "0" : resProcessQty1.getText()),
-                    resProcess2.getText(), Double.valueOf(resProcessPrice2.getText()),
                     Integer.valueOf("".equals(resProcessQty2.getText()) ? "0" : resProcessQty2.getText()),
-                    resProcess3.getText(), Double.valueOf(resProcessPrice3.getText()),
                     Integer.valueOf("".equals(resProcessQty3.getText()) ? "0" : resProcessQty3.getText()),
-                    process1.getText(), Double.valueOf(processPrice1.getText()),
-                    Integer.valueOf("".equals(processQty1.getText()) ? "0" : processQty1.getText()), process2.getText(),
-                    Double.valueOf(processPrice2.getText()),
-                    Integer.valueOf("".equals(processQty2.getText()) ? "0" : processQty2.getText()), process3.getText(),
-                    Double.valueOf(processPrice3.getText()),
-                    Integer.valueOf("".equals(processQty3.getText()) ? "0" : processQty3.getText()), process4.getText(),
-                    Double.valueOf(processPrice4.getText()),
-                    Integer.valueOf("".equals(processQty4.getText()) ? "0" : processQty4.getText()), process5.getText(),
-                    Double.valueOf(processPrice5.getText()),
-                    Integer.valueOf("".equals(processQty5.getText()) ? "0" : processQty5.getText()), process6.getText(),
-                    Double.valueOf(processPrice6.getText()),
-                    Integer.valueOf("".equals(processQty6.getText()) ? "0" : processQty6.getText()), process7.getText(),
-                    Double.valueOf(processPrice7.getText()),
-                    Integer.valueOf("".equals(processQty7.getText()) ? "0" : processQty7.getText()), process8.getText(),
-                    Double.valueOf(processPrice8.getText()),
-                    Integer.valueOf("".equals(processQty8.getText()) ? "0" : processQty8.getText()), process9.getText(),
-                    Double.valueOf(processPrice9.getText()),
-                    Integer.valueOf("".equals(processQty9.getText()) ? "0" : processQty9.getText()),
-                    SessionUtil.USERS.get("loginUser").getUserNo(), new Timestamp(new Date().getTime()),
-                    "是".equals(SessionUtil.USERS.get("loginUser").getIsPiecework()) ? 1 : 0, 0,
-                    DailyUtil.getDailyDetailSeq(billNo));
+                    Integer.valueOf("".equals(processQty1.getText()) ? "0" : processQty1.getText()),
+                    Integer.valueOf("".equals(processQty2.getText()) ? "0" : processQty2.getText()),
+                    Integer.valueOf("".equals(processQty3.getText()) ? "0" : processQty3.getText()),
+                    Integer.valueOf("".equals(processQty4.getText()) ? "0" : processQty4.getText()),
+                    Integer.valueOf("".equals(processQty5.getText()) ? "0" : processQty5.getText()),
+                    Integer.valueOf("".equals(processQty6.getText()) ? "0" : processQty6.getText()),
+                    Integer.valueOf("".equals(processQty7.getText()) ? "0" : processQty7.getText()),
+                    Integer.valueOf("".equals(processQty8.getText()) ? "0" : processQty8.getText()),
+                    Integer.valueOf("".equals(processQty9.getText()) ? "0" : processQty9.getText()));
 
-            boolean result = DailyUtil.addDaily(daily);
+            boolean result = DailyUtil.modifyDaily(dailyProcessQty);
             if (result) {
-                AlertUtil.alertInfoLater(PropsUtil.getMessage("daily.add.success") + dailyNo);
+                AlertUtil.alertInfoLater(PropsUtil.getMessage("daily.modify.success"));
                 // 新建完成刷新数据
                 ((DailyTableViewController) SessionUtil.CONTROLLERS.get("DailyTableViewController")).refresh();
                 DailyTableViewController.getdialogStage().close();
             } else {
-                AlertUtil.alertInfoLater(PropsUtil.getMessage("daily.add.fail") + dailyNo);
+                AlertUtil.alertInfoLater(PropsUtil.getMessage("daily.modify.fail") + dailyNo);
                 DailyTableViewController.getdialogStage().close();
             }
         }
@@ -689,9 +634,12 @@ public class AddDailyController implements Initializable {
         DailyProcessQty d = DailyUtil.getProcessTotalQty(billNo);
         int playQty = d.getPlanQuantity();
 
-        int resProQty1 = "".equals(resProcessQty1.getText().trim()) ? 0 : Integer.valueOf(resProcessQty1.getText().trim());
-        int resProQty2 = "".equals(resProcessQty2.getText().trim()) ? 0 : Integer.valueOf(resProcessQty2.getText().trim());
-        int resProQty3 = "".equals(resProcessQty3.getText().trim()) ? 0 : Integer.valueOf(resProcessQty3.getText().trim());
+        int resProQty1 = "".equals(resProcessQty1.getText().trim()) ? 0
+                : Integer.valueOf(resProcessQty1.getText().trim());
+        int resProQty2 = "".equals(resProcessQty2.getText().trim()) ? 0
+                : Integer.valueOf(resProcessQty2.getText().trim());
+        int resProQty3 = "".equals(resProcessQty3.getText().trim()) ? 0
+                : Integer.valueOf(resProcessQty3.getText().trim());
         int proQty1 = "".equals(processQty1.getText().trim()) ? 0 : Integer.valueOf(processQty1.getText().trim());
         int proQty2 = "".equals(processQty2.getText().trim()) ? 0 : Integer.valueOf(processQty2.getText().trim());
         int proQty3 = "".equals(processQty3.getText().trim()) ? 0 : Integer.valueOf(processQty3.getText().trim());
@@ -702,7 +650,7 @@ public class AddDailyController implements Initializable {
         int proQty8 = "".equals(processQty8.getText().trim()) ? 0 : Integer.valueOf(processQty8.getText().trim());
         int proQty9 = "".equals(processQty9.getText().trim()) ? 0 : Integer.valueOf(processQty9.getText().trim());
 
-        //将本次录入的实作数量和已经完成的实作数量相加
+        // 将本次录入的实作数量和已经完成的实作数量相加
         int resProTotalQty1 = resProQty1 + d.getResProcessQty1();
         int resProTotalQty2 = resProQty2 + d.getResProcessQty2();
         int resProTotalQty3 = resProQty3 + d.getResProcessQty3();

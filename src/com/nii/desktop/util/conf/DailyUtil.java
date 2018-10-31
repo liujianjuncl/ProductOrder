@@ -10,8 +10,7 @@ import java.util.logging.Logger;
 
 import com.nii.desktop.controller.AddDailyController;
 import com.nii.desktop.model.Daily;
-import com.nii.desktop.model.DailyProcessTotalQty;
-import com.nii.desktop.model.User;
+import com.nii.desktop.model.DailyProcessQty;
 
 public class DailyUtil {
 
@@ -68,12 +67,12 @@ public class DailyUtil {
     }
 
     // 获取所有工序累计实作数量值
-    public static DailyProcessTotalQty getProcessTotalQty(String billNo) {
+    public static DailyProcessQty getProcessTotalQty(String billNo) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        DailyProcessTotalQty dailyProcessTotalQty = null;
+        DailyProcessQty dailyProcessQty = null;
 
         try {
             String sql = "select * from dbo.t_product_daily_bill_total t where t.billNo = ? ";
@@ -98,7 +97,7 @@ public class DailyUtil {
                 int processTotalQty8 = rs.getInt("processTotalQty8");
                 int processTotalQty9 = rs.getInt("processTotalQty9");
 
-                dailyProcessTotalQty = new DailyProcessTotalQty(billNo, playQty, resProcessTotalQty1,
+                dailyProcessQty = new DailyProcessQty(billNo, null, playQty, resProcessTotalQty1,
                         resProcessTotalQty2, resProcessTotalQty3, processTotalQty1, processTotalQty2, processTotalQty3,
                         processTotalQty4, processTotalQty5, processTotalQty6, processTotalQty7, processTotalQty8,
                         processTotalQty9);
@@ -109,27 +108,28 @@ public class DailyUtil {
             DBUtil.release(conn, stmt, rs);
         }
 
-        return dailyProcessTotalQty;
+        return dailyProcessQty;
     }
 
     // 如果存在改制工序实作数量，则不允许输入工序实作数量
-    public static String verifyIsNull(String resProQty1, String resProQty2, String resProQty3, String proQty1,
-            String proQty2, String proQty3, String proQty4, String proQty5, String proQty6, String proQty7,
-            String proQty8, String proQty9) {
+    public static String verifyIsNull(int resProQty1, int resProQty2, int resProQty3, int proQty1,
+            int proQty2, int proQty3, int proQty4, int proQty5, int proQty6, int proQty7,
+            int proQty8, int proQty9) {
 
-        if ("".equals(resProQty1) && "".equals(resProQty2) && "".equals(resProQty3) && "".equals(proQty1)
-                && "".equals(proQty2) && "".equals(proQty3) && "".equals(proQty4) && "".equals(proQty5)
-                && "".equals(proQty6) && "".equals(proQty7) && "".equals(proQty8) && "".equals(proQty9)) {
+        if (resProQty1 == 0 && resProQty2 == 0 && resProQty3 == 0 && proQty1 == 0
+                && proQty2 == 0 && proQty3 == 0 && proQty4 == 0 && proQty5 == 0
+                && proQty6 == 0 && proQty7 == 0 && proQty8 == 0 && proQty9 == 0) {
             return PropsUtil.getMessage("processQty.isnull");
-        } else if ((!"".equals(resProQty1) || !"".equals(resProQty2) || !"".equals(resProQty3)) && (!"".equals(proQty1)
-                || !"".equals(proQty2) || !"".equals(proQty3) || !"".equals(proQty4) || !"".equals(proQty5)
-                || !"".equals(proQty6) || !"".equals(proQty7) || !"".equals(proQty8) || !"".equals(proQty9))) {
+        } else if ((resProQty1 != 0 || resProQty2 != 0 || resProQty3 != 0 && (proQty1 != 0
+                || proQty2 != 0 || proQty3 != 0 || proQty4 != 0 || proQty5 != 0
+                || proQty6 != 0 || proQty7 != 0 || proQty8 != 0 || proQty9 != 0))) {
             return PropsUtil.getMessage("resProQty.isnot.null");
         }
         return "OK";
     }
 
-    public static String verifyProcess(int[] resTotalQty, int[] totalQty, int playQty) {
+    // 校验改制工序及工序的是做数量逻辑
+    public static String verifyProcessQty(int[] resTotalQty, int[] totalQty, int playQty) {
         // 前一个改制工序累计实作数量必须大于或等于后一个改制工序累计实作数量
         for (int i = 0; i < resTotalQty.length; i++) {
             for (int j = i + 1; j < resTotalQty.length; j++) {
@@ -261,53 +261,105 @@ public class DailyUtil {
             stmt.setString(3, daily.getMaterialCode());
             stmt.setString(4, daily.getMaterialName());
             stmt.setString(5, daily.getModel());
-            stmt.setInt(6, daily.getPlanQuantity());
-            stmt.setString(7, daily.getResProcess1());
-            stmt.setDouble(8, daily.getResProcessPrice1());
-            stmt.setInt(9, daily.getResProcessQuantity1());
-            stmt.setString(10, daily.getResProcess2());
-            stmt.setDouble(11, daily.getResProcessPrice2());
-            stmt.setInt(12, daily.getResProcessQuantity2());
-            stmt.setString(13, daily.getResProcess3());
-            stmt.setDouble(14, daily.getResProcessPrice3());
-            stmt.setInt(15, daily.getResProcessQuantity3());
-            stmt.setString(16, daily.getProcess1());
-            stmt.setDouble(17, daily.getProcessPrice2());
-            stmt.setInt(18, daily.getProcessQuantity1());
-            stmt.setString(19, daily.getProcess2());
-            stmt.setDouble(20, daily.getProcessPrice2());
-            stmt.setInt(21, daily.getProcessQuantity2());
-            stmt.setString(22, daily.getProcess3());
-            stmt.setDouble(23, daily.getProcessPrice3());
-            stmt.setInt(24, daily.getProcessQuantity3());
-            stmt.setString(25, daily.getProcess4());
-            stmt.setDouble(26, daily.getProcessPrice4());
-            stmt.setInt(27, daily.getProcessQuantity4());
-            stmt.setString(28, daily.getProcess5());
-            stmt.setDouble(29, daily.getProcessPrice5());
-            stmt.setInt(30, daily.getProcessQuantity5());
-            stmt.setString(31, daily.getProcess6());
-            stmt.setDouble(32, daily.getProcessPrice6());
-            stmt.setInt(33, daily.getProcessQuantity6());
-            stmt.setString(34, daily.getProcess7());
-            stmt.setDouble(35, daily.getProcessPrice7());
-            stmt.setInt(36, daily.getProcessQuantity7());
-            stmt.setString(37, daily.getProcess8());
-            stmt.setDouble(38, daily.getProcessPrice8());
-            stmt.setInt(39, daily.getProcessQuantity8());
-            stmt.setString(40, daily.getProcess9());
-            stmt.setDouble(41, daily.getProcessPrice9());
-            stmt.setInt(42, daily.getProcessQuantity9());
+            stmt.setInt(6, daily.getPlanQty());
+            stmt.setString(7, daily.getResPro1());
+            stmt.setDouble(8, daily.getResProPrice1());
+            stmt.setInt(9, daily.getResProQty1());
+            stmt.setString(10, daily.getResPro2());
+            stmt.setDouble(11, daily.getResProPrice2());
+            stmt.setInt(12, daily.getResProQty2());
+            stmt.setString(13, daily.getResPro3());
+            stmt.setDouble(14, daily.getResProPrice3());
+            stmt.setInt(15, daily.getResProQty3());
+            stmt.setString(16, daily.getPro1());
+            stmt.setDouble(17, daily.getProPrice2());
+            stmt.setInt(18, daily.getProQty1());
+            stmt.setString(19, daily.getPro2());
+            stmt.setDouble(20, daily.getProPrice2());
+            stmt.setInt(21, daily.getProQty2());
+            stmt.setString(22, daily.getPro3());
+            stmt.setDouble(23, daily.getProPrice3());
+            stmt.setInt(24, daily.getProQty3());
+            stmt.setString(25, daily.getPro4());
+            stmt.setDouble(26, daily.getProPrice4());
+            stmt.setInt(27, daily.getProQty4());
+            stmt.setString(28, daily.getPro5());
+            stmt.setDouble(29, daily.getProPrice5());
+            stmt.setInt(30, daily.getProQty5());
+            stmt.setString(31, daily.getPro6());
+            stmt.setDouble(32, daily.getProPrice6());
+            stmt.setInt(33, daily.getProQty6());
+            stmt.setString(34, daily.getPro7());
+            stmt.setDouble(35, daily.getProPrice7());
+            stmt.setInt(36, daily.getProQty7());
+            stmt.setString(37, daily.getPro8());
+            stmt.setDouble(38, daily.getProPrice8());
+            stmt.setInt(39, daily.getProQty8());
+            stmt.setString(40, daily.getPro9());
+            stmt.setDouble(41, daily.getProPrice9());
+            stmt.setInt(42, daily.getProQty9());
             stmt.setString(43, daily.getCreateUser());
             stmt.setTimestamp(44, daily.getCreateTime());
             stmt.setInt(45, daily.getIsPiecework());
             stmt.setInt(46, daily.getIsDelete());
             stmt.setInt(47, daily.getSequence());
 
+            DailyProcessQty dailyProcessQty = new DailyProcessQty(daily.getBillNo(), daily.getDailyNo(),
+                    daily.getPlanQty(), daily.getResProQty1(), daily.getResProQty2(), 
+                    daily.getResProQty3(), daily.getProQty1(), daily.getProQty2(), 
+                    daily.getProQty3(), daily.getProQty4(), daily.getProQty5(), 
+                    daily.getProQty6(), daily.getProQty7(), 
+                    daily.getProQty8(), daily.getProQty9());
+            
             stmt.executeUpdate();
 
             // 修改生产日报汇总表数据
-            updateDailyTotalQty(daily);
+            updateDailyTotalQty(dailyProcessQty);
+
+        } catch (Exception e) {
+            Logger.getLogger(AddDailyController.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        } finally {
+            DBUtil.release(conn, stmt);
+        }
+
+        return true;
+    }
+
+    // 修改日报
+    public static boolean modifyDaily(DailyProcessQty dailyProcessQty) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+//        addProductDailyTotal("制造-CB车间180813427");
+
+        try {
+            // 插入日报数据
+            String sql = "update dbo.t_product_daily_bill_detail set resProcessQty1 = ?, "
+                    + "resProcessQty2 = ?, resProcessQty3 = ?, processQty1 = ?, processQty2 = ?, "
+                    + "processQty3 = ?, processQty4 = ?, processQty5 = ?, processQty6 = ?, "
+                    + "processQty7 = ?, processQty8 = ?, processQty9 = ? where dailyNo = ? and isDelete = 0 ";
+
+            conn = DBUtil.getConnection();
+            stmt = conn.prepareStatement(sql);
+
+            stmt.setInt(1, dailyProcessQty.getResProcessQty1());
+            stmt.setInt(2, dailyProcessQty.getResProcessQty2());
+            stmt.setInt(3, dailyProcessQty.getResProcessQty3());
+            stmt.setInt(4, dailyProcessQty.getProcessQty1());
+            stmt.setInt(5, dailyProcessQty.getProcessQty2());
+            stmt.setInt(6, dailyProcessQty.getProcessQty3());
+            stmt.setInt(7, dailyProcessQty.getProcessQty4());
+            stmt.setInt(8, dailyProcessQty.getProcessQty5());
+            stmt.setInt(9, dailyProcessQty.getProcessQty6());
+            stmt.setInt(10, dailyProcessQty.getProcessQty7());
+            stmt.setInt(11, dailyProcessQty.getProcessQty8());
+            stmt.setInt(12, dailyProcessQty.getProcessQty9());
+            stmt.setString(13, dailyProcessQty.getDailyNo());
+            stmt.executeUpdate();
+
+            // 修改生产日报汇总表数据
+            updateDailyTotalQty(dailyProcessQty);
 
         } catch (Exception e) {
             Logger.getLogger(AddDailyController.class.getName()).log(Level.SEVERE, null, e);
@@ -320,21 +372,21 @@ public class DailyUtil {
     }
 
     // 更新累计实作数量汇总表
-    public static void updateDailyTotalQty(Daily daily) {
-        DailyProcessTotalQty d = getProcessTotalQty(daily.getBillNo());
+    public static void updateDailyTotalQty(DailyProcessQty dailyProcessQty) {
+        DailyProcessQty d = getProcessTotalQty(dailyProcessQty.getBillNo());
 
-        int resProTotalQty1 = d.getResProcessTotalQty1() + daily.getResProcessQuantity1();
-        int resProTotalQty2 = d.getResProcessTotalQty2() + daily.getResProcessQuantity2();
-        int resProTotalQty3 = d.getResProcessTotalQty3() + daily.getResProcessQuantity3();
-        int proTotalQty1 = d.getProcessTotalQty1() + daily.getProcessQuantity1();
-        int proTotalQty2 = d.getProcessTotalQty2() + daily.getProcessQuantity2();
-        int proTotalQty3 = d.getProcessTotalQty3() + daily.getProcessQuantity3();
-        int proTotalQty4 = d.getProcessTotalQty4() + daily.getProcessQuantity4();
-        int proTotalQty5 = d.getProcessTotalQty5() + daily.getProcessQuantity5();
-        int proTotalQty6 = d.getProcessTotalQty6() + daily.getProcessQuantity6();
-        int proTotalQty7 = d.getProcessTotalQty7() + daily.getProcessQuantity7();
-        int proTotalQty8 = d.getProcessTotalQty8() + daily.getProcessQuantity8();
-        int proTotalQty9 = d.getProcessTotalQty9() + daily.getProcessQuantity9();
+        int resProTotalQty1 = d.getResProcessQty1() + dailyProcessQty.getResProcessQty1();
+        int resProTotalQty2 = d.getResProcessQty2() + dailyProcessQty.getResProcessQty2();
+        int resProTotalQty3 = d.getResProcessQty3() + dailyProcessQty.getResProcessQty3();
+        int proTotalQty1 = d.getProcessQty1() + dailyProcessQty.getProcessQty1();
+        int proTotalQty2 = d.getProcessQty2() + dailyProcessQty.getProcessQty2();
+        int proTotalQty3 = d.getProcessQty3() + dailyProcessQty.getProcessQty3();
+        int proTotalQty4 = d.getProcessQty4() + dailyProcessQty.getProcessQty4();
+        int proTotalQty5 = d.getProcessQty5() + dailyProcessQty.getProcessQty5();
+        int proTotalQty6 = d.getProcessQty6() + dailyProcessQty.getProcessQty6();
+        int proTotalQty7 = d.getProcessQty7() + dailyProcessQty.getProcessQty7();
+        int proTotalQty8 = d.getProcessQty8() + dailyProcessQty.getProcessQty8();
+        int proTotalQty9 = d.getProcessQty9() + dailyProcessQty.getProcessQty9();
 
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -361,7 +413,7 @@ public class DailyUtil {
             stmt.setInt(10, proTotalQty7);
             stmt.setInt(11, proTotalQty8);
             stmt.setInt(12, proTotalQty9);
-            stmt.setString(13, daily.getBillNo());
+            stmt.setString(13, dailyProcessQty.getBillNo());
 
             stmt.executeUpdate();
 
@@ -373,7 +425,7 @@ public class DailyUtil {
     }
 
     /* 根据dailyNo获取日报 */
-    public static Daily getDaily(String dailyNumber) {
+    public static Daily getDailyByNo(String dailyNumber) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -414,6 +466,49 @@ public class DailyUtil {
         return daily;
     }
 
+    /* 根据dailyNo获取日报全部信息 */
+    public static Daily getDailyByNoAll(String dailyNo) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        Daily daily = null;
+
+        String sql = "select * from dbo.t_product_daily_bill_detail where dailyNo = ? and isDelete = 0";
+        try {
+            conn = DBUtil.getConnection();
+            stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, dailyNo);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                daily = new Daily(dailyNo, rs.getString("billNo"), rs.getString("materialCode"),
+                        rs.getString("materialName"), rs.getString("model"), rs.getInt("planQuantity"),
+                        rs.getString("resProcess1"), rs.getDouble("resProcessPrice1"), rs.getInt("resProcessQty1"),
+                        rs.getString("resProcess2"), rs.getDouble("resProcessPrice2"), rs.getInt("resProcessQty2"),
+                        rs.getString("resProcess3"), rs.getDouble("resProcessPrice3"), rs.getInt("resProcessQty3"),
+                        rs.getString("process1"), rs.getDouble("processPrice1"), rs.getInt("processQty1"),
+                        rs.getString("process2"), rs.getDouble("processPrice2"), rs.getInt("processQty2"),
+                        rs.getString("process3"), rs.getDouble("processPrice3"), rs.getInt("processQty3"),
+                        rs.getString("process4"), rs.getDouble("processPrice4"), rs.getInt("processQty4"),
+                        rs.getString("process5"), rs.getDouble("processPrice5"), rs.getInt("processQty5"),
+                        rs.getString("process6"), rs.getDouble("processPrice6"), rs.getInt("processQty6"),
+                        rs.getString("process7"), rs.getDouble("processPrice7"), rs.getInt("processQty7"),
+                        rs.getString("process8"), rs.getDouble("processPrice8"), rs.getInt("processQty8"),
+                        rs.getString("process9"), rs.getDouble("processPrice9"), rs.getInt("processQty9"),
+                        rs.getString("createUser"), rs.getTimestamp("createTime"), rs.getInt("isPiecework"),
+                        rs.getInt("isDelete"), rs.getInt("sequence"));
+            }
+        } catch (Exception e) {
+            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            DBUtil.release(conn, stmt, rs);
+        }
+
+        return daily;
+    }
+
     public static void main(String[] args) {
 //        int maxSeq = getDailyDetailSeq("制造-VP车间180813428");
 //        System.out.println(maxSeq);
@@ -424,6 +519,6 @@ public class DailyUtil {
 //        System.out.println(str.substring(12));
 //        System.out.println(getDailyNo());
 
-        System.out.println(getProcessTotalQty("123"));
+        System.out.println(getDailyByNoAll("201810311121001").getBillNo());
     }
 }

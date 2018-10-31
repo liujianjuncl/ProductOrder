@@ -93,7 +93,6 @@ public class ModifyUserController implements Initializable {
 
     @FXML
     public void confirmBtnAction() {
-
         String userName = userNameField.getText();
         String password = passwordField.getText();
         String isPiecework = (String) isPieceworkCbox.getValue();

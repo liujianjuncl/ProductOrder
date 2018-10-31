@@ -6,7 +6,7 @@ import javafx.scene.control.CheckBox;
 
 public class Daily {
 
-    private CheckBox checkbox = new CheckBox(); // 复选框
+    private CheckBox checkbox; // 复选框
 
     private String dailyNo; // 生产日报编号
 
@@ -18,79 +18,79 @@ public class Daily {
 
     private String model; // 规格型号
 
-    private int planQuantity; // 计划生产数量
+    private int planQty; // 计划生产数量
 
-    private String resProcess1; // 改制工序1
+    private String resPro1; // 改制工序1
 
-    private double resProcessPrice1; // 改制工序1单价
+    private double resProPrice1; // 改制工序1单价
 
-    private int resProcessQuantity1; // 改制工序1本次实作数量
+    private int resProQty1; // 改制工序1本次实作数量
 
-    private String resProcess2; // 改制工序2
+    private String resPro2; // 改制工序2
 
-    private double resProcessPrice2; // 改制工序2单价
+    private double resProPrice2; // 改制工序2单价
 
-    private int resProcessQuantity2; // 改制工序2本次实作数量
+    private int resProQty2; // 改制工序2本次实作数量
 
-    private String resProcess3; // 改制工序3
+    private String resPro3; // 改制工序3
 
-    private double resProcessPrice3; // 改制工序3单价
+    private double resProPrice3; // 改制工序3单价
 
-    private int resProcessQuantity3; // 改制工序3本次实作数量
+    private int resProQty3; // 改制工序3本次实作数量
 
     private String process1; // 工序1
 
     private double processPrice1; // 工序1单价
 
-    private int processQuantity1; // 工序1本次实作数量
+    private int processQty1; // 工序1本次实作数量
 
     private String process2; // 工序2
 
     private double processPrice2; // 工序2单价
 
-    private int processQuantity2; // 工序2本次实作数量
+    private int processQty2; // 工序2本次实作数量
 
     private String process3; // 工序3
 
     private double processPrice3; // 工序3单价
 
-    private int processQuantity3; // 工序3本次实作数量
+    private int processQty3; // 工序3本次实作数量
 
     private String process4; // 工序4
 
     private double processPrice4; // 工序4单价
 
-    private int processQuantity4; // 工序4本次实作数量
+    private int processQty4; // 工序4本次实作数量
 
     private String process5; // 工序5
 
     private double processPrice5; // 工序5单价
 
-    private int processQuantity5; // 工序5本次实作数量
+    private int processQty5; // 工序5本次实作数量
 
     private String process6; // 工序6
 
     private double processPrice6; // 工序6单价
 
-    private int processQuantity6; // 工序6本次实作数量
+    private int processQty6; // 工序6本次实作数量
 
     private String process7; // 工序7
 
     private double processPrice7; // 工序7单价
 
-    private int processQuantity7; // 工序7本次实作数量
+    private int processQty7; // 工序7本次实作数量
 
     private String process8; // 工序8
 
     private double processPrice8; // 工序8单价
 
-    private int processQuantity8; // 工序8本次实作数量
+    private int processQty8; // 工序8本次实作数量
 
     private String process9; // 工序9
 
     private double processPrice9; // 工序9单价
 
-    private int processQuantity9; // 工序9本次实作数量
+    private int processQty9; // 工序9本次实作数量
 
     private String createUser; // 创建用户
 
@@ -103,14 +103,14 @@ public class Daily {
     private int sequence; // 日报序号，用于记录同一个生产任务单中日报编号
 
     public Daily(String dailyNo, String billNo, String materialCode, String materialName, String model,
-            int planQuantity, String resProcess1, double resProcessPrice1, int resProcessQuantity1, String resProcess2,
-            double resProcessPrice2, int resProcessQuantity2, String resProcess3, double resProcessPrice3,
-            int resProcessQuantity3, String process1, double processPrice1, int processQuantity1, String process2,
-            double processPrice2, int processQuantity2, String process3, double processPrice3, int processQuantity3,
-            String process4, double processPrice4, int processQuantity4, String process5, double processPrice5,
-            int processQuantity5, String process6, double processPrice6, int processQuantity6, String process7,
-            double processPrice7, int processQuantity7, String process8, double processPrice8, int processQuantity8,
-            String process9, double processPrice9, int processQuantity9, String createUser, Timestamp createTime,
+            int planQty, String resPro1, double resProPrice1, int resProQty1, String resPro2,
+            double resProPrice2, int resProQty2, String resPro3, double resProPrice3,
+            int resProQty3, String process1, double processPrice1, int processQty1, String process2,
+            double processPrice2, int processQty2, String process3, double processPrice3, int processQty3,
+            String process4, double processPrice4, int processQty4, String process5, double processPrice5,
+            int processQty5, String process6, double processPrice6, int processQty6, String process7,
+            double processPrice7, int processQty7, String process8, double processPrice8, int processQty8,
+            String process9, double processPrice9, int processQty9, String createUser, Timestamp createTime,
             int isPiecework, int isDelete, int sequence) {
         super();
         this.dailyNo = dailyNo;
@@ -118,43 +118,43 @@ public class Daily {
         this.materialCode = materialCode;
         this.materialName = materialName;
         this.model = model;
-        this.planQuantity = planQuantity;
-        this.resProcess1 = resProcess1;
-        this.resProcessPrice1 = resProcessPrice1;
-        this.resProcessQuantity1 = resProcessQuantity1;
-        this.resProcess2 = resProcess2;
-        this.resProcessPrice2 = resProcessPrice2;
-        this.resProcessQuantity2 = resProcessQuantity2;
-        this.resProcess3 = resProcess3;
-        this.resProcessPrice3 = resProcessPrice3;
-        this.resProcessQuantity3 = resProcessQuantity3;
+        this.planQty = planQty;
+        this.resPro1 = resPro1;
+        this.resProPrice1 = resProPrice1;
+        this.resProQty1 = resProQty1;
+        this.resPro2 = resPro2;
+        this.resProPrice2 = resProPrice2;
+        this.resProQty2 = resProQty2;
+        this.resPro3 = resPro3;
+        this.resProPrice3 = resProPrice3;
+        this.resProQty3 = resProQty3;
         this.process1 = process1;
         this.processPrice1 = processPrice1;
-        this.processQuantity1 = processQuantity1;
+        this.processQty1 = processQty1;
         this.process2 = process2;
         this.processPrice2 = processPrice2;
-        this.processQuantity2 = processQuantity2;
+        this.processQty2 = processQty2;
         this.process3 = process3;
         this.processPrice3 = processPrice3;
-        this.processQuantity3 = processQuantity3;
+        this.processQty3 = processQty3;
         this.process4 = process4;
         this.processPrice4 = processPrice4;
-        this.processQuantity4 = processQuantity4;
+        this.processQty4 = processQty4;
         this.process5 = process5;
         this.processPrice5 = processPrice5;
-        this.processQuantity5 = processQuantity5;
+        this.processQty5 = processQty5;
         this.process6 = process6;
         this.processPrice6 = processPrice6;
-        this.processQuantity6 = processQuantity6;
+        this.processQty6 = processQty6;
         this.process7 = process7;
         this.processPrice7 = processPrice7;
-        this.processQuantity7 = processQuantity7;
+        this.processQty7 = processQty7;
         this.process8 = process8;
         this.processPrice8 = processPrice8;
-        this.processQuantity8 = processQuantity8;
+        this.processQty8 = processQty8;
         this.process9 = process9;
         this.processPrice9 = processPrice9;
-        this.processQuantity9 = processQuantity9;
+        this.processQty9 = processQty9;
         this.createUser = createUser;
         this.createTime = createTime;
         this.isPiecework = isPiecework;
@@ -163,7 +163,7 @@ public class Daily {
     }
 
     public Daily(CheckBox checkbox, String dailyNo, String billNo, String materialCode, String materialName,
-            String model, int planQuantity) {
+            String model, int planQty) {
         super();
         this.checkbox = checkbox;
         this.dailyNo = dailyNo;
@@ -171,18 +171,18 @@ public class Daily {
         this.materialCode = materialCode;
         this.materialName = materialName;
         this.model = model;
-        this.planQuantity = planQuantity;
+        this.planQty = planQty;
     }
 
     public Daily(String dailyNo, String billNo, String materialCode, String materialName, String model,
-            int planQuantity) {
+            int planQty) {
         super();
         this.dailyNo = dailyNo;
         this.billNo = billNo;
         this.materialCode = materialCode;
         this.materialName = materialName;
         this.model = model;
-        this.planQuantity = planQuantity;
+        this.planQty = planQty;
     }
 
     public CheckBox getCheckbox() {
@@ -233,300 +233,300 @@ public class Daily {
         this.model = model;
     }
 
-    public int getPlanQuantity() {
-        return planQuantity;
+    public int getPlanQty() {
+        return planQty;
     }
 
-    public void setPlanQuantity(int planQuantity) {
-        this.planQuantity = planQuantity;
+    public void setPlanQty(int planQty) {
+        this.planQty = planQty;
     }
 
-    public String getResProcess1() {
-        return resProcess1;
+    public String getResPro1() {
+        return resPro1;
     }
 
-    public void setResProcess1(String resProcess1) {
-        this.resProcess1 = resProcess1;
+    public void setResPro1(String resPro1) {
+        this.resPro1 = resPro1;
     }
 
-    public double getResProcessPrice1() {
-        return resProcessPrice1;
+    public double getResProPrice1() {
+        return resProPrice1;
     }
 
-    public void setResProcessPrice1(double resProcessPrice1) {
-        this.resProcessPrice1 = resProcessPrice1;
+    public void setResProPrice1(double resProPrice1) {
+        this.resProPrice1 = resProPrice1;
     }
 
-    public int getResProcessQuantity1() {
-        return resProcessQuantity1;
+    public int getResProQty1() {
+        return resProQty1;
     }
 
-    public void setResProcessQuantity1(int resProcessQuantity1) {
-        this.resProcessQuantity1 = resProcessQuantity1;
+    public void setResProQty1(int resProQty1) {
+        this.resProQty1 = resProQty1;
     }
 
-    public String getResProcess2() {
-        return resProcess2;
+    public String getResPro2() {
+        return resPro2;
     }
 
-    public void setResProcess2(String resProcess2) {
-        this.resProcess2 = resProcess2;
+    public void setResPro2(String resPro2) {
+        this.resPro2 = resPro2;
     }
 
-    public double getResProcessPrice2() {
-        return resProcessPrice2;
+    public double getResProPrice2() {
+        return resProPrice2;
     }
 
-    public void setResProcessPrice2(double resProcessPrice2) {
-        this.resProcessPrice2 = resProcessPrice2;
+    public void setResProPrice2(double resProPrice2) {
+        this.resProPrice2 = resProPrice2;
     }
 
-    public int getResProcessQuantity2() {
-        return resProcessQuantity2;
+    public int getResProQty2() {
+        return resProQty2;
     }
 
-    public void setResProcessQuantity2(int resProcessQuantity2) {
-        this.resProcessQuantity2 = resProcessQuantity2;
+    public void setResProQty2(int resProQty2) {
+        this.resProQty2 = resProQty2;
     }
 
-    public String getResProcess3() {
-        return resProcess3;
+    public String getResPro3() {
+        return resPro3;
     }
 
-    public void setResProcess3(String resProcess3) {
-        this.resProcess3 = resProcess3;
+    public void setResPro3(String resPro3) {
+        this.resPro3 = resPro3;
     }
 
-    public double getResProcessPrice3() {
-        return resProcessPrice3;
+    public double getResProPrice3() {
+        return resProPrice3;
     }
 
-    public void setResProcessPrice3(double resProcessPrice3) {
-        this.resProcessPrice3 = resProcessPrice3;
+    public void setResProPrice3(double resProPrice3) {
+        this.resProPrice3 = resProPrice3;
     }
 
-    public int getResProcessQuantity3() {
-        return resProcessQuantity3;
+    public int getResProQty3() {
+        return resProQty3;
     }
 
-    public void setResProcessQuantity3(int resProcessQuantity3) {
-        this.resProcessQuantity3 = resProcessQuantity3;
+    public void setResProQty3(int resProQty3) {
+        this.resProQty3 = resProQty3;
     }
 
-    public String getProcess1() {
+    public String getPro1() {
         return process1;
     }
 
-    public void setProcess1(String process1) {
+    public void setPro1(String process1) {
         this.process1 = process1;
     }
 
-    public double getProcessPrice1() {
+    public double getProPrice1() {
         return processPrice1;
     }
 
-    public void setProcessPrice1(double processPrice1) {
+    public void setProPrice1(double processPrice1) {
         this.processPrice1 = processPrice1;
     }
 
-    public int getProcessQuantity1() {
-        return processQuantity1;
+    public int getProQty1() {
+        return processQty1;
     }
 
-    public void setProcessQuantity1(int processQuantity1) {
-        this.processQuantity1 = processQuantity1;
+    public void setProQty1(int processQty1) {
+        this.processQty1 = processQty1;
     }
 
-    public String getProcess2() {
+    public String getPro2() {
         return process2;
     }
 
-    public void setProcess2(String process2) {
+    public void setPro2(String process2) {
         this.process2 = process2;
     }
 
-    public double getProcessPrice2() {
+    public double getProPrice2() {
         return processPrice2;
     }
 
-    public void setProcessPrice2(double processPrice2) {
+    public void setProPrice2(double processPrice2) {
         this.processPrice2 = processPrice2;
     }
 
-    public int getProcessQuantity2() {
-        return processQuantity2;
+    public int getProQty2() {
+        return processQty2;
     }
 
-    public void setProcessQuantity2(int processQuantity2) {
-        this.processQuantity2 = processQuantity2;
+    public void setProQty2(int processQty2) {
+        this.processQty2 = processQty2;
     }
 
-    public String getProcess3() {
+    public String getPro3() {
         return process3;
     }
 
-    public void setProcess3(String process3) {
+    public void setPro3(String process3) {
         this.process3 = process3;
     }
 
-    public double getProcessPrice3() {
+    public double getProPrice3() {
         return processPrice3;
     }
 
-    public void setProcessPrice3(double processPrice3) {
+    public void setProPrice3(double processPrice3) {
         this.processPrice3 = processPrice3;
     }
 
-    public int getProcessQuantity3() {
-        return processQuantity3;
+    public int getProQty3() {
+        return processQty3;
     }
 
-    public void setProcessQuantity3(int processQuantity3) {
-        this.processQuantity3 = processQuantity3;
+    public void setProQty3(int processQty3) {
+        this.processQty3 = processQty3;
     }
 
-    public String getProcess4() {
+    public String getPro4() {
         return process4;
     }
 
-    public void setProcess4(String process4) {
+    public void setPro4(String process4) {
         this.process4 = process4;
     }
 
-    public double getProcessPrice4() {
+    public double getProPrice4() {
         return processPrice4;
     }
 
-    public void setProcessPrice4(double processPrice4) {
+    public void setProPrice4(double processPrice4) {
         this.processPrice4 = processPrice4;
     }
 
-    public int getProcessQuantity4() {
-        return processQuantity4;
+    public int getProQty4() {
+        return processQty4;
     }
 
-    public void setProcessQuantity4(int processQuantity4) {
-        this.processQuantity4 = processQuantity4;
+    public void setProQty4(int processQty4) {
+        this.processQty4 = processQty4;
     }
 
-    public String getProcess5() {
+    public String getPro5() {
         return process5;
     }
 
-    public void setProcess5(String process5) {
+    public void setPro5(String process5) {
         this.process5 = process5;
     }
 
-    public double getProcessPrice5() {
+    public double getProPrice5() {
         return processPrice5;
     }
 
-    public void setProcessPrice5(double processPrice5) {
+    public void setProPrice5(double processPrice5) {
         this.processPrice5 = processPrice5;
     }
 
-    public int getProcessQuantity5() {
-        return processQuantity5;
+    public int getProQty5() {
+        return processQty5;
     }
 
-    public void setProcessQuantity5(int processQuantity5) {
-        this.processQuantity5 = processQuantity5;
+    public void setProQty5(int processQty5) {
+        this.processQty5 = processQty5;
     }
 
-    public String getProcess6() {
+    public String getPro6() {
         return process6;
     }
 
-    public void setProcess6(String process6) {
+    public void setPro6(String process6) {
         this.process6 = process6;
     }
 
-    public double getProcessPrice6() {
+    public double getProPrice6() {
         return processPrice6;
     }
 
-    public void setProcessPrice6(double processPrice6) {
+    public void setProPrice6(double processPrice6) {
         this.processPrice6 = processPrice6;
     }
 
-    public int getProcessQuantity6() {
-        return processQuantity6;
+    public int getProQty6() {
+        return processQty6;
     }
 
-    public void setProcessQuantity6(int processQuantity6) {
-        this.processQuantity6 = processQuantity6;
+    public void setProQty6(int processQty6) {
+        this.processQty6 = processQty6;
     }
 
-    public String getProcess7() {
+    public String getPro7() {
         return process7;
     }
 
-    public void setProcess7(String process7) {
+    public void setPro7(String process7) {
         this.process7 = process7;
     }
 
-    public double getProcessPrice7() {
+    public double getProPrice7() {
         return processPrice7;
     }
 
-    public void setProcessPrice7(double processPrice7) {
+    public void setProPrice7(double processPrice7) {
         this.processPrice7 = processPrice7;
     }
 
-    public int getProcessQuantity7() {
-        return processQuantity7;
+    public int getProQty7() {
+        return processQty7;
     }
 
-    public void setProcessQuantity7(int processQuantity7) {
-        this.processQuantity7 = processQuantity7;
+    public void setProQty7(int processQty7) {
+        this.processQty7 = processQty7;
     }
 
-    public String getProcess8() {
+    public String getPro8() {
         return process8;
     }
 
-    public void setProcess8(String process8) {
+    public void setPro8(String process8) {
         this.process8 = process8;
     }
 
-    public double getProcessPrice8() {
+    public double getProPrice8() {
         return processPrice8;
     }
 
-    public void setProcessPrice8(double processPrice8) {
+    public void setProPrice8(double processPrice8) {
         this.processPrice8 = processPrice8;
     }
 
-    public int getProcessQuantity8() {
-        return processQuantity8;
+    public int getProQty8() {
+        return processQty8;
     }
 
-    public void setProcessQuantity8(int processQuantity8) {
-        this.processQuantity8 = processQuantity8;
+    public void setProQty8(int processQty8) {
+        this.processQty8 = processQty8;
     }
 
-    public String getProcess9() {
+    public String getPro9() {
         return process9;
     }
 
-    public void setProcess9(String process9) {
+    public void setPro9(String process9) {
         this.process9 = process9;
     }
 
-    public double getProcessPrice9() {
+    public double getProPrice9() {
         return processPrice9;
     }
 
-    public void setProcessPrice9(double processPrice9) {
+    public void setProPrice9(double processPrice9) {
         this.processPrice9 = processPrice9;
     }
 
-    public int getProcessQuantity9() {
-        return processQuantity9;
+    public int getProQty9() {
+        return processQty9;
     }
 
-    public void setProcessQuantity9(int processQuantity9) {
-        this.processQuantity9 = processQuantity9;
+    public void setProQty9(int processQty9) {
+        this.processQty9 = processQty9;
     }
 
     public String getCreateUser() {

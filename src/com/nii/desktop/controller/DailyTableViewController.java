@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.nii.desktop.model.Daily;
+import com.nii.desktop.model.DailyProcessQty;
 import com.nii.desktop.model.User;
 import com.nii.desktop.util.conf.DBUtil;
 import com.nii.desktop.util.conf.DailyUtil;
@@ -146,7 +147,8 @@ public class DailyTableViewController implements Initializable {
                     public void handle(MouseEvent event) {
                         // TODO Auto-generated method stub
                         if (event.getClickCount() == 2) {
-                            Daily daily = row.getItem();
+                            Daily d = row.getItem();
+                            Daily daily = DailyUtil.getDailyByNoAll(d.getDailyNo());
                             modifyDailyAction(daily);
                         }
                     }
@@ -161,47 +163,7 @@ public class DailyTableViewController implements Initializable {
             delDailyBtn.setVisible(false);
         }
         // 分页
-        dailyTablePagination.setPageCount(1);
-    }
-
-    @FXML
-    public void addDailyAction() {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(ResourceLoader.getFxmlResource("AddDaily.fxml"));
-
-        AnchorPane addDailyPane;
-
-        try {
-            addDailyPane = fxmlLoader.load();
-
-            dialogStage = new Stage();
-            dialogStage.setTitle("新建日报");
-
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(UIManager.getPrimaryStage());
-            Scene scene = new Scene(addDailyPane);
-            dialogStage.setScene(scene);
-
-            dialogStage.setResizable(false);
-            dialogStage.showAndWait();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void modifyDailyAction(Daily daily) {
-
-    }
-
-    @FXML
-    public void queryDailyAction() {
-
-    }
-
-    @FXML
-    public void dailySearchAction() {
-
+//        dailyTablePagination.setPageCount(1);
     }
 
     /* 初始化表格数据 */
@@ -226,7 +188,7 @@ public class DailyTableViewController implements Initializable {
             if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
                 sql = sql + " and createUser = " + SessionUtil.USERS.get("loginUser").getUserNo();
             }
-            
+
             sql = sql + " order by dailyNo desc";
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
@@ -269,8 +231,34 @@ public class DailyTableViewController implements Initializable {
         });
     }
 
+    @FXML
+    public void addDailyAction() {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(ResourceLoader.getFxmlResource("AddDaily.fxml"));
+
+        AnchorPane addDailyPane;
+
+        try {
+            addDailyPane = fxmlLoader.load();
+
+            dialogStage = new Stage();
+            dialogStage.setTitle("新建日报");
+
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(UIManager.getPrimaryStage());
+            Scene scene = new Scene(addDailyPane);
+            dialogStage.setScene(scene);
+
+            dialogStage.setResizable(false);
+            dialogStage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /* 修改日报 */
-    public void modifyUserAction(Daily daily) {
+    public void modifyDailyAction(Daily daily) {
         SessionUtil.DAILYS.put("editDaily", daily);
 
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -309,13 +297,24 @@ public class DailyTableViewController implements Initializable {
             PreparedStatement stmt = null;
 
             try {
-                String sql = "update dbo.t_product_daily_user set isDelete = 1 where userNo = ?";
+                String sql = "update dbo.t_product_daily_bill_detail set isDelete = 1 where dailyNo = ?";
                 conn = DBUtil.getConnection();
                 stmt = conn.prepareStatement(sql);
 
                 for (int i = 0; i < dailyNoList.size(); i++) {
-                    String userNo = dailyNoList.get(i);
-                    stmt.setString(1, userNo);
+                    String dailyNo = dailyNoList.get(i);
+                    stmt.setString(1, dailyNo);
+
+                    Daily daily = DailyUtil.getDailyByNoAll(dailyNo);
+                    
+                    //将实作汇总表中的实作数量减掉
+                    DailyProcessQty dailyProcessQty = new DailyProcessQty(daily.getBillNo(), daily.getDailyNo(),
+                            daily.getPlanQty(), -daily.getResProQty1(), -daily.getResProQty2(), -daily.getResProQty3(),
+                            -daily.getProQty1(), -daily.getProQty2(), -daily.getProQty3(), -daily.getProQty4(),
+                            -daily.getProQty5(), -daily.getProQty6(), -daily.getProQty7(), -daily.getProQty8(),
+                            -daily.getProQty9());
+                    DailyUtil.updateDailyTotalQty(dailyProcessQty);
+                    
                     stmt.executeUpdate();
                 }
 
@@ -332,7 +331,12 @@ public class DailyTableViewController implements Initializable {
     }
 
     @FXML
-    public void userSearchAction() {
+    public void queryDailyAction() {
+
+    }
+
+    @FXML
+    public void dailySearchAction() {
 
     }
 
@@ -357,7 +361,7 @@ public class DailyTableViewController implements Initializable {
             }
         }
 
-        Daily daily = DailyUtil.getDaily(dailyNo);
+        Daily daily = DailyUtil.getDailyByNo(dailyNo);
         return daily;
     }
 
