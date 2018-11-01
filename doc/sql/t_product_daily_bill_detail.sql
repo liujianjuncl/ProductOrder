@@ -15,6 +15,7 @@ CREATE TABLE [dbo].[t_product_daily_bill_detail](
 	[materialName] [nvarchar](50) NULL,
 	[model] [nvarchar](50) NULL,
 	[planQuantity] [int] NULL,
+    [productDate] [datetime] NULL,
 	[resProcess1] [nvarchar](50) NULL,
 	[resProcessPrice1] [decimal](18, 10) NULL,
 	[resProcessQty1] [int] NULL,
