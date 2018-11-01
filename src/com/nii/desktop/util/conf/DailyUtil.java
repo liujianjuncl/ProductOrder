@@ -127,33 +127,10 @@ public class DailyUtil {
 
     // 校验改制工序及工序的是做数量逻辑
     public static String verifyProcessQty(int[] resTotalQty, int[] totalQty, int playQty) {
-        // 前一个改制工序累计实作数量必须大于或等于后一个改制工序累计实作数量
-        for (int i = 0; i < resTotalQty.length; i++) {
-            for (int j = i + 1; j < resTotalQty.length; j++) {
-                if (resTotalQty[i] < resTotalQty[j]) {
-                    return PropsUtil.getMessage("resProcessQty.asc") + "（" + PropsUtil.getMessage("resProcess.name")
-                            + (i + 1) + PropsUtil.getMessage("total.qty") + " < "
-                            + PropsUtil.getMessage("resProcess.name") + (j + 1) + PropsUtil.getMessage("total.qty")
-                            + "）";
-                }
-            }
-        }
-
         // 改制工序累计实作数量不能大于生产任务单计划生产数量
         for (int i = 0; i < resTotalQty.length; i++) {
             if (resTotalQty[i] > playQty) {
                 return PropsUtil.getMessage("resProcess.name") + (i + 1) + PropsUtil.getMessage("not.greater.than");
-            }
-        }
-
-        // 前一个工序累计实作数量必须大于或等于后一个工序累计实作数量
-        for (int i = 0; i < totalQty.length; i++) {
-            for (int j = i + 1; j < totalQty.length; j++) {
-                if (totalQty[i] < totalQty[j]) {
-                    return PropsUtil.getMessage("processQty.asc") + "（" + PropsUtil.getMessage("process.name") + (i + 1)
-                            + PropsUtil.getMessage("total.qty") + " < " + PropsUtil.getMessage("process.name") + (j + 1)
-                            + PropsUtil.getMessage("total.qty") + "）";
-                }
             }
         }
 
