@@ -273,7 +273,7 @@ public class UserTableViewController implements Initializable {
     public void deleteUserAction() {
         if (getSelectedNum() == 0) {
             AlertUtil.alertInfoLater(PropsUtil.getMessage("comboBox.delete.noSelected"));
-        } else {
+        } else if(AlertUtil.alertConfirmLater(PropsUtil.getMessage("confirm.delete"))) {
             List<String> userNoList = getSelectedUserNoList();
 
             Connection conn = null;

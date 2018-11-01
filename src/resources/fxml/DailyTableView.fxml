@@ -17,31 +17,28 @@
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="53.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="211.0" minWidth="10.0" prefWidth="171.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.0" minWidth="9.0" prefWidth="9.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.0" minWidth="10.0" prefWidth="59.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="215.0" minWidth="10.0" prefWidth="191.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="212.0" minWidth="8.0" prefWidth="15.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.0" minWidth="10.0" prefWidth="77.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="215.0" minWidth="10.0" prefWidth="169.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="212.0" minWidth="8.0" prefWidth="25.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="138.0" minWidth="10.0" prefWidth="33.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="169.0" minWidth="10.0" prefWidth="169.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="81.0" minWidth="10.0" prefWidth="46.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="117.0" minWidth="10.0" prefWidth="105.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="222.0" minWidth="10.0" prefWidth="176.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="128.0" minWidth="10.0" prefWidth="93.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="154.0" minWidth="10.0" prefWidth="58.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="117.0" minWidth="10.0" prefWidth="52.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <HBox fx:id="operationHBox" GridPane.columnIndex="9">
-                     <children>
-                        <Button fx:id="addDailyBtn" mnemonicParsing="false" onAction="#addDailyAction" text="新建" />
-                        <Button fx:id="delDailyBtn" mnemonicParsing="false" onAction="#deleteDailyAction" text="删除" />
-                     </children>
-                  </HBox>
                   <Label text="用户编号" />
                   <TextField fx:id="userNoTextField" prefHeight="23.0" prefWidth="132.0" GridPane.columnIndex="1" />
                   <Label text="生产任务单" GridPane.columnIndex="3" />
                   <TextField fx:id="billNoTextField" GridPane.columnIndex="4" />
                   <Label text="日期" GridPane.columnIndex="6" />
                   <DatePicker fx:id="datePicker" prefHeight="23.0" prefWidth="164.0" GridPane.columnIndex="7" />
-                  <Button mnemonicParsing="false" text="搜索" onAction="#searchDailyAction" GridPane.columnIndex="8" />
+                  <Button mnemonicParsing="false" onAction="#searchDailyAction" text="搜索" GridPane.columnIndex="8" />
+                  <Button fx:id="addDailyBtn" mnemonicParsing="false" onAction="#addDailyAction" text="新建" GridPane.columnIndex="9" />
+                  <Button fx:id="delDailyBtn" mnemonicParsing="false" onAction="#deleteDailyAction" text="删除" GridPane.columnIndex="10" />
                </children>
             </GridPane>
          </children>

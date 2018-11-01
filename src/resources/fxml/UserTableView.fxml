@@ -4,34 +4,35 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<!--<?import javafx.scene.control.ListView?>-->
-
 <?import javafx.scene.layout.VBox?>
 
 <VBox fx:id="userVBox" stylesheets="@../css/UserTableView.css" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nii.desktop.controller.UserTableViewController">
    <children>
-      <HBox fx:id="userHbox">
+      <GridPane>
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="353.0" minWidth="10.0" prefWidth="321.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="442.0" minWidth="10.0" prefWidth="263.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="190.0" minWidth="0.0" prefWidth="4.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
          <children>
-            <HBox prefHeight="29.0">
-               <children>
-                  <Label fx:id="userLabel" style="-fx-alignment: baseline-left;" text="用户管理" />
-               </children>
-            </HBox>
-            <HBox fx:id="searchHBox" spacing="10.0">
-               <children>
-                  <TextField fx:id="searchField" />
-                  <Button fx:id="searchBtn" mnemonicParsing="false" onAction="#userSearchAction" text="搜索" />
-               </children>
-            </HBox>
-            <HBox fx:id="operationHBox">
+            <HBox fx:id="operationHBox" prefHeight="30.0" prefWidth="223.0" GridPane.columnIndex="1">
                <children>
                   <Button fx:id="addUserBtn" mnemonicParsing="false" onAction="#addUserAction" text="新建" />
                   <Button fx:id="delUserBtn" mnemonicParsing="false" onAction="#deleteUserAction" text="删除" />
                </children>
             </HBox>
+            <HBox fx:id="searchHBox" prefHeight="30.0" prefWidth="300.0" spacing="10.0">
+               <children>
+                  <TextField fx:id="searchField" />
+                  <Button fx:id="searchBtn" mnemonicParsing="false" onAction="#userSearchAction" text="搜索" />
+               </children>
+            </HBox>
          </children>
-      </HBox>
-      <TableView fx:id="userTableView" VBox.vgrow="ALWAYS">
+      </GridPane>
+      <TableView fx:id="userTableView" prefHeight="400.0" prefWidth="593.0" VBox.vgrow="ALWAYS">
         <columns>
           <TableColumn fx:id="selectCol" prefWidth="30.0" text="勾选" />
           <TableColumn fx:id="userNoCol" prefWidth="75.0" text="用户编号" />

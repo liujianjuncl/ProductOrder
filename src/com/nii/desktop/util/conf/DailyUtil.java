@@ -331,8 +331,7 @@ public class DailyUtil {
         PreparedStatement stmt = null;
 
         // 获取当前修改日报的实作汇总数量
-        DailyProcessQty dpq = DailyUtil.getProcessTotalQty(oldDaily.getBillNo());
-//        addProductDailyTotal("制造-CB车间180813427");
+        DailyProcessQty oldDpq = DailyUtil.getProcessTotalQty(oldDaily.getBillNo());
 
         try {
             // 修改日报数据
@@ -359,21 +358,21 @@ public class DailyUtil {
             stmt.setString(13, dailyProcessQty.getDailyNo());
             stmt.executeUpdate();
 
-            // 修改生产日报汇总表数据
+            // 修改生产日报汇总表数据：汇总表中原实作数量+本次修改的实作数量-修改前的实作数量
             DailyProcessQty d = new DailyProcessQty(dailyProcessQty.getBillNo(), dailyProcessQty.getDailyNo(),
                     dailyProcessQty.getPlanQty(),
-                    dpq.getResProQty1() + dailyProcessQty.getResProQty1() - oldDaily.getResProQty1(),
-                    dpq.getResProQty2() + dailyProcessQty.getResProQty2() - oldDaily.getResProQty2(),
-                    dpq.getResProQty3() + dailyProcessQty.getResProQty3() - oldDaily.getResProQty3(),
-                    dpq.getProQty1() + dailyProcessQty.getProQty1() - oldDaily.getProQty1(),
-                    dpq.getProQty2() + dailyProcessQty.getProQty2() - oldDaily.getProQty2(),
-                    dpq.getProQty3() + dailyProcessQty.getProQty3() - oldDaily.getProQty3(),
-                    dpq.getProQty4() + dailyProcessQty.getProQty4() - oldDaily.getProQty4(),
-                    dpq.getProQty5() + dailyProcessQty.getProQty5() - oldDaily.getProQty5(),
-                    dpq.getProQty6() + dailyProcessQty.getProQty6() - oldDaily.getProQty6(),
-                    dpq.getProQty7() + dailyProcessQty.getProQty7() - oldDaily.getProQty7(),
-                    dpq.getProQty8() + dailyProcessQty.getProQty8() - oldDaily.getProQty8(),
-                    dpq.getProQty9() + dailyProcessQty.getProQty9() - oldDaily.getProQty9());
+                    oldDpq.getResProQty1() + dailyProcessQty.getResProQty1() - oldDaily.getResProQty1(),
+                    oldDpq.getResProQty2() + dailyProcessQty.getResProQty2() - oldDaily.getResProQty2(),
+                    oldDpq.getResProQty3() + dailyProcessQty.getResProQty3() - oldDaily.getResProQty3(),
+                    oldDpq.getProQty1() + dailyProcessQty.getProQty1() - oldDaily.getProQty1(),
+                    oldDpq.getProQty2() + dailyProcessQty.getProQty2() - oldDaily.getProQty2(),
+                    oldDpq.getProQty3() + dailyProcessQty.getProQty3() - oldDaily.getProQty3(),
+                    oldDpq.getProQty4() + dailyProcessQty.getProQty4() - oldDaily.getProQty4(),
+                    oldDpq.getProQty5() + dailyProcessQty.getProQty5() - oldDaily.getProQty5(),
+                    oldDpq.getProQty6() + dailyProcessQty.getProQty6() - oldDaily.getProQty6(),
+                    oldDpq.getProQty7() + dailyProcessQty.getProQty7() - oldDaily.getProQty7(),
+                    oldDpq.getProQty8() + dailyProcessQty.getProQty8() - oldDaily.getProQty8(),
+                    oldDpq.getProQty9() + dailyProcessQty.getProQty9() - oldDaily.getProQty9());
 
             updateDailyTotalQty(d);
 

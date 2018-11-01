@@ -288,7 +288,7 @@ public class DailyTableViewController implements Initializable {
     public void deleteDailyAction() {
         if (getSelectedNum() == 0) {
             AlertUtil.alertInfoLater(PropsUtil.getMessage("comboBox.delete.noSelected"));
-        } else {
+        } else if (AlertUtil.alertConfirmLater(PropsUtil.getMessage("confirm.delete"))) {
             List<String> dailyNoList = getSelectedUserNoList();
 
             Connection conn = null;
@@ -306,7 +306,7 @@ public class DailyTableViewController implements Initializable {
                     Daily daily = DailyUtil.getDailyByNoAll(dailyNo);
                     DailyProcessQty dpq = DailyUtil.getProcessTotalQty(daily.getBillNo());
 
-                    // 将实作汇总表中的实作数量减掉
+                    // 将实作汇总表中本次删除的日报的实作数量减掉
                     DailyProcessQty dailyProcessQty = new DailyProcessQty(daily.getBillNo(), daily.getDailyNo(),
                             daily.getPlanQty(), dpq.getProQty1() - daily.getResProQty1(),
                             dpq.getResProQty2() - daily.getResProQty2(), dpq.getResProQty3() - daily.getResProQty3(),
