@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -14,6 +15,7 @@ import java.util.regex.Pattern;
 
 import com.nii.desktop.model.Daily;
 import com.nii.desktop.model.DailyProcessQty;
+import com.nii.desktop.model.DateUtil;
 import com.nii.desktop.util.conf.DBUtil;
 import com.nii.desktop.util.conf.DailyUtil;
 import com.nii.desktop.util.conf.SessionUtil;
@@ -26,6 +28,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -59,6 +62,10 @@ public class AddDailyController implements Initializable {
 
     @FXML
     private CheckBox allProcessChkBox;
+    
+    //生产日期
+    @FXML
+    private DatePicker productDate;
 
     // 全工序实作数量
     @FXML
@@ -222,6 +229,9 @@ public class AddDailyController implements Initializable {
                 }
             }
         });
+        
+        //生产日期默认当天
+        productDate.setValue(DateUtil.dateToLocalDate(new Date()));
 
         // 全工序实作数量逻辑处理
         allProcessHandler();
@@ -644,7 +654,7 @@ public class AddDailyController implements Initializable {
             int planQty = dpq.getPlanQty();
 
             Daily daily = new Daily(dailyNo, billNo, materialCode.getText(), materialName.getText(), model.getText(),
-                    planQty, resProcess1.getText(), Double.valueOf(resProcessPrice1.getText()),
+                    planQty, productDate.getValue(), resProcess1.getText(), Double.valueOf(resProcessPrice1.getText()),
                     Integer.valueOf("".equals(resProcessQty1.getText()) ? "0" : resProcessQty1.getText()),
                     resProcess2.getText(), Double.valueOf(resProcessPrice2.getText()),
                     Integer.valueOf("".equals(resProcessQty2.getText()) ? "0" : resProcessQty2.getText()),

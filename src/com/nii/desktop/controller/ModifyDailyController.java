@@ -29,6 +29,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -63,6 +64,10 @@ public class ModifyDailyController implements Initializable {
     // 规格型号
     @FXML
     private TextField model;
+    
+  //生产日期
+    @FXML
+    private DatePicker productDate;
 
     @FXML
     private CheckBox allProcessChkBox;
@@ -240,6 +245,7 @@ public class ModifyDailyController implements Initializable {
         materialCode.setText(daily.getMaterialCode());
         materialName.setText(daily.getMaterialName());
         model.setText(daily.getModel());
+        productDate.setValue(daily.getProductDate());
         resProcess1.setText(daily.getResPro1());
         resProcess2.setText(daily.getResPro2());
         resProcess3.setText(daily.getResPro3());
@@ -616,7 +622,7 @@ public class ModifyDailyController implements Initializable {
                     Integer.valueOf("".equals(processQty8.getText()) ? "0" : processQty8.getText()),
                     Integer.valueOf("".equals(processQty9.getText()) ? "0" : processQty9.getText()));
 
-            boolean result = DailyUtil.modifyDaily(dailyProcessQty, oldEditDaily);
+            boolean result = DailyUtil.modifyDaily(dailyProcessQty, oldEditDaily, productDate.getValue());
             if (result) {
                 AlertUtil.alertInfoLater(PropsUtil.getMessage("daily.modify.success"));
                 // 新建完成刷新数据

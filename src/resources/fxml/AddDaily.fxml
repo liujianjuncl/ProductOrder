@@ -12,7 +12,7 @@
          <font>
             <Font size="18.0" />
          </font></Label>
-      <GridPane layoutX="55.0" layoutY="54.0" prefHeight="97.0" prefWidth="595.0">
+      <GridPane layoutX="55.0" layoutY="54.0" prefHeight="118.0" prefWidth="595.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="147.0" minWidth="10.0" prefWidth="80.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="208.0" minWidth="10.0" prefWidth="186.0" />
@@ -24,23 +24,26 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label fx:id="billNoLabel" style="-fx-font-weight: bold;" text="生产任务单号" />
             <TextField fx:id="billNoTextField" GridPane.columnIndex="1" />
-            <Label fx:id="materialCodeLabel" style="-fx-font-weight: bold;" text="物料代码" GridPane.rowIndex="1" />
-            <TextField fx:id="materialCode" disable="true" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label fx:id="modelLabel" style="-fx-font-weight: bold;" text="规格型号" GridPane.rowIndex="2" />
-            <TextField fx:id="model" disable="true" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label fx:id="planQuantityLabel" style="-fx-font-weight: bold;" text="计划生产数量" GridPane.columnIndex="3" />
-            <TextField fx:id="planQuantity" disable="true" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="4" />
-            <Label fx:id="materialNameLabel" style="-fx-font-weight: bold;" text="物料名称" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <TextField fx:id="materialName" disable="true" prefHeight="23.0" prefWidth="107.0" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-            <TextField fx:id="allProcessQtyTextField" disable="true" prefHeight="23.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-            <CheckBox fx:id="allProcessChkBox" style="-fx-font-weight: bold;" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" text="全工序实作数量" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <Label fx:id="materialCodeLabel" style="-fx-font-weight: bold;" text="物料代码" GridPane.rowIndex="2" />
+            <TextField fx:id="materialCode" disable="true" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="modelLabel" style="-fx-font-weight: bold;" text="规格型号" GridPane.rowIndex="3" />
+            <TextField fx:id="model" disable="true" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="planQuantityLabel" style="-fx-font-weight: bold;" text="计划生产数量" GridPane.rowIndex="1" />
+            <TextField fx:id="planQuantity" disable="true" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="materialNameLabel" style="-fx-font-weight: bold;" text="物料名称" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <TextField fx:id="materialName" disable="true" prefHeight="23.0" prefWidth="107.0" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+            <TextField fx:id="allProcessQtyTextField" disable="true" prefHeight="23.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+            <CheckBox fx:id="allProcessChkBox" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" style="-fx-font-weight: bold;" text="全工序实作数量" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <Label fx:id="productDateLabel" style="-fx-font-weight: bold;" text="生产日期" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <DatePicker fx:id="productDate" GridPane.columnIndex="4" GridPane.rowIndex="1" />
          </children>
       </GridPane>
-      <GridPane gridLinesVisible="true" layoutX="54.0" layoutY="165.0" prefHeight="478.0" prefWidth="595.0">
+      <GridPane gridLinesVisible="true" layoutX="54.0" layoutY="202.0" prefHeight="441.0" prefWidth="595.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="238.0" minWidth="10.0" prefWidth="147.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="246.0" minWidth="10.0" prefWidth="159.0" />

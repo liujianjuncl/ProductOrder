@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 
 import com.nii.desktop.model.Daily;
 import com.nii.desktop.model.DailyProcessQty;
+import com.nii.desktop.model.DateUtil;
 import com.nii.desktop.util.conf.DBUtil;
 import com.nii.desktop.util.conf.DailyUtil;
 import com.nii.desktop.util.conf.SessionUtil;
@@ -100,6 +101,10 @@ public class DailyTableViewController implements Initializable {
     /* 计划生产数量 */
     @FXML
     private TableColumn<Daily, String> planQuantityCol;
+    
+    /* 生产日期 */
+    @FXML
+    private TableColumn<Daily, String> productDateCol;
 
     @FXML
     private Button addDailyBtn;
@@ -114,7 +119,10 @@ public class DailyTableViewController implements Initializable {
     private TextField billNoTextField;
 
     @FXML
-    private DatePicker datePicker;
+    private DatePicker startDatePicker;
+    
+    @FXML
+    private DatePicker endDatePicker;
 
     /* 系统stage */
     private static Stage dialogStage;
@@ -176,12 +184,13 @@ public class DailyTableViewController implements Initializable {
         String materialName = null;
         String model = null;
         int planQuantity = 0;
+        LocalDate productDate = null;
 
         // 添加表格数据前先清空
         dailyDataList.clear();
 
         try {
-            String sql = "select dailyNo, billNo, materialCode, materialName, model, planQuantity "
+            String sql = "select dailyNo, billNo, materialCode, materialName, model, planQuantity, productDate "
                     + "from dbo.t_product_daily_bill_detail where isDelete = 0 ";
             if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
                 sql = sql + " and createUser = " + SessionUtil.USERS.get("loginUser").getUserNo();
@@ -193,14 +202,16 @@ public class DailyTableViewController implements Initializable {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
+                System.out.println(rs.getDate("productDate"));
                 dailyNo = rs.getString("dailyNo");
                 billNo = rs.getString("billNo");
                 materialCode = rs.getString("materialCode");
                 materialName = rs.getString("materialName");
                 model = rs.getString("model");
                 planQuantity = rs.getInt("planQuantity");
+                productDate = DateUtil.sqlDateToLocalDate(rs.getDate("productDate"));
                 dailyDataList.add(
-                        new Daily(new CheckBox(), dailyNo, billNo, materialCode, materialName, model, planQuantity));
+                        new Daily(new CheckBox(), dailyNo, billNo, materialCode, materialName, model, planQuantity, productDate));
             }
 
         } catch (Exception e) {
@@ -218,6 +229,7 @@ public class DailyTableViewController implements Initializable {
         materialNameCol.setCellValueFactory(new PropertyValueFactory<Daily, String>("materialName"));
         modelCol.setCellValueFactory(new PropertyValueFactory<Daily, String>("model"));
         planQuantityCol.setCellValueFactory(new PropertyValueFactory<Daily, String>("planQty"));
+        productDateCol.setCellValueFactory(new PropertyValueFactory<Daily, String>("productDate"));
 
         dailyTableView.setItems(dailyDataList);
 
@@ -340,7 +352,7 @@ public class DailyTableViewController implements Initializable {
 
         String userNo = userNoTextField.getText();
         String billNo = billNoTextField.getText();
-        String date = datePicker.getValue().toString();
+        String date = startDatePicker.getValue().toString();
 
         // 添加表格数据前先清空
         dailyDataList.clear();
@@ -372,7 +384,7 @@ public class DailyTableViewController implements Initializable {
             while (rs.next()) {
                 Daily daily = new Daily(new CheckBox(), rs.getString("dailyNo"), rs.getString("billNo"),
                         rs.getString("materialCode"), rs.getString("materialName"), rs.getString("model"),
-                        rs.getInt("planQuantity"));
+                        rs.getInt("planQuantity"), DateUtil.dateToLocalDate(rs.getDate("productDate")));
                 dailyDataList.add(daily);
             }
 

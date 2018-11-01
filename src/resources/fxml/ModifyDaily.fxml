@@ -29,18 +29,20 @@
          <children>
             <Label fx:id="dailyNo" style="-fx-font-weight: bold;" text="生产日报单号" />
             <Label fx:id="dailyNoLabel" style="-fx-font-weight: bold; -fx-text-fill: red;" text="201801120001" GridPane.columnIndex="1" />
-            <Label fx:id="billNoLabel" style="-fx-font-weight: bold;" text="生产任务单号" GridPane.rowIndex="1" />
-            <TextField fx:id="billNoTextField" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="billNoLabel" style="-fx-font-weight: bold;" text="生产任务单号" GridPane.columnIndex="3" />
+            <TextField fx:id="billNoTextField" disable="true" GridPane.columnIndex="4" />
             <Label fx:id="materialCodeLabel" style="-fx-font-weight: bold;" text="物料代码" GridPane.rowIndex="2" />
             <TextField fx:id="materialCode" disable="true" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label fx:id="modelLabel" style="-fx-font-weight: bold;" text="规格型号" GridPane.rowIndex="3" />
             <TextField fx:id="model" disable="true" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label fx:id="planQuantityLabel" style="-fx-font-weight: bold;" text="计划生产数量" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <TextField fx:id="planQuantity" disable="true" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+            <Label fx:id="planQuantityLabel" style="-fx-font-weight: bold;" text="计划生产数量" GridPane.rowIndex="1" />
+            <TextField fx:id="planQuantity" disable="true" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label fx:id="materialNameLabel" style="-fx-font-weight: bold;" text="物料名称" GridPane.columnIndex="3" GridPane.rowIndex="2" />
             <TextField fx:id="materialName" disable="true" prefHeight="23.0" prefWidth="107.0" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="4" GridPane.rowIndex="2" />
             <TextField fx:id="allProcessQtyTextField" disable="true" prefHeight="23.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.rowIndex="3" />
             <CheckBox fx:id="allProcessChkBox" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" style="-fx-font-weight: bold;" text="全工序实作数量" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <Label fx:id="productDateLabel" style="-fx-font-weight: bold;" text="生产日期" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <DatePicker fx:id="productDate" GridPane.columnIndex="4" GridPane.rowIndex="1" />
          </children>
       </GridPane>
       <GridPane gridLinesVisible="true" layoutX="55.0" layoutY="180.0" prefHeight="478.0" prefWidth="595.0">

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,6 +12,7 @@ import java.util.logging.Logger;
 import com.nii.desktop.controller.AddDailyController;
 import com.nii.desktop.model.Daily;
 import com.nii.desktop.model.DailyProcessQty;
+import com.nii.desktop.model.DateUtil;
 
 public class DailyUtil {
 
@@ -225,7 +227,7 @@ public class DailyUtil {
             // 插入日报数据
             String sql = "insert into dbo.t_product_daily_bill_detail values(?, ?, ?, ?, ?, ?, ?, ?, "
                     + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
-                    + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
@@ -236,47 +238,48 @@ public class DailyUtil {
             stmt.setString(4, daily.getMaterialName());
             stmt.setString(5, daily.getModel());
             stmt.setInt(6, daily.getPlanQty());
-            stmt.setString(7, daily.getResPro1());
-            stmt.setDouble(8, daily.getResProPrice1());
-            stmt.setInt(9, daily.getResProQty1());
-            stmt.setString(10, daily.getResPro2());
-            stmt.setDouble(11, daily.getResProPrice2());
-            stmt.setInt(12, daily.getResProQty2());
-            stmt.setString(13, daily.getResPro3());
-            stmt.setDouble(14, daily.getResProPrice3());
-            stmt.setInt(15, daily.getResProQty3());
-            stmt.setString(16, daily.getPro1());
-            stmt.setDouble(17, daily.getProPrice2());
-            stmt.setInt(18, daily.getProQty1());
-            stmt.setString(19, daily.getPro2());
-            stmt.setDouble(20, daily.getProPrice2());
-            stmt.setInt(21, daily.getProQty2());
-            stmt.setString(22, daily.getPro3());
-            stmt.setDouble(23, daily.getProPrice3());
-            stmt.setInt(24, daily.getProQty3());
-            stmt.setString(25, daily.getPro4());
-            stmt.setDouble(26, daily.getProPrice4());
-            stmt.setInt(27, daily.getProQty4());
-            stmt.setString(28, daily.getPro5());
-            stmt.setDouble(29, daily.getProPrice5());
-            stmt.setInt(30, daily.getProQty5());
-            stmt.setString(31, daily.getPro6());
-            stmt.setDouble(32, daily.getProPrice6());
-            stmt.setInt(33, daily.getProQty6());
-            stmt.setString(34, daily.getPro7());
-            stmt.setDouble(35, daily.getProPrice7());
-            stmt.setInt(36, daily.getProQty7());
-            stmt.setString(37, daily.getPro8());
-            stmt.setDouble(38, daily.getProPrice8());
-            stmt.setInt(39, daily.getProQty8());
-            stmt.setString(40, daily.getPro9());
-            stmt.setDouble(41, daily.getProPrice9());
-            stmt.setInt(42, daily.getProQty9());
-            stmt.setString(43, daily.getCreateUser());
-            stmt.setTimestamp(44, daily.getCreateTime());
-            stmt.setInt(45, daily.getIsPiecework());
-            stmt.setInt(46, daily.getIsDelete());
-            stmt.setInt(47, daily.getSequence());
+            stmt.setDate(7, DateUtil.localDateToSqlDate(daily.getProductDate()));
+            stmt.setString(8, daily.getResPro1());
+            stmt.setDouble(9, daily.getResProPrice1());
+            stmt.setInt(10, daily.getResProQty1());
+            stmt.setString(11, daily.getResPro2());
+            stmt.setDouble(12, daily.getResProPrice2());
+            stmt.setInt(13, daily.getResProQty2());
+            stmt.setString(14, daily.getResPro3());
+            stmt.setDouble(15, daily.getResProPrice3());
+            stmt.setInt(16, daily.getResProQty3());
+            stmt.setString(17, daily.getPro1());
+            stmt.setDouble(18, daily.getProPrice2());
+            stmt.setInt(19, daily.getProQty1());
+            stmt.setString(20, daily.getPro2());
+            stmt.setDouble(21, daily.getProPrice2());
+            stmt.setInt(22, daily.getProQty2());
+            stmt.setString(23, daily.getPro3());
+            stmt.setDouble(24, daily.getProPrice3());
+            stmt.setInt(25, daily.getProQty3());
+            stmt.setString(26, daily.getPro4());
+            stmt.setDouble(27, daily.getProPrice4());
+            stmt.setInt(28, daily.getProQty4());
+            stmt.setString(29, daily.getPro5());
+            stmt.setDouble(30, daily.getProPrice5());
+            stmt.setInt(31, daily.getProQty5());
+            stmt.setString(32, daily.getPro6());
+            stmt.setDouble(33, daily.getProPrice6());
+            stmt.setInt(34, daily.getProQty6());
+            stmt.setString(35, daily.getPro7());
+            stmt.setDouble(36, daily.getProPrice7());
+            stmt.setInt(37, daily.getProQty7());
+            stmt.setString(38, daily.getPro8());
+            stmt.setDouble(39, daily.getProPrice8());
+            stmt.setInt(40, daily.getProQty8());
+            stmt.setString(41, daily.getPro9());
+            stmt.setDouble(42, daily.getProPrice9());
+            stmt.setInt(43, daily.getProQty9());
+            stmt.setString(44, daily.getCreateUser());
+            stmt.setTimestamp(45, daily.getCreateTime());
+            stmt.setInt(46, daily.getIsPiecework());
+            stmt.setInt(47, daily.getIsDelete());
+            stmt.setInt(48, daily.getSequence());
 
             DailyProcessQty dailyProcessQty = new DailyProcessQty(daily.getBillNo(), daily.getDailyNo(),
                     daily.getPlanQty(), dpq.getResProQty1() + daily.getResProQty1(),
@@ -303,7 +306,7 @@ public class DailyUtil {
     }
 
     // 修改日报
-    public static boolean modifyDaily(DailyProcessQty dailyProcessQty, Daily oldDaily) {
+    public static boolean modifyDaily(DailyProcessQty dailyProcessQty, Daily oldDaily, LocalDate productDate) {
         Connection conn = null;
         PreparedStatement stmt = null;
 
@@ -315,7 +318,7 @@ public class DailyUtil {
             String sql = "update dbo.t_product_daily_bill_detail set resProcessQty1 = ?, "
                     + "resProcessQty2 = ?, resProcessQty3 = ?, processQty1 = ?, processQty2 = ?, "
                     + "processQty3 = ?, processQty4 = ?, processQty5 = ?, processQty6 = ?, "
-                    + "processQty7 = ?, processQty8 = ?, processQty9 = ? where dailyNo = ? and isDelete = 0 ";
+                    + "processQty7 = ?, processQty8 = ?, processQty9 = ?, productDate = ? where dailyNo = ? and isDelete = 0 ";
 
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
@@ -332,7 +335,8 @@ public class DailyUtil {
             stmt.setInt(10, dailyProcessQty.getProQty7());
             stmt.setInt(11, dailyProcessQty.getProQty8());
             stmt.setInt(12, dailyProcessQty.getProQty9());
-            stmt.setString(13, dailyProcessQty.getDailyNo());
+            stmt.setDate(13, DateUtil.localDateToSqlDate(productDate));
+            stmt.setString(14, dailyProcessQty.getDailyNo());
             stmt.executeUpdate();
 
             // 修改生产日报汇总表数据：汇总表中原实作数量+本次修改的实作数量-修改前的实作数量
@@ -412,12 +416,13 @@ public class DailyUtil {
         String materialCode = null;
         String materialName = null;
         String model = null;
+        LocalDate productDate = null;
         int planQuantity = 0;
 
         Daily daily = null;
 
-        String sql = "select dailyNo, billNo, materialCode, materialName, model, planQuantity "
-                + "from dbo.t_product_daily_bill_detail where dailyNo = ? and isDelete = 0";
+        String sql = "select dailyNo, billNo, materialCode, materialName, model, planQuantity, productDate "
+                + " from dbo.t_product_daily_bill_detail where dailyNo = ? and isDelete = 0";
         try {
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
@@ -432,7 +437,8 @@ public class DailyUtil {
                 materialName = rs.getString("materialName");
                 model = rs.getString("model");
                 planQuantity = rs.getInt("planQuantity");
-                daily = new Daily(dailyNo, billNo, materialCode, materialName, model, planQuantity);
+                productDate = DateUtil.dateToLocalDate(rs.getDate("productDate"));
+                daily = new Daily(dailyNo, billNo, materialCode, materialName, model, planQuantity, productDate);
             }
         } catch (Exception e) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
@@ -462,20 +468,21 @@ public class DailyUtil {
             if (rs.next()) {
                 daily = new Daily(dailyNo, rs.getString("billNo"), rs.getString("materialCode"),
                         rs.getString("materialName"), rs.getString("model"), rs.getInt("planQuantity"),
-                        rs.getString("resProcess1"), rs.getDouble("resProcessPrice1"), rs.getInt("resProcessQty1"),
-                        rs.getString("resProcess2"), rs.getDouble("resProcessPrice2"), rs.getInt("resProcessQty2"),
-                        rs.getString("resProcess3"), rs.getDouble("resProcessPrice3"), rs.getInt("resProcessQty3"),
-                        rs.getString("process1"), rs.getDouble("processPrice1"), rs.getInt("processQty1"),
-                        rs.getString("process2"), rs.getDouble("processPrice2"), rs.getInt("processQty2"),
-                        rs.getString("process3"), rs.getDouble("processPrice3"), rs.getInt("processQty3"),
-                        rs.getString("process4"), rs.getDouble("processPrice4"), rs.getInt("processQty4"),
-                        rs.getString("process5"), rs.getDouble("processPrice5"), rs.getInt("processQty5"),
-                        rs.getString("process6"), rs.getDouble("processPrice6"), rs.getInt("processQty6"),
-                        rs.getString("process7"), rs.getDouble("processPrice7"), rs.getInt("processQty7"),
-                        rs.getString("process8"), rs.getDouble("processPrice8"), rs.getInt("processQty8"),
-                        rs.getString("process9"), rs.getDouble("processPrice9"), rs.getInt("processQty9"),
-                        rs.getString("createUser"), rs.getTimestamp("createTime"), rs.getInt("isPiecework"),
-                        rs.getInt("isDelete"), rs.getInt("sequence"));
+                        DateUtil.sqlDateToLocalDate(rs.getDate("productDate")), rs.getString("resProcess1"),
+                        rs.getDouble("resProcessPrice1"), rs.getInt("resProcessQty1"), rs.getString("resProcess2"),
+                        rs.getDouble("resProcessPrice2"), rs.getInt("resProcessQty2"), rs.getString("resProcess3"),
+                        rs.getDouble("resProcessPrice3"), rs.getInt("resProcessQty3"), rs.getString("process1"),
+                        rs.getDouble("processPrice1"), rs.getInt("processQty1"), rs.getString("process2"),
+                        rs.getDouble("processPrice2"), rs.getInt("processQty2"), rs.getString("process3"),
+                        rs.getDouble("processPrice3"), rs.getInt("processQty3"), rs.getString("process4"),
+                        rs.getDouble("processPrice4"), rs.getInt("processQty4"), rs.getString("process5"),
+                        rs.getDouble("processPrice5"), rs.getInt("processQty5"), rs.getString("process6"),
+                        rs.getDouble("processPrice6"), rs.getInt("processQty6"), rs.getString("process7"),
+                        rs.getDouble("processPrice7"), rs.getInt("processQty7"), rs.getString("process8"),
+                        rs.getDouble("processPrice8"), rs.getInt("processQty8"), rs.getString("process9"),
+                        rs.getDouble("processPrice9"), rs.getInt("processQty9"), rs.getString("createUser"),
+                        rs.getTimestamp("createTime"), rs.getInt("isPiecework"), rs.getInt("isDelete"),
+                        rs.getInt("sequence"));
             }
         } catch (Exception e) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
