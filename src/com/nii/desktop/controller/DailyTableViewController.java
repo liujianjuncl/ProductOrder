@@ -304,13 +304,17 @@ public class DailyTableViewController implements Initializable {
                     stmt.setString(1, dailyNo);
 
                     Daily daily = DailyUtil.getDailyByNoAll(dailyNo);
+                    DailyProcessQty dpq = DailyUtil.getProcessTotalQty(daily.getBillNo());
 
                     // 将实作汇总表中的实作数量减掉
                     DailyProcessQty dailyProcessQty = new DailyProcessQty(daily.getBillNo(), daily.getDailyNo(),
-                            daily.getPlanQty(), -daily.getResProQty1(), -daily.getResProQty2(), -daily.getResProQty3(),
-                            -daily.getProQty1(), -daily.getProQty2(), -daily.getProQty3(), -daily.getProQty4(),
-                            -daily.getProQty5(), -daily.getProQty6(), -daily.getProQty7(), -daily.getProQty8(),
-                            -daily.getProQty9());
+                            daily.getPlanQty(), dpq.getProQty1() - daily.getResProQty1(),
+                            dpq.getResProQty2() - daily.getResProQty2(), dpq.getResProQty3() - daily.getResProQty3(),
+                            dpq.getProQty1() - daily.getProQty1(), dpq.getProQty2() - daily.getProQty2(),
+                            dpq.getProQty3() - daily.getProQty3(), dpq.getProQty3() - daily.getProQty4(),
+                            dpq.getProQty5() - daily.getProQty5(), dpq.getProQty6() - daily.getProQty6(),
+                            dpq.getProQty7() - daily.getProQty7(), dpq.getProQty8() - daily.getProQty8(),
+                            dpq.getProQty9() - daily.getProQty9());
                     DailyUtil.updateDailyTotalQty(dailyProcessQty);
 
                     stmt.executeUpdate();

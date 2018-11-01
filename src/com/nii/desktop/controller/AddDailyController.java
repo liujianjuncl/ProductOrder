@@ -629,18 +629,19 @@ public class AddDailyController implements Initializable {
     public void confirmBtnAction() {
         String billNo = billNoTextField.getText().trim();
         // 添加日报之前，首先将该条生产任务单的信息同步到日报汇总表中
-        DailyProcessQty d = DailyUtil.getProcessTotalQty(billNo);
-        if (d == null) {
+        DailyProcessQty dpq = DailyUtil.getProcessTotalQty(billNo);
+        if (dpq == null) {
             DailyUtil.addProductDailyTotal(billNo);
+            dpq = DailyUtil.getProcessTotalQty(billNo);
         }
 
-        String message = verifyProcess(billNo);
+        String message = verifyProcess(dpq);
 
         if (!"OK".equals(message)) {
             AlertUtil.alertInfoLater(message);
         } else {
             String dailyNo = DailyUtil.getDailyNo();
-            int planQty = DailyUtil.getProcessTotalQty(billNo).getPlanQuantity();
+            int planQty = dpq.getPlanQty();
 
             Daily daily = new Daily(dailyNo, billNo, materialCode.getText(), materialName.getText(), model.getText(),
                     planQty, resProcess1.getText(), Double.valueOf(resProcessPrice1.getText()),
@@ -671,7 +672,7 @@ public class AddDailyController implements Initializable {
                     "是".equals(SessionUtil.USERS.get("loginUser").getIsPiecework()) ? 1 : 0, 0,
                     DailyUtil.getDailyDetailSeq(billNo));
 
-            boolean result = DailyUtil.addDaily(daily);
+            boolean result = DailyUtil.addDaily(dpq, daily);
             if (result) {
                 AlertUtil.alertInfoLater(PropsUtil.getMessage("daily.add.success") + dailyNo);
                 // 新建完成刷新数据
@@ -685,9 +686,8 @@ public class AddDailyController implements Initializable {
     }
 
     // 判断所有工序的累计实作数量，前一个工序累计实作数量必须大于或等于后一个工序累计实作数量
-    public String verifyProcess(String billNo) {
-        DailyProcessQty d = DailyUtil.getProcessTotalQty(billNo);
-        int playQty = d.getPlanQuantity();
+    public String verifyProcess(DailyProcessQty dpq) {
+        int playQty = dpq.getPlanQty();
 
         int resProQty1 = "".equals(resProcessQty1.getText().trim()) ? 0 : Integer.valueOf(resProcessQty1.getText().trim());
         int resProQty2 = "".equals(resProcessQty2.getText().trim()) ? 0 : Integer.valueOf(resProcessQty2.getText().trim());
@@ -703,18 +703,18 @@ public class AddDailyController implements Initializable {
         int proQty9 = "".equals(processQty9.getText().trim()) ? 0 : Integer.valueOf(processQty9.getText().trim());
 
         //将本次录入的实作数量和已经完成的实作数量相加
-        int resProTotalQty1 = resProQty1 + d.getResProcessQty1();
-        int resProTotalQty2 = resProQty2 + d.getResProcessQty2();
-        int resProTotalQty3 = resProQty3 + d.getResProcessQty3();
-        int proTotalQty1 = proQty1 + d.getProcessQty1();
-        int proTotalQty2 = proQty2 + d.getProcessQty2();
-        int proTotalQty3 = proQty3 + d.getProcessQty3();
-        int proTotalQty4 = proQty4 + d.getProcessQty4();
-        int proTotalQty5 = proQty5 + d.getProcessQty5();
-        int proTotalQty6 = proQty6 + d.getProcessQty6();
-        int proTotalQty7 = proQty7 + d.getProcessQty7();
-        int proTotalQty8 = proQty8 + d.getProcessQty8();
-        int proTotalQty9 = proQty9 + d.getProcessQty9();
+        int resProTotalQty1 = resProQty1 + dpq.getResProQty1();
+        int resProTotalQty2 = resProQty2 + dpq.getResProQty2();
+        int resProTotalQty3 = resProQty3 + dpq.getResProQty3();
+        int proTotalQty1 = proQty1 + dpq.getProQty1();
+        int proTotalQty2 = proQty2 + dpq.getProQty2();
+        int proTotalQty3 = proQty3 + dpq.getProQty3();
+        int proTotalQty4 = proQty4 + dpq.getProQty4();
+        int proTotalQty5 = proQty5 + dpq.getProQty5();
+        int proTotalQty6 = proQty6 + dpq.getProQty6();
+        int proTotalQty7 = proQty7 + dpq.getProQty7();
+        int proTotalQty8 = proQty8 + dpq.getProQty8();
+        int proTotalQty9 = proQty9 + dpq.getProQty9();
 
         int[] resTotalQty = { resProTotalQty1, resProTotalQty2, resProTotalQty3 };
 
@@ -740,7 +740,7 @@ public class AddDailyController implements Initializable {
 //        new AddDailyController().addProductDailyTotal("制造-CB车间180813427");
 
         DailyProcessQty d = DailyUtil.getProcessTotalQty("CBZ1809013");
-        System.out.println(d.getPlanQuantity());
+        System.out.println(d.getPlanQty());
         System.out.println(Integer.valueOf(""));
     }
 

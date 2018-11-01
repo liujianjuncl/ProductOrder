@@ -6,56 +6,56 @@ public class DailyProcessQty {
     
     private String dailyNo; // 生产日报单号
 
-    private int planQuantity; // 计划生产数量
+    private int planQty; // 计划生产数量
 
-    private int resProcessQty1; // 改制工序1实作数量
+    private int resProQty1; // 改制工序1实作数量
 
-    private int resProcessQty2; // 改制工序2实作数量
+    private int resProQty2; // 改制工序2实作数量
 
-    private int resProcessQty3; // 改制工序3实作数量
+    private int resProQty3; // 改制工序3实作数量
 
-    private int processQty1; // 工序1实作数量
+    private int proQty1; // 工序1实作数量
 
-    private int processQty2; // 工序2实作数量
+    private int proQty2; // 工序2实作数量
 
-    private int processQty3; // 工序3实作数量
+    private int proQty3; // 工序3实作数量
 
-    private int processQty4; // 工序4实作数量
+    private int proQty4; // 工序4实作数量
 
-    private int processQty5; // 工序5实作数量
+    private int proQty5; // 工序5实作数量
 
-    private int processQty6; // 工序6实作数量
+    private int proQty6; // 工序6实作数量
 
-    private int processQty7; // 工序7实作数量
+    private int proQty7; // 工序7实作数量
 
-    private int processQty8; // 工序8实作数量
+    private int proQty8; // 工序8实作数量
 
-    private int processQty9; // 工序9实作数量
+    private int proQty9; // 工序9实作数量
 
     public DailyProcessQty() {
         super();
     }
 
-    public DailyProcessQty(String billNo, String dailyNo, int planQuantity, int resProcessQty1, int resProcessQty2,
-            int resProcessQty3, int processQty1, int processQty2, int processQty3,
-            int processQty4, int processQty5, int processQty6, int processQty7,
-            int processQty8, int processQty9) {
+    public DailyProcessQty(String billNo, String dailyNo, int planQty, int resProQty1, int resProQty2,
+            int resProQty3, int proQty1, int proQty2, int proQty3,
+            int proQty4, int proQty5, int proQty6, int proQty7,
+            int proQty8, int proQty9) {
         super();
         this.billNo = billNo;
         this.dailyNo = dailyNo;
-        this.planQuantity = planQuantity;
-        this.resProcessQty1 = resProcessQty1;
-        this.resProcessQty2 = resProcessQty2;
-        this.resProcessQty3 = resProcessQty3;
-        this.processQty1 = processQty1;
-        this.processQty2 = processQty2;
-        this.processQty3 = processQty3;
-        this.processQty4 = processQty4;
-        this.processQty5 = processQty5;
-        this.processQty6 = processQty6;
-        this.processQty7 = processQty7;
-        this.processQty8 = processQty8;
-        this.processQty9 = processQty9;
+        this.planQty = planQty;
+        this.resProQty1 = resProQty1;
+        this.resProQty2 = resProQty2;
+        this.resProQty3 = resProQty3;
+        this.proQty1 = proQty1;
+        this.proQty2 = proQty2;
+        this.proQty3 = proQty3;
+        this.proQty4 = proQty4;
+        this.proQty5 = proQty5;
+        this.proQty6 = proQty6;
+        this.proQty7 = proQty7;
+        this.proQty8 = proQty8;
+        this.proQty9 = proQty9;
     }
 
     public String getBillNo() {
@@ -74,108 +74,108 @@ public class DailyProcessQty {
         this.dailyNo = dailyNo;
     }
 
-    public int getPlanQuantity() {
-        return planQuantity;
+    public int getPlanQty() {
+        return planQty;
     }
 
-    public void setPlanQuantity(int planQuantity) {
-        this.planQuantity = planQuantity;
+    public void setPlanQty(int planQty) {
+        this.planQty = planQty;
     }
 
-    public int getResProcessQty1() {
-        return resProcessQty1;
+    public int getResProQty1() {
+        return resProQty1;
     }
 
-    public void setResProcessQty1(int resProcessQty1) {
-        this.resProcessQty1 = resProcessQty1;
+    public void setResProQty1(int resProQty1) {
+        this.resProQty1 = resProQty1;
     }
 
-    public int getResProcessQty2() {
-        return resProcessQty2;
+    public int getResProQty2() {
+        return resProQty2;
     }
 
-    public void setResProcessQty2(int resProcessQty2) {
-        this.resProcessQty2 = resProcessQty2;
+    public void setResProQty2(int resProQty2) {
+        this.resProQty2 = resProQty2;
     }
 
-    public int getResProcessQty3() {
-        return resProcessQty3;
+    public int getResProQty3() {
+        return resProQty3;
     }
 
-    public void setResProcessQty3(int resProcessQty3) {
-        this.resProcessQty3 = resProcessQty3;
+    public void setResProQty3(int resProQty3) {
+        this.resProQty3 = resProQty3;
     }
 
-    public int getProcessQty1() {
-        return processQty1;
+    public int getProQty1() {
+        return proQty1;
     }
 
-    public void setProcessQty1(int processQty1) {
-        this.processQty1 = processQty1;
+    public void setProQty1(int proQty1) {
+        this.proQty1 = proQty1;
     }
 
-    public int getProcessQty2() {
-        return processQty2;
+    public int getProQty2() {
+        return proQty2;
     }
 
-    public void setProcessQty2(int processQty2) {
-        this.processQty2 = processQty2;
+    public void setProQty2(int proQty2) {
+        this.proQty2 = proQty2;
     }
 
-    public int getProcessQty3() {
-        return processQty3;
+    public int getProQty3() {
+        return proQty3;
     }
 
-    public void setProcessQty3(int processQty3) {
-        this.processQty3 = processQty3;
+    public void setProQty3(int proQty3) {
+        this.proQty3 = proQty3;
     }
 
-    public int getProcessQty4() {
-        return processQty4;
+    public int getProQty4() {
+        return proQty4;
     }
 
-    public void setProcessQty4(int processQty4) {
-        this.processQty4 = processQty4;
+    public void setProQty4(int proQty4) {
+        this.proQty4 = proQty4;
     }
 
-    public int getProcessQty5() {
-        return processQty5;
+    public int getProQty5() {
+        return proQty5;
     }
 
-    public void setProcessQty5(int processQty5) {
-        this.processQty5 = processQty5;
+    public void setProQty5(int proQty5) {
+        this.proQty5 = proQty5;
     }
 
-    public int getProcessQty6() {
-        return processQty6;
+    public int getProQty6() {
+        return proQty6;
     }
 
-    public void setProcessQty6(int processQty6) {
-        this.processQty6 = processQty6;
+    public void setProQty6(int proQty6) {
+        this.proQty6 = proQty6;
     }
 
-    public int getProcessQty7() {
-        return processQty7;
+    public int getProQty7() {
+        return proQty7;
     }
 
-    public void setProcessQty7(int processQty7) {
-        this.processQty7 = processQty7;
+    public void setProQty7(int proQty7) {
+        this.proQty7 = proQty7;
     }
 
-    public int getProcessQty8() {
-        return processQty8;
+    public int getProQty8() {
+        return proQty8;
     }
 
-    public void setProcessQty8(int processQty8) {
-        this.processQty8 = processQty8;
+    public void setProQty8(int proQty8) {
+        this.proQty8 = proQty8;
     }
 
-    public int getProcessQty9() {
-        return processQty9;
+    public int getProQty9() {
+        return proQty9;
     }
 
-    public void setProcessQty9(int processQty9) {
-        this.processQty9 = processQty9;
+    public void setProQty9(int proQty9) {
+        this.proQty9 = proQty9;
     }
 
 }
