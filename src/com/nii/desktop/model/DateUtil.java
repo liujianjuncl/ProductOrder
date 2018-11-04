@@ -1,5 +1,7 @@
 package com.nii.desktop.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -7,7 +9,9 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public final class DateUtil {
 
@@ -23,6 +27,10 @@ public final class DateUtil {
     private static final String REGEX = "\\:|\\-|\\s";
 
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    public static final SimpleDateFormat SDF_DETAIL = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    public static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
      * 根据传入的时间格式返回系统当前的时间
@@ -103,7 +111,7 @@ public final class DateUtil {
     public static Date sqlDateToUtilDate(java.sql.Date date) {
         return new Date(date.getTime());
     }
-    
+
     /**
      * 将java.sql.Date转换成localDate
      *
@@ -140,6 +148,22 @@ public final class DateUtil {
             return DateUtil.localDateToDate(LocalDate.parse(time, f));
         }
         return null;
+    }
+
+    // 获取本月25号的日期
+    public static Date curMonth25Day() throws ParseException {
+        Calendar cal = Calendar.getInstance();
+        String date = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-25";
+        return SDF.parse(date);
+    }
+
+    // 获取上月26号的日期
+    public static Date lastMonth26Day() throws ParseException {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(curMonth25Day());
+        cal.add(Calendar.MONTH, -1);
+        cal.add(Calendar.DAY_OF_MONTH, 1);
+        return cal.getTime();
     }
 
     /**
@@ -214,7 +238,12 @@ public final class DateUtil {
         return Date.from(Instant.ofEpochMilli(Long.parseLong(time)));
     }
 
-    public static void main(String[] args) {
-        System.out.println(dateToLocalDate(new Date()));
+    public static void main(String[] args) throws ParseException {
+        Calendar cal = Calendar.getInstance();
+        System.out.println(cal.get(Calendar.YEAR));
+        System.out.println(cal.get(Calendar.MONTH) + 1);
+        System.out.println(cal.get(Calendar.DAY_OF_MONTH));
+        System.out.println(SDF.format(curMonth25Day()));
+        System.out.println(SDF.format(lastMonth26Day()));
     }
 }

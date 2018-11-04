@@ -165,7 +165,6 @@ public class DailyTableViewController implements Initializable {
 
         // 如果当前登录用户不是管理员，则不显示增加和删除按钮
         if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
-            addDailyBtn.setVisible(false);
             delDailyBtn.setVisible(false);
         }
         // 分页

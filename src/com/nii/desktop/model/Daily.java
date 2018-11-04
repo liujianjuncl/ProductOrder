@@ -21,7 +21,7 @@ public class Daily {
 
     private int planQty; // 计划生产数量
     
-    private LocalDate productDate;  //生产日期
+    private LocalDate proDate;  //生产日期
 
     private String resPro1; // 改制工序1
 
@@ -106,7 +106,7 @@ public class Daily {
     private int sequence; // 日报序号，用于记录同一个生产任务单中日报编号
 
     public Daily(String dailyNo, String billNo, String materialCode, String materialName, String model,
-            int planQty, LocalDate productDate, String resPro1, double resProPrice1, int resProQty1, String resPro2,
+            int planQty, LocalDate proDate, String resPro1, double resProPrice1, int resProQty1, String resPro2,
             double resProPrice2, int resProQty2, String resPro3, double resProPrice3,
             int resProQty3, String process1, double processPrice1, int processQty1, String process2,
             double processPrice2, int processQty2, String process3, double processPrice3, int processQty3,
@@ -122,7 +122,7 @@ public class Daily {
         this.materialName = materialName;
         this.model = model;
         this.planQty = planQty;
-        this.productDate = productDate;
+        this.proDate = proDate;
         this.resPro1 = resPro1;
         this.resProPrice1 = resProPrice1;
         this.resProQty1 = resProQty1;
@@ -167,7 +167,7 @@ public class Daily {
     }
 
     public Daily(CheckBox checkbox, String dailyNo, String billNo, String materialCode, String materialName,
-            String model, int planQty, LocalDate productDate) {
+            String model, int planQty, LocalDate proDate) {
         super();
         this.checkbox = checkbox;
         this.dailyNo = dailyNo;
@@ -176,11 +176,11 @@ public class Daily {
         this.materialName = materialName;
         this.model = model;
         this.planQty = planQty;
-        this.productDate = productDate;
+        this.proDate = proDate;
     }
 
     public Daily(String dailyNo, String billNo, String materialCode, String materialName, String model,
-            int planQty, LocalDate productDate) {
+            int planQty, LocalDate proDate) {
         super();
         this.dailyNo = dailyNo;
         this.billNo = billNo;
@@ -188,7 +188,7 @@ public class Daily {
         this.materialName = materialName;
         this.model = model;
         this.planQty = planQty;
-        this.productDate = productDate;
+        this.proDate = proDate;
     }
 
     public CheckBox getCheckbox() {
@@ -247,12 +247,12 @@ public class Daily {
         this.planQty = planQty;
     }
     
-    public LocalDate getProductDate() {
-        return productDate;
+    public LocalDate getProDate() {
+        return proDate;
     }
 
-    public void setPlanQty(LocalDate productDate) {
-        this.productDate = productDate;
+    public void setProDate(LocalDate proDate) {
+        this.proDate = proDate;
     }
 
     public String getResPro1() {

@@ -238,7 +238,7 @@ public class DailyUtil {
             stmt.setString(4, daily.getMaterialName());
             stmt.setString(5, daily.getModel());
             stmt.setInt(6, daily.getPlanQty());
-            stmt.setDate(7, DateUtil.localDateToSqlDate(daily.getProductDate()));
+            stmt.setDate(7, DateUtil.localDateToSqlDate(daily.getProDate()));
             stmt.setString(8, daily.getResPro1());
             stmt.setDouble(9, daily.getResProPrice1());
             stmt.setInt(10, daily.getResProQty1());

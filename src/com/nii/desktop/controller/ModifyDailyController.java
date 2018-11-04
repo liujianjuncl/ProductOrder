@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -15,6 +17,8 @@ import java.util.regex.Pattern;
 
 import com.nii.desktop.model.Daily;
 import com.nii.desktop.model.DailyProcessQty;
+import com.nii.desktop.model.DateUtil;
+import com.nii.desktop.model.User;
 import com.nii.desktop.util.conf.DBUtil;
 import com.nii.desktop.util.conf.DailyUtil;
 import com.nii.desktop.util.conf.SessionUtil;
@@ -64,8 +68,8 @@ public class ModifyDailyController implements Initializable {
     // 规格型号
     @FXML
     private TextField model;
-    
-  //生产日期
+
+    // 生产日期
     @FXML
     private DatePicker productDate;
 
@@ -245,7 +249,7 @@ public class ModifyDailyController implements Initializable {
         materialCode.setText(daily.getMaterialCode());
         materialName.setText(daily.getMaterialName());
         model.setText(daily.getModel());
-        productDate.setValue(daily.getProductDate());
+        productDate.setValue(daily.getProDate());
         resProcess1.setText(daily.getResPro1());
         resProcess2.setText(daily.getResPro2());
         resProcess3.setText(daily.getResPro3());
@@ -594,19 +598,37 @@ public class ModifyDailyController implements Initializable {
         });
     }
 
-    // 点击确定时，添加日报
+    // 点击确定时，修改日报
     @FXML
-    public void confirmBtnAction() {
+    public void confirmBtnAction() throws ParseException {
         String billNo = billNoTextField.getText().trim();
+        String dailyNo = dailyNoLabel.getText();
         // 获取所有工序的汇总实作数量
+        LocalDate proDate = productDate.getValue();
+
+        // 本月25号
+        Date curDate25Day = DateUtil.curMonth25Day();
+        // 上月26号
+        Date lastDate26Day = DateUtil.lastMonth26Day();
+
+        Daily daily = DailyUtil.getDailyByNo(dailyNo);
+
+        // 获取登录用户
+        User user = SessionUtil.USERS.get("loginUser");
+
+        // 只允许修改上个月26号到本月25号的生产日报！
+        if (!"是".equals(user.getIsManager())
+                && lastDate26Day.compareTo(DateUtil.localDateToDate(daily.getProDate())) >= 0
+                && curDate25Day.compareTo(DateUtil.localDateToDate(daily.getProDate())) <= 0) {
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("donot.daily.modify"));
+            return;
+        }
 
         String message = verifyProcess(billNo);
 
         if (!"OK".equals(message)) {
             AlertUtil.alertInfoLater(message);
         } else {
-            String dailyNo = dailyNoLabel.getText();
-
             DailyProcessQty dailyProcessQty = new DailyProcessQty(billNo, dailyNo,
                     Integer.valueOf(planQuantity.getText()),
                     Integer.valueOf("".equals(resProcessQty1.getText()) ? "0" : resProcessQty1.getText()),
@@ -622,7 +644,7 @@ public class ModifyDailyController implements Initializable {
                     Integer.valueOf("".equals(processQty8.getText()) ? "0" : processQty8.getText()),
                     Integer.valueOf("".equals(processQty9.getText()) ? "0" : processQty9.getText()));
 
-            boolean result = DailyUtil.modifyDaily(dailyProcessQty, oldEditDaily, productDate.getValue());
+            boolean result = DailyUtil.modifyDaily(dailyProcessQty, oldEditDaily, proDate);
             if (result) {
                 AlertUtil.alertInfoLater(PropsUtil.getMessage("daily.modify.success"));
                 // 新建完成刷新数据
