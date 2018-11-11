@@ -35,14 +35,10 @@ public class UserUtil {
             userNum = userNum + 1;
 
             if (userNum < 10) {
-                userNoRes = "00000" + userNum;
-            } else if (userNum >= 10 && userNum < 100) {
-                userNoRes = "0000" + userNum;
-            } else if (userNum >= 100 && userNum < 1000) {
                 userNoRes = "000" + userNum;
-            } else if (userNum >= 1000 && userNum < 10000) {
+            } else if (userNum >= 10 && userNum < 100) {
                 userNoRes = "00" + userNum;
-            } else if (userNum >= 10000 && userNum < 100000) {
+            } else if (userNum >= 100 && userNum < 1000) {
                 userNoRes = "0" + userNum;
             } else {
                 userNoRes = Integer.toString(userNum);

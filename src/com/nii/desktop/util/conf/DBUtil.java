@@ -22,7 +22,7 @@ public class DBUtil {
 
     private static final String CALSSDRIVER = PropsUtil.getConfigValue("db.driver.classname");
 
-    private static final String URL = PropsUtil.getConfigValue("db.url");
+    private static final String URL = PropsUtil.getConfigValue("db.url1") + PropsUtil.getConfigValue("host") + PropsUtil.getConfigValue("db.url2");
 
     private static final String USERNAME = PropsUtil.getConfigValue("db.username");
 

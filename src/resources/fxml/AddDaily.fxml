@@ -61,9 +61,6 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label text="工序" textFill="#3b09eb">
@@ -80,9 +77,6 @@
             <Label prefHeight="27.0" prefWidth="91.0" style="-fx-font-weight: bold;" text="工序4" GridPane.rowIndex="7" />
             <Label prefHeight="27.0" prefWidth="91.0" style="-fx-font-weight: bold;" text="工序5" GridPane.rowIndex="8" />
             <Label prefHeight="27.0" prefWidth="91.0" style="-fx-font-weight: bold;" text="工序6" GridPane.rowIndex="9" />
-            <Label prefHeight="27.0" prefWidth="91.0" style="-fx-font-weight: bold;" text="工序7" GridPane.rowIndex="10" />
-            <Label prefHeight="27.0" prefWidth="91.0" style="-fx-font-weight: bold;" text="工序8" GridPane.rowIndex="11" />
-            <Label prefHeight="27.0" prefWidth="91.0" style="-fx-font-weight: bold;" text="工序9" GridPane.rowIndex="12" />
             <Label text="工序名称" textFill="#3f18f5" GridPane.columnIndex="1">
                <font>
                   <Font size="14.0" />
@@ -97,9 +91,6 @@
             <Label fx:id="process4" prefHeight="27.0" prefWidth="91.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <Label fx:id="process5" prefHeight="27.0" prefWidth="91.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
             <Label fx:id="process6" prefHeight="27.0" prefWidth="91.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-            <Label fx:id="process7" prefHeight="27.0" prefWidth="91.0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-            <Label fx:id="process8" prefHeight="27.0" prefWidth="91.0" GridPane.columnIndex="1" GridPane.rowIndex="11" />
-            <Label fx:id="process9" prefHeight="27.0" prefWidth="91.0" GridPane.columnIndex="1" GridPane.rowIndex="12" />
             <Label text="单价" textFill="#3618f5" GridPane.columnIndex="2">
                <font>
                   <Font size="14.0" />
@@ -114,9 +105,6 @@
             <Label fx:id="processPrice4" prefHeight="27.0" prefWidth="91.0" GridPane.columnIndex="2" GridPane.rowIndex="7" />
             <Label fx:id="processPrice5" prefHeight="27.0" prefWidth="91.0" GridPane.columnIndex="2" GridPane.rowIndex="8" />
             <Label fx:id="processPrice6" prefHeight="27.0" prefWidth="91.0" GridPane.columnIndex="2" GridPane.rowIndex="9" />
-            <Label fx:id="processPrice7" prefHeight="27.0" prefWidth="91.0" GridPane.columnIndex="2" GridPane.rowIndex="10" />
-            <Label fx:id="processPrice8" prefHeight="27.0" prefWidth="91.0" GridPane.columnIndex="2" GridPane.rowIndex="11" />
-            <Label fx:id="processPrice9" prefHeight="27.0" prefWidth="91.0" GridPane.columnIndex="2" GridPane.rowIndex="12" />
             <Label text="本次实作数量" textFill="#3914ff" GridPane.columnIndex="3">
                <font>
                   <Font size="14.0" />
@@ -131,9 +119,6 @@
             <TextField fx:id="processQty4" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="3" GridPane.rowIndex="7" />
             <TextField fx:id="processQty5" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="3" GridPane.rowIndex="8" />
             <TextField fx:id="processQty6" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="3" GridPane.rowIndex="9" />
-            <TextField fx:id="processQty7" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="3" GridPane.rowIndex="10" />
-            <TextField fx:id="processQty8" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="3" GridPane.rowIndex="11" />
-            <TextField fx:id="processQty9" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="3" GridPane.rowIndex="12" />
          </children>
       </GridPane>
       <HBox fx:id="buttonAction" alignment="TOP_CENTER" layoutX="268.0" layoutY="675.0" prefHeight="23.0" prefWidth="200.0" style="-fx-spacing: 50;">

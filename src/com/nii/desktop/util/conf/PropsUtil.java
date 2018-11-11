@@ -3,8 +3,6 @@ package com.nii.desktop.util.conf;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.nii.desktop.util.ui.ResourceLoader;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,11 +15,13 @@ import java.util.Properties;
  */
 public final class PropsUtil {
 
+    private final static String SYS_PATH = System.getProperty("user.dir");
+
     /* config.properties路径 */
-    private final static String CONFIG_FILE_PATH = ResourceLoader.getPropsResource("config.properties").getPath();
+    private static String CONFIG_FILE_PATH = SYS_PATH + "\\config.properties";
 
     /* message.properties路径 */
-    private final static String MESSAGE_FILE_PATH = ResourceLoader.getPropsResource("message.properties").getPath();
+    private static String MESSAGE_FILE_PATH = SYS_PATH + "\\message.properties";
 
     /**
      * 私有构造函数
@@ -36,7 +36,7 @@ public final class PropsUtil {
     public static Properties getConfigProperties() {
         Properties configProperties = new Properties();
         FileInputStream fin = null;
-
+        
         try {
             fin = new FileInputStream(CONFIG_FILE_PATH);
             InputStreamReader reader = new InputStreamReader(fin, "GBK");
@@ -106,17 +106,12 @@ public final class PropsUtil {
      */
     public static void updateHostAndDBUrl(String key, String value) {
         updateKeyValue(key, value); // 更新host
-
-        String dbUrl = "jdbc:sqlserver://" + value + ":1433;DatabaseName=AIS";
-
-        updateKeyValue("db.url", dbUrl); // 更新db.url
     }
 
     public static void main(String[] args) {
-        System.out.println("host:" + getConfigValue("host"));
-        System.out.println(getConfigValue("db.url"));
-        updateHostAndDBUrl("host", "localhost");
-        System.out.println(getConfigValue("db.url"));
+        System.out.println(SYS_PATH);
+
+        System.out.println(getConfigProperties());
 
     }
 }

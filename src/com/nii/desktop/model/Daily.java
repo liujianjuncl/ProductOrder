@@ -20,8 +20,8 @@ public class Daily {
     private String model; // 规格型号
 
     private int planQty; // 计划生产数量
-    
-    private LocalDate proDate;  //生产日期
+
+    private LocalDate proDate; // 生产日期
 
     private String resPro1; // 改制工序1
 
@@ -77,24 +77,6 @@ public class Daily {
 
     private int processQty6; // 工序6本次实作数量
 
-    private String process7; // 工序7
-
-    private double processPrice7; // 工序7单价
-
-    private int processQty7; // 工序7本次实作数量
-
-    private String process8; // 工序8
-
-    private double processPrice8; // 工序8单价
-
-    private int processQty8; // 工序8本次实作数量
-
-    private String process9; // 工序9
-
-    private double processPrice9; // 工序9单价
-
-    private int processQty9; // 工序9本次实作数量
-
     private String createUser; // 创建用户
 
     private Timestamp createTime; // 创建时间
@@ -105,16 +87,13 @@ public class Daily {
 
     private int sequence; // 日报序号，用于记录同一个生产任务单中日报编号
 
-    public Daily(String dailyNo, String billNo, String materialCode, String materialName, String model,
-            int planQty, LocalDate proDate, String resPro1, double resProPrice1, int resProQty1, String resPro2,
-            double resProPrice2, int resProQty2, String resPro3, double resProPrice3,
-            int resProQty3, String process1, double processPrice1, int processQty1, String process2,
-            double processPrice2, int processQty2, String process3, double processPrice3, int processQty3,
-            String process4, double processPrice4, int processQty4, String process5, double processPrice5,
-            int processQty5, String process6, double processPrice6, int processQty6, String process7,
-            double processPrice7, int processQty7, String process8, double processPrice8, int processQty8,
-            String process9, double processPrice9, int processQty9, String createUser, Timestamp createTime,
-            int isPiecework, int isDelete, int sequence) {
+    public Daily(String dailyNo, String billNo, String materialCode, String materialName, String model, int planQty,
+            LocalDate proDate, String resPro1, double resProPrice1, int resProQty1, String resPro2, double resProPrice2,
+            int resProQty2, String resPro3, double resProPrice3, int resProQty3, String process1, double processPrice1,
+            int processQty1, String process2, double processPrice2, int processQty2, String process3,
+            double processPrice3, int processQty3, String process4, double processPrice4, int processQty4,
+            String process5, double processPrice5, int processQty5, String process6, double processPrice6,
+            int processQty6, String createUser, Timestamp createTime, int isPiecework, int isDelete, int sequence) {
         super();
         this.dailyNo = dailyNo;
         this.billNo = billNo;
@@ -150,15 +129,6 @@ public class Daily {
         this.process6 = process6;
         this.processPrice6 = processPrice6;
         this.processQty6 = processQty6;
-        this.process7 = process7;
-        this.processPrice7 = processPrice7;
-        this.processQty7 = processQty7;
-        this.process8 = process8;
-        this.processPrice8 = processPrice8;
-        this.processQty8 = processQty8;
-        this.process9 = process9;
-        this.processPrice9 = processPrice9;
-        this.processQty9 = processQty9;
         this.createUser = createUser;
         this.createTime = createTime;
         this.isPiecework = isPiecework;
@@ -179,8 +149,8 @@ public class Daily {
         this.proDate = proDate;
     }
 
-    public Daily(String dailyNo, String billNo, String materialCode, String materialName, String model,
-            int planQty, LocalDate proDate) {
+    public Daily(String dailyNo, String billNo, String materialCode, String materialName, String model, int planQty,
+            LocalDate proDate) {
         super();
         this.dailyNo = dailyNo;
         this.billNo = billNo;
@@ -246,7 +216,7 @@ public class Daily {
     public void setPlanQty(int planQty) {
         this.planQty = planQty;
     }
-    
+
     public LocalDate getProDate() {
         return proDate;
     }
@@ -469,78 +439,6 @@ public class Daily {
 
     public void setProQty6(int processQty6) {
         this.processQty6 = processQty6;
-    }
-
-    public String getPro7() {
-        return process7;
-    }
-
-    public void setPro7(String process7) {
-        this.process7 = process7;
-    }
-
-    public double getProPrice7() {
-        return processPrice7;
-    }
-
-    public void setProPrice7(double processPrice7) {
-        this.processPrice7 = processPrice7;
-    }
-
-    public int getProQty7() {
-        return processQty7;
-    }
-
-    public void setProQty7(int processQty7) {
-        this.processQty7 = processQty7;
-    }
-
-    public String getPro8() {
-        return process8;
-    }
-
-    public void setPro8(String process8) {
-        this.process8 = process8;
-    }
-
-    public double getProPrice8() {
-        return processPrice8;
-    }
-
-    public void setProPrice8(double processPrice8) {
-        this.processPrice8 = processPrice8;
-    }
-
-    public int getProQty8() {
-        return processQty8;
-    }
-
-    public void setProQty8(int processQty8) {
-        this.processQty8 = processQty8;
-    }
-
-    public String getPro9() {
-        return process9;
-    }
-
-    public void setPro9(String process9) {
-        this.process9 = process9;
-    }
-
-    public double getProPrice9() {
-        return processPrice9;
-    }
-
-    public void setProPrice9(double processPrice9) {
-        this.processPrice9 = processPrice9;
-    }
-
-    public int getProQty9() {
-        return processQty9;
-    }
-
-    public void setProQty9(int processQty9) {
-        this.processQty9 = processQty9;
     }
 
     public String getCreateUser() {

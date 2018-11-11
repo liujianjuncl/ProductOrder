@@ -19,7 +19,6 @@ public final class ResourceLoader {
     }
 
     public static URL getPropsResource(String propName) {
-        String resourcePath = "/resources/conf/" + propName;
-        return ResourceLoader.class.getResource(resourcePath);
+        return ResourceLoader.class.getResource(propName);
     }
 }

@@ -11,8 +11,10 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.nii.desktop.model.Daily;
 import com.nii.desktop.model.User;
 import com.nii.desktop.util.conf.DBUtil;
+import com.nii.desktop.util.conf.DailyUtil;
 import com.nii.desktop.util.conf.SessionUtil;
 import com.nii.desktop.util.conf.PropsUtil;
 import com.nii.desktop.util.conf.UserUtil;
@@ -151,7 +153,7 @@ public class UserTableViewController implements Initializable {
             addUserBtn.setVisible(false);
             delUserBtn.setVisible(false);
         }
-        //·ÖÒ³
+        // ·ÖÒ³
 //        userTablePagination.setPageCount(1);
     }
 
@@ -273,7 +275,7 @@ public class UserTableViewController implements Initializable {
     public void deleteUserAction() {
         if (getSelectedNum() == 0) {
             AlertUtil.alertInfoLater(PropsUtil.getMessage("comboBox.delete.noSelected"));
-        } else if(AlertUtil.alertConfirmLater(PropsUtil.getMessage("confirm.delete"))) {
+        } else if (AlertUtil.alertConfirmLater(PropsUtil.getMessage("confirm.delete"))) {
             List<String> userNoList = getSelectedUserNoList();
 
             Connection conn = null;
@@ -286,6 +288,13 @@ public class UserTableViewController implements Initializable {
 
                 for (int i = 0; i < userNoList.size(); i++) {
                     String userNo = userNoList.get(i);
+                    User user = UserUtil.getUser(userNo);
+                    Daily daily = DailyUtil.getDailyByUserNo(userNo);
+                    if (daily != null) {
+                        AlertUtil.alertInfoLater(PropsUtil.getMessage("donot.delete.user1") + user.getUserName()
+                                + PropsUtil.getMessage("donot.delete.user2"));
+                        return;
+                    }
                     stmt.setString(1, userNo);
                     stmt.executeUpdate();
                 }

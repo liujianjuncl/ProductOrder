@@ -14,11 +14,14 @@ import com.nii.desktop.util.ui.UIManager;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
@@ -35,7 +38,7 @@ import java.util.ResourceBundle;
  * Created by ljj on 2018/9/15.
  */
 public class LoginUIController implements Initializable {
-    
+
     @FXML
     private TextField userNoTextField;
 
@@ -52,15 +55,17 @@ public class LoginUIController implements Initializable {
     /* 初始化方法 */
     public void initialize(URL location, ResourceBundle resources) {
         new StageMove(UIManager.getPrimaryStage()).bindDrag(contentPanel);
-        
-        userNoTextField.setText("000001");
-        passwordTextField.setText("111111");
 
+        // 方便测试
+        userNoTextField.setText("0001");
+        passwordTextField.setText("111111");
+        
+        userNoTextField.requestFocus();
+        userNameTextField.setDisable(true);
         /* 当用户编号焦点失去时，获取用户名称 */
         userNoTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
             public void changed(ObservableValue<? extends Boolean> ov, Boolean oldValue, Boolean newValue) {
                 String userNo = userNoTextField.getText().trim();
-                System.out.println(userNo);
                 if (!"".equals(userNo)) {
                     User user = UserUtil.getUser(userNo);
                     if (user != null && !newValue) {
@@ -69,7 +74,35 @@ public class LoginUIController implements Initializable {
                 }
             }
         });
-        userNameTextField.setDisable(true);
+
+        // 用户编号回车事件
+        userNoTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode().equals(KeyCode.ENTER)) {
+                    String userNo = userNoTextField.getText().trim();
+                    if (!"".equals(userNo)) {
+                        User user = UserUtil.getUser(userNo);
+                        if (user != null) {
+                            userNameTextField.setText(user.getUserName());
+                            passwordTextField.requestFocus();
+                        } else {
+                            AlertUtil.alertInfoLater(PropsUtil.getMessage("login.user.notExist"));
+                        }
+                    }
+                }
+            }
+        });
+
+        // 用户密码回车事件
+        passwordTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode().equals(KeyCode.ENTER)) {
+                    entryButtonClickAction();
+                }
+            }
+        });
     }
 
     /* 登录 */
@@ -77,7 +110,7 @@ public class LoginUIController implements Initializable {
     private void entryButtonClickAction() {
         String userNo = userNoTextField.getText().trim();
         String password = passwordTextField.getText().trim();
-        
+
         if ("".equals(userNo.trim()) || "".equals(password.trim())) {
             AlertUtil.alertInfoLater(PropsUtil.getMessage("login.user.pwd.isnull"));
             return;

@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -14,9 +15,9 @@ import java.util.logging.Logger;
 
 import com.nii.desktop.model.Daily;
 import com.nii.desktop.model.DailyProcessQty;
-import com.nii.desktop.model.DateUtil;
 import com.nii.desktop.util.conf.DBUtil;
 import com.nii.desktop.util.conf.DailyUtil;
+import com.nii.desktop.util.conf.DateUtil;
 import com.nii.desktop.util.conf.SessionUtil;
 import com.nii.desktop.util.conf.PropsUtil;
 import com.nii.desktop.util.ui.AlertUtil;
@@ -194,8 +195,12 @@ public class DailyTableViewController implements Initializable {
             if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
                 sql = sql + " and createUser = " + SessionUtil.USERS.get("loginUser").getUserNo();
             }
-
+            
+            // 获取最近3个月的记录
+            sql = sql + " and productDate <= '" + DateUtil.localDateToDateTimeStr(LocalDate.now()) + "'";
+            sql = sql + " and productDate >= '" + DateUtil.last3MonthDateTimeStr() + "'";
             sql = sql + " order by dailyNo desc";
+            
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
@@ -323,9 +328,7 @@ public class DailyTableViewController implements Initializable {
                             dpq.getResProQty2() - daily.getResProQty2(), dpq.getResProQty3() - daily.getResProQty3(),
                             dpq.getProQty1() - daily.getProQty1(), dpq.getProQty2() - daily.getProQty2(),
                             dpq.getProQty3() - daily.getProQty3(), dpq.getProQty3() - daily.getProQty4(),
-                            dpq.getProQty5() - daily.getProQty5(), dpq.getProQty6() - daily.getProQty6(),
-                            dpq.getProQty7() - daily.getProQty7(), dpq.getProQty8() - daily.getProQty8(),
-                            dpq.getProQty9() - daily.getProQty9());
+                            dpq.getProQty5() - daily.getProQty5(), dpq.getProQty6() - daily.getProQty6());
                     DailyUtil.updateDailyTotalQty(dailyProcessQty);
 
                     stmt.executeUpdate();
@@ -351,31 +354,37 @@ public class DailyTableViewController implements Initializable {
 
         String userNo = userNoTextField.getText();
         String billNo = billNoTextField.getText();
-        String date = startDatePicker.getValue().toString();
+        LocalDate startDate = startDatePicker.getValue();
+        LocalDate endDate = endDatePicker.getValue();
+        
 
         // 添加表格数据前先清空
         dailyDataList.clear();
 
         try {
-            String sql = "select dailyNo, billNo, materialCode, materialName, model, planQuantity "
+            String sql = "select dailyNo, billNo, materialCode, materialName, model, planQuantity, productDate "
                     + "from dbo.t_product_daily_bill_detail where isDelete = 0 ";
             if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
                 sql = sql + " and createUser = " + SessionUtil.USERS.get("loginUser").getUserNo();
             }
 
-            if (userNo != null) {
-                sql = sql + " and createUser like %" + userNo + "%";
+            if (userNo != null && !"".equals(userNo)) {
+                sql = sql + " and createUser like '%" + userNo + "%'";
             }
 
-            if (userNo != null) {
-                sql = sql + " and billNo like %" + billNo + "%";
+            if (billNo != null && !"".equals(billNo)) {
+                sql = sql + " and billNo like '%" + billNo + "%'";
             }
 
-            if (userNo != null) {
-                sql = sql + " and createUser like %" + userNo + "%";
+            if (startDate != null) {
+                sql = sql + " and productDate >= '" + DateUtil.localDateToDateTimeStr(startDate) + "'";
             }
-
+            
+            if (endDate != null) {
+                sql = sql + " and productDate <= '" + DateUtil.localDateToDateTimeStr(endDate) + "'";
+            }
             sql = sql + " order by dailyNo desc";
+            System.out.println(sql);
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
@@ -383,9 +392,13 @@ public class DailyTableViewController implements Initializable {
             while (rs.next()) {
                 Daily daily = new Daily(new CheckBox(), rs.getString("dailyNo"), rs.getString("billNo"),
                         rs.getString("materialCode"), rs.getString("materialName"), rs.getString("model"),
-                        rs.getInt("planQuantity"), DateUtil.dateToLocalDate(rs.getDate("productDate")));
+                        rs.getInt("planQuantity"), DateUtil.sqlDateToLocalDate(rs.getDate("productDate")));
                 dailyDataList.add(daily);
             }
+            if(dailyDataList.size() == 0) {
+                AlertUtil.alertInfoLater(PropsUtil.getMessage("search.result.null"));
+            }
+            addDatatoTableView();
 
         } catch (Exception e) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
@@ -435,6 +448,10 @@ public class DailyTableViewController implements Initializable {
     public void refresh() {
         initData();
         addDatatoTableView();
+    }
+    
+    public static void main(String[] args) {
+
     }
 
 }

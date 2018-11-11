@@ -26,20 +26,13 @@ public class DailyProcessQty {
 
     private int proQty6; // 工序6实作数量
 
-    private int proQty7; // 工序7实作数量
-
-    private int proQty8; // 工序8实作数量
-
-    private int proQty9; // 工序9实作数量
-
     public DailyProcessQty() {
         super();
     }
 
     public DailyProcessQty(String billNo, String dailyNo, int planQty, int resProQty1, int resProQty2,
             int resProQty3, int proQty1, int proQty2, int proQty3,
-            int proQty4, int proQty5, int proQty6, int proQty7,
-            int proQty8, int proQty9) {
+            int proQty4, int proQty5, int proQty6) {
         super();
         this.billNo = billNo;
         this.dailyNo = dailyNo;
@@ -53,9 +46,6 @@ public class DailyProcessQty {
         this.proQty4 = proQty4;
         this.proQty5 = proQty5;
         this.proQty6 = proQty6;
-        this.proQty7 = proQty7;
-        this.proQty8 = proQty8;
-        this.proQty9 = proQty9;
     }
 
     public String getBillNo() {
@@ -153,29 +143,4 @@ public class DailyProcessQty {
     public void setProQty6(int proQty6) {
         this.proQty6 = proQty6;
     }
-
-    public int getProQty7() {
-        return proQty7;
-    }
-
-    public void setProQty7(int proQty7) {
-        this.proQty7 = proQty7;
-    }
-
-    public int getProQty8() {
-        return proQty8;
-    }
-
-    public void setProQty8(int proQty8) {
-        this.proQty8 = proQty8;
-    }
-
-    public int getProQty9() {
-        return proQty9;
-    }
-
-    public void setProQty9(int proQty9) {
-        this.proQty9 = proQty9;
-    }
-
 }

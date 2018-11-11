@@ -15,9 +15,9 @@ import java.util.regex.Pattern;
 
 import com.nii.desktop.model.Daily;
 import com.nii.desktop.model.DailyProcessQty;
-import com.nii.desktop.model.DateUtil;
 import com.nii.desktop.util.conf.DBUtil;
 import com.nii.desktop.util.conf.DailyUtil;
+import com.nii.desktop.util.conf.DateUtil;
 import com.nii.desktop.util.conf.SessionUtil;
 import com.nii.desktop.util.conf.PropsUtil;
 import com.nii.desktop.util.ui.AlertUtil;
@@ -62,8 +62,8 @@ public class AddDailyController implements Initializable {
 
     @FXML
     private CheckBox allProcessChkBox;
-    
-    //生产日期
+
+    // 生产日期
     @FXML
     private DatePicker productDate;
 
@@ -107,18 +107,6 @@ public class AddDailyController implements Initializable {
     @FXML
     private Label process6;
 
-    // 工序7
-    @FXML
-    private Label process7;
-
-    // 工序8
-    @FXML
-    private Label process8;
-
-    // 工序9
-    @FXML
-    private Label process9;
-
     // 改制工序1单价
     @FXML
     private Label resProcessPrice1;
@@ -154,18 +142,6 @@ public class AddDailyController implements Initializable {
     // 工序6单价
     @FXML
     private Label processPrice6;
-
-    // 工序7单价
-    @FXML
-    private Label processPrice7;
-
-    // 工序8单价
-    @FXML
-    private Label processPrice8;
-
-    // 工序9单价
-    @FXML
-    private Label processPrice9;
 
     // 改制工序1实作数量
     @FXML
@@ -203,18 +179,6 @@ public class AddDailyController implements Initializable {
     @FXML
     private TextField processQty6;
 
-    // 工序7实作数量
-    @FXML
-    private TextField processQty7;
-
-    // 工序8实作数量
-    @FXML
-    private TextField processQty8;
-
-    // 工序9实作数量
-    @FXML
-    private TextField processQty9;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // 根据生产任务单号获取生产任务单信息
@@ -229,12 +193,9 @@ public class AddDailyController implements Initializable {
                 }
             }
         });
-        
-        //生产日期默认当天
-        productDate.setValue(DateUtil.dateToLocalDate(new Date()));
 
-        // 全工序实作数量逻辑处理
-        allProcessHandler();
+        // 生产日期默认当天
+        productDate.setValue(DateUtil.dateToLocalDate(new Date()));
 
         // 工序逻辑处理
         processOnlyNumber();
@@ -266,13 +227,7 @@ public class AddDailyController implements Initializable {
                     + "c.FHeadSelfJ0193 as process5, "
                     + "CAST((case when charindex('*', c.FHeadSelfJ0194) > 0 then '0' else c.FHeadSelfJ0194 end) as decimal(18, 4)) as processPrice5, "
                     + "c.FHeadSelfJ0195 as process6, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ0196) > 0 then '0' else c.FHeadSelfJ0196 end) as decimal(18, 4)) as processPrice6, "
-                    + "c.FHeadSelfJ0197 as process7, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ0198) > 0 then '0' else c.FHeadSelfJ0198 end) as decimal(18, 4)) as processPrice7, "
-                    + "c.FHeadSelfJ0199 as process8, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ01100) > 0 then '0' else c.FHeadSelfJ01100 end) as decimal(18, 4)) as processPrice8, "
-                    + "c.FHeadSelfJ01101 as process9, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ01100) > 0 then '0' else c.FHeadSelfJ01100 end) as decimal(18, 4)) as processPrice9 "
+                    + "CAST((case when charindex('*', c.FHeadSelfJ0196) > 0 then '0' else c.FHeadSelfJ0196 end) as decimal(18, 4)) as processPrice6 "
                     + "from dbo.ICMO c left join dbo.t_ICItemCore icc on c.FItemID = icc.FItemID "
                     + "left join dbo.t_Item item1 on c.FHeadSelfJ01103 = item1.FitemID "
                     + "left join dbo.t_Item item2 on c.FHeadSelfJ01105 = item2.FitemID "
@@ -298,9 +253,6 @@ public class AddDailyController implements Initializable {
                 process4.setText(rs.getString("process4"));
                 process5.setText(rs.getString("process5"));
                 process6.setText(rs.getString("process6"));
-                process7.setText(rs.getString("process7"));
-                process8.setText(rs.getString("process8"));
-                process9.setText(rs.getString("process9"));
                 resProcessPrice1.setText(rs.getString("resProcessPrice1"));
                 resProcessPrice2.setText(rs.getString("resProcessPrice2"));
                 resProcessPrice3.setText(rs.getString("resProcessPrice3"));
@@ -310,9 +262,6 @@ public class AddDailyController implements Initializable {
                 processPrice4.setText(rs.getString("processPrice4"));
                 processPrice5.setText(rs.getString("processPrice5"));
                 processPrice6.setText(rs.getString("processPrice6"));
-                processPrice7.setText(rs.getString("processPrice7"));
-                processPrice8.setText(rs.getString("processPrice8"));
-                processPrice9.setText(rs.getString("processPrice9"));
             }
 
             handlerProcessQtyField();
@@ -328,6 +277,22 @@ public class AddDailyController implements Initializable {
 
     // 工序名称为空时，对应的实作数量输入框不可输入
     public void handlerProcessQtyField() {
+        boolean result = false;
+        if ((resProcess1.getText() != null && !"*".equals(resProcess1.getText()) && !"".equals(resProcess1.getText()))
+                && resProcess2.getText() != null && !"*".equals(resProcess2.getText())
+                && !"".equals(resProcess2.getText()) && resProcess3.getText() != null
+                && !"*".equals(resProcess3.getText()) && !"".equals(resProcess3.getText())) {
+            result = true;
+        }
+        
+        if(result) {
+            allProcessChkBox.setDisable(true);
+            allProcessQtyTextField.setDisable(true);
+        } else {
+            allProcessChkBox.setDisable(false);
+            allProcessQtyTextField.setDisable(false);
+        }
+
         if (resProcess1.getText() == null || "*".equals(resProcess1.getText()) || "".equals(resProcess1.getText())) {
             resProcessQty1.setDisable(true);
         } else {
@@ -346,58 +311,40 @@ public class AddDailyController implements Initializable {
             resProcessQty3.setDisable(false);
         }
 
-        if (process1.getText() == null || "*".equals(process1.getText()) || "".equals(process1.getText())) {
+        if (process1.getText() == null || "*".equals(process1.getText()) || "".equals(process1.getText()) || result) {
             processQty1.setDisable(true);
         } else {
             processQty1.setDisable(false);
         }
 
-        if (process2.getText() == null || "*".equals(process2.getText()) || "".equals(process2.getText())) {
+        if (process2.getText() == null || "*".equals(process2.getText()) || "".equals(process2.getText()) || result) {
             processQty2.setDisable(true);
         } else {
             processQty2.setDisable(false);
         }
 
-        if (process3.getText() == null || "*".equals(process3.getText()) || "".equals(process3.getText())) {
+        if (process3.getText() == null || "*".equals(process3.getText()) || "".equals(process3.getText()) || result) {
             processQty3.setDisable(true);
         } else {
             processQty3.setDisable(false);
         }
 
-        if (process4.getText() == null || "*".equals(process4.getText()) || "".equals(process4.getText())) {
+        if (process4.getText() == null || "*".equals(process4.getText()) || "".equals(process4.getText()) || result) {
             processQty4.setDisable(true);
         } else {
             processQty4.setDisable(false);
         }
 
-        if (process5.getText() == null || "*".equals(process5.getText()) || "".equals(process5.getText())) {
+        if (process5.getText() == null || "*".equals(process5.getText()) || "".equals(process5.getText()) || result) {
             processQty5.setDisable(true);
         } else {
             processQty5.setDisable(false);
         }
 
-        if (process6.getText() == null || "*".equals(process6.getText()) || "".equals(process6.getText())) {
+        if (process6.getText() == null || "*".equals(process6.getText()) || "".equals(process6.getText()) || result) {
             processQty6.setDisable(true);
         } else {
             processQty6.setDisable(false);
-        }
-
-        if (process7.getText() == null || "*".equals(process7.getText()) || "".equals(process7.getText())) {
-            processQty7.setDisable(true);
-        } else {
-            processQty7.setDisable(false);
-        }
-
-        if (process8.getText() == null || "*".equals(process8.getText()) || "".equals(process8.getText())) {
-            processQty8.setDisable(true);
-        } else {
-            processQty8.setDisable(false);
-        }
-
-        if (process9.getText() == null || "*".equals(process9.getText()) || "".equals(process9.getText())) {
-            processQty9.setDisable(true);
-        } else {
-            processQty9.setDisable(false);
         }
     }
 
@@ -419,9 +366,6 @@ public class AddDailyController implements Initializable {
                     processQty4.setDisable(true);
                     processQty5.setDisable(true);
                     processQty6.setDisable(true);
-                    processQty7.setDisable(true);
-                    processQty8.setDisable(true);
-                    processQty9.setDisable(true);
                 } else { // 当全工序去勾选时，所有实作数量可以输入
                     allProcessQtyTextField.setDisable(true);
                     resProcessQty1.setDisable(false);
@@ -433,9 +377,6 @@ public class AddDailyController implements Initializable {
                     processQty4.setDisable(false);
                     processQty5.setDisable(false);
                     processQty6.setDisable(false);
-                    processQty7.setDisable(false);
-                    processQty8.setDisable(false);
-                    processQty9.setDisable(false);
                     handlerProcessQtyField();
                 }
             }
@@ -460,12 +401,6 @@ public class AddDailyController implements Initializable {
                             || "".equals(process5.getText())) ? "" : newValue);
                     processQty6.setText((process6.getText() == null || "*".equals(process6.getText())
                             || "".equals(process6.getText())) ? "" : newValue);
-                    processQty7.setText((process7.getText() == null || "*".equals(process7.getText())
-                            || "".equals(process7.getText())) ? "" : newValue);
-                    processQty8.setText((process8.getText() == null || "*".equals(process8.getText())
-                            || "".equals(process8.getText())) ? "" : newValue);
-                    processQty9.setText((process9.getText() == null || "*".equals(process9.getText())
-                            || "".equals(process9.getText())) ? "" : newValue);
                 } else {
                     allProcessQtyTextField.setEditable(false);
                     allProcessQtyTextField.setText(oldValue);
@@ -593,51 +528,18 @@ public class AddDailyController implements Initializable {
                 }
             }
         });
-
-        // 工序6数量只允许输入数字
-        processQty7.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                Pattern pattern = Pattern.compile("[0-9]*");
-                if (!pattern.matcher(newValue).matches()) {
-                    processQty7.setEditable(false);
-                    processQty7.setText(oldValue);
-                    processQty7.setEditable(true);
-                }
-            }
-        });
-
-        // 工序8数量只允许输入数字
-        processQty8.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                Pattern pattern = Pattern.compile("[0-9]*");
-                if (!pattern.matcher(newValue).matches()) {
-                    processQty8.setEditable(false);
-                    processQty8.setText(oldValue);
-                    processQty8.setEditable(true);
-                }
-            }
-        });
-
-        // 工序9数量只允许输入数字
-        processQty9.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                Pattern pattern = Pattern.compile("[0-9]*");
-                if (!pattern.matcher(newValue).matches()) {
-                    processQty9.setEditable(false);
-                    processQty9.setText(oldValue);
-                    processQty9.setEditable(true);
-                }
-            }
-        });
     }
 
     // 点击确定时，添加日报
     @FXML
     public void confirmBtnAction() {
         String billNo = billNoTextField.getText().trim();
+        
+        if ("".equals(billNo.trim())) {
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("billNo.isnot.null"));
+            return;
+        }
+        
         // 添加日报之前，首先将该条生产任务单的信息同步到日报汇总表中
         DailyProcessQty dpq = DailyUtil.getProcessTotalQty(billNo);
         if (dpq == null) {
@@ -671,13 +573,7 @@ public class AddDailyController implements Initializable {
                     Double.valueOf(processPrice5.getText()),
                     Integer.valueOf("".equals(processQty5.getText()) ? "0" : processQty5.getText()), process6.getText(),
                     Double.valueOf(processPrice6.getText()),
-                    Integer.valueOf("".equals(processQty6.getText()) ? "0" : processQty6.getText()), process7.getText(),
-                    Double.valueOf(processPrice7.getText()),
-                    Integer.valueOf("".equals(processQty7.getText()) ? "0" : processQty7.getText()), process8.getText(),
-                    Double.valueOf(processPrice8.getText()),
-                    Integer.valueOf("".equals(processQty8.getText()) ? "0" : processQty8.getText()), process9.getText(),
-                    Double.valueOf(processPrice9.getText()),
-                    Integer.valueOf("".equals(processQty9.getText()) ? "0" : processQty9.getText()),
+                    Integer.valueOf("".equals(processQty6.getText()) ? "0" : processQty6.getText()),
                     SessionUtil.USERS.get("loginUser").getUserNo(), new Timestamp(new Date().getTime()),
                     "是".equals(SessionUtil.USERS.get("loginUser").getIsPiecework()) ? 1 : 0, 0,
                     DailyUtil.getDailyDetailSeq(billNo));
@@ -699,20 +595,20 @@ public class AddDailyController implements Initializable {
     public String verifyProcess(DailyProcessQty dpq) {
         int playQty = dpq.getPlanQty();
 
-        int resProQty1 = "".equals(resProcessQty1.getText().trim()) ? 0 : Integer.valueOf(resProcessQty1.getText().trim());
-        int resProQty2 = "".equals(resProcessQty2.getText().trim()) ? 0 : Integer.valueOf(resProcessQty2.getText().trim());
-        int resProQty3 = "".equals(resProcessQty3.getText().trim()) ? 0 : Integer.valueOf(resProcessQty3.getText().trim());
+        int resProQty1 = "".equals(resProcessQty1.getText().trim()) ? 0
+                : Integer.valueOf(resProcessQty1.getText().trim());
+        int resProQty2 = "".equals(resProcessQty2.getText().trim()) ? 0
+                : Integer.valueOf(resProcessQty2.getText().trim());
+        int resProQty3 = "".equals(resProcessQty3.getText().trim()) ? 0
+                : Integer.valueOf(resProcessQty3.getText().trim());
         int proQty1 = "".equals(processQty1.getText().trim()) ? 0 : Integer.valueOf(processQty1.getText().trim());
         int proQty2 = "".equals(processQty2.getText().trim()) ? 0 : Integer.valueOf(processQty2.getText().trim());
         int proQty3 = "".equals(processQty3.getText().trim()) ? 0 : Integer.valueOf(processQty3.getText().trim());
         int proQty4 = "".equals(processQty4.getText().trim()) ? 0 : Integer.valueOf(processQty4.getText().trim());
         int proQty5 = "".equals(processQty5.getText().trim()) ? 0 : Integer.valueOf(processQty5.getText().trim());
         int proQty6 = "".equals(processQty6.getText().trim()) ? 0 : Integer.valueOf(processQty6.getText().trim());
-        int proQty7 = "".equals(processQty7.getText().trim()) ? 0 : Integer.valueOf(processQty7.getText().trim());
-        int proQty8 = "".equals(processQty8.getText().trim()) ? 0 : Integer.valueOf(processQty8.getText().trim());
-        int proQty9 = "".equals(processQty9.getText().trim()) ? 0 : Integer.valueOf(processQty9.getText().trim());
 
-        //将本次录入的实作数量和已经完成的实作数量相加
+        // 将本次录入的实作数量和已经完成的实作数量相加
         int resProTotalQty1 = resProQty1 + dpq.getResProQty1();
         int resProTotalQty2 = resProQty2 + dpq.getResProQty2();
         int resProTotalQty3 = resProQty3 + dpq.getResProQty3();
@@ -722,17 +618,13 @@ public class AddDailyController implements Initializable {
         int proTotalQty4 = proQty4 + dpq.getProQty4();
         int proTotalQty5 = proQty5 + dpq.getProQty5();
         int proTotalQty6 = proQty6 + dpq.getProQty6();
-        int proTotalQty7 = proQty7 + dpq.getProQty7();
-        int proTotalQty8 = proQty8 + dpq.getProQty8();
-        int proTotalQty9 = proQty9 + dpq.getProQty9();
 
         int[] resTotalQty = { resProTotalQty1, resProTotalQty2, resProTotalQty3 };
 
-        int[] totalQty = { proTotalQty1, proTotalQty2, proTotalQty3, proTotalQty4, proTotalQty5, proTotalQty6,
-                proTotalQty7, proTotalQty8, proTotalQty9 };
+        int[] totalQty = { proTotalQty1, proTotalQty2, proTotalQty3, proTotalQty4, proTotalQty5, proTotalQty6 };
 
         String verifyIsNullRes = DailyUtil.verifyIsNull(resProQty1, resProQty2, resProQty3, proQty1, proQty2, proQty3,
-                proQty4, proQty5, proQty6, proQty7, proQty8, proQty9);
+                proQty4, proQty5, proQty6);
 
         if (!"OK".equals(verifyIsNullRes)) {
             return verifyIsNullRes;

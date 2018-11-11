@@ -66,8 +66,8 @@ public class MainUIController implements Initializable {
     /***/
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        userManageButton.setStyle("-fx-background-color: #808080");
-        loadUserTableView();
+        dailyManageButton.setStyle("-fx-background-color: #808080");
+        loadDailyTableView();
         
         
 //        numTextField.setEditable(false);
@@ -84,7 +84,7 @@ public class MainUIController implements Initializable {
     private void userLabelClickAction() {
         userManageButton.setStyle("-fx-background-color: #808080");
         dailyManageButton.setStyle(null);
-        rightPane.getChildren().removeAll(dailyVbox);
+        rightPane.getChildren().clear();
         loadUserTableView();
     }
     
@@ -92,7 +92,7 @@ public class MainUIController implements Initializable {
     private void dailyLabelClickAction() {
         dailyManageButton.setStyle("-fx-background-color: #808080");
         userManageButton.setStyle(null);
-        rightPane.getChildren().removeAll(userVbox);
+        rightPane.getChildren().clear();
         loadDailyTableView();
     }
 

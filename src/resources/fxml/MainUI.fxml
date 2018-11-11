@@ -7,14 +7,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<SplitPane dividerPositions="0.5" prefHeight="600.0" prefWidth="1100.0" stylesheets="/resources/css/MainUI.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nii.desktop.controller.MainUIController">
+<SplitPane dividerPositions="0.5" prefHeight="600.0" prefWidth="1100.0" stylesheets="@../css/MainUI.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nii.desktop.controller.MainUIController">
   <items>
     <AnchorPane fx:id="leftPane" maxWidth="200" minHeight="0.0" minWidth="200.0" prefWidth="300.0">
       <children>
             <VBox prefHeight="212.0" prefWidth="200.0">
                <children>
-               <Button fx:id="userManageButton" mnemonicParsing="false" onAction="#userLabelClickAction" prefHeight="90.0" prefWidth="300.0" text="用户管理" />
                <Button fx:id="dailyManageButton" mnemonicParsing="false" onAction="#dailyLabelClickAction" prefHeight="90.0" prefWidth="300.0" text="日报管理" />
+               <Button fx:id="userManageButton" mnemonicParsing="false" onAction="#userLabelClickAction" prefHeight="90.0" prefWidth="300.0" text="用户管理" />
                </children>
             </VBox>
       </children></AnchorPane>
