@@ -109,6 +109,9 @@ public class UserTableViewController implements Initializable {
 
     @FXML
     private Button delUserBtn;
+    
+    @FXML
+    private Label currentUser;
 
     /* œµÕ≥stage */
     private static Stage dialogStage;
@@ -153,6 +156,8 @@ public class UserTableViewController implements Initializable {
             addUserBtn.setVisible(false);
             delUserBtn.setVisible(false);
         }
+        
+        currentUser.setText(SessionUtil.USERS.get("loginUser").getUserName());
         // ∑÷“≥
 //        userTablePagination.setPageCount(1);
     }

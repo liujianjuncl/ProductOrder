@@ -124,6 +124,9 @@ public class DailyTableViewController implements Initializable {
     
     @FXML
     private DatePicker endDatePicker;
+    
+    @FXML
+    private Label currentUser;
 
     /* 系统stage */
     private static Stage dialogStage;
@@ -168,6 +171,8 @@ public class DailyTableViewController implements Initializable {
         if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
             delDailyBtn.setVisible(false);
         }
+        
+        currentUser.setText(SessionUtil.USERS.get("loginUser").getUserName());
         // 分页
 //        dailyTablePagination.setPageCount(1);
     }

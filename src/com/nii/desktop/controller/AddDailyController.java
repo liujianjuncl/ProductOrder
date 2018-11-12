@@ -193,6 +193,8 @@ public class AddDailyController implements Initializable {
                 }
             }
         });
+        
+        handlerProcessQtyField();
 
         // 生产日期默认当天
         productDate.setValue(DateUtil.dateToLocalDate(new Date()));
@@ -377,7 +379,7 @@ public class AddDailyController implements Initializable {
                     processQty4.setDisable(false);
                     processQty5.setDisable(false);
                     processQty6.setDisable(false);
-                    handlerProcessQtyField();
+//                    handlerProcessQtyField();
                 }
             }
         });
