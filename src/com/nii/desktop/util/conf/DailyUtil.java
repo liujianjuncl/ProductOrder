@@ -296,7 +296,7 @@ public class DailyUtil {
             String sql = "update dbo.t_product_daily_bill_detail set resProcessQty1 = ?, "
                     + "resProcessQty2 = ?, resProcessQty3 = ?, processQty1 = ?, processQty2 = ?, "
                     + "processQty3 = ?, processQty4 = ?, processQty5 = ?, processQty6 = ?, "
-                    + "processQty7 = ?, processQty8 = ?, processQty9 = ?, productDate = ? where dailyNo = ? and isDelete = 0 ";
+                    + "productDate = ? where dailyNo = ? and isDelete = 0 ";
 
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
@@ -348,7 +348,7 @@ public class DailyUtil {
             // 更新日报汇总表工序实作数量
             String sql = "update dbo.t_product_daily_bill_total set resProcessTotalQty1 = ?, resProcessTotalQty2 = ?, resProcessTotalQty3 = ?, "
                     + "processTotalQty1 = ?, processTotalQty2 = ?, processTotalQty3 = ?, processTotalQty4 = ?, processTotalQty5 = ?, "
-                    + "processTotalQty6 = ?, processTotalQty7 = ?, processTotalQty8 = ?, processTotalQty9 = ? "
+                    + "processTotalQty6 = ? "
                     + "where billNo = ? ";
 
             conn = DBUtil.getConnection();
