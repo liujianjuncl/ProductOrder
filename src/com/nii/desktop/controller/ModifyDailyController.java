@@ -197,9 +197,6 @@ public class ModifyDailyController implements Initializable {
 
         oldEditDaily = SessionUtil.DAILYS.get("editDaily");
         showProductDailyInfo(oldEditDaily);
-
-        // 工序逻辑处理
-        processOnlyNumber();
     }
 
     // 根据生产任务单号查询出当前生产任务单的信息并显示到界面上
@@ -245,12 +242,19 @@ public class ModifyDailyController implements Initializable {
     // 工序名称为空时，对应的实作数量输入框不可输入
     public void handlerProcessQtyField() {
         boolean result = false;
-        if ((resProcess1.getText() == null || "*".equals(resProcess1.getText()) || "".equals(resProcess1.getText()))
-                || resProcess2.getText() == null || "*".equals(resProcess2.getText())
-                || "".equals(resProcess2.getText()) || resProcess3.getText() == null
-                || "*".equals(resProcess3.getText()) || "".equals(resProcess3.getText())) {
+        if ((resProcess1.getText() != null && !"*".equals(resProcess1.getText()) && !"".equals(resProcess1.getText()))
+                && resProcess2.getText() != null && !"*".equals(resProcess2.getText())
+                && !"".equals(resProcess2.getText()) && resProcess3.getText() != null
+                && !"*".equals(resProcess3.getText()) && !"".equals(resProcess3.getText())) {
             result = true;
         }
+
+        if (result) {
+            allProcessChkBox.setDisable(true);
+        } else {
+            allProcessChkBox.setDisable(false);
+        }
+
         if (resProcess1.getText() == null || "*".equals(resProcess1.getText()) || "".equals(resProcess1.getText())) {
             resProcessQty1.setDisable(true);
         } else {
@@ -269,59 +273,44 @@ public class ModifyDailyController implements Initializable {
             resProcessQty3.setDisable(false);
         }
 
-        if (process1.getText() == null || "*".equals(process1.getText()) || "".equals(process1.getText())) {
+        if (process1.getText() == null || "*".equals(process1.getText()) || "".equals(process1.getText()) || result) {
             processQty1.setDisable(true);
         } else {
             processQty1.setDisable(false);
         }
 
-        if (process2.getText() == null || "*".equals(process2.getText()) || "".equals(process2.getText())) {
+        if (process2.getText() == null || "*".equals(process2.getText()) || "".equals(process2.getText()) || result) {
             processQty2.setDisable(true);
         } else {
             processQty2.setDisable(false);
         }
 
-        if (process3.getText() == null || "*".equals(process3.getText()) || "".equals(process3.getText())) {
+        if (process3.getText() == null || "*".equals(process3.getText()) || "".equals(process3.getText()) || result) {
             processQty3.setDisable(true);
         } else {
             processQty3.setDisable(false);
         }
 
-        if (process4.getText() == null || "*".equals(process4.getText()) || "".equals(process4.getText())) {
+        if (process4.getText() == null || "*".equals(process4.getText()) || "".equals(process4.getText()) || result) {
             processQty4.setDisable(true);
         } else {
             processQty4.setDisable(false);
         }
 
-        if (process5.getText() == null || "*".equals(process5.getText()) || "".equals(process5.getText())) {
+        if (process5.getText() == null || "*".equals(process5.getText()) || "".equals(process5.getText()) || result) {
             processQty5.setDisable(true);
         } else {
             processQty5.setDisable(false);
         }
 
-        if (process6.getText() == null || "*".equals(process6.getText()) || "".equals(process6.getText())) {
+        if (process6.getText() == null || "*".equals(process6.getText()) || "".equals(process6.getText()) || result) {
             processQty6.setDisable(true);
         } else {
             processQty6.setDisable(false);
         }
 
-        // 如果存在改制工序，则工序不可 输入
-        if ((resProcess1.getText() == null || "*".equals(resProcess1.getText()) || "".equals(resProcess1.getText()))
-                || resProcess2.getText() == null || "*".equals(resProcess2.getText())
-                || "".equals(resProcess2.getText()) || resProcess3.getText() == null
-                || "*".equals(resProcess3.getText()) || "".equals(resProcess3.getText())) {
-            processQty1.setDisable(true);
-            processQty2.setDisable(true);
-            processQty3.setDisable(true);
-            processQty4.setDisable(true);
-            processQty5.setDisable(true);
-            processQty6.setDisable(true);
-            allProcessChkBox.setDisable(true);
-        } else {
-            // 全工序实作数量逻辑处理
-            allProcessChkBox.setDisable(false);
-            allProcessHandler();
-        }
+        allProcessHandler();
+        processOnlyNumber();
     }
 
     // 全工序实作数量逻辑处理
@@ -331,29 +320,10 @@ public class ModifyDailyController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 // TODO Auto-generated method stub
-                if (newValue) { // 当全工序勾选时，所有实作数量均不允许输入
+                if (newValue) { // 当全工序勾选时，全工序实作数量可输入
                     allProcessQtyTextField.setDisable(false);
-                    resProcessQty1.setDisable(true);
-                    resProcessQty2.setDisable(true);
-                    resProcessQty3.setDisable(true);
-                    processQty1.setDisable(true);
-                    processQty2.setDisable(true);
-                    processQty3.setDisable(true);
-                    processQty4.setDisable(true);
-                    processQty5.setDisable(true);
-                    processQty6.setDisable(true);
-                } else { // 当全工序去勾选时，所有实作数量可以输入
+                } else { // 当全工序去勾选时，全工序实作数量不可输入
                     allProcessQtyTextField.setDisable(true);
-                    resProcessQty1.setDisable(false);
-                    resProcessQty2.setDisable(false);
-                    resProcessQty3.setDisable(false);
-                    processQty1.setDisable(false);
-                    processQty2.setDisable(false);
-                    processQty3.setDisable(false);
-                    processQty4.setDisable(false);
-                    processQty5.setDisable(false);
-                    processQty6.setDisable(false);
-                    handlerProcessQtyField();
                 }
             }
         });
@@ -537,7 +507,7 @@ public class ModifyDailyController implements Initializable {
         if (!"OK".equals(message)) {
             AlertUtil.alertInfoLater(message);
         } else {
-            DailyProcessQty dailyProcessQty = new DailyProcessQty(billNo, dailyNo,
+            DailyProcessQty dailyProcessQty = new DailyProcessQty(billNo, dailyNo, productDate.getValue(),
                     Integer.valueOf(planQuantity.getText()),
                     Integer.valueOf("".equals(resProcessQty1.getText()) ? "0" : resProcessQty1.getText()),
                     Integer.valueOf("".equals(resProcessQty2.getText()) ? "0" : resProcessQty2.getText()),

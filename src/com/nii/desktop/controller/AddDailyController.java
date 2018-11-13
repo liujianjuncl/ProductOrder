@@ -193,14 +193,9 @@ public class AddDailyController implements Initializable {
                 }
             }
         });
-        
-        handlerProcessQtyField();
 
         // 生产日期默认当天
         productDate.setValue(DateUtil.dateToLocalDate(new Date()));
-
-        // 工序逻辑处理
-        processOnlyNumber();
     }
 
     // 根据生产任务单号查询出当前生产任务单的信息并显示到界面上
@@ -286,13 +281,24 @@ public class AddDailyController implements Initializable {
                 && !"*".equals(resProcess3.getText()) && !"".equals(resProcess3.getText())) {
             result = true;
         }
-        
-        if(result) {
+
+        allProcessQtyTextField.setDisable(true);
+        allProcessChkBox.setSelected(false);
+        allProcessQtyTextField.setText("");
+        resProcessQty1.setText("");
+        resProcessQty2.setText("");
+        resProcessQty3.setText("");
+        processQty1.setText("");
+        processQty2.setText("");
+        processQty3.setText("");
+        processQty4.setText("");
+        processQty5.setText("");
+        processQty6.setText("");
+
+        if (result) {
             allProcessChkBox.setDisable(true);
-            allProcessQtyTextField.setDisable(true);
         } else {
             allProcessChkBox.setDisable(false);
-            allProcessQtyTextField.setDisable(false);
         }
 
         if (resProcess1.getText() == null || "*".equals(resProcess1.getText()) || "".equals(resProcess1.getText())) {
@@ -348,6 +354,9 @@ public class AddDailyController implements Initializable {
         } else {
             processQty6.setDisable(false);
         }
+
+        allProcessHandler();
+        processOnlyNumber();
     }
 
     // 全工序实作数量逻辑处理
@@ -357,29 +366,10 @@ public class AddDailyController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 // TODO Auto-generated method stub
-                if (newValue) { // 当全工序勾选时，所有实作数量均不允许输入
+                if (newValue) { // 当全工序勾选时，全工序实作数量可输入
                     allProcessQtyTextField.setDisable(false);
-                    resProcessQty1.setDisable(true);
-                    resProcessQty2.setDisable(true);
-                    resProcessQty3.setDisable(true);
-                    processQty1.setDisable(true);
-                    processQty2.setDisable(true);
-                    processQty3.setDisable(true);
-                    processQty4.setDisable(true);
-                    processQty5.setDisable(true);
-                    processQty6.setDisable(true);
-                } else { // 当全工序去勾选时，所有实作数量可以输入
+                } else { // 当全工序去勾选时，全工序实作数量不可输入
                     allProcessQtyTextField.setDisable(true);
-                    resProcessQty1.setDisable(false);
-                    resProcessQty2.setDisable(false);
-                    resProcessQty3.setDisable(false);
-                    processQty1.setDisable(false);
-                    processQty2.setDisable(false);
-                    processQty3.setDisable(false);
-                    processQty4.setDisable(false);
-                    processQty5.setDisable(false);
-                    processQty6.setDisable(false);
-//                    handlerProcessQtyField();
                 }
             }
         });
@@ -536,19 +526,19 @@ public class AddDailyController implements Initializable {
     @FXML
     public void confirmBtnAction() {
         String billNo = billNoTextField.getText().trim();
-        
+
         if ("".equals(billNo.trim())) {
             AlertUtil.alertInfoLater(PropsUtil.getMessage("billNo.isnot.null"));
             return;
         }
-        
+
         // 添加日报之前，首先将该条生产任务单的信息同步到日报汇总表中
         DailyProcessQty dpq = DailyUtil.getProcessTotalQty(billNo);
         if (dpq == null) {
             DailyUtil.addProductDailyTotal(billNo);
             dpq = DailyUtil.getProcessTotalQty(billNo);
         }
-
+        
         String message = verifyProcess(dpq);
 
         if (!"OK".equals(message)) {
@@ -577,6 +567,7 @@ public class AddDailyController implements Initializable {
                     Double.valueOf(processPrice6.getText()),
                     Integer.valueOf("".equals(processQty6.getText()) ? "0" : processQty6.getText()),
                     SessionUtil.USERS.get("loginUser").getUserNo(), new Timestamp(new Date().getTime()),
+                    SessionUtil.USERS.get("loginUser").getUserNo(), new Timestamp(new Date().getTime()),
                     "是".equals(SessionUtil.USERS.get("loginUser").getIsPiecework()) ? 1 : 0, 0,
                     DailyUtil.getDailyDetailSeq(billNo));
 
@@ -593,7 +584,7 @@ public class AddDailyController implements Initializable {
         }
     }
 
-    // 判断所有工序的累计实作数量，前一个工序累计实作数量必须大于或等于后一个工序累计实作数量
+    // 判断所有工序的累计实作数量，工序累计实作数量不能大于生产任务单计划生产数量
     public String verifyProcess(DailyProcessQty dpq) {
         int playQty = dpq.getPlanQty();
 

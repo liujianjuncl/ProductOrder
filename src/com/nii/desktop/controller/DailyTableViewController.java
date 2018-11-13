@@ -5,6 +5,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -102,7 +103,7 @@ public class DailyTableViewController implements Initializable {
     /* 计划生产数量 */
     @FXML
     private TableColumn<Daily, String> planQuantityCol;
-    
+
     /* 生产日期 */
     @FXML
     private TableColumn<Daily, String> productDateCol;
@@ -121,10 +122,10 @@ public class DailyTableViewController implements Initializable {
 
     @FXML
     private DatePicker startDatePicker;
-    
+
     @FXML
     private DatePicker endDatePicker;
-    
+
     @FXML
     private Label currentUser;
 
@@ -171,7 +172,7 @@ public class DailyTableViewController implements Initializable {
         if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
             delDailyBtn.setVisible(false);
         }
-        
+
         currentUser.setText(SessionUtil.USERS.get("loginUser").getUserName());
         // 分页
 //        dailyTablePagination.setPageCount(1);
@@ -200,12 +201,12 @@ public class DailyTableViewController implements Initializable {
             if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
                 sql = sql + " and createUser = " + SessionUtil.USERS.get("loginUser").getUserNo();
             }
-            
+
             // 获取最近3个月的记录
             sql = sql + " and productDate <= '" + DateUtil.localDateToDateTimeStr(LocalDate.now()) + "'";
             sql = sql + " and productDate >= '" + DateUtil.last3MonthDateTimeStr() + "'";
             sql = sql + " order by dailyNo desc";
-            
+
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
@@ -219,8 +220,8 @@ public class DailyTableViewController implements Initializable {
                 model = rs.getString("model");
                 planQuantity = rs.getInt("planQuantity");
                 productDate = DateUtil.sqlDateToLocalDate(rs.getDate("productDate"));
-                dailyDataList.add(
-                        new Daily(new CheckBox(), dailyNo, billNo, materialCode, materialName, model, planQuantity, productDate));
+                dailyDataList.add(new Daily(new CheckBox(), dailyNo, billNo, materialCode, materialName, model,
+                        planQuantity, productDate));
             }
 
         } catch (Exception e) {
@@ -238,7 +239,7 @@ public class DailyTableViewController implements Initializable {
         materialNameCol.setCellValueFactory(new PropertyValueFactory<Daily, String>("materialName"));
         modelCol.setCellValueFactory(new PropertyValueFactory<Daily, String>("model"));
         planQuantityCol.setCellValueFactory(new PropertyValueFactory<Daily, String>("planQty"));
-        productDateCol.setCellValueFactory(new PropertyValueFactory<Daily, String>("productDate"));
+        productDateCol.setCellValueFactory(new PropertyValueFactory<Daily, String>("proDate"));
 
         dailyTableView.setItems(dailyDataList);
 
@@ -329,11 +330,12 @@ public class DailyTableViewController implements Initializable {
 
                     // 将实作汇总表中本次删除的日报的实作数量减掉
                     DailyProcessQty dailyProcessQty = new DailyProcessQty(daily.getBillNo(), daily.getDailyNo(),
-                            daily.getPlanQty(), dpq.getProQty1() - daily.getResProQty1(),
-                            dpq.getResProQty2() - daily.getResProQty2(), dpq.getResProQty3() - daily.getResProQty3(),
-                            dpq.getProQty1() - daily.getProQty1(), dpq.getProQty2() - daily.getProQty2(),
-                            dpq.getProQty3() - daily.getProQty3(), dpq.getProQty3() - daily.getProQty4(),
-                            dpq.getProQty5() - daily.getProQty5(), dpq.getProQty6() - daily.getProQty6());
+                            daily.getProDate(), daily.getPlanQty(),
+                            dpq.getProQty1() - daily.getResProQty1(), dpq.getResProQty2() - daily.getResProQty2(),
+                            dpq.getResProQty3() - daily.getResProQty3(), dpq.getProQty1() - daily.getProQty1(),
+                            dpq.getProQty2() - daily.getProQty2(), dpq.getProQty3() - daily.getProQty3(),
+                            dpq.getProQty3() - daily.getProQty4(), dpq.getProQty5() - daily.getProQty5(),
+                            dpq.getProQty6() - daily.getProQty6());
                     DailyUtil.updateDailyTotalQty(dailyProcessQty);
 
                     stmt.executeUpdate();
@@ -361,7 +363,6 @@ public class DailyTableViewController implements Initializable {
         String billNo = billNoTextField.getText();
         LocalDate startDate = startDatePicker.getValue();
         LocalDate endDate = endDatePicker.getValue();
-        
 
         // 添加表格数据前先清空
         dailyDataList.clear();
@@ -384,7 +385,7 @@ public class DailyTableViewController implements Initializable {
             if (startDate != null) {
                 sql = sql + " and productDate >= '" + DateUtil.localDateToDateTimeStr(startDate) + "'";
             }
-            
+
             if (endDate != null) {
                 sql = sql + " and productDate <= '" + DateUtil.localDateToDateTimeStr(endDate) + "'";
             }
@@ -400,7 +401,7 @@ public class DailyTableViewController implements Initializable {
                         rs.getInt("planQuantity"), DateUtil.sqlDateToLocalDate(rs.getDate("productDate")));
                 dailyDataList.add(daily);
             }
-            if(dailyDataList.size() == 0) {
+            if (dailyDataList.size() == 0) {
                 AlertUtil.alertInfoLater(PropsUtil.getMessage("search.result.null"));
             }
             addDatatoTableView();
@@ -454,7 +455,7 @@ public class DailyTableViewController implements Initializable {
         initData();
         addDatatoTableView();
     }
-    
+
     public static void main(String[] args) {
 
     }

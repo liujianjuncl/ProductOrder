@@ -41,45 +41,49 @@ public class Daily {
 
     private int resProQty3; // 改制工序3本次实作数量
 
-    private String process1; // 工序1
+    private String pro1; // 工序1
 
-    private double processPrice1; // 工序1单价
+    private double proPrice1; // 工序1单价
 
-    private int processQty1; // 工序1本次实作数量
+    private int proQty1; // 工序1本次实作数量
 
-    private String process2; // 工序2
+    private String pro2; // 工序2
 
-    private double processPrice2; // 工序2单价
+    private double proPrice2; // 工序2单价
 
-    private int processQty2; // 工序2本次实作数量
+    private int proQty2; // 工序2本次实作数量
 
-    private String process3; // 工序3
+    private String pro3; // 工序3
 
-    private double processPrice3; // 工序3单价
+    private double proPrice3; // 工序3单价
 
-    private int processQty3; // 工序3本次实作数量
+    private int proQty3; // 工序3本次实作数量
 
-    private String process4; // 工序4
+    private String pro4; // 工序4
 
-    private double processPrice4; // 工序4单价
+    private double proPrice4; // 工序4单价
 
-    private int processQty4; // 工序4本次实作数量
+    private int proQty4; // 工序4本次实作数量
 
-    private String process5; // 工序5
+    private String pro5; // 工序5
 
-    private double processPrice5; // 工序5单价
+    private double proPrice5; // 工序5单价
 
-    private int processQty5; // 工序5本次实作数量
+    private int proQty5; // 工序5本次实作数量
 
-    private String process6; // 工序6
+    private String pro6; // 工序6
 
-    private double processPrice6; // 工序6单价
+    private double proPrice6; // 工序6单价
 
-    private int processQty6; // 工序6本次实作数量
+    private int proQty6; // 工序6本次实作数量
 
     private String createUser; // 创建用户
 
     private Timestamp createTime; // 创建时间
+    
+    private String modifyUser; //修改用户
+    
+    private Timestamp modifyTime; //修改时间
 
     private int isPiecework; // 是否计件
 
@@ -89,11 +93,11 @@ public class Daily {
 
     public Daily(String dailyNo, String billNo, String materialCode, String materialName, String model, int planQty,
             LocalDate proDate, String resPro1, double resProPrice1, int resProQty1, String resPro2, double resProPrice2,
-            int resProQty2, String resPro3, double resProPrice3, int resProQty3, String process1, double processPrice1,
-            int processQty1, String process2, double processPrice2, int processQty2, String process3,
-            double processPrice3, int processQty3, String process4, double processPrice4, int processQty4,
-            String process5, double processPrice5, int processQty5, String process6, double processPrice6,
-            int processQty6, String createUser, Timestamp createTime, int isPiecework, int isDelete, int sequence) {
+            int resProQty2, String resPro3, double resProPrice3, int resProQty3, String pro1, double proPrice1,
+            int proQty1, String pro2, double proPrice2, int proQty2, String pro3,
+            double proPrice3, int proQty3, String pro4, double proPrice4, int proQty4,
+            String pro5, double proPrice5, int proQty5, String pro6, double proPrice6,
+            int proQty6, String createUser, Timestamp createTime, String modifyUser, Timestamp modifyTime, int isPiecework, int isDelete, int sequence) {
         super();
         this.dailyNo = dailyNo;
         this.billNo = billNo;
@@ -111,26 +115,28 @@ public class Daily {
         this.resPro3 = resPro3;
         this.resProPrice3 = resProPrice3;
         this.resProQty3 = resProQty3;
-        this.process1 = process1;
-        this.processPrice1 = processPrice1;
-        this.processQty1 = processQty1;
-        this.process2 = process2;
-        this.processPrice2 = processPrice2;
-        this.processQty2 = processQty2;
-        this.process3 = process3;
-        this.processPrice3 = processPrice3;
-        this.processQty3 = processQty3;
-        this.process4 = process4;
-        this.processPrice4 = processPrice4;
-        this.processQty4 = processQty4;
-        this.process5 = process5;
-        this.processPrice5 = processPrice5;
-        this.processQty5 = processQty5;
-        this.process6 = process6;
-        this.processPrice6 = processPrice6;
-        this.processQty6 = processQty6;
+        this.pro1 = pro1;
+        this.proPrice1 = proPrice1;
+        this.proQty1 = proQty1;
+        this.pro2 = pro2;
+        this.proPrice2 = proPrice2;
+        this.proQty2 = proQty2;
+        this.pro3 = pro3;
+        this.proPrice3 = proPrice3;
+        this.proQty3 = proQty3;
+        this.pro4 = pro4;
+        this.proPrice4 = proPrice4;
+        this.proQty4 = proQty4;
+        this.pro5 = pro5;
+        this.proPrice5 = proPrice5;
+        this.proQty5 = proQty5;
+        this.pro6 = pro6;
+        this.proPrice6 = proPrice6;
+        this.proQty6 = proQty6;
         this.createUser = createUser;
         this.createTime = createTime;
+        this.modifyUser = modifyUser;
+        this.modifyTime = modifyTime;
         this.isPiecework = isPiecework;
         this.isDelete = isDelete;
         this.sequence = sequence;
@@ -165,7 +171,7 @@ public class Daily {
         return checkbox;
     }
 
-    public void setDailyNo(CheckBox checkbox) {
+    public void setCheckbox(CheckBox checkbox) {
         this.checkbox = checkbox;
     }
 
@@ -298,147 +304,147 @@ public class Daily {
     }
 
     public String getPro1() {
-        return process1;
+        return pro1;
     }
 
-    public void setPro1(String process1) {
-        this.process1 = process1;
+    public void setPro1(String pro1) {
+        this.pro1 = pro1;
     }
 
     public double getProPrice1() {
-        return processPrice1;
+        return proPrice1;
     }
 
-    public void setProPrice1(double processPrice1) {
-        this.processPrice1 = processPrice1;
+    public void setProPrice1(double proPrice1) {
+        this.proPrice1 = proPrice1;
     }
 
     public int getProQty1() {
-        return processQty1;
+        return proQty1;
     }
 
-    public void setProQty1(int processQty1) {
-        this.processQty1 = processQty1;
+    public void setProQty1(int proQty1) {
+        this.proQty1 = proQty1;
     }
 
     public String getPro2() {
-        return process2;
+        return pro2;
     }
 
-    public void setPro2(String process2) {
-        this.process2 = process2;
+    public void setPro2(String pro2) {
+        this.pro2 = pro2;
     }
 
     public double getProPrice2() {
-        return processPrice2;
+        return proPrice2;
     }
 
-    public void setProPrice2(double processPrice2) {
-        this.processPrice2 = processPrice2;
+    public void setProPrice2(double proPrice2) {
+        this.proPrice2 = proPrice2;
     }
 
     public int getProQty2() {
-        return processQty2;
+        return proQty2;
     }
 
-    public void setProQty2(int processQty2) {
-        this.processQty2 = processQty2;
+    public void setProQty2(int proQty2) {
+        this.proQty2 = proQty2;
     }
 
     public String getPro3() {
-        return process3;
+        return pro3;
     }
 
-    public void setPro3(String process3) {
-        this.process3 = process3;
+    public void setPro3(String pro3) {
+        this.pro3 = pro3;
     }
 
     public double getProPrice3() {
-        return processPrice3;
+        return proPrice3;
     }
 
-    public void setProPrice3(double processPrice3) {
-        this.processPrice3 = processPrice3;
+    public void setProPrice3(double proPrice3) {
+        this.proPrice3 = proPrice3;
     }
 
     public int getProQty3() {
-        return processQty3;
+        return proQty3;
     }
 
-    public void setProQty3(int processQty3) {
-        this.processQty3 = processQty3;
+    public void setProQty3(int proQty3) {
+        this.proQty3 = proQty3;
     }
 
     public String getPro4() {
-        return process4;
+        return pro4;
     }
 
-    public void setPro4(String process4) {
-        this.process4 = process4;
+    public void setPro4(String pro4) {
+        this.pro4 = pro4;
     }
 
     public double getProPrice4() {
-        return processPrice4;
+        return proPrice4;
     }
 
-    public void setProPrice4(double processPrice4) {
-        this.processPrice4 = processPrice4;
+    public void setProPrice4(double proPrice4) {
+        this.proPrice4 = proPrice4;
     }
 
     public int getProQty4() {
-        return processQty4;
+        return proQty4;
     }
 
-    public void setProQty4(int processQty4) {
-        this.processQty4 = processQty4;
+    public void setProQty4(int proQty4) {
+        this.proQty4 = proQty4;
     }
 
     public String getPro5() {
-        return process5;
+        return pro5;
     }
 
-    public void setPro5(String process5) {
-        this.process5 = process5;
+    public void setPro5(String pro5) {
+        this.pro5 = pro5;
     }
 
     public double getProPrice5() {
-        return processPrice5;
+        return proPrice5;
     }
 
-    public void setProPrice5(double processPrice5) {
-        this.processPrice5 = processPrice5;
+    public void setProPrice5(double proPrice5) {
+        this.proPrice5 = proPrice5;
     }
 
     public int getProQty5() {
-        return processQty5;
+        return proQty5;
     }
 
-    public void setProQty5(int processQty5) {
-        this.processQty5 = processQty5;
+    public void setProQty5(int proQty5) {
+        this.proQty5 = proQty5;
     }
 
     public String getPro6() {
-        return process6;
+        return pro6;
     }
 
-    public void setPro6(String process6) {
-        this.process6 = process6;
+    public void setPro6(String pro6) {
+        this.pro6 = pro6;
     }
 
     public double getProPrice6() {
-        return processPrice6;
+        return proPrice6;
     }
 
-    public void setProPrice6(double processPrice6) {
-        this.processPrice6 = processPrice6;
+    public void setProPrice6(double proPrice6) {
+        this.proPrice6 = proPrice6;
     }
 
     public int getProQty6() {
-        return processQty6;
+        return proQty6;
     }
 
-    public void setProQty6(int processQty6) {
-        this.processQty6 = processQty6;
+    public void setProQty6(int proQty6) {
+        this.proQty6 = proQty6;
     }
 
     public String getCreateUser() {
@@ -455,6 +461,22 @@ public class Daily {
 
     public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
+    }
+
+    public String getModifyUser() {
+        return modifyUser;
+    }
+
+    public void setModifyUser(String modifyUser) {
+        this.modifyUser = modifyUser;
+    }
+
+    public Timestamp getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(Timestamp modifyTime) {
+        this.modifyTime = modifyTime;
     }
 
     public int getIsPiecework() {

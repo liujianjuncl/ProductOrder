@@ -1,13 +1,18 @@
 package com.nii.desktop.model;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
+
 public class DailyProcessQty {
 
     private String billNo; // 生产任务单编号
-    
+
     private String dailyNo; // 生产日报单号
 
     private int planQty; // 计划生产数量
-
+    
+    private LocalDate productDate; //生产日期
+    
     private int resProQty1; // 改制工序1实作数量
 
     private int resProQty2; // 改制工序2实作数量
@@ -30,10 +35,10 @@ public class DailyProcessQty {
         super();
     }
 
-    public DailyProcessQty(String billNo, String dailyNo, int planQty, int resProQty1, int resProQty2,
-            int resProQty3, int proQty1, int proQty2, int proQty3,
-            int proQty4, int proQty5, int proQty6) {
+    public DailyProcessQty(String billNo, String dailyNo, LocalDate productDate, int planQty, int resProQty1, int resProQty2, int resProQty3,
+            int proQty1, int proQty2, int proQty3, int proQty4, int proQty5, int proQty6) {
         super();
+        this.productDate = productDate;
         this.billNo = billNo;
         this.dailyNo = dailyNo;
         this.planQty = planQty;
@@ -47,6 +52,14 @@ public class DailyProcessQty {
         this.proQty5 = proQty5;
         this.proQty6 = proQty6;
     }
+    
+    public LocalDate getProductDate() {
+        return productDate;
+    }
+    
+    public void setProductDate(LocalDate productDate) {
+        this.productDate = productDate;
+    }
 
     public String getBillNo() {
         return billNo;
@@ -55,7 +68,7 @@ public class DailyProcessQty {
     public void setBillNo(String billNo) {
         this.billNo = billNo;
     }
-    
+
     public String getDailyNo() {
         return dailyNo;
     }
