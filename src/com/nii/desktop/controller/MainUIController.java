@@ -136,16 +136,4 @@ public class MainUIController implements Initializable {
             e.printStackTrace();
         }
     }
-    
-    /*回车事件*/
-    @FXML
-    private void urlTextFieldAction() {
-        goBtClickAction();
-    }
-
-    /*Go按钮点击事件*/
-    @FXML
-    private void goBtClickAction() {
-        webEngine.load(urlTextField.getText());
-    }
 }

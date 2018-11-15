@@ -494,7 +494,7 @@ public class ModifyDailyController implements Initializable {
         // 获取登录用户
         User user = SessionUtil.USERS.get("loginUser");
 
-        // 只允许修改上个月26号到本月25号的生产日报！
+        // 普通员工只允许修改上个月26号到本月25号的生产日报！
         if (!"是".equals(user.getIsManager())
                 && lastDate26Day.compareTo(DateUtil.localDateToDate(daily.getProDate())) >= 0
                 && curDate25Day.compareTo(DateUtil.localDateToDate(daily.getProDate())) <= 0) {

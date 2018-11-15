@@ -217,7 +217,7 @@ public class DailyUtil {
         try {
             // 插入日报数据
             String sql = "insert into dbo.t_product_daily_bill_detail values(?, ?, ?, ?, ?, ?, ?, ?, "
-                    + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
@@ -258,9 +258,11 @@ public class DailyUtil {
             stmt.setInt(34, daily.getProQty6());
             stmt.setString(35, daily.getCreateUser());
             stmt.setTimestamp(36, daily.getCreateTime());
-            stmt.setInt(37, daily.getIsPiecework());
-            stmt.setInt(38, daily.getIsDelete());
-            stmt.setInt(39, daily.getSequence());
+            stmt.setString(37, daily.getModifyUser());
+            stmt.setTimestamp(38, daily.getModifyTime());
+            stmt.setInt(39, daily.getIsPiecework());
+            stmt.setInt(40, daily.getIsDelete());
+            stmt.setInt(41, daily.getSequence());
 
             DailyProcessQty dailyProcessQty = new DailyProcessQty(daily.getBillNo(), daily.getDailyNo(),
                     daily.getProDate(), daily.getPlanQty(), dpq.getResProQty1() + daily.getResProQty1(),
@@ -294,7 +296,7 @@ public class DailyUtil {
 
         try {
             // 修改日报数据
-            String sql = "update dbo.t_product_daily_bill_detail set productDate = ?, resProcessQty1 = ?, "
+            String sql = "update dbo.t_product_daily_bill_detail set resProcessQty1 = ?, "
                     + "resProcessQty2 = ?, resProcessQty3 = ?, processQty1 = ?, processQty2 = ?, "
                     + "processQty3 = ?, processQty4 = ?, processQty5 = ?, processQty6 = ?, "
                     + "productDate = ?, modifyUser = ?, modifyTime = ? where dailyNo = ? and isDelete = 0 ";
@@ -302,20 +304,19 @@ public class DailyUtil {
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
 
-            stmt.setTimestamp(1, new Timestamp(DateUtil.localDateToDate(dailyProcessQty.getProductDate()).getTime()));
-            stmt.setInt(2, dailyProcessQty.getResProQty1());
-            stmt.setInt(3, dailyProcessQty.getResProQty2());
-            stmt.setInt(4, dailyProcessQty.getResProQty3());
-            stmt.setInt(5, dailyProcessQty.getProQty1());
-            stmt.setInt(6, dailyProcessQty.getProQty2());
-            stmt.setInt(7, dailyProcessQty.getProQty3());
-            stmt.setInt(8, dailyProcessQty.getProQty4());
-            stmt.setInt(9, dailyProcessQty.getProQty5());
-            stmt.setInt(10, dailyProcessQty.getProQty6());
-            stmt.setDate(11, DateUtil.localDateToSqlDate(productDate));
-            stmt.setString(12, SessionUtil.USERS.get("loginUser").getUserNo());
-            stmt.setTimestamp(13, new Timestamp(new Date().getTime()));
-            stmt.setString(14, dailyProcessQty.getDailyNo());
+            stmt.setInt(1, dailyProcessQty.getResProQty1());
+            stmt.setInt(2, dailyProcessQty.getResProQty2());
+            stmt.setInt(3, dailyProcessQty.getResProQty3());
+            stmt.setInt(4, dailyProcessQty.getProQty1());
+            stmt.setInt(5, dailyProcessQty.getProQty2());
+            stmt.setInt(6, dailyProcessQty.getProQty3());
+            stmt.setInt(7, dailyProcessQty.getProQty4());
+            stmt.setInt(8, dailyProcessQty.getProQty5());
+            stmt.setInt(9, dailyProcessQty.getProQty6());
+            stmt.setDate(10, DateUtil.localDateToSqlDate(productDate));
+            stmt.setString(11, SessionUtil.USERS.get("loginUser").getUserNo());
+            stmt.setTimestamp(12, new Timestamp(new Date().getTime()));
+            stmt.setString(13, dailyProcessQty.getDailyNo());
             stmt.executeUpdate();
 
             // 修改生产日报汇总表数据：汇总表中原实作数量+本次修改的实作数量-修改前的实作数量
@@ -409,7 +410,7 @@ public class DailyUtil {
                 materialName = rs.getString("materialName");
                 model = rs.getString("model");
                 planQuantity = rs.getInt("planQuantity");
-                productDate = DateUtil.dateToLocalDate(rs.getDate("productDate"));
+                productDate = DateUtil.sqlDateToLocalDate(rs.getDate("productDate"));
                 daily = new Daily(dailyNo, billNo, materialCode, materialName, model, planQuantity, productDate);
             }
         } catch (Exception e) {
