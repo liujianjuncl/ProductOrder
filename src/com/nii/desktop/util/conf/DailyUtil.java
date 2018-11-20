@@ -7,25 +7,12 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.nii.desktop.controller.AddDailyController;
 import com.nii.desktop.model.Daily;
 import com.nii.desktop.model.DailyProcessQty;
-import com.nii.desktop.util.ui.AlertUtil;
-import com.sun.javafx.scene.control.skin.TableColumnHeader;
-import com.sun.xml.internal.ws.util.StringUtils;
-
-import javafx.scene.Node;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.layout.Region;
-import javafx.scene.text.Text;
-import javafx.util.Callback;
 
 public class DailyUtil {
 
