@@ -20,10 +20,12 @@ import com.nii.desktop.util.conf.DBUtil;
 import com.nii.desktop.util.conf.DailyUtil;
 import com.nii.desktop.util.conf.DateUtil;
 import com.nii.desktop.util.conf.SessionUtil;
+import com.nii.desktop.util.conf.UserUtil;
 import com.nii.desktop.util.conf.PropsUtil;
 import com.nii.desktop.util.ui.AlertUtil;
 import com.nii.desktop.util.ui.ResourceLoader;
 import com.nii.desktop.util.ui.UIManager;
+import com.sun.javafx.scene.control.skin.TableColumnHeader;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -108,6 +110,94 @@ public class DailyTableViewController implements Initializable {
     @FXML
     private TableColumn<Daily, String> productDateCol;
 
+    /* 改制工序1 */
+    @FXML
+    private TableColumn<Daily, String> resPro1Col;
+
+    /* 改制工序1实作数量 */
+    @FXML
+    private TableColumn<Daily, String> resProQty1Col;
+
+    /* 改制工序2 */
+    @FXML
+    private TableColumn<Daily, String> resPro2Col;
+
+    /* 改制工序2实作数量 */
+    @FXML
+    private TableColumn<Daily, String> resProQty2Col;
+
+    /* 改制工序3 */
+    @FXML
+    private TableColumn<Daily, String> resPro3Col;
+
+    /* 改制工序3实作数量 */
+    @FXML
+    private TableColumn<Daily, String> resProQty3Col;
+
+    /* 工序1 */
+    @FXML
+    private TableColumn<Daily, String> pro1Col;
+
+    /* 工序1实作数量 */
+    @FXML
+    private TableColumn<Daily, String> proQty1Col;
+
+    /* 工序2 */
+    @FXML
+    private TableColumn<Daily, String> pro2Col;
+
+    /* 工序2实作数量 */
+    @FXML
+    private TableColumn<Daily, String> proQty2Col;
+
+    /* 工序3 */
+    @FXML
+    private TableColumn<Daily, String> pro3Col;
+
+    /* 工序3实作数量 */
+    @FXML
+    private TableColumn<Daily, String> proQty3Col;
+
+    /* 工序4 */
+    @FXML
+    private TableColumn<Daily, String> pro4Col;
+
+    /* 工序4实作数量 */
+    @FXML
+    private TableColumn<Daily, String> proQty4Col;
+
+    /* 工序5 */
+    @FXML
+    private TableColumn<Daily, String> pro5Col;
+
+    /* 工序5实作数量 */
+    @FXML
+    private TableColumn<Daily, String> proQty5Col;
+
+    /* 工序6 */
+    @FXML
+    private TableColumn<Daily, String> pro6Col;
+
+    /* 工序6实作数量 */
+    @FXML
+    private TableColumn<Daily, String> proQty6Col;
+
+    /* 创建人员 */
+    @FXML
+    private TableColumn<Daily, String> createUserCol;
+
+    /* 创建时间 */
+    @FXML
+    private TableColumn<Daily, String> createTimeCol;
+
+    /* 修改人员 */
+    @FXML
+    private TableColumn<Daily, String> modifyUserCol;
+
+    /* 修改时间 */
+    @FXML
+    private TableColumn<Daily, String> modifyTimeCol;
+
     @FXML
     private Button addDailyBtn;
 
@@ -179,20 +269,11 @@ public class DailyTableViewController implements Initializable {
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        String dailyNo = null;
-        String billNo = null;
-        String materialCode = null;
-        String materialName = null;
-        String model = null;
-        int planQuantity = 0;
-        LocalDate productDate = null;
-
         // 添加表格数据前先清空
         dailyDataList.clear();
 
         try {
-            String sql = "select dailyNo, billNo, materialCode, materialName, model, planQuantity, productDate "
-                    + "from dbo.t_product_daily_bill_detail where isDelete = 0 ";
+            String sql = "select * from dbo.t_product_daily_bill_detail where isDelete = 0 ";
             if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
                 sql = sql + " and createUser = " + SessionUtil.USERS.get("loginUser").getUserNo();
             }
@@ -207,16 +288,18 @@ public class DailyTableViewController implements Initializable {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                System.out.println(rs.getDate("productDate"));
-                dailyNo = rs.getString("dailyNo");
-                billNo = rs.getString("billNo");
-                materialCode = rs.getString("materialCode");
-                materialName = rs.getString("materialName");
-                model = rs.getString("model");
-                planQuantity = rs.getInt("planQuantity");
-                productDate = DateUtil.sqlDateToLocalDate(rs.getDate("productDate"));
-                dailyDataList.add(new Daily(new CheckBox(), dailyNo, billNo, materialCode, materialName, model,
-                        planQuantity, productDate));
+                dailyDataList.add(new Daily(new CheckBox(), rs.getString("dailyNo"), rs.getString("billNo"),
+                        rs.getString("materialCode"), rs.getString("materialName"), rs.getString("model"),
+                        rs.getInt("planQuantity"), DateUtil.sqlDateToLocalDate(rs.getDate("productDate")),
+                        rs.getString("resProcess1"), rs.getInt("resProcessQty1"), rs.getString("resProcess2"),
+                        rs.getInt("resProcessQty2"), rs.getString("resProcess3"), rs.getInt("resProcessQty3"),
+                        rs.getString("process1"), rs.getInt("processQty1"), rs.getString("process2"),
+                        rs.getInt("processQty2"), rs.getString("process3"), rs.getInt("processQty3"),
+                        rs.getString("process4"), rs.getInt("processQty4"), rs.getString("process5"),
+                        rs.getInt("processQty5"), rs.getString("process6"), rs.getInt("processQty6"),
+                        UserUtil.getUser(rs.getString("createUser")).getUserName(), rs.getTimestamp("createTime"),
+                        UserUtil.getUser(rs.getString("modifyUser")).getUserName(), rs.getTimestamp("modifyTime"),
+                        rs.getInt("isPiecework"), rs.getInt("isDelete"), rs.getInt("sequence")));
             }
 
         } catch (Exception e) {
@@ -235,6 +318,28 @@ public class DailyTableViewController implements Initializable {
         modelCol.setCellValueFactory(new PropertyValueFactory<Daily, String>("model"));
         planQuantityCol.setCellValueFactory(new PropertyValueFactory<Daily, String>("planQty"));
         productDateCol.setCellValueFactory(new PropertyValueFactory<Daily, String>("proDate"));
+        resPro1Col.setCellValueFactory(new PropertyValueFactory<Daily, String>("resPro1"));
+        resProQty1Col.setCellValueFactory(new PropertyValueFactory<Daily, String>("resProQty1"));
+        resPro2Col.setCellValueFactory(new PropertyValueFactory<Daily, String>("resPro2"));
+        resProQty2Col.setCellValueFactory(new PropertyValueFactory<Daily, String>("resProQty2"));
+        resPro3Col.setCellValueFactory(new PropertyValueFactory<Daily, String>("resPro3"));
+        resProQty3Col.setCellValueFactory(new PropertyValueFactory<Daily, String>("resProQty3"));
+        pro1Col.setCellValueFactory(new PropertyValueFactory<Daily, String>("pro1"));
+        proQty1Col.setCellValueFactory(new PropertyValueFactory<Daily, String>("proQty1"));
+        pro2Col.setCellValueFactory(new PropertyValueFactory<Daily, String>("pro2"));
+        proQty2Col.setCellValueFactory(new PropertyValueFactory<Daily, String>("proQty2"));
+        pro3Col.setCellValueFactory(new PropertyValueFactory<Daily, String>("pro3"));
+        proQty3Col.setCellValueFactory(new PropertyValueFactory<Daily, String>("proQty3"));
+        pro4Col.setCellValueFactory(new PropertyValueFactory<Daily, String>("pro4"));
+        proQty4Col.setCellValueFactory(new PropertyValueFactory<Daily, String>("proQty4"));
+        pro5Col.setCellValueFactory(new PropertyValueFactory<Daily, String>("pro5"));
+        proQty5Col.setCellValueFactory(new PropertyValueFactory<Daily, String>("proQty5"));
+        pro6Col.setCellValueFactory(new PropertyValueFactory<Daily, String>("pro6"));
+        proQty6Col.setCellValueFactory(new PropertyValueFactory<Daily, String>("proQty6"));
+        createUserCol.setCellValueFactory(new PropertyValueFactory<Daily, String>("createUser"));
+        createTimeCol.setCellValueFactory(new PropertyValueFactory<Daily, String>("createTime"));
+        modifyUserCol.setCellValueFactory(new PropertyValueFactory<Daily, String>("modifyUser"));
+        modifyTimeCol.setCellValueFactory(new PropertyValueFactory<Daily, String>("modifyTime"));
 
         dailyTableView.setItems(dailyDataList);
 
@@ -325,12 +430,11 @@ public class DailyTableViewController implements Initializable {
 
                     // 将实作汇总表中本次删除的日报的实作数量减掉
                     DailyProcessQty dailyProcessQty = new DailyProcessQty(daily.getBillNo(), daily.getDailyNo(),
-                            daily.getProDate(), daily.getPlanQty(),
-                            dpq.getProQty1() - daily.getResProQty1(), dpq.getResProQty2() - daily.getResProQty2(),
-                            dpq.getResProQty3() - daily.getResProQty3(), dpq.getProQty1() - daily.getProQty1(),
-                            dpq.getProQty2() - daily.getProQty2(), dpq.getProQty3() - daily.getProQty3(),
-                            dpq.getProQty3() - daily.getProQty4(), dpq.getProQty5() - daily.getProQty5(),
-                            dpq.getProQty6() - daily.getProQty6());
+                            daily.getProDate(), daily.getPlanQty(), dpq.getProQty1() - daily.getResProQty1(),
+                            dpq.getResProQty2() - daily.getResProQty2(), dpq.getResProQty3() - daily.getResProQty3(),
+                            dpq.getProQty1() - daily.getProQty1(), dpq.getProQty2() - daily.getProQty2(),
+                            dpq.getProQty3() - daily.getProQty3(), dpq.getProQty3() - daily.getProQty4(),
+                            dpq.getProQty5() - daily.getProQty5(), dpq.getProQty6() - daily.getProQty6());
                     DailyUtil.updateDailyTotalQty(dailyProcessQty);
 
                     stmt.executeUpdate();
@@ -363,8 +467,7 @@ public class DailyTableViewController implements Initializable {
         dailyDataList.clear();
 
         try {
-            String sql = "select dailyNo, billNo, materialCode, materialName, model, planQuantity, productDate "
-                    + "from dbo.t_product_daily_bill_detail where isDelete = 0 ";
+            String sql = "select * from dbo.t_product_daily_bill_detail where isDelete = 0 ";
             if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
                 sql = sql + " and createUser = " + SessionUtil.USERS.get("loginUser").getUserNo();
             }
@@ -393,13 +496,22 @@ public class DailyTableViewController implements Initializable {
             while (rs.next()) {
                 Daily daily = new Daily(new CheckBox(), rs.getString("dailyNo"), rs.getString("billNo"),
                         rs.getString("materialCode"), rs.getString("materialName"), rs.getString("model"),
-                        rs.getInt("planQuantity"), DateUtil.sqlDateToLocalDate(rs.getDate("productDate")));
+                        rs.getInt("planQuantity"), DateUtil.sqlDateToLocalDate(rs.getDate("productDate")),
+                        rs.getString("resProcess1"), rs.getInt("resProcessQty1"), rs.getString("resProcess2"),
+                        rs.getInt("resProcessQty2"), rs.getString("resProcess3"), rs.getInt("resProcessQty3"),
+                        rs.getString("process1"), rs.getInt("processQty1"), rs.getString("process2"),
+                        rs.getInt("processQty2"), rs.getString("process3"), rs.getInt("processQty3"),
+                        rs.getString("process4"), rs.getInt("processQty4"), rs.getString("process5"),
+                        rs.getInt("processQty5"), rs.getString("process6"), rs.getInt("processQty6"),
+                        UserUtil.getUser(rs.getString("createUser")).getUserName(), rs.getTimestamp("createTime"),
+                        UserUtil.getUser(rs.getString("modifyUser")).getUserName(), rs.getTimestamp("modifyTime"),
+                        rs.getInt("isPiecework"), rs.getInt("isDelete"), rs.getInt("sequence"));
                 dailyDataList.add(daily);
             }
             if (dailyDataList.size() == 0) {
                 AlertUtil.alertInfoLater(PropsUtil.getMessage("search.result.null"));
             }
-            addDatatoTableView();
+            dailyTableView.refresh();
 
         } catch (Exception e) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);

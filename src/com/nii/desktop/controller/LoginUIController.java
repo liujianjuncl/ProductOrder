@@ -57,8 +57,8 @@ public class LoginUIController implements Initializable {
         new StageMove(UIManager.getPrimaryStage()).bindDrag(contentPanel);
 
         // ∑Ω±„≤‚ ‘
-        userNoTextField.setText("0001");
-        passwordTextField.setText("111111");
+//        userNoTextField.setText("0001");
+//        passwordTextField.setText("111111");
         
         userNoTextField.requestFocus();
         userNameTextField.setDisable(true);

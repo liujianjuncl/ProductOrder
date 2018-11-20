@@ -318,7 +318,50 @@ public class UserTableViewController implements Initializable {
 
     @FXML
     public void userSearchAction() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
 
+        String userNo = null;
+        String userName = null;
+        String isPiecework = null;
+        String isManager = null;
+        String isDisable = null;
+        
+        String userInfo = searchField.getText().trim();
+
+        // 添加表格数据前先清空
+        userDataList.clear();
+
+        try {
+            String sql = "select userNo, userName, isPiecework, isManager, isDisable from dbo.t_product_daily_user where isDelete = 0";
+            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
+                sql = sql + " and userNo = " + SessionUtil.USERS.get("loginUser").getUserNo();
+            }
+            
+            if(!"".equals(userInfo) && userInfo != null) {
+                sql = sql + " and (userNo = '" + userInfo + "' or userName = '" + userInfo + "')";
+            }
+            System.out.println(sql);
+            conn = DBUtil.getConnection();
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                userNo = rs.getString("userNo");
+                userName = rs.getString("userName");
+                isPiecework = rs.getInt("isPiecework") == 1 ? "是" : "否";
+                isManager = rs.getInt("isManager") == 1 ? "是" : "否";
+                isDisable = rs.getInt("isDisable") == 1 ? "是" : "否";
+                userDataList.add(new User(new CheckBox(), userNo, userName, isPiecework, isManager, isDisable));
+            }
+
+        } catch (Exception e) {
+            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            DBUtil.release(conn, stmt, rs);
+        }
+        userTableView.refresh();
     }
 
     /* 获取被勾选的数量 */

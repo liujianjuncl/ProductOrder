@@ -80,10 +80,10 @@ public class Daily {
     private String createUser; // 创建用户
 
     private Timestamp createTime; // 创建时间
-    
-    private String modifyUser; //修改用户
-    
-    private Timestamp modifyTime; //修改时间
+
+    private String modifyUser; // 修改用户
+
+    private Timestamp modifyTime; // 修改时间
 
     private int isPiecework; // 是否计件
 
@@ -94,10 +94,10 @@ public class Daily {
     public Daily(String dailyNo, String billNo, String materialCode, String materialName, String model, int planQty,
             LocalDate proDate, String resPro1, double resProPrice1, int resProQty1, String resPro2, double resProPrice2,
             int resProQty2, String resPro3, double resProPrice3, int resProQty3, String pro1, double proPrice1,
-            int proQty1, String pro2, double proPrice2, int proQty2, String pro3,
-            double proPrice3, int proQty3, String pro4, double proPrice4, int proQty4,
-            String pro5, double proPrice5, int proQty5, String pro6, double proPrice6,
-            int proQty6, String createUser, Timestamp createTime, String modifyUser, Timestamp modifyTime, int isPiecework, int isDelete, int sequence) {
+            int proQty1, String pro2, double proPrice2, int proQty2, String pro3, double proPrice3, int proQty3,
+            String pro4, double proPrice4, int proQty4, String pro5, double proPrice5, int proQty5, String pro6,
+            double proPrice6, int proQty6, String createUser, Timestamp createTime, String modifyUser,
+            Timestamp modifyTime, int isPiecework, int isDelete, int sequence) {
         super();
         this.dailyNo = dailyNo;
         this.billNo = billNo;
@@ -132,6 +132,48 @@ public class Daily {
         this.proQty5 = proQty5;
         this.pro6 = pro6;
         this.proPrice6 = proPrice6;
+        this.proQty6 = proQty6;
+        this.createUser = createUser;
+        this.createTime = createTime;
+        this.modifyUser = modifyUser;
+        this.modifyTime = modifyTime;
+        this.isPiecework = isPiecework;
+        this.isDelete = isDelete;
+        this.sequence = sequence;
+    }
+
+    public Daily(CheckBox checkbox, String dailyNo, String billNo, String materialCode, String materialName,
+            String model, int planQty, LocalDate proDate, String resPro1, int resProQty1, String resPro2,
+            int resProQty2, String resPro3, int resProQty3, String pro1, int proQty1, String pro2, int proQty2,
+            String pro3, int proQty3, String pro4, int proQty4, String pro5, int proQty5, String pro6, int proQty6,
+            String createUser, Timestamp createTime, String modifyUser, Timestamp modifyTime, int isPiecework,
+            int isDelete, int sequence) {
+        super();
+        this.checkbox = checkbox;
+        this.dailyNo = dailyNo;
+        this.billNo = billNo;
+        this.materialCode = materialCode;
+        this.materialName = materialName;
+        this.model = model;
+        this.planQty = planQty;
+        this.proDate = proDate;
+        this.resPro1 = resPro1;
+        this.resProQty1 = resProQty1;
+        this.resPro2 = resPro2;
+        this.resProQty2 = resProQty2;
+        this.resPro3 = resPro3;
+        this.resProQty3 = resProQty3;
+        this.pro1 = pro1;
+        this.proQty1 = proQty1;
+        this.pro2 = pro2;
+        this.proQty2 = proQty2;
+        this.pro3 = pro3;
+        this.proQty3 = proQty3;
+        this.pro4 = pro4;
+        this.proQty4 = proQty4;
+        this.pro5 = pro5;
+        this.proQty5 = proQty5;
+        this.pro6 = pro6;
         this.proQty6 = proQty6;
         this.createUser = createUser;
         this.createTime = createTime;
