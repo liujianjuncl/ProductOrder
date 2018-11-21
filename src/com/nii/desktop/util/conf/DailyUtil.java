@@ -42,7 +42,8 @@ public class DailyUtil {
                     + "from dbo.ICMO c left join dbo.t_ICItemCore icc on c.FItemID = icc.FItemID "
                     + "left join dbo.t_Item item1 on c.FHeadSelfJ01103 = item1.FitemID "
                     + "left join dbo.t_Item item2 on c.FHeadSelfJ01105 = item2.FitemID "
-                    + "left join dbo.t_Item item3 on c.FHeadSelfJ01107 = item3.FitemID " + "where c.FBillNo = ? ";
+                    + "left join dbo.t_Item item3 on c.FHeadSelfJ01107 = item3.FitemID " 
+                    + "where c.FBillNo = ? and FCancellation = 0 ";
 
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql1);

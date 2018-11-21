@@ -468,7 +468,7 @@ public class ModifyDailyController implements Initializable {
     public void confirmBtnAction() throws ParseException {
         String billNo = billNoTextField.getText().trim();
         String dailyNo = dailyNoLabel.getText();
-        
+
         LocalDate proDate = productDate.getValue();
 
         // 本月25号
@@ -480,9 +480,8 @@ public class ModifyDailyController implements Initializable {
         User user = SessionUtil.USERS.get("loginUser");
 
         // 普通员工只允许修改上个月26号到本月25号的生产日报！
-        if (!"是".equals(user.getIsManager())
-                && lastDate26Day.compareTo(DateUtil.localDateToDate(proDate)) >= 0
-                && curDate25Day.compareTo(DateUtil.localDateToDate(proDate)) <= 0) {
+        if (!"是".equals(user.getIsManager()) && (lastDate26Day.compareTo(DateUtil.localDateToDate(proDate)) >= 0
+                || curDate25Day.compareTo(DateUtil.localDateToDate(proDate)) <= 0)) {
             AlertUtil.alertInfoLater(PropsUtil.getMessage("donot.daily.modify"));
             return;
         }
@@ -557,7 +556,7 @@ public class ModifyDailyController implements Initializable {
         if (!"OK".equals(verifyIsNullRes)) {
             return verifyIsNullRes;
         }
-        
+
         return DailyUtil.verifyProcessQty(resTotalQty, totalQty, playQty);
     }
 

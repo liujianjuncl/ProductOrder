@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -15,6 +16,7 @@ import java.util.regex.Pattern;
 
 import com.nii.desktop.model.Daily;
 import com.nii.desktop.model.DailyProcessQty;
+import com.nii.desktop.model.User;
 import com.nii.desktop.util.conf.DBUtil;
 import com.nii.desktop.util.conf.DailyUtil;
 import com.nii.desktop.util.conf.DateUtil;
@@ -208,33 +210,34 @@ public class AddDailyController implements Initializable {
         try {
             String sql = "select c.FBillNo as billNo, icc.FNumber as materialCode, icc.FName as materialName, icc.FModel as model, "
                     + "c.FQty as planQuantity, item1.FName as resProcess1, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ01104) > 0 and c.FHeadSelfJ01104 = '' then 0.0 else c.FHeadSelfJ01104 end) as decimal(18, 4)) as resProcessPrice1, "
+                    + "CAST((case when charindex('*', CAST(c.FHeadSelfJ01104 as varchar)) > 0 or CAST(c.FHeadSelfJ01104 as varchar) = '' or c.FHeadSelfJ01104 is null then 0.0 else c.FHeadSelfJ01104 end) as decimal(18, 4)) as resProcessPrice1, "
                     + "item2.FName as resProcess2, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ01106) > 0 and c.FHeadSelfJ01106 = '' then 0.0 else c.FHeadSelfJ01106 end) as decimal(18, 4)) as resProcessPrice2, "
+                    + "CAST((case when charindex('*', CAST(c.FHeadSelfJ01106 as varchar)) > 0 or CAST(c.FHeadSelfJ01106 as varchar) = '' or c.FHeadSelfJ01106 is null then 0.0 else c.FHeadSelfJ01106 end) as decimal(18, 4)) as resProcessPrice2, "
                     + "item3.FName as resProcess3, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ01108) > 0 and c.FHeadSelfJ01108 = '' then 0.0 else c.FHeadSelfJ01108 end) as decimal(18, 4)) as resProcessPrice3, "
+                    + "CAST((case when charindex('*', CAST(c.FHeadSelfJ01108 as varchar)) > 0 or CAST(c.FHeadSelfJ01108 as varchar) = '' or c.FHeadSelfJ01108 is null then 0.0 else c.FHeadSelfJ01108 end) as decimal(18, 4)) as resProcessPrice3, "
                     + "c.FHeadSelfJ0185 as process1,"
-                    + "CAST((case when charindex('*', c.FHeadSelfJ0186) > 0 and c.FHeadSelfJ0186 = '' then 0.0 else c.FHeadSelfJ0186 end) as decimal(18, 4)) as processPrice1, "
+                    + "CAST((case when charindex('*', CAST(c.FHeadSelfJ0186 as varchar)) > 0 or CAST(c.FHeadSelfJ0186 as varchar) = '' or c.FHeadSelfJ0186 is null then 0.0 else c.FHeadSelfJ0186 end) as decimal(18, 4)) as processPrice1, "
                     + "c.FHeadSelfJ0187 as process2, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ0188) > 0 and c.FHeadSelfJ0188 = '' then 0.0 else c.FHeadSelfJ0188 end) as decimal(18, 4)) as processPrice2, "
+                    + "CAST((case when charindex('*', CAST(c.FHeadSelfJ0188 as varchar)) > 0 or CAST(c.FHeadSelfJ0188 as varchar) = '' or c.FHeadSelfJ0188 is null then 0.0 else c.FHeadSelfJ0188 end) as decimal(18, 4)) as processPrice2, "
                     + "c.FHeadSelfJ0189 as process3, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ0190) > 0 and c.FHeadSelfJ0190 = '' then 0.0 else c.FHeadSelfJ0190 end) as decimal(18, 4)) as processPrice3, "
+                    + "CAST((case when charindex('*', CAST(c.FHeadSelfJ0190 as varchar)) > 0 or CAST(c.FHeadSelfJ0190 as varchar) = '' or c.FHeadSelfJ0190 is null then 0.0 else c.FHeadSelfJ0190 end) as decimal(18, 4)) as processPrice3, "
                     + "c.FHeadSelfJ0191 as process4, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ0192) > 0 and c.FHeadSelfJ0192 = '' then 0.0 else c.FHeadSelfJ0192 end) as decimal(18, 4)) as processPrice4, "
+                    + "CAST((case when charindex('*', CAST(c.FHeadSelfJ0192 as varchar)) > 0 or CAST(c.FHeadSelfJ0192 as varchar) = '' or c.FHeadSelfJ0192 is null then 0.0 else c.FHeadSelfJ0192 end) as decimal(18, 4)) as processPrice4, "
                     + "c.FHeadSelfJ0193 as process5, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ0194) > 0 and c.FHeadSelfJ0194 = '' then 0.0 else c.FHeadSelfJ0194 end) as decimal(18, 4)) as processPrice5, "
+                    + "CAST((case when charindex('*', CAST(c.FHeadSelfJ0194 as varchar)) > 0 or CAST(c.FHeadSelfJ0194 as varchar) = '' or c.FHeadSelfJ0194 is null then 0.0 else c.FHeadSelfJ0194 end) as decimal(18, 4)) as processPrice5, "
                     + "c.FHeadSelfJ0195 as process6, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ0196) > 0 and c.FHeadSelfJ0196 = '' then 0.0 else c.FHeadSelfJ0196 end) as decimal(18, 4)) as processPrice6 "
+                    + "CAST((case when charindex('*', CAST(c.FHeadSelfJ0196 as varchar)) > 0 or CAST(c.FHeadSelfJ0196 as varchar) = '' or c.FHeadSelfJ0196 is null then 0.0 else c.FHeadSelfJ0196 end) as decimal(18, 4)) as processPrice6 "
                     + "from dbo.ICMO c left join dbo.t_ICItemCore icc on c.FItemID = icc.FItemID "
                     + "left join dbo.t_Item item1 on c.FHeadSelfJ01103 = item1.FitemID "
                     + "left join dbo.t_Item item2 on c.FHeadSelfJ01105 = item2.FitemID "
-                    + "left join dbo.t_Item item3 on c.FHeadSelfJ01107 = item3.FitemID " + "where c.FBillNo = ? ";
+                    + "left join dbo.t_Item item3 on c.FHeadSelfJ01107 = item3.FitemID  "
+                    + "where c.FBillNo = ?  and FCancellation = 0 ";
 
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, billNo);
             rs = stmt.executeQuery();
-            
+
             while (rs.next()) {
                 result = true;
                 planQuantity.setText(String.valueOf(rs.getDouble("planQuantity")));
@@ -524,11 +527,28 @@ public class AddDailyController implements Initializable {
 
     // 点击确定时，添加日报
     @FXML
-    public void confirmBtnAction() {
+    public void confirmBtnAction() throws ParseException {
         String billNo = billNoTextField.getText().trim();
 
         if ("".equals(billNo.trim())) {
             AlertUtil.alertInfoLater(PropsUtil.getMessage("billNo.isnot.null"));
+            return;
+        }
+
+        LocalDate proDate = productDate.getValue();
+        
+        // 本月25号
+        Date curDate25Day = DateUtil.curMonth25Day();
+        // 上月26号
+        Date lastDate26Day = DateUtil.lastMonth26Day();
+        
+        // 获取登录用户
+        User user = SessionUtil.USERS.get("loginUser");
+
+        // 普通员工只允许增加上个月26号到本月25号的生产日报！
+        if (!"是".equals(user.getIsManager()) && (lastDate26Day.compareTo(DateUtil.localDateToDate(proDate)) >= 0
+                || curDate25Day.compareTo(DateUtil.localDateToDate(proDate)) <= 0)) {
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("donot.daily.modify"));
             return;
         }
 
@@ -538,7 +558,7 @@ public class AddDailyController implements Initializable {
             DailyUtil.addProductDailyTotal(billNo);
             dpq = DailyUtil.getProcessTotalQty(billNo);
         }
-        
+
         String message = verifyProcess(dpq);
 
         if (!"OK".equals(message)) {
