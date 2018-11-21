@@ -25,7 +25,7 @@
                <children>
                <Button fx:id="dailyManageButton" mnemonicParsing="false" onAction="#dailyLabelClickAction" prefHeight="90.0" prefWidth="300.0" text="日报管理" />
                <Button fx:id="userManageButton" mnemonicParsing="false" onAction="#userLabelClickAction" prefHeight="90.0" prefWidth="300.0" text="用户管理" GridPane.rowIndex="1" />
-                  <Label fx:id="currentUser" style="-fx-border-color: black;" text=" " GridPane.rowIndex="4">
+                  <Label fx:id="currentUser" alignment="CENTER" contentDisplay="CENTER" style="-fx-border-color: black;" text=" " GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                      <font>
                         <Font size="16.0" />
                      </font></Label>
