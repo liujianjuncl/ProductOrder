@@ -44,22 +44,6 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <GridPane prefHeight="17.0" prefWidth="593.0">
-        <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="492.0" minWidth="10.0" prefWidth="364.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="193.0" minWidth="10.0" prefWidth="140.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="193.0" minWidth="10.0" prefWidth="45.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="193.0" minWidth="6.0" prefWidth="78.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="142.0" minWidth="10.0" prefWidth="31.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Label prefHeight="15.0" prefWidth="62.0" text="当前用户：" GridPane.columnIndex="3" GridPane.hgrow="NEVER" />
-            <Label fx:id="currentUser" text=" " GridPane.columnIndex="4" />
-         </children>
-      </GridPane>
       <!--
       <Pagination fx:id="userTablePagination" prefHeight="9.0" prefWidth="615.0" />  -->
    </children>

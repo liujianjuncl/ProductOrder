@@ -1,10 +1,12 @@
 package com.nii.desktop.controller;
 
+import com.nii.desktop.util.conf.SessionUtil;
 import com.nii.desktop.util.ui.ResourceLoader;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableView;
@@ -62,6 +64,9 @@ public class MainUIController implements Initializable {
     VBox userVbox;
     
     VBox dailyVbox;
+    
+    @FXML
+    private Label currentUser;
 
     /***/
     @Override
@@ -69,6 +74,7 @@ public class MainUIController implements Initializable {
         dailyManageButton.setStyle("-fx-background-color: #808080");
         loadDailyTableView();
         
+        currentUser.setText("当前用户：" + SessionUtil.USERS.get("loginUser").getUserName());
         
 //        numTextField.setEditable(false);
 //        adbDevice.setDeviceNumber(0);

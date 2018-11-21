@@ -208,23 +208,23 @@ public class AddDailyController implements Initializable {
         try {
             String sql = "select c.FBillNo as billNo, icc.FNumber as materialCode, icc.FName as materialName, icc.FModel as model, "
                     + "c.FQty as planQuantity, item1.FName as resProcess1, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ01104) > 0 then '0' else c.FHeadSelfJ01104 end) as decimal(18, 4)) as resProcessPrice1, "
+                    + "CAST((case when charindex('*', c.FHeadSelfJ01104) > 0 and c.FHeadSelfJ01104 = '' then 0.0 else c.FHeadSelfJ01104 end) as decimal(18, 4)) as resProcessPrice1, "
                     + "item2.FName as resProcess2, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ01106) > 0 then '0' else c.FHeadSelfJ01106 end) as decimal(18, 4)) as resProcessPrice2, "
+                    + "CAST((case when charindex('*', c.FHeadSelfJ01106) > 0 and c.FHeadSelfJ01106 = '' then 0.0 else c.FHeadSelfJ01106 end) as decimal(18, 4)) as resProcessPrice2, "
                     + "item3.FName as resProcess3, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ01108) > 0 then '0' else c.FHeadSelfJ01108 end) as decimal(18, 4)) as resProcessPrice3, "
+                    + "CAST((case when charindex('*', c.FHeadSelfJ01108) > 0 and c.FHeadSelfJ01108 = '' then 0.0 else c.FHeadSelfJ01108 end) as decimal(18, 4)) as resProcessPrice3, "
                     + "c.FHeadSelfJ0185 as process1,"
-                    + "CAST((case when charindex('*', c.FHeadSelfJ0186) > 0 then '0' else c.FHeadSelfJ0186 end) as decimal(18, 4)) as processPrice1, "
+                    + "CAST((case when charindex('*', c.FHeadSelfJ0186) > 0 and c.FHeadSelfJ0186 = '' then 0.0 else c.FHeadSelfJ0186 end) as decimal(18, 4)) as processPrice1, "
                     + "c.FHeadSelfJ0187 as process2, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ0188) > 0 then '0' else c.FHeadSelfJ0188 end) as decimal(18, 4)) as processPrice2, "
+                    + "CAST((case when charindex('*', c.FHeadSelfJ0188) > 0 and c.FHeadSelfJ0188 = '' then 0.0 else c.FHeadSelfJ0188 end) as decimal(18, 4)) as processPrice2, "
                     + "c.FHeadSelfJ0189 as process3, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ0190) > 0 then '0' else c.FHeadSelfJ0190 end) as decimal(18, 4)) as processPrice3, "
+                    + "CAST((case when charindex('*', c.FHeadSelfJ0190) > 0 and c.FHeadSelfJ0190 = '' then 0.0 else c.FHeadSelfJ0190 end) as decimal(18, 4)) as processPrice3, "
                     + "c.FHeadSelfJ0191 as process4, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ0192) > 0 then '0' else c.FHeadSelfJ0192 end) as decimal(18, 4)) as processPrice4, "
+                    + "CAST((case when charindex('*', c.FHeadSelfJ0192) > 0 and c.FHeadSelfJ0192 = '' then 0.0 else c.FHeadSelfJ0192 end) as decimal(18, 4)) as processPrice4, "
                     + "c.FHeadSelfJ0193 as process5, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ0194) > 0 then '0' else c.FHeadSelfJ0194 end) as decimal(18, 4)) as processPrice5, "
+                    + "CAST((case when charindex('*', c.FHeadSelfJ0194) > 0 and c.FHeadSelfJ0194 = '' then 0.0 else c.FHeadSelfJ0194 end) as decimal(18, 4)) as processPrice5, "
                     + "c.FHeadSelfJ0195 as process6, "
-                    + "CAST((case when charindex('*', c.FHeadSelfJ0196) > 0 then '0' else c.FHeadSelfJ0196 end) as decimal(18, 4)) as processPrice6 "
+                    + "CAST((case when charindex('*', c.FHeadSelfJ0196) > 0 and c.FHeadSelfJ0196 = '' then 0.0 else c.FHeadSelfJ0196 end) as decimal(18, 4)) as processPrice6 "
                     + "from dbo.ICMO c left join dbo.t_ICItemCore icc on c.FItemID = icc.FItemID "
                     + "left join dbo.t_Item item1 on c.FHeadSelfJ01103 = item1.FitemID "
                     + "left join dbo.t_Item item2 on c.FHeadSelfJ01105 = item2.FitemID "
@@ -234,7 +234,7 @@ public class AddDailyController implements Initializable {
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, billNo);
             rs = stmt.executeQuery();
-
+            
             while (rs.next()) {
                 result = true;
                 planQuantity.setText(String.valueOf(rs.getDouble("planQuantity")));

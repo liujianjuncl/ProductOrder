@@ -77,21 +77,6 @@
             <TableView fx:constant="UNCONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <GridPane prefHeight="17.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="797.0" minWidth="10.0" prefWidth="740.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="10.0" prefWidth="65.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="6.0" prefWidth="66.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="193.0" minWidth="10.0" prefWidth="32.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Label text="当前用户：" GridPane.columnIndex="2" />
-            <Label fx:id="currentUser" text=" " GridPane.columnIndex="3" />
-         </children>
-      </GridPane>
       <!-- 
       <Pagination fx:id="dailyTablePagination" prefHeight="9.0" prefWidth="615.0" />  -->
    </children>

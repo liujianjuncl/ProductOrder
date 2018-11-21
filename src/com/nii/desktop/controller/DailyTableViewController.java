@@ -216,9 +216,6 @@ public class DailyTableViewController implements Initializable {
     @FXML
     private DatePicker endDatePicker;
 
-    @FXML
-    private Label currentUser;
-
     /* œµÕ≥stage */
     private static Stage dialogStage;
 
@@ -258,7 +255,6 @@ public class DailyTableViewController implements Initializable {
             }
         });
 
-        currentUser.setText(SessionUtil.USERS.get("loginUser").getUserName());
         // ∑÷“≥
 //        dailyTablePagination.setPageCount(1);
     }

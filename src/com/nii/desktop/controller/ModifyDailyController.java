@@ -1,43 +1,30 @@
 package com.nii.desktop.controller;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
 
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import com.nii.desktop.model.Daily;
 import com.nii.desktop.model.DailyProcessQty;
 import com.nii.desktop.model.User;
-import com.nii.desktop.util.conf.DBUtil;
 import com.nii.desktop.util.conf.DailyUtil;
 import com.nii.desktop.util.conf.DateUtil;
 import com.nii.desktop.util.conf.SessionUtil;
-import com.nii.desktop.util.conf.Encoder;
 import com.nii.desktop.util.conf.PropsUtil;
-import com.nii.desktop.util.conf.UserUtil;
 import com.nii.desktop.util.ui.AlertUtil;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class ModifyDailyController implements Initializable {
@@ -481,7 +468,7 @@ public class ModifyDailyController implements Initializable {
     public void confirmBtnAction() throws ParseException {
         String billNo = billNoTextField.getText().trim();
         String dailyNo = dailyNoLabel.getText();
-        // 获取所有工序的汇总实作数量
+        
         LocalDate proDate = productDate.getValue();
 
         // 本月25号
@@ -489,20 +476,18 @@ public class ModifyDailyController implements Initializable {
         // 上月26号
         Date lastDate26Day = DateUtil.lastMonth26Day();
 
-        Daily daily = DailyUtil.getDailyByNo(dailyNo);
-
         // 获取登录用户
         User user = SessionUtil.USERS.get("loginUser");
 
         // 普通员工只允许修改上个月26号到本月25号的生产日报！
         if (!"是".equals(user.getIsManager())
-                && lastDate26Day.compareTo(DateUtil.localDateToDate(daily.getProDate())) >= 0
-                && curDate25Day.compareTo(DateUtil.localDateToDate(daily.getProDate())) <= 0) {
+                && lastDate26Day.compareTo(DateUtil.localDateToDate(proDate)) >= 0
+                && curDate25Day.compareTo(DateUtil.localDateToDate(proDate)) <= 0) {
             AlertUtil.alertInfoLater(PropsUtil.getMessage("donot.daily.modify"));
             return;
         }
 
-        String message = verifyProcess(billNo);
+        String message = verifyProcess(billNo, oldEditDaily);
 
         if (!"OK".equals(message)) {
             AlertUtil.alertInfoLater(message);
@@ -533,8 +518,8 @@ public class ModifyDailyController implements Initializable {
         }
     }
 
-    // 判断所有工序的累计实作数量，前一个工序累计实作数量必须大于或等于后一个工序累计实作数量
-    public String verifyProcess(String billNo) {
+    // 判断所有工序的累计实作数量，不能大于计划生产数量
+    public String verifyProcess(String billNo, Daily oldDaily) {
         DailyProcessQty dpq = DailyUtil.getProcessTotalQty(billNo);
         int playQty = dpq.getPlanQty();
 
@@ -551,16 +536,16 @@ public class ModifyDailyController implements Initializable {
         int proQty5 = "".equals(processQty5.getText().trim()) ? 0 : Integer.valueOf(processQty5.getText().trim());
         int proQty6 = "".equals(processQty6.getText().trim()) ? 0 : Integer.valueOf(processQty6.getText().trim());
 
-        // 将本次录入的实作数量和已经完成的实作数量相加
-        int resProTotalQty1 = resProQty1 + dpq.getResProQty1();
-        int resProTotalQty2 = resProQty2 + dpq.getResProQty2();
-        int resProTotalQty3 = resProQty3 + dpq.getResProQty3();
-        int proTotalQty1 = proQty1 + dpq.getProQty1();
-        int proTotalQty2 = proQty2 + dpq.getProQty2();
-        int proTotalQty3 = proQty3 + dpq.getProQty3();
-        int proTotalQty4 = proQty4 + dpq.getProQty4();
-        int proTotalQty5 = proQty5 + dpq.getProQty5();
-        int proTotalQty6 = proQty6 + dpq.getProQty6();
+        // 将本次录入的实作数量和已经完成的实作数量相加，并减去旧的工序数量
+        int resProTotalQty1 = resProQty1 + dpq.getResProQty1() - oldEditDaily.getResProQty1();
+        int resProTotalQty2 = resProQty2 + dpq.getResProQty2() - oldEditDaily.getResProQty2();
+        int resProTotalQty3 = resProQty3 + dpq.getResProQty3() - oldEditDaily.getResProQty3();
+        int proTotalQty1 = proQty1 + dpq.getProQty1() - oldEditDaily.getProQty1();
+        int proTotalQty2 = proQty2 + dpq.getProQty2() - oldEditDaily.getProQty2();
+        int proTotalQty3 = proQty3 + dpq.getProQty3() - oldEditDaily.getProQty3();
+        int proTotalQty4 = proQty4 + dpq.getProQty4() - oldEditDaily.getProQty4();
+        int proTotalQty5 = proQty5 + dpq.getProQty5() - oldEditDaily.getProQty5();
+        int proTotalQty6 = proQty6 + dpq.getProQty6() - oldEditDaily.getProQty6();
 
         int[] resTotalQty = { resProTotalQty1, resProTotalQty2, resProTotalQty3 };
 
@@ -572,7 +557,7 @@ public class ModifyDailyController implements Initializable {
         if (!"OK".equals(verifyIsNullRes)) {
             return verifyIsNullRes;
         }
-
+        
         return DailyUtil.verifyProcessQty(resTotalQty, totalQty, playQty);
     }
 
