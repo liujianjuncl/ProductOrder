@@ -77,6 +77,13 @@ public class ModifyUserController implements Initializable {
         isPieceworkCbox.setValue(user.getIsPiecework());
         isManagerCbox.setValue(user.getIsManager());
         isDisableCbox.setValue(user.getIsDisable());
+        
+        if(!"ÊÇ".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
+            userNameField.setDisable(true);
+            isPieceworkCbox.setDisable(true);
+            isManagerCbox.setDisable(true);
+            isDisableCbox.setDisable(true);
+        }
 
         /** ¼àÌýCheckBox */
         defaultPasswordCheckBox.selectedProperty().addListener(new ChangeListener<Boolean>() {

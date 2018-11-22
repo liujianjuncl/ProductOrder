@@ -546,14 +546,15 @@ public class AddDailyController implements Initializable {
         User user = SessionUtil.USERS.get("loginUser");
 
         // 普通员工只允许增加上个月26号到本月25号的生产日报！
-        if (!"是".equals(user.getIsManager()) && (lastDate26Day.compareTo(DateUtil.localDateToDate(proDate)) >= 0
-                || curDate25Day.compareTo(DateUtil.localDateToDate(proDate)) <= 0)) {
+        if (!"是".equals(user.getIsManager()) && (lastDate26Day.compareTo(DateUtil.localDateToDate(proDate)) > 0
+                || curDate25Day.compareTo(DateUtil.localDateToDate(proDate)) < 0)) {
             AlertUtil.alertInfoLater(PropsUtil.getMessage("donot.daily.modify"));
             return;
         }
 
         // 添加日报之前，首先将该条生产任务单的信息同步到日报汇总表中
         DailyProcessQty dpq = DailyUtil.getProcessTotalQty(billNo);
+        
         if (dpq == null) {
             DailyUtil.addProductDailyTotal(billNo);
             dpq = DailyUtil.getProcessTotalQty(billNo);

@@ -5,7 +5,6 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,6 +15,7 @@ import java.util.logging.Logger;
 
 import com.nii.desktop.model.Daily;
 import com.nii.desktop.model.DailyProcessQty;
+import com.nii.desktop.model.User;
 import com.nii.desktop.util.conf.DBUtil;
 import com.nii.desktop.util.conf.DailyUtil;
 import com.nii.desktop.util.conf.DateUtil;
@@ -25,7 +25,6 @@ import com.nii.desktop.util.conf.PropsUtil;
 import com.nii.desktop.util.ui.AlertUtil;
 import com.nii.desktop.util.ui.ResourceLoader;
 import com.nii.desktop.util.ui.UIManager;
-import com.sun.javafx.scene.control.skin.TableColumnHeader;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -422,6 +421,23 @@ public class DailyTableViewController implements Initializable {
                     stmt.setString(1, dailyNo);
 
                     Daily daily = DailyUtil.getDailyByNoAll(dailyNo);
+
+                    // 本月25号
+                    Date curDate25Day = DateUtil.curMonth25Day();
+                    // 上月26号
+                    Date lastDate26Day = DateUtil.lastMonth26Day();
+
+                    // 获取登录用户
+                    User user = SessionUtil.USERS.get("loginUser");
+
+                    // 普通员工只允许修改上个月26号到本月25号的生产日报！
+                    if (!"是".equals(user.getIsManager())
+                            && (lastDate26Day.compareTo(DateUtil.localDateToDate(daily.getProDate())) > 0
+                                    || curDate25Day.compareTo(DateUtil.localDateToDate(daily.getProDate())) < 0)) {
+                        AlertUtil.alertInfoLater(PropsUtil.getMessage("daily.cannot.delete"));
+                        return;
+                    }
+
                     DailyProcessQty dpq = DailyUtil.getProcessTotalQty(daily.getBillNo());
 
                     // 将实作汇总表中本次删除的日报的实作数量减掉
@@ -435,14 +451,13 @@ public class DailyTableViewController implements Initializable {
 
                     stmt.executeUpdate();
                 }
-
             } catch (Exception e) {
                 Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
                 return;
             } finally {
                 DBUtil.release(conn, stmt);
             }
-            AlertUtil.alertInfoLater(PropsUtil.getMessage("user.delete.success"));
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("daily.delete.success"));
             // 删除完成刷新数据
             ((DailyTableViewController) SessionUtil.CONTROLLERS.get("DailyTableViewController")).refresh();
         }

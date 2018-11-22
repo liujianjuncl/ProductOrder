@@ -470,18 +470,20 @@ public class ModifyDailyController implements Initializable {
         String dailyNo = dailyNoLabel.getText();
 
         LocalDate proDate = productDate.getValue();
+        
+        Daily daily = DailyUtil.getDailyByNo(dailyNo);
 
         // 本月25号
-        Date curDate25Day = DateUtil.curMonth25Day();
+        Date curDate25Day = DateUtil.getMonth25Day(daily.getProDate());
         // 上月26号
-        Date lastDate26Day = DateUtil.lastMonth26Day();
+        Date lastDate26Day = DateUtil.getLastMonth26Day(daily.getProDate());
 
         // 获取登录用户
         User user = SessionUtil.USERS.get("loginUser");
 
         // 普通员工只允许修改上个月26号到本月25号的生产日报！
-        if (!"是".equals(user.getIsManager()) && (lastDate26Day.compareTo(DateUtil.localDateToDate(proDate)) >= 0
-                || curDate25Day.compareTo(DateUtil.localDateToDate(proDate)) <= 0)) {
+        if (!"是".equals(user.getIsManager()) && (lastDate26Day.compareTo(DateUtil.localDateToDate(proDate)) > 0
+                || curDate25Day.compareTo(DateUtil.localDateToDate(proDate)) < 0)) {
             AlertUtil.alertInfoLater(PropsUtil.getMessage("donot.daily.modify"));
             return;
         }
