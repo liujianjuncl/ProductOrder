@@ -295,5 +295,9 @@ public final class DateUtil {
         System.out.println(SDF.format(curMonth25Day()));
         System.out.println(SDF.format(getLastMonth26Day(d)));
         System.out.println(SDF.format(getMonth25Day(d)));
+        System.out.println("abc".substring(0, 2));
+        System.out.println("00.01000".indexOf("."));
+        
+        
     }
 }

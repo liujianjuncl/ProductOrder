@@ -209,24 +209,25 @@ public class AddDailyController implements Initializable {
 
         try {
             String sql = "select c.FBillNo as billNo, icc.FNumber as materialCode, icc.FName as materialName, icc.FModel as model, "
-                    + "c.FQty as planQuantity, item1.FName as resProcess1, "
-                    + "CAST((case when charindex('*', CAST(c.FHeadSelfJ01104 as varchar)) > 0 or CAST(c.FHeadSelfJ01104 as varchar) = '' or c.FHeadSelfJ01104 is null then 0.0 else c.FHeadSelfJ01104 end) as decimal(18, 4)) as resProcessPrice1, "
-                    + "item2.FName as resProcess2, "
-                    + "CAST((case when charindex('*', CAST(c.FHeadSelfJ01106 as varchar)) > 0 or CAST(c.FHeadSelfJ01106 as varchar) = '' or c.FHeadSelfJ01106 is null then 0.0 else c.FHeadSelfJ01106 end) as decimal(18, 4)) as resProcessPrice2, "
-                    + "item3.FName as resProcess3, "
-                    + "CAST((case when charindex('*', CAST(c.FHeadSelfJ01108 as varchar)) > 0 or CAST(c.FHeadSelfJ01108 as varchar) = '' or c.FHeadSelfJ01108 is null then 0.0 else c.FHeadSelfJ01108 end) as decimal(18, 4)) as resProcessPrice3, "
-                    + "c.FHeadSelfJ0185 as process1,"
-                    + "CAST((case when charindex('*', CAST(c.FHeadSelfJ0186 as varchar)) > 0 or CAST(c.FHeadSelfJ0186 as varchar) = '' or c.FHeadSelfJ0186 is null then 0.0 else c.FHeadSelfJ0186 end) as decimal(18, 4)) as processPrice1, "
-                    + "c.FHeadSelfJ0187 as process2, "
-                    + "CAST((case when charindex('*', CAST(c.FHeadSelfJ0188 as varchar)) > 0 or CAST(c.FHeadSelfJ0188 as varchar) = '' or c.FHeadSelfJ0188 is null then 0.0 else c.FHeadSelfJ0188 end) as decimal(18, 4)) as processPrice2, "
-                    + "c.FHeadSelfJ0189 as process3, "
-                    + "CAST((case when charindex('*', CAST(c.FHeadSelfJ0190 as varchar)) > 0 or CAST(c.FHeadSelfJ0190 as varchar) = '' or c.FHeadSelfJ0190 is null then 0.0 else c.FHeadSelfJ0190 end) as decimal(18, 4)) as processPrice3, "
-                    + "c.FHeadSelfJ0191 as process4, "
-                    + "CAST((case when charindex('*', CAST(c.FHeadSelfJ0192 as varchar)) > 0 or CAST(c.FHeadSelfJ0192 as varchar) = '' or c.FHeadSelfJ0192 is null then 0.0 else c.FHeadSelfJ0192 end) as decimal(18, 4)) as processPrice4, "
-                    + "c.FHeadSelfJ0193 as process5, "
-                    + "CAST((case when charindex('*', CAST(c.FHeadSelfJ0194 as varchar)) > 0 or CAST(c.FHeadSelfJ0194 as varchar) = '' or c.FHeadSelfJ0194 is null then 0.0 else c.FHeadSelfJ0194 end) as decimal(18, 4)) as processPrice5, "
-                    + "c.FHeadSelfJ0195 as process6, "
-                    + "CAST((case when charindex('*', CAST(c.FHeadSelfJ0196 as varchar)) > 0 or CAST(c.FHeadSelfJ0196 as varchar) = '' or c.FHeadSelfJ0196 is null then 0.0 else c.FHeadSelfJ0196 end) as decimal(18, 4)) as processPrice6 "
+                    + "c.FQty as planQuantity, "
+                    + "(case when charindex('*', CAST(item1.FName as varchar)) > 0 or item1.FName is null then '' else item1.FName end) as resProcess1,"
+                    + "(case when charindex('0', c.FHeadSelfJ01104) > 0 or charindex('.', c.FHeadSelfJ01104) > 0 then cast(c.FHeadSelfJ01104 as varchar) else '0' end) as resProcessPrice1,"
+                    + "(case when charindex('*', CAST(item2.FName as varchar)) > 0 or item2.FName is null then '' else item2.FName end) as resProcess2, "
+                    + "(case when charindex('0', c.FHeadSelfJ01106) > 0 or charindex('.', c.FHeadSelfJ01106) > 0 then cast(c.FHeadSelfJ01106 as varchar) else '0' end) as resProcessPrice2,"
+                    + "(case when charindex('*', CAST(item3.FName as varchar)) > 0 or item3.FName is null then '' else item3.FName end) as resProcess3,"
+                    + "(case when charindex('0', c.FHeadSelfJ01108) > 0 or charindex('.', c.FHeadSelfJ01108) > 0 then cast(c.FHeadSelfJ01108 as varchar) else '0' end) as resProcessPrice3,"
+                    + "(case when charindex('*', CAST(c.FHeadSelfJ0185 as varchar)) > 0 or c.FHeadSelfJ0185 is null then '' else c.FHeadSelfJ0185 end) as process1,"
+                    + "(case when charindex('0', c.FHeadSelfJ0186) > 0 or charindex('.', c.FHeadSelfJ0186) > 0 then cast(c.FHeadSelfJ0186 as varchar) else '0' end) as processPrice1,"
+                    + "(case when charindex('*', CAST(c.FHeadSelfJ0187 as varchar)) > 0 or c.FHeadSelfJ0187 is null then '' else c.FHeadSelfJ0187 end) as process2,"
+                    + "(case when charindex('0', c.FHeadSelfJ0188) > 0 or charindex('.', c.FHeadSelfJ0188) > 0 then cast(c.FHeadSelfJ0188 as varchar) else '0' end) as processPrice2,"
+                    + "(case when charindex('*', CAST(c.FHeadSelfJ0189 as varchar)) > 0 or c.FHeadSelfJ0189 is null then '' else c.FHeadSelfJ0189 end) as process3,"
+                    + "(case when charindex('0', c.FHeadSelfJ0190) > 0 or charindex('.', c.FHeadSelfJ0190) > 0 then cast(c.FHeadSelfJ0190 as varchar) else '0' end) as processPrice3,"
+                    + "(case when charindex('*', CAST(c.FHeadSelfJ0191 as varchar)) > 0 or c.FHeadSelfJ0191 is null then '' else c.FHeadSelfJ0191 end) as process4,"
+                    + "(case when charindex('0', c.FHeadSelfJ0192) > 0 or charindex('.', c.FHeadSelfJ0192) > 0 then cast(c.FHeadSelfJ0192 as varchar) else '0' end) as processPrice4,"
+                    + "(case when charindex('*', CAST(c.FHeadSelfJ0193 as varchar)) > 0 or c.FHeadSelfJ0193 is null then '' else c.FHeadSelfJ0193 end) as process5,"
+                    + "(case when charindex('0', c.FHeadSelfJ0194) > 0 or charindex('.', c.FHeadSelfJ0194) > 0 then cast(c.FHeadSelfJ0194 as varchar) else '0' end) as processPrice5,"
+                    + "(case when charindex('*', CAST(c.FHeadSelfJ0195 as varchar)) > 0 or c.FHeadSelfJ0195 is null then '' else c.FHeadSelfJ0195 end) as process6,"
+                    + "(case when charindex('0', c.FHeadSelfJ0196) > 0 or charindex('.', c.FHeadSelfJ0196) > 0 then cast(c.FHeadSelfJ0196 as varchar) else '0' end) as processPrice6 "
                     + "from dbo.ICMO c left join dbo.t_ICItemCore icc on c.FItemID = icc.FItemID "
                     + "left join dbo.t_Item item1 on c.FHeadSelfJ01103 = item1.FitemID "
                     + "left join dbo.t_Item item2 on c.FHeadSelfJ01105 = item2.FitemID "
@@ -237,7 +238,6 @@ public class AddDailyController implements Initializable {
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, billNo);
             rs = stmt.executeQuery();
-
             while (rs.next()) {
                 result = true;
                 planQuantity.setText(String.valueOf(rs.getDouble("planQuantity")));
@@ -536,12 +536,12 @@ public class AddDailyController implements Initializable {
         }
 
         LocalDate proDate = productDate.getValue();
-        
+
         // 本月25号
         Date curDate25Day = DateUtil.curMonth25Day();
         // 上月26号
         Date lastDate26Day = DateUtil.lastMonth26Day();
-        
+
         // 获取登录用户
         User user = SessionUtil.USERS.get("loginUser");
 
@@ -554,7 +554,7 @@ public class AddDailyController implements Initializable {
 
         // 添加日报之前，首先将该条生产任务单的信息同步到日报汇总表中
         DailyProcessQty dpq = DailyUtil.getProcessTotalQty(billNo);
-        
+
         if (dpq == null) {
             DailyUtil.addProductDailyTotal(billNo);
             dpq = DailyUtil.getProcessTotalQty(billNo);
