@@ -92,6 +92,47 @@ public class UserUtil {
 
         return user;
     }
+    
+    /* 根据userNo获取用户 */
+    public static User getLoginUser(String userNumber) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        String userNo = null;
+        String userName = null;
+        String password = null;
+        String isPiecework = null;
+        String isManager = null;
+        String isDisable = null;
+
+        User user = null;
+
+        String sql = "select * from dbo.t_product_daily_user where userNo = ? and isDelete = 0 and isDisable = 0";
+        try {
+            conn = DBUtil.getConnection();
+            stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, userNumber);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                userNo = rs.getString("userNo");
+                userName = rs.getString("userName");
+                password = rs.getString("password");
+                isPiecework = rs.getInt("isPiecework") == 1 ? "是" : "否";
+                isManager = rs.getInt("isManager") == 1 ? "是" : "否";
+                isDisable = rs.getInt("isDisable") == 1 ? "是" : "否";
+                user = new User(userNo, userName, password, isPiecework, isManager, isDisable);
+            }
+        } catch (Exception e) {
+            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            DBUtil.release(conn, stmt, rs);
+        }
+
+        return user;
+    }
 
     /* 校验新建用户信息 */
     public static boolean verifyUserInfo(String userName, String password, String isPiecework, String isManager) {

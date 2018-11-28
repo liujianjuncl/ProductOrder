@@ -50,23 +50,23 @@
           <TableColumn fx:id="modelCol" prefWidth="100.0" text="规格型号" />
           <TableColumn fx:id="planQuantityCol" text="计划生产数量" />
           <TableColumn fx:id="productDateCol" text="生产日期" />
-          <TableColumn fx:id="resPro1Col" text="改制工序1" />
+          <TableColumn fx:id="resPro1Col" prefWidth="135.0" text="改制工序1" />
           <TableColumn fx:id="resProQty1Col" prefWidth="120.0" text="改制工序1实作数量" />
-          <TableColumn fx:id="resPro2Col" text="改制工序2" />
+          <TableColumn fx:id="resPro2Col" prefWidth="135.0" text="改制工序2" />
           <TableColumn fx:id="resProQty2Col" prefWidth="120.0" text="改制工序2实作数量" />
-          <TableColumn fx:id="resPro3Col" text="改制工序3" />
+          <TableColumn fx:id="resPro3Col" prefWidth="135.0" text="改制工序3" />
           <TableColumn fx:id="resProQty3Col" prefWidth="120.0" text="改制工序3实作数量" />
-          <TableColumn fx:id="pro1Col" prefWidth="90.0" text="工序1" />
+          <TableColumn fx:id="pro1Col" prefWidth="135.0" text="工序1" />
           <TableColumn fx:id="proQty1Col" prefWidth="90.0" text="工序1实作数量" />
-          <TableColumn fx:id="pro2Col" prefWidth="90.0" text="工序2" />
+          <TableColumn fx:id="pro2Col" prefWidth="135.0" text="工序2" />
           <TableColumn fx:id="proQty2Col" prefWidth="90.0" text="工序2实作数量" />
-          <TableColumn fx:id="pro3Col" prefWidth="90.0" text="工序3" />
+          <TableColumn fx:id="pro3Col" prefWidth="135.0" text="工序3" />
           <TableColumn fx:id="proQty3Col" prefWidth="90.0" text="工序3实作数量" />
-          <TableColumn fx:id="pro4Col" prefWidth="90.0" text="工序4" />
+          <TableColumn fx:id="pro4Col" prefWidth="135.0" text="工序4" />
           <TableColumn fx:id="proQty4Col" prefWidth="90.0" text="工序4实作数量" />
-          <TableColumn fx:id="pro5Col" prefWidth="90.0" text="工序5" />
+          <TableColumn fx:id="pro5Col" prefWidth="135.0" text="工序5" />
           <TableColumn fx:id="proQty5Col" prefWidth="90.0" text="工序5实作数量" />
-          <TableColumn fx:id="pro6Col" prefWidth="90.0" text="工序6" />
+          <TableColumn fx:id="pro6Col" prefWidth="135.0" text="工序6" />
           <TableColumn fx:id="proQty6Col" prefWidth="90.0" text="工序6实作数量" />
           <TableColumn fx:id="createUserCol" prefWidth="90.0" text="创建人员" />
           <TableColumn fx:id="createTimeCol" prefWidth="140.0" text="创建时间" />
