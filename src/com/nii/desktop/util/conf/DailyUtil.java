@@ -239,7 +239,7 @@ public class DailyUtil {
             stmt.setDouble(15, daily.getResProPrice3());
             stmt.setInt(16, daily.getResProQty3());
             stmt.setString(17, daily.getPro1());
-            stmt.setDouble(18, daily.getProPrice2());
+            stmt.setDouble(18, daily.getProPrice1());
             stmt.setInt(19, daily.getProQty1());
             stmt.setString(20, daily.getPro2());
             stmt.setDouble(21, daily.getProPrice2());
