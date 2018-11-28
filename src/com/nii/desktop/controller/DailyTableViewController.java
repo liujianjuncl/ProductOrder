@@ -5,6 +5,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -253,7 +254,6 @@ public class DailyTableViewController implements Initializable {
                 return row;
             }
         });
-
         // 分页
 //        dailyTablePagination.setPageCount(1);
     }
@@ -268,40 +268,55 @@ public class DailyTableViewController implements Initializable {
         dailyDataList.clear();
 
         try {
-            String sql = "select * from dbo.t_product_daily_bill_detail where isDelete = 0 ";
             if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
-                sql = sql + " and createUser = " + SessionUtil.USERS.get("loginUser").getUserNo();
+                String sql = "select * from dbo.t_product_daily_bill_detail where isDelete = 0 and createUser = '"
+                        + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
+                // 非管理员用户默认显示当天日报
+                sql = sql + " and CONVERT(datetime, productDate, 23) = '" + DateUtil.SDF.format(new Date()) + "'";
+
+//            // 获取最近3个月的记录
+//            sql = sql + " and productDate <= '" + DateUtil.localDateToDateTimeStr(LocalDate.now()) + "'";
+//            sql = sql + " and productDate >= '" + DateUtil.last3MonthDateTimeStr() + "'";
+//            sql = sql + " order by dailyNo desc";
+
+                conn = DBUtil.getConnection();
+                stmt = conn.prepareStatement(sql);
+                rs = stmt.executeQuery();
+
+                double money = 0.0;
+                while (rs.next()) {
+                    dailyDataList.add(new Daily(new CheckBox(), rs.getString("dailyNo"), rs.getString("billNo"),
+                            rs.getString("materialCode"), rs.getString("materialName"), rs.getString("model"),
+                            rs.getInt("planQuantity"), DateUtil.sqlDateToLocalDate(rs.getDate("productDate")),
+                            rs.getString("resProcess1"), rs.getInt("resProcessQty1"), rs.getString("resProcess2"),
+                            rs.getInt("resProcessQty2"), rs.getString("resProcess3"), rs.getInt("resProcessQty3"),
+                            rs.getString("process1"), rs.getInt("processQty1"), rs.getString("process2"),
+                            rs.getInt("processQty2"), rs.getString("process3"), rs.getInt("processQty3"),
+                            rs.getString("process4"), rs.getInt("processQty4"), rs.getString("process5"),
+                            rs.getInt("processQty5"), rs.getString("process6"), rs.getInt("processQty6"),
+                            UserUtil.getUser(rs.getString("createUser")).getUserName(), rs.getTimestamp("createTime"),
+                            UserUtil.getUser(rs.getString("modifyUser")).getUserName(), rs.getTimestamp("modifyTime"),
+                            rs.getInt("isPiecework"), rs.getInt("isDelete"), rs.getInt("sequence")));
+                    // 计算查询出所有工序的金额
+                    money = money + rs.getInt("resProcessQty1") * rs.getDouble("resProcessPrice1")
+                            + rs.getInt("resProcessQty2") * rs.getDouble("resProcessPrice2")
+                            + rs.getInt("resProcessQty3") * rs.getDouble("resProcessPrice3")
+                            + rs.getInt("processQty1") * rs.getDouble("processPrice1")
+                            + rs.getInt("processQty2") * rs.getDouble("processPrice2")
+                            + rs.getInt("processQty3") * rs.getDouble("processPrice3")
+                            + rs.getInt("processQty4") * rs.getDouble("processPrice4")
+                            + rs.getInt("processQty5") * rs.getDouble("processPrice5")
+                            + rs.getInt("processQty6") * rs.getDouble("processPrice6");
+                }
+                DecimalFormat df = new DecimalFormat("#.0000");
+                ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController")).setMoney("金额：" + df.format(money));
             }
-
-            // 获取最近3个月的记录
-            sql = sql + " and productDate <= '" + DateUtil.localDateToDateTimeStr(LocalDate.now()) + "'";
-            sql = sql + " and productDate >= '" + DateUtil.last3MonthDateTimeStr() + "'";
-            sql = sql + " order by dailyNo desc";
-
-            conn = DBUtil.getConnection();
-            stmt = conn.prepareStatement(sql);
-            rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                dailyDataList.add(new Daily(new CheckBox(), rs.getString("dailyNo"), rs.getString("billNo"),
-                        rs.getString("materialCode"), rs.getString("materialName"), rs.getString("model"),
-                        rs.getInt("planQuantity"), DateUtil.sqlDateToLocalDate(rs.getDate("productDate")),
-                        rs.getString("resProcess1"), rs.getInt("resProcessQty1"), rs.getString("resProcess2"),
-                        rs.getInt("resProcessQty2"), rs.getString("resProcess3"), rs.getInt("resProcessQty3"),
-                        rs.getString("process1"), rs.getInt("processQty1"), rs.getString("process2"),
-                        rs.getInt("processQty2"), rs.getString("process3"), rs.getInt("processQty3"),
-                        rs.getString("process4"), rs.getInt("processQty4"), rs.getString("process5"),
-                        rs.getInt("processQty5"), rs.getString("process6"), rs.getInt("processQty6"),
-                        UserUtil.getUser(rs.getString("createUser")).getUserName(), rs.getTimestamp("createTime"),
-                        UserUtil.getUser(rs.getString("modifyUser")).getUserName(), rs.getTimestamp("modifyTime"),
-                        rs.getInt("isPiecework"), rs.getInt("isDelete"), rs.getInt("sequence")));
-            }
-
         } catch (Exception e) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DBUtil.release(conn, stmt, rs);
         }
+
     }
 
     public void addDatatoTableView() {
@@ -459,7 +474,7 @@ public class DailyTableViewController implements Initializable {
             }
             AlertUtil.alertInfoLater(PropsUtil.getMessage("daily.delete.success"));
             // 删除完成刷新数据
-            ((DailyTableViewController) SessionUtil.CONTROLLERS.get("DailyTableViewController")).refresh();
+            refresh();
         }
     }
 
@@ -476,11 +491,13 @@ public class DailyTableViewController implements Initializable {
 
         // 添加表格数据前先清空
         dailyDataList.clear();
+        // 金额
+        double money = 0.0;
 
         try {
             String sql = "select * from dbo.t_product_daily_bill_detail where isDelete = 0 ";
             if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
-                sql = sql + " and createUser = " + SessionUtil.USERS.get("loginUser").getUserNo();
+                sql = sql + " and createUser = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
             }
 
             if (userNo != null && !"".equals(userNo)) {
@@ -499,7 +516,6 @@ public class DailyTableViewController implements Initializable {
                 sql = sql + " and productDate <= '" + DateUtil.localDateToDateTimeStr(endDate) + "'";
             }
             sql = sql + " order by dailyNo desc";
-            System.out.println(sql);
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
@@ -517,13 +533,28 @@ public class DailyTableViewController implements Initializable {
                         UserUtil.getUser(rs.getString("createUser")).getUserName(), rs.getTimestamp("createTime"),
                         UserUtil.getUser(rs.getString("modifyUser")).getUserName(), rs.getTimestamp("modifyTime"),
                         rs.getInt("isPiecework"), rs.getInt("isDelete"), rs.getInt("sequence"));
+
                 dailyDataList.add(daily);
+
+                // 计算查询出所有工序的金额
+                money = money + rs.getInt("resProcessQty1") * rs.getDouble("resProcessPrice1")
+                        + rs.getInt("resProcessQty2") * rs.getDouble("resProcessPrice2")
+                        + rs.getInt("resProcessQty3") * rs.getDouble("resProcessPrice3")
+                        + rs.getInt("processQty1") * rs.getDouble("processPrice1")
+                        + rs.getInt("processQty2") * rs.getDouble("processPrice2")
+                        + rs.getInt("processQty3") * rs.getDouble("processPrice3")
+                        + rs.getInt("processQty4") * rs.getDouble("processPrice4")
+                        + rs.getInt("processQty5") * rs.getDouble("processPrice5")
+                        + rs.getInt("processQty6") * rs.getDouble("processPrice6");
             }
+            DecimalFormat df = new DecimalFormat("#.0000");
             if (dailyDataList.size() == 0) {
                 AlertUtil.alertInfoLater(PropsUtil.getMessage("search.result.null"));
+                ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController")).setMoney("金额：0.0");
+            } else {
+                ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController")).setMoney("金额：" + df.format(money));
             }
             dailyTableView.refresh();
-
         } catch (Exception e) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
         } finally {
@@ -570,8 +601,7 @@ public class DailyTableViewController implements Initializable {
 
     /* 刷新数据 */
     public void refresh() {
-        initData();
-        addDatatoTableView();
+        searchDailyAction();
     }
 
     public static void main(String[] args) {

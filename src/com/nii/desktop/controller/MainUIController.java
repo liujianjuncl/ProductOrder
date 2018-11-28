@@ -67,6 +67,13 @@ public class MainUIController implements Initializable {
     
     @FXML
     private Label currentUser;
+    
+    @FXML
+    private Label money;
+    
+    public void setMoney(String m) {
+        this.money.setText(m);
+    }
 
     /***/
     @Override
@@ -74,7 +81,13 @@ public class MainUIController implements Initializable {
         dailyManageButton.setStyle("-fx-background-color: #808080");
         loadDailyTableView();
         
+        if (SessionUtil.CONTROLLERS.get("MainUIController") == null) {
+            SessionUtil.CONTROLLERS.put("MainUIController", this);
+        }
+        
         currentUser.setText("当前用户：" + SessionUtil.USERS.get("loginUser").getUserName());
+        
+        money.setText("金额：0.0");
         
 //        numTextField.setEditable(false);
 //        adbDevice.setDeviceNumber(0);
@@ -92,6 +105,7 @@ public class MainUIController implements Initializable {
         dailyManageButton.setStyle(null);
         rightPane.getChildren().clear();
         loadUserTableView();
+        money.setText("金额：0.0");
     }
     
     @FXML
@@ -100,6 +114,7 @@ public class MainUIController implements Initializable {
         userManageButton.setStyle(null);
         rightPane.getChildren().clear();
         loadDailyTableView();
+        money.setText("金额：0.0");
     }
 
 

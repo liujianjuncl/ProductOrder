@@ -308,7 +308,7 @@ public class UserTableViewController implements Initializable {
             }
             AlertUtil.alertInfoLater(PropsUtil.getMessage("user.delete.success"));
             // 删除完成刷新数据
-            ((UserTableViewController) SessionUtil.CONTROLLERS.get("UserTableViewController")).refresh();
+            refresh();
         }
     }
 
@@ -399,7 +399,6 @@ public class UserTableViewController implements Initializable {
 
     /* 刷新数据 */
     public void refresh() {
-        initData();
         addDatatoTableView();
     }
 

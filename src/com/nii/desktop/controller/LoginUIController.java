@@ -67,7 +67,7 @@ public class LoginUIController implements Initializable {
             public void changed(ObservableValue<? extends Boolean> ov, Boolean oldValue, Boolean newValue) {
                 String userNo = userNoTextField.getText().trim();
                 if (!"".equals(userNo)) {
-                    User user = UserUtil.getUser(userNo);
+                    User user = UserUtil.getLoginUser(userNo);
                     if (user != null && !newValue) {
                         userNameTextField.setText(user.getUserName());
                     }
@@ -82,7 +82,7 @@ public class LoginUIController implements Initializable {
                 if (event.getCode().equals(KeyCode.ENTER)) {
                     String userNo = userNoTextField.getText().trim();
                     if (!"".equals(userNo)) {
-                        User user = UserUtil.getUser(userNo);
+                        User user = UserUtil.getLoginUser(userNo);
                         if (user != null) {
                             userNameTextField.setText(user.getUserName());
                             passwordTextField.requestFocus();
@@ -116,7 +116,7 @@ public class LoginUIController implements Initializable {
             return;
         }
 
-        User user = UserUtil.getUser(userNo);
+        User user = UserUtil.getLoginUser(userNo);
 
         if (user == null) {
             AlertUtil.alertInfoLater(PropsUtil.getMessage("login.user.notExist"));

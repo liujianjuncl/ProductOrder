@@ -21,6 +21,7 @@ import com.nii.desktop.util.conf.DBUtil;
 import com.nii.desktop.util.conf.DailyUtil;
 import com.nii.desktop.util.conf.DateUtil;
 import com.nii.desktop.util.conf.SessionUtil;
+import com.nii.desktop.util.conf.UserUtil;
 import com.nii.desktop.util.conf.PropsUtil;
 import com.nii.desktop.util.ui.AlertUtil;
 
@@ -188,10 +189,49 @@ public class AddDailyController implements Initializable {
             @Override
             public void handle(KeyEvent event) {
                 if (event.getCode().equals(KeyCode.ENTER)) {
-                    System.out.println(billNoTextField.getText().trim());
                     if (!getProductDailyInfo(billNoTextField.getText().trim())) {
                         AlertUtil.alertInfoLater(PropsUtil.getMessage("billNo.isNotExist"));
                     }
+                }
+            }
+        });
+
+        /* 当生产任务单号失去焦点时，重新查询生产任务单 */
+        billNoTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            public void changed(ObservableValue<? extends Boolean> ov, Boolean oldValue, Boolean newValue) {
+                if (!newValue && !getProductDailyInfo(billNoTextField.getText().trim())) {
+                    AlertUtil.alertInfoLater(PropsUtil.getMessage("billNo.isNotExist"));
+                    planQuantity.clear();
+                    materialCode.clear();
+                    materialName.clear();
+                    model.clear();
+                    resProcess1.setText("");
+                    resProcess2.setText("");
+                    resProcess3.setText("");
+                    process1.setText("");
+                    process2.setText("");
+                    process3.setText("");
+                    process4.setText("");
+                    process5.setText("");
+                    process6.setText("");
+                    resProcessPrice1.setText("");
+                    resProcessPrice2.setText("");
+                    resProcessPrice3.setText("");
+                    processPrice1.setText("");
+                    processPrice2.setText("");
+                    processPrice3.setText("");
+                    processPrice4.setText("");
+                    processPrice5.setText("");
+                    processPrice6.setText("");
+                    resProcessQty1.clear();
+                    resProcessQty2.clear();
+                    resProcessQty3.clear();
+                    processQty1.clear();
+                    processQty2.clear();
+                    processQty3.clear();
+                    processQty4.clear();
+                    processQty5.clear();
+                    processQty6.clear();
                 }
             }
         });
@@ -570,23 +610,23 @@ public class AddDailyController implements Initializable {
 
             Daily daily = new Daily(dailyNo, billNo, materialCode.getText(), materialName.getText(), model.getText(),
                     planQty, productDate.getValue(), resProcess1.getText(), Double.valueOf(resProcessPrice1.getText()),
-                    Integer.valueOf("".equals(resProcessQty1.getText()) ? "0" : resProcessQty1.getText()),
+                    Integer.valueOf("".equals(resProcessQty1.getText().trim()) ? "0" : resProcessQty1.getText().trim()),
                     resProcess2.getText(), Double.valueOf(resProcessPrice2.getText()),
-                    Integer.valueOf("".equals(resProcessQty2.getText()) ? "0" : resProcessQty2.getText()),
+                    Integer.valueOf("".equals(resProcessQty2.getText().trim()) ? "0" : resProcessQty2.getText().trim()),
                     resProcess3.getText(), Double.valueOf(resProcessPrice3.getText()),
-                    Integer.valueOf("".equals(resProcessQty3.getText()) ? "0" : resProcessQty3.getText()),
+                    Integer.valueOf("".equals(resProcessQty3.getText().trim()) ? "0" : resProcessQty3.getText().trim()),
                     process1.getText(), Double.valueOf(processPrice1.getText()),
-                    Integer.valueOf("".equals(processQty1.getText()) ? "0" : processQty1.getText()), process2.getText(),
+                    Integer.valueOf("".equals(processQty1.getText().trim()) ? "0" : processQty1.getText().trim()), process2.getText(),
                     Double.valueOf(processPrice2.getText()),
-                    Integer.valueOf("".equals(processQty2.getText()) ? "0" : processQty2.getText()), process3.getText(),
+                    Integer.valueOf("".equals(processQty2.getText().trim()) ? "0" : processQty2.getText().trim()), process3.getText(),
                     Double.valueOf(processPrice3.getText()),
-                    Integer.valueOf("".equals(processQty3.getText()) ? "0" : processQty3.getText()), process4.getText(),
+                    Integer.valueOf("".equals(processQty3.getText().trim()) ? "0" : processQty3.getText().trim()), process4.getText(),
                     Double.valueOf(processPrice4.getText()),
-                    Integer.valueOf("".equals(processQty4.getText()) ? "0" : processQty4.getText()), process5.getText(),
+                    Integer.valueOf("".equals(processQty4.getText().trim()) ? "0" : processQty4.getText().trim()), process5.getText(),
                     Double.valueOf(processPrice5.getText()),
-                    Integer.valueOf("".equals(processQty5.getText()) ? "0" : processQty5.getText()), process6.getText(),
+                    Integer.valueOf("".equals(processQty5.getText().trim()) ? "0" : processQty5.getText().trim()), process6.getText(),
                     Double.valueOf(processPrice6.getText()),
-                    Integer.valueOf("".equals(processQty6.getText()) ? "0" : processQty6.getText()),
+                    Integer.valueOf("".equals(processQty6.getText().trim()) ? "0" : processQty6.getText().trim()),
                     SessionUtil.USERS.get("loginUser").getUserNo(), new Timestamp(new Date().getTime()),
                     SessionUtil.USERS.get("loginUser").getUserNo(), new Timestamp(new Date().getTime()),
                     "是".equals(SessionUtil.USERS.get("loginUser").getIsPiecework()) ? 1 : 0, 0,

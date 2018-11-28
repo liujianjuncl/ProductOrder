@@ -16,19 +16,29 @@
                 <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints maxHeight="145.0" minHeight="10.0" prefHeight="94.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="239.0" minHeight="10.0" prefHeight="91.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="393.0" minHeight="10.0" prefHeight="270.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="393.0" minHeight="10.0" prefHeight="103.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="393.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="145.0" minHeight="10.0" prefHeight="92.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="239.0" minHeight="10.0" prefHeight="94.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="393.0" minHeight="10.0" prefHeight="350.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="393.0" minHeight="10.0" prefHeight="51.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="393.0" minHeight="10.0" prefHeight="18.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                <Button fx:id="dailyManageButton" mnemonicParsing="false" onAction="#dailyLabelClickAction" prefHeight="90.0" prefWidth="300.0" text="日报管理" />
                <Button fx:id="userManageButton" mnemonicParsing="false" onAction="#userLabelClickAction" prefHeight="90.0" prefWidth="300.0" text="用户管理" GridPane.rowIndex="1" />
-                  <Label fx:id="currentUser" alignment="CENTER" contentDisplay="CENTER" style="-fx-border-color: black;" text=" " GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
-                     <font>
-                        <Font size="16.0" />
-                     </font></Label>
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="5" GridPane.rowIndex="3">
+                     <children>
+                        <Label fx:id="money" style="-fx-border-color: black;" text=" " >
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="currentUser" alignment="CENTER" contentDisplay="CENTER" style="-fx-border-color: black;" text=" ">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
                </children>
             </GridPane>
       </children></AnchorPane>
