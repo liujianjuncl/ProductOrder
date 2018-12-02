@@ -144,5 +144,7 @@ INSERT INTO [AIS].[dbo].[t_product_daily_user]
 GO
 
 
+ALTER TABLE dbo.t_product_daily_user ADD isAuditor smallint NULL
+
 
 
