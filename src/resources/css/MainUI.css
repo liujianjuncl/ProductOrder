@@ -12,3 +12,13 @@
 	-fx-alignment: center;
 	-fx-font-size: 20px;
 }
+
+#indirectWorkManageButton{
+    -fx-alignment: center;
+    -fx-font-size: 20px;
+}
+
+#indirectWorkProjectButton{
+    -fx-alignment: center;
+    -fx-font-size: 20px;
+}

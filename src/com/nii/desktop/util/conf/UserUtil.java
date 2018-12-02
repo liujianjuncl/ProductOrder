@@ -64,6 +64,7 @@ public class UserUtil {
         String isPiecework = null;
         String isManager = null;
         String isDisable = null;
+        String isAuditor = null;
 
         User user = null;
 
@@ -82,7 +83,8 @@ public class UserUtil {
                 isPiecework = rs.getInt("isPiecework") == 1 ? "是" : "否";
                 isManager = rs.getInt("isManager") == 1 ? "是" : "否";
                 isDisable = rs.getInt("isDisable") == 1 ? "是" : "否";
-                user = new User(userNo, userName, password, isPiecework, isManager, isDisable);
+                isAuditor = rs.getInt("isAuditor") == 1 ? "是" : "否";
+                user = new User(userNo, userName, password, isPiecework, isManager, isDisable, isAuditor);
             }
         } catch (Exception e) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
@@ -105,6 +107,7 @@ public class UserUtil {
         String isPiecework = null;
         String isManager = null;
         String isDisable = null;
+        String isAuditor = null;
 
         User user = null;
 
@@ -123,7 +126,8 @@ public class UserUtil {
                 isPiecework = rs.getInt("isPiecework") == 1 ? "是" : "否";
                 isManager = rs.getInt("isManager") == 1 ? "是" : "否";
                 isDisable = rs.getInt("isDisable") == 1 ? "是" : "否";
-                user = new User(userNo, userName, password, isPiecework, isManager, isDisable);
+                isAuditor = rs.getInt("isAuditor") == 1 ? "是" : "否";
+                user = new User(userNo, userName, password, isPiecework, isManager, isDisable, isAuditor);
             }
         } catch (Exception e) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
@@ -135,7 +139,7 @@ public class UserUtil {
     }
 
     /* 校验新建用户信息 */
-    public static boolean verifyUserInfo(String userName, String password, String isPiecework, String isManager) {
+    public static boolean verifyUserInfo(String userName, String password, String isPiecework, String isManager, String isAuditor) {
         if ("".equals(userName.trim())) {
             AlertUtil.alertInfoLater(PropsUtil.getMessage("userName.notnull"));
             return false;
@@ -168,6 +172,11 @@ public class UserUtil {
 
         if (isManager == null) {
             AlertUtil.alertInfoLater(PropsUtil.getMessage("isManager.notnull"));
+            return false;
+        }
+        
+        if (isAuditor == null) {
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("isAuditor.notnull"));
             return false;
         }
 
@@ -176,7 +185,7 @@ public class UserUtil {
 
     /* 校验新建用户信息 */
     public static boolean verifyUserInfo(String userName, String password, String isPiecework, String isManager,
-            String isDisable) {
+            String isDisable, String isAuditor) {
         if ("".equals(userName.trim())) {
             AlertUtil.alertInfoLater(PropsUtil.getMessage("userName.notnull"));
             return false;
@@ -209,6 +218,11 @@ public class UserUtil {
 
         if (isManager == null) {
             AlertUtil.alertInfoLater(PropsUtil.getMessage("isManager.notnull"));
+            return false;
+        }
+        
+        if (isAuditor == null) {
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("isAuditor.notnull"));
             return false;
         }
 

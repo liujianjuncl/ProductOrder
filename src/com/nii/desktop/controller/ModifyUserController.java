@@ -55,6 +55,9 @@ public class ModifyUserController implements Initializable {
 
     @FXML
     private ComboBox<String> isManagerCbox;
+    
+    @FXML
+    private ComboBox<String> isAuditorCbox;
 
     @FXML
     private ComboBox<String> isDisableCbox;
@@ -69,6 +72,7 @@ public class ModifyUserController implements Initializable {
         // TODO Auto-generated method stub
         isPieceworkCbox.setItems(FXCollections.observableArrayList("是", "否"));
         isManagerCbox.setItems(FXCollections.observableArrayList("是", "否"));
+        isAuditorCbox.setItems(FXCollections.observableArrayList("是", "否"));
         isDisableCbox.setItems(FXCollections.observableArrayList("是", "否"));
 
         user = SessionUtil.USERS.get("editUser");
@@ -76,12 +80,14 @@ public class ModifyUserController implements Initializable {
         userNameField.setText(user.getUserName());
         isPieceworkCbox.setValue(user.getIsPiecework());
         isManagerCbox.setValue(user.getIsManager());
+        isAuditorCbox.setValue(user.getIsAuditor());
         isDisableCbox.setValue(user.getIsDisable());
         
         if(!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
             userNameField.setDisable(true);
             isPieceworkCbox.setDisable(true);
             isManagerCbox.setDisable(true);
+            isAuditorCbox.setDisable(true);
             isDisableCbox.setDisable(true);
         }
 
@@ -104,13 +110,14 @@ public class ModifyUserController implements Initializable {
         String password = passwordField.getText();
         String isPiecework = (String) isPieceworkCbox.getValue();
         String isManager = (String) isManagerCbox.getValue();
+        String isAuditor = (String) isAuditorCbox.getValue();
         String isDisable = (String) isDisableCbox.getValue();
 
         if (defaultPasswordCheckBox.isSelected()) {
             password = PropsUtil.getConfigValue("user.default.password"); // 默认密码
         }
 
-        boolean result = UserUtil.verifyUserInfo(userName, password, isPiecework, isManager, isDisable);
+        boolean result = UserUtil.verifyUserInfo(userName, password, isPiecework, isManager, isDisable, isAuditor);
 
         if (result) {
             Connection conn = null;
@@ -120,7 +127,7 @@ public class ModifyUserController implements Initializable {
 
             try {
                 String sql = "update dbo.t_product_daily_user set userName = ?, password = ?, isPiecework = ?, "
-                        + "isManager = ?, isDisable = ?, lastModifyTime = ? where isDelete = 0 and userNo = ?";
+                        + "isManager = ?, isAuditor = ?, isDisable = ?, lastModifyTime = ? where isDelete = 0 and userNo = ?";
                 conn = DBUtil.getConnection();
                 stmt = conn.prepareStatement(sql);
 
@@ -128,9 +135,10 @@ public class ModifyUserController implements Initializable {
                 stmt.setString(2, Encoder.encrypt(password));
                 stmt.setInt(3, isPiecework == "是" ? 1 : 0);
                 stmt.setInt(4, isManager == "是" ? 1 : 0);
-                stmt.setInt(5, isDisable == "是" ? 1 : 0);
-                stmt.setTimestamp(6, new Timestamp(new Date().getTime()));
-                stmt.setString(7, userNo);
+                stmt.setInt(5, isAuditor == "是" ? 1 : 0);
+                stmt.setInt(6, isDisable == "是" ? 1 : 0);
+                stmt.setTimestamp(7, new Timestamp(new Date().getTime()));
+                stmt.setString(8, userNo);
 
                 stmt.executeUpdate();
 

@@ -38,6 +38,7 @@
           <TableColumn fx:id="userNameCol" prefWidth="75.0" text="用户名称" />
           <TableColumn fx:id="isPieceworkCol" prefWidth="75.0" text="是否计件" />
           <TableColumn fx:id="isManagerCol" prefWidth="75.0" text="是否管理员" />
+          <TableColumn fx:id="isAuditorCol" prefWidth="75.0" text="是否审核员" />
           <TableColumn fx:id="isDisableCol" prefWidth="75.0" text="是否禁用" />
         </columns>
          <columnResizePolicy>

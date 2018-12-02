@@ -55,6 +55,10 @@ public class AddUserController implements Initializable {
 
     @FXML
     private ComboBox isManagerCbox;
+    
+    /* 是否审核员 */
+    @FXML
+    private ComboBox isAuditorCbox;
 
     @FXML
     private CheckBox defaultPasswordCheckBox;
@@ -65,6 +69,7 @@ public class AddUserController implements Initializable {
         // TODO Auto-generated method stub
         isPieceworkCbox.setItems(FXCollections.observableArrayList("是", "否"));
         isManagerCbox.setItems(FXCollections.observableArrayList("是", "否"));
+        isAuditorCbox.setItems(FXCollections.observableArrayList("是", "否"));
 
         /** 监听CheckBox */
         defaultPasswordCheckBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
@@ -85,12 +90,13 @@ public class AddUserController implements Initializable {
         String password = passwordField.getText();
         String isPiecework = (String) isPieceworkCbox.getValue();
         String isManager = (String) isManagerCbox.getValue();
+        String isAuditor = (String) isAuditorCbox.getValue();
 
         if (defaultPasswordCheckBox.isSelected()) {
             password = PropsUtil.getConfigValue("user.default.password"); // 默认密码
         }
 
-        boolean result = UserUtil.verifyUserInfo(userName, password, isPiecework, isManager);
+        boolean result = UserUtil.verifyUserInfo(userName, password, isPiecework, isManager, isAuditor);
 
         if (result) {
             Connection conn = null;
@@ -99,7 +105,7 @@ public class AddUserController implements Initializable {
 
             try {
                 String sql = "insert into dbo.t_product_daily_user (userNo, userName, password, isPiecework, "
-                        + "isManager, isDisable, createTime) values (?,?,?,?,?,?,?)";
+                        + "isManager, isDisable, createTime, isAuditor) values (?,?,?,?,?,?,?,?)";
                 conn = DBUtil.getConnection();
                 stmt = conn.prepareStatement(sql);
                 userNo = UserUtil.getMaxUserNo();
@@ -111,6 +117,7 @@ public class AddUserController implements Initializable {
                 stmt.setInt(5, isManager == "是" ? 1 : 0);
                 stmt.setInt(6, 0);
                 stmt.setTimestamp(7, new Timestamp(new Date().getTime()));
+                stmt.setInt(8, isAuditor == "是" ? 1 : 0);
 
                 stmt.executeUpdate();
 

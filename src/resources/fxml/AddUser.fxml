@@ -21,6 +21,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label fx:id="userNameLabel" text="用户名" />
@@ -32,6 +33,8 @@
             <ComboBox fx:id="isPieceworkCbox" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <Label fx:id="isManagerLabel" text="是否管理员" GridPane.rowIndex="3" />
             <ComboBox fx:id="isManagerCbox" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <Label fx:id="isAuditorLabel" text="是否审核员" GridPane.rowIndex="4" />
+            <ComboBox fx:id="isAuditorCbox" GridPane.columnIndex="2" GridPane.rowIndex="4" />
          </children>
       </GridPane>
       <HBox layoutX="153.0" layoutY="386.0" prefHeight="27.0" prefWidth="157.0" spacing="40.0">

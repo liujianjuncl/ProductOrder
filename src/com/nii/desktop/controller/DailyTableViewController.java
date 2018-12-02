@@ -5,12 +5,16 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -254,6 +258,9 @@ public class DailyTableViewController implements Initializable {
                 return row;
             }
         });
+        
+        // 设置任务单数量
+        queryBillnoCount();
         // 分页
 //        dailyTablePagination.setPageCount(1);
     }
@@ -309,7 +316,7 @@ public class DailyTableViewController implements Initializable {
                             + rs.getInt("processQty6") * rs.getDouble("processPrice6");
                 }
                 DecimalFormat df = new DecimalFormat("#.0000");
-                ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController")).setMoney("金额：" + df.format(money));
+                ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController")).setMoney(df.format(money));
             }
         } catch (Exception e) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
@@ -499,7 +506,7 @@ public class DailyTableViewController implements Initializable {
             if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
                 sql = sql + " and createUser = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
             }
-
+            
             if (userNo != null && !"".equals(userNo)) {
                 sql = sql + " and createUser like '%" + userNo + "%'";
             }
@@ -550,9 +557,9 @@ public class DailyTableViewController implements Initializable {
             DecimalFormat df = new DecimalFormat("#.0000");
             if (dailyDataList.size() == 0) {
                 AlertUtil.alertInfoLater(PropsUtil.getMessage("search.result.null"));
-                ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController")).setMoney("金额：0.0");
+                ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController")).setMoney("0.0");
             } else {
-                ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController")).setMoney("金额：" + df.format(money));
+                ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController")).setMoney(df.format(money));
             }
             dailyTableView.refresh();
         } catch (Exception e) {
@@ -602,6 +609,41 @@ public class DailyTableViewController implements Initializable {
     /* 刷新数据 */
     public void refresh() {
         searchDailyAction();
+    }
+    
+    // 刷新任务单数量
+    public void queryBillnoCount() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        Date curMonth25Day = DateUtil.curMonth25Day();
+        Date lastMonth26Day = DateUtil.lastMonth26Day();
+        
+        int billCount = 0;
+        
+        try {
+            String sql1 = "select count(distinct billNo) as billCount from dbo.t_product_daily_bill_detail "
+                    + " where isDelete = 0 and productDate >= '" + DateUtil.SDF.format(lastMonth26Day)
+                    + "' and productDate <= '" + DateUtil.SDF.format(curMonth25Day) + "'";
+            
+            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
+                sql1 = sql1 + " and createUser = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
+            }
+            
+            conn = DBUtil.getConnection();
+            stmt = conn.prepareStatement(sql1);
+            rs = stmt.executeQuery();
+            
+            while(rs.next()) {
+                billCount = rs.getInt("billCount");
+            }
+            
+            ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController")).setBillCount(billCount + "");
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {

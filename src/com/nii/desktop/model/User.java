@@ -29,6 +29,9 @@ public class User {
 
     // 是否禁用 1:是，0：否
     private SimpleStringProperty isDisable = new SimpleStringProperty();
+    
+    // 是否审核员 1:是，0：否
+    private SimpleStringProperty isAuditor = new SimpleStringProperty();
 
     // 定义为 final 好像是一种规范做法
     private StringProperty status = new SimpleStringProperty();
@@ -38,23 +41,25 @@ public class User {
     }
 
     public User(String userNo, String userName, String password, String isPiecework, String isManager,
-            String isDisable) {
+            String isDisable, String isAuditor) {
         setUserNo(userNo);
         setUserName(userName);
         setPassword(password);
         setIsPiecework(isPiecework);
         setIsManager(isManager);
         setIsDisable(isDisable);
+        setIsAuditor(isAuditor);
     }
 
     public User(CheckBox checkbox, String userNo, String userName, String isPiecework, String isManager,
-            String isDisable) {
+            String isDisable, String isAuditor) {
         setCheckbox(checkbox);
         setUserNo(userNo);
         setUserName(userName);
         setIsPiecework(isPiecework);
         setIsManager(isManager);
         setIsDisable(isDisable);
+        setIsAuditor(isAuditor);
     }
 
     public CheckBox getCheckbox() {
@@ -135,6 +140,18 @@ public class User {
 
     public void setIsDisable(String isDisable) {
         this.isDisable.set(isDisable);
+    }
+    
+    public String getIsAuditor() {
+        return isAuditor.get();
+    }
+
+    public SimpleStringProperty isAuditorProperty() {
+        return isAuditor;
+    }
+
+    public void setIsAuditor(String isAuditor) {
+        this.isAuditor.set(isAuditor);
     }
 
     // * 特别说明： xxxProperty 方法名，是 fx 的规范，只要属性名加上 Peoperty() 作为方法名，fx 就能自动监听该属性的变化！

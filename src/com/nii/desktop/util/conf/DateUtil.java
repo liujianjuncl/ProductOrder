@@ -160,7 +160,7 @@ public final class DateUtil {
     }
 
     // 获取本月25号的日期
-    public static Date curMonth25Day() throws ParseException {
+    public static Date curMonth25Day() {
         Calendar cal = Calendar.getInstance();
         String date = "";
         if (cal.get(Calendar.DAY_OF_MONTH) >= 26) {
@@ -168,11 +168,17 @@ public final class DateUtil {
         } else {
             date = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-25";
         }
-        return SDF.parse(date);
+        try {
+            return SDF.parse(date);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
     }
 
     // 获取上月26号的日期
-    public static Date lastMonth26Day() throws ParseException {
+    public static Date lastMonth26Day() {
         Calendar cal = Calendar.getInstance();
         cal.setTime(curMonth25Day());
         cal.add(Calendar.MONTH, -1);
@@ -181,7 +187,7 @@ public final class DateUtil {
     }
 
     // 获取指定日期所在月25号的日期
-    public static Date getMonth25Day(LocalDate d) throws ParseException {
+    public static Date getMonth25Day(LocalDate d) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(localDateToDate(d));
         String date = "";
@@ -190,7 +196,13 @@ public final class DateUtil {
         } else {
             date = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-25";
         }
-        return SDF.parse(date);
+        try {
+            return SDF.parse(date);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
     }
 
     // 获取指定日期所在月上个月26号的日期

@@ -11,34 +11,64 @@
   <items>
     <AnchorPane fx:id="leftPane" maxWidth="200" minHeight="0.0" minWidth="200.0" prefWidth="300.0">
       <children>
-            <GridPane layoutY="-3.0" prefHeight="600.0" prefWidth="200.0">
+            <GridPane layoutY="-3.0" prefHeight="368.0" prefWidth="200.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints maxHeight="145.0" minHeight="10.0" prefHeight="92.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="239.0" minHeight="10.0" prefHeight="94.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="393.0" minHeight="10.0" prefHeight="350.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="393.0" minHeight="10.0" prefHeight="51.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="393.0" minHeight="10.0" prefHeight="18.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="145.0" minHeight="10.0" prefHeight="96.0" vgrow="SOMETIMES" />
+                <!-- <RowConstraints maxHeight="239.0" minHeight="10.0" prefHeight="94.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="239.0" minHeight="10.0" prefHeight="93.0" vgrow="SOMETIMES" />
+                   --><RowConstraints maxHeight="239.0" minHeight="10.0" prefHeight="96.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                <Button fx:id="dailyManageButton" mnemonicParsing="false" onAction="#dailyLabelClickAction" prefHeight="90.0" prefWidth="300.0" text="日报管理" />
-               <Button fx:id="userManageButton" mnemonicParsing="false" onAction="#userLabelClickAction" prefHeight="90.0" prefWidth="300.0" text="用户管理" GridPane.rowIndex="1" />
-                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="5" GridPane.rowIndex="3">
-                     <children>
-                        <Label fx:id="money" style="-fx-border-color: black;" text=" " >
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="currentUser" alignment="CENTER" contentDisplay="CENTER" style="-fx-border-color: black;" text=" ">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </VBox>
+               <!--  <Button fx:id="indirectWorkManageButton" mnemonicParsing="false" onAction="#indirectWorkClickAction" prefHeight="90.0" prefWidth="300.0" text="间接作业管理" GridPane.rowIndex="1" />
+               <Button fx:id="indirectWorkProjectButton" mnemonicParsing="false" onAction="#indirectWorkProjectClickAction" prefHeight="90.0" prefWidth="300.0" text="间接作业项目管理" GridPane.rowIndex="2" />-->
+               <Button fx:id="userManageButton" mnemonicParsing="false" onAction="#userLabelClickAction" prefHeight="90.0" prefWidth="300.0" text="用户管理" GridPane.rowIndex="3" />
+               </children>
+            </GridPane>
+            <GridPane gridLinesVisible="true" layoutY="494.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label fx:id="billCountLabel" text="任务单数量：">
+                  <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="moneyLabel" text="金额：" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="currentUserLabel" text="当前用户：" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="billCount" text=" " GridPane.columnIndex="1">
+                  <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="money" text=" " GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="currentUser" text=" " GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
                </children>
             </GridPane>
       </children></AnchorPane>

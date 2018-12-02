@@ -56,14 +56,20 @@ public class MainUIController implements Initializable {
     WebEngine webEngine;
     
     @FXML
-    Button userManageButton;
+    private Button userManageButton;
     
     @FXML
-    Button dailyManageButton;
+    private Button indirectWorkManageButton;
     
-    VBox userVbox;
+    @FXML
+    private Button indirectWorkProjectButton;
     
-    VBox dailyVbox;
+    @FXML
+    private Button dailyManageButton;
+    
+    private VBox userVbox;
+    
+    private VBox dailyVbox;
     
     @FXML
     private Label currentUser;
@@ -71,23 +77,29 @@ public class MainUIController implements Initializable {
     @FXML
     private Label money;
     
+    @FXML
+    private Label billCount;
+    
     public void setMoney(String m) {
         this.money.setText(m);
+    }
+    
+    public void setBillCount(String count) {
+        this.billCount.setText(count);
     }
 
     /***/
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        dailyManageButton.setStyle("-fx-background-color: #808080");
-        loadDailyTableView();
-        
         if (SessionUtil.CONTROLLERS.get("MainUIController") == null) {
             SessionUtil.CONTROLLERS.put("MainUIController", this);
         }
+        dailyManageButton.setStyle("-fx-background-color: #808080");
+        loadDailyTableView();
         
-        currentUser.setText("当前用户：" + SessionUtil.USERS.get("loginUser").getUserName());
-        
-        money.setText("金额：0.0");
+        billCount.setText("0");
+        money.setText("0.0");
+        currentUser.setText(SessionUtil.USERS.get("loginUser").getUserName());
         
 //        numTextField.setEditable(false);
 //        adbDevice.setDeviceNumber(0);
@@ -103,18 +115,42 @@ public class MainUIController implements Initializable {
     private void userLabelClickAction() {
         userManageButton.setStyle("-fx-background-color: #808080");
         dailyManageButton.setStyle(null);
+        indirectWorkManageButton.setStyle(null);
+        indirectWorkProjectButton.setStyle(null);
         rightPane.getChildren().clear();
         loadUserTableView();
-        money.setText("金额：0.0");
+        money.setText("0.0");
     }
     
     @FXML
     private void dailyLabelClickAction() {
         dailyManageButton.setStyle("-fx-background-color: #808080");
         userManageButton.setStyle(null);
+        indirectWorkManageButton.setStyle(null);
+        indirectWorkProjectButton.setStyle(null);
         rightPane.getChildren().clear();
         loadDailyTableView();
-        money.setText("金额：0.0");
+        money.setText("0.0");
+    }
+    
+    @FXML
+    private void indirectWorkClickAction() {
+        indirectWorkManageButton.setStyle("-fx-background-color: #808080");
+        userManageButton.setStyle(null);
+        dailyManageButton.setStyle(null);
+        indirectWorkProjectButton.setStyle(null);
+        rightPane.getChildren().clear();
+        money.setText("0.0");
+    }
+    
+    @FXML
+    private void indirectWorkProjectClickAction() {
+        indirectWorkProjectButton.setStyle("-fx-background-color: #808080");
+        userManageButton.setStyle(null);
+        dailyManageButton.setStyle(null);
+        indirectWorkManageButton.setStyle(null);
+        rightPane.getChildren().clear();
+        money.setText("0.0");
     }
 
 
