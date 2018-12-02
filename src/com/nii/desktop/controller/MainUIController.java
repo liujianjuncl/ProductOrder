@@ -1,5 +1,6 @@
 package com.nii.desktop.controller;
 
+import com.nii.desktop.util.conf.DailyUtil;
 import com.nii.desktop.util.conf.SessionUtil;
 import com.nii.desktop.util.ui.ResourceLoader;
 import javafx.fxml.FXML;
@@ -97,7 +98,7 @@ public class MainUIController implements Initializable {
         dailyManageButton.setStyle("-fx-background-color: #808080");
         loadDailyTableView();
         
-        billCount.setText("0");
+        DailyUtil.queryBillnoCount();
         money.setText("0.0");
         currentUser.setText(SessionUtil.USERS.get("loginUser").getUserName());
         
@@ -115,8 +116,8 @@ public class MainUIController implements Initializable {
     private void userLabelClickAction() {
         userManageButton.setStyle("-fx-background-color: #808080");
         dailyManageButton.setStyle(null);
-        indirectWorkManageButton.setStyle(null);
-        indirectWorkProjectButton.setStyle(null);
+//        indirectWorkManageButton.setStyle(null);
+//        indirectWorkProjectButton.setStyle(null);
         rightPane.getChildren().clear();
         loadUserTableView();
         money.setText("0.0");
@@ -126,32 +127,32 @@ public class MainUIController implements Initializable {
     private void dailyLabelClickAction() {
         dailyManageButton.setStyle("-fx-background-color: #808080");
         userManageButton.setStyle(null);
-        indirectWorkManageButton.setStyle(null);
-        indirectWorkProjectButton.setStyle(null);
+//        indirectWorkManageButton.setStyle(null);
+//        indirectWorkProjectButton.setStyle(null);
         rightPane.getChildren().clear();
         loadDailyTableView();
         money.setText("0.0");
     }
     
     @FXML
-    private void indirectWorkClickAction() {
-        indirectWorkManageButton.setStyle("-fx-background-color: #808080");
-        userManageButton.setStyle(null);
-        dailyManageButton.setStyle(null);
-        indirectWorkProjectButton.setStyle(null);
-        rightPane.getChildren().clear();
-        money.setText("0.0");
-    }
+//    private void indirectWorkClickAction() {
+////        indirectWorkManageButton.setStyle("-fx-background-color: #808080");
+//        userManageButton.setStyle(null);
+//        dailyManageButton.setStyle(null);
+////        indirectWorkProjectButton.setStyle(null);
+//        rightPane.getChildren().clear();
+//        money.setText("0.0");
+//    }
     
-    @FXML
-    private void indirectWorkProjectClickAction() {
-        indirectWorkProjectButton.setStyle("-fx-background-color: #808080");
-        userManageButton.setStyle(null);
-        dailyManageButton.setStyle(null);
-        indirectWorkManageButton.setStyle(null);
-        rightPane.getChildren().clear();
-        money.setText("0.0");
-    }
+//    @FXML
+//    private void indirectWorkProjectClickAction() {
+////        indirectWorkProjectButton.setStyle("-fx-background-color: #808080");
+//        userManageButton.setStyle(null);
+//        dailyManageButton.setStyle(null);
+////        indirectWorkManageButton.setStyle(null);
+//        rightPane.getChildren().clear();
+//        money.setText("0.0");
+//    }
 
 
     @SuppressWarnings("static-access")

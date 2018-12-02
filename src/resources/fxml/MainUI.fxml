@@ -11,21 +11,17 @@
   <items>
     <AnchorPane fx:id="leftPane" maxWidth="200" minHeight="0.0" minWidth="200.0" prefWidth="300.0">
       <children>
-            <GridPane layoutY="-3.0" prefHeight="368.0" prefWidth="200.0">
+            <GridPane layoutY="-3.0" prefHeight="185.0" prefWidth="200.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints maxHeight="145.0" minHeight="10.0" prefHeight="96.0" vgrow="SOMETIMES" />
-                <!-- <RowConstraints maxHeight="239.0" minHeight="10.0" prefHeight="94.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="239.0" minHeight="10.0" prefHeight="93.0" vgrow="SOMETIMES" />
-                   --><RowConstraints maxHeight="239.0" minHeight="10.0" prefHeight="96.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="239.0" minHeight="10.0" prefHeight="96.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                <Button fx:id="dailyManageButton" mnemonicParsing="false" onAction="#dailyLabelClickAction" prefHeight="90.0" prefWidth="300.0" text="日报管理" />
-               <!--  <Button fx:id="indirectWorkManageButton" mnemonicParsing="false" onAction="#indirectWorkClickAction" prefHeight="90.0" prefWidth="300.0" text="间接作业管理" GridPane.rowIndex="1" />
-               <Button fx:id="indirectWorkProjectButton" mnemonicParsing="false" onAction="#indirectWorkProjectClickAction" prefHeight="90.0" prefWidth="300.0" text="间接作业项目管理" GridPane.rowIndex="2" />-->
-               <Button fx:id="userManageButton" mnemonicParsing="false" onAction="#userLabelClickAction" prefHeight="90.0" prefWidth="300.0" text="用户管理" GridPane.rowIndex="3" />
+               <Button fx:id="userManageButton" mnemonicParsing="false" onAction="#userLabelClickAction" prefHeight="90.0" prefWidth="300.0" text="用户管理" GridPane.rowIndex="1" />
                </children>
             </GridPane>
             <GridPane gridLinesVisible="true" layoutY="494.0">

@@ -260,7 +260,7 @@ public class DailyTableViewController implements Initializable {
         });
         
         // 设置任务单数量
-        queryBillnoCount();
+        DailyUtil.queryBillnoCount();
         // 分页
 //        dailyTablePagination.setPageCount(1);
     }
@@ -609,41 +609,6 @@ public class DailyTableViewController implements Initializable {
     /* 刷新数据 */
     public void refresh() {
         searchDailyAction();
-    }
-    
-    // 刷新任务单数量
-    public void queryBillnoCount() {
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        Date curMonth25Day = DateUtil.curMonth25Day();
-        Date lastMonth26Day = DateUtil.lastMonth26Day();
-        
-        int billCount = 0;
-        
-        try {
-            String sql1 = "select count(distinct billNo) as billCount from dbo.t_product_daily_bill_detail "
-                    + " where isDelete = 0 and productDate >= '" + DateUtil.SDF.format(lastMonth26Day)
-                    + "' and productDate <= '" + DateUtil.SDF.format(curMonth25Day) + "'";
-            
-            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
-                sql1 = sql1 + " and createUser = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
-            }
-            
-            conn = DBUtil.getConnection();
-            stmt = conn.prepareStatement(sql1);
-            rs = stmt.executeQuery();
-            
-            while(rs.next()) {
-                billCount = rs.getInt("billCount");
-            }
-            
-            ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController")).setBillCount(billCount + "");
-            
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     public static void main(String[] args) {

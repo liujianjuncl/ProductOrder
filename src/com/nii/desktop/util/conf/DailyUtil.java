@@ -3,6 +3,7 @@ package com.nii.desktop.util.conf;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -11,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.nii.desktop.controller.AddDailyController;
+import com.nii.desktop.controller.MainUIController;
 import com.nii.desktop.model.Daily;
 import com.nii.desktop.model.DailyProcessQty;
 
@@ -505,6 +507,41 @@ public class DailyUtil {
         }
 
         return daily;
+    }
+    
+ // 刷新任务单数量
+    public static void queryBillnoCount() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        Date curMonth25Day = DateUtil.curMonth25Day();
+        Date lastMonth26Day = DateUtil.lastMonth26Day();
+        
+        int billCount = 0;
+        
+        try {
+            String sql1 = "select count(distinct billNo) as billCount from dbo.t_product_daily_bill_detail "
+                    + " where isDelete = 0 and productDate >= '" + DateUtil.SDF.format(lastMonth26Day)
+                    + "' and productDate <= '" + DateUtil.SDF.format(curMonth25Day) + "'";
+            
+            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
+                sql1 = sql1 + " and createUser = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
+            }
+            
+            conn = DBUtil.getConnection();
+            stmt = conn.prepareStatement(sql1);
+            rs = stmt.executeQuery();
+            
+            while(rs.next()) {
+                billCount = rs.getInt("billCount");
+            }
+          System.out.println(billCount);
+            ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController")).setBillCount(billCount + "");
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
