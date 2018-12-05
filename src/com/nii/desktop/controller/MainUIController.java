@@ -25,15 +25,15 @@ import java.util.ResourceBundle;
  * Created by ljj on 2018/9/14
  */
 public class MainUIController implements Initializable {
-    
+
     @FXML
     private SplitPane splitPane;
 
-    /* Êý×Ö¿ò*/
+    /* Êý×Ö¿ò */
     @FXML
     private TextField numTextField;
 
-    /**Ãû×Ö¿ò*/
+    /** Ãû×Ö¿ò */
     @FXML
     private TextField nameTextField;
 
@@ -43,48 +43,52 @@ public class MainUIController implements Initializable {
     @FXML
     private TextField urlTextField;
 
-    /* ÈÝÆ÷*/
+    /* ÈÝÆ÷ */
     @FXML
     private TabPane tabPane;
-    
+
     @FXML
     private AnchorPane rightPane;
-    
+
     @FXML
     private TableView<?> userTableView;
 
-    /*web engine*/
+    /* web engine */
     WebEngine webEngine;
-    
+
     @FXML
     private Button userManageButton;
-    
+
     @FXML
-    private Button indirectWorkManageButton;
-    
+    private Button workDetailManageButton;
+
     @FXML
-    private Button indirectWorkProjectButton;
-    
+    private Button workManageButton;
+
     @FXML
     private Button dailyManageButton;
-    
+
     private VBox userVbox;
-    
+
     private VBox dailyVbox;
     
+    private VBox workVbox;
+    
+    private VBox workDetailVbox;
+
     @FXML
     private Label currentUser;
-    
+
     @FXML
     private Label money;
-    
+
     @FXML
     private Label billCount;
-    
+
     public void setMoney(String m) {
         this.money.setText(m);
     }
-    
+
     public void setBillCount(String count) {
         this.billCount.setText(count);
     }
@@ -97,11 +101,11 @@ public class MainUIController implements Initializable {
         }
         dailyManageButton.setStyle("-fx-background-color: #808080");
         loadDailyTableView();
-        
+
         DailyUtil.queryBillnoCount();
         money.setText("0.0");
         currentUser.setText(SessionUtil.USERS.get("loginUser").getUserName());
-        
+
 //        numTextField.setEditable(false);
 //        adbDevice.setDeviceNumber(0);
 //
@@ -111,49 +115,50 @@ public class MainUIController implements Initializable {
 //        loadTableViewTestTab();
 
     }
-    
+
     @FXML
     private void userLabelClickAction() {
         userManageButton.setStyle("-fx-background-color: #808080");
         dailyManageButton.setStyle(null);
-//        indirectWorkManageButton.setStyle(null);
-//        indirectWorkProjectButton.setStyle(null);
+        workManageButton.setStyle(null);
+        workDetailManageButton.setStyle(null);
         rightPane.getChildren().clear();
         loadUserTableView();
         money.setText("0.0");
     }
-    
+
     @FXML
     private void dailyLabelClickAction() {
         dailyManageButton.setStyle("-fx-background-color: #808080");
         userManageButton.setStyle(null);
-//        indirectWorkManageButton.setStyle(null);
-//        indirectWorkProjectButton.setStyle(null);
+        workManageButton.setStyle(null);
+        workDetailManageButton.setStyle(null);
         rightPane.getChildren().clear();
         loadDailyTableView();
         money.setText("0.0");
     }
-    
-    @FXML
-//    private void indirectWorkClickAction() {
-////        indirectWorkManageButton.setStyle("-fx-background-color: #808080");
-//        userManageButton.setStyle(null);
-//        dailyManageButton.setStyle(null);
-////        indirectWorkProjectButton.setStyle(null);
-//        rightPane.getChildren().clear();
-//        money.setText("0.0");
-//    }
-    
-//    @FXML
-//    private void indirectWorkProjectClickAction() {
-////        indirectWorkProjectButton.setStyle("-fx-background-color: #808080");
-//        userManageButton.setStyle(null);
-//        dailyManageButton.setStyle(null);
-////        indirectWorkManageButton.setStyle(null);
-//        rightPane.getChildren().clear();
-//        money.setText("0.0");
-//    }
 
+    @FXML
+    private void workDetailClickAction() {
+        workDetailManageButton.setStyle("-fx-background-color: #808080");
+        userManageButton.setStyle(null);
+        dailyManageButton.setStyle(null);
+        workManageButton.setStyle(null);
+        rightPane.getChildren().clear();
+        loadWorkDetailTableView();
+        money.setText("0.0");
+    }
+
+    @FXML
+    private void workClickAction() {
+        workManageButton.setStyle("-fx-background-color: #808080");
+        userManageButton.setStyle(null);
+        dailyManageButton.setStyle(null);
+        workDetailManageButton.setStyle(null);
+        rightPane.getChildren().clear();
+        loadWorkTableView();
+        money.setText("0.0");
+    }
 
     @SuppressWarnings("static-access")
     private void loadUserTableView() {
@@ -161,14 +166,30 @@ public class MainUIController implements Initializable {
         fxmlLoader.setLocation(ResourceLoader.getFxmlResource("UserTableView.fxml"));
 
         try {
-            
             userVbox = fxmlLoader.load();
             rightPane.setLeftAnchor(userVbox, 0.0);
             rightPane.setRightAnchor(userVbox, 0.0);
             rightPane.setBottomAnchor(userVbox, 0.0);
             rightPane.setTopAnchor(userVbox, 0.0);
             rightPane.getChildren().add(userVbox);
-            
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @SuppressWarnings("static-access")
+    private void loadDailyTableView() {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(ResourceLoader.getFxmlResource("DailyTableView.fxml"));
+
+        try {
+            dailyVbox = fxmlLoader.load();
+            rightPane.setLeftAnchor(dailyVbox, 0.0);
+            rightPane.setRightAnchor(dailyVbox, 0.0);
+            rightPane.setBottomAnchor(dailyVbox, 0.0);
+            rightPane.setTopAnchor(dailyVbox, 0.0);
+            rightPane.getChildren().add(dailyVbox);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -176,20 +197,34 @@ public class MainUIController implements Initializable {
     }
     
     @SuppressWarnings("static-access")
-    private void loadDailyTableView() {
+    private void loadWorkTableView() {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(ResourceLoader.getFxmlResource("DailyTableView.fxml"));
+        fxmlLoader.setLocation(ResourceLoader.getFxmlResource("WorkTableView.fxml"));
 
         try {
-            
-            dailyVbox = fxmlLoader.load();
-            rightPane.setLeftAnchor(dailyVbox, 0.0);
-            rightPane.setRightAnchor(dailyVbox, 0.0);
-            rightPane.setBottomAnchor(dailyVbox, 0.0);
-            rightPane.setTopAnchor(dailyVbox, 0.0);
-            rightPane.getChildren().add(dailyVbox);
-            
+            workVbox = fxmlLoader.load();
+            rightPane.setLeftAnchor(workVbox, 0.0);
+            rightPane.setRightAnchor(workVbox, 0.0);
+            rightPane.setBottomAnchor(workVbox, 0.0);
+            rightPane.setTopAnchor(workVbox, 0.0);
+            rightPane.getChildren().add(workVbox);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @SuppressWarnings("static-access")
+    private void loadWorkDetailTableView() {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(ResourceLoader.getFxmlResource("WorkDetailTableView.fxml"));
 
+        try {
+            workDetailVbox = fxmlLoader.load();
+            rightPane.setLeftAnchor(workDetailVbox, 0.0);
+            rightPane.setRightAnchor(workDetailVbox, 0.0);
+            rightPane.setBottomAnchor(workDetailVbox, 0.0);
+            rightPane.setTopAnchor(workDetailVbox, 0.0);
+            rightPane.getChildren().add(workDetailVbox);
         } catch (IOException e) {
             e.printStackTrace();
         }

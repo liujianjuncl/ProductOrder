@@ -147,4 +147,17 @@ GO
 ALTER TABLE dbo.t_product_daily_user ADD isAuditor smallint NULL
 
 
+CREATE TABLE [dbo].[t_product_daily_work](
+	[workNo] [nvarchar](50) NOT NULL,
+	[workName] [nvarchar](50) NULL,
+	[unit] [nvarchar](50) NULL,
+	[unitPrice] [numeric](18, 4) NULL,
+	[status] [smallint] NULL,
+ CONSTRAINT [PK_t_product_daily_work] PRIMARY KEY CLUSTERED 
+(
+	[workNo] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+
 
