@@ -34,7 +34,8 @@
         <columns>
           <TableColumn fx:id="selectCol" prefWidth="30.0" text="勾选" />
           <TableColumn fx:id="workDetailNoCol" prefWidth="120.0" text="间接日报单编号" />
-          <TableColumn fx:id="statusCol" prefWidth="150.0" text="状态" />
+          <TableColumn fx:id="workDateCol" prefWidth="120.0" text="生产日期" />
+          <TableColumn fx:id="statusCol" prefWidth="150.0" text="审核状态" />
           <TableColumn fx:id="workNoCol" prefWidth="120.0" text="作业编号" />
           <TableColumn fx:id="workNameCol" prefWidth="100.0" text="作业名称" />
           <TableColumn fx:id="unitCol" prefWidth="100.0" text="计量单位" />

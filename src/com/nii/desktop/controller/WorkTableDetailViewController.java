@@ -67,6 +67,9 @@ public class WorkTableDetailViewController implements Initializable {
     @FXML
     private TableColumn<WorkDetail, String> workDetailNoCol;
 
+    @FXML
+    private TableColumn<WorkDetail, Timestamp> workDateCol;
+
     /* 状态 */
     @FXML
     private TableColumn<WorkDetail, String> statusCol;
@@ -134,8 +137,8 @@ public class WorkTableDetailViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         addDatatoTableView();
-        if (SessionUtil.CONTROLLERS.get("WorkTableViewController") == null) {
-            SessionUtil.CONTROLLERS.put("WorkTableViewController", this);
+        if (SessionUtil.CONTROLLERS.get("WorkTableDetailViewController") == null) {
+            SessionUtil.CONTROLLERS.put("WorkTableDetailViewController", this);
         }
 
         // 双击某一行时，编辑该行
@@ -178,10 +181,11 @@ public class WorkTableDetailViewController implements Initializable {
 
             while (rs.next()) {
                 WorkDetail workDetail = new WorkDetail(new CheckBox(), rs.getString("workDetailNo"),
-                        rs.getString("status"), rs.getString("workNo"), rs.getString("workName"), rs.getString("unit"),
-                        rs.getDouble("unitPrice"), rs.getInt("workNum"), rs.getDouble("money"),
-                        rs.getString("createUser"), rs.getTimestamp("createTime"), rs.getString("modifyUser"),
-                        rs.getTimestamp("modifyTime"), rs.getString("auditor"), rs.getTimestamp("auditorTime"));
+                        rs.getTimestamp("workDate"), rs.getString("status"), rs.getString("workNo"),
+                        rs.getString("workName"), rs.getString("unit"), rs.getDouble("unitPrice"), rs.getInt("workNum"),
+                        rs.getDouble("money"), rs.getString("createUser"), rs.getTimestamp("createTime"),
+                        rs.getString("modifyUser"), rs.getTimestamp("modifyTime"), rs.getString("auditor"),
+                        rs.getTimestamp("auditorTime"));
                 workDataList.add(workDetail);
             }
         } catch (Exception e) {
@@ -221,6 +225,7 @@ public class WorkTableDetailViewController implements Initializable {
     public void addDatatoTableView() {
         selectCol.setCellValueFactory(new PropertyValueFactory<WorkDetail, CheckBox>("checkbox"));
         workDetailNoCol.setCellValueFactory(new PropertyValueFactory<WorkDetail, String>("workDetailNo"));
+        workDateCol.setCellValueFactory(new PropertyValueFactory<WorkDetail, Timestamp>("workDate"));
         statusCol.setCellValueFactory(new PropertyValueFactory<WorkDetail, String>("status"));
         workNoCol.setCellValueFactory(new PropertyValueFactory<WorkDetail, String>("workNo"));
         workNameCol.setCellValueFactory(new PropertyValueFactory<WorkDetail, String>("workName"));
@@ -233,7 +238,7 @@ public class WorkTableDetailViewController implements Initializable {
         modifyUserCol.setCellValueFactory(new PropertyValueFactory<WorkDetail, String>("modifyUser"));
         modifyTimeCol.setCellValueFactory(new PropertyValueFactory<WorkDetail, Timestamp>("modifyTime"));
         auditorCol.setCellValueFactory(new PropertyValueFactory<WorkDetail, String>("auditor"));
-        auditorTimeCol.setCellValueFactory(new PropertyValueFactory<WorkDetail, Timestamp>("auditor"));
+        auditorTimeCol.setCellValueFactory(new PropertyValueFactory<WorkDetail, Timestamp>("auditorTime"));
 
         workDetailTableView.setItems(workDataList);
 
@@ -291,10 +296,11 @@ public class WorkTableDetailViewController implements Initializable {
 
             while (rs.next()) {
                 WorkDetail workDetail = new WorkDetail(new CheckBox(), rs.getString("workDetailNo"),
-                        rs.getString("status"), rs.getString("workNo"), rs.getString("workName"), rs.getString("unit"),
-                        rs.getDouble("unitPrice"), rs.getInt("workNum"), rs.getDouble("money"),
-                        rs.getString("createUser"), rs.getTimestamp("createTime"), rs.getString("modifyUser"),
-                        rs.getTimestamp("modifyTime"), rs.getString("auditor"), rs.getTimestamp("auditorTime"));
+                        rs.getTimestamp("workDate"), rs.getString("status"), rs.getString("workNo"),
+                        rs.getString("workName"), rs.getString("unit"), rs.getDouble("unitPrice"), rs.getInt("workNum"),
+                        rs.getDouble("money"), rs.getString("createUser"), rs.getTimestamp("createTime"),
+                        rs.getString("modifyUser"), rs.getTimestamp("modifyTime"), rs.getString("auditor"),
+                        rs.getTimestamp("auditorTime"));
                 workDataList.add(workDetail);
             }
         } catch (Exception e) {

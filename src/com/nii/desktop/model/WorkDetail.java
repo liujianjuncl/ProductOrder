@@ -10,6 +10,9 @@ public class WorkDetail {
 
     // 作业明细编号
     private String workDetailNo;
+    
+    // 作业日期
+    private Timestamp workDate;
 
     // 状态
     private String status;
@@ -50,12 +53,13 @@ public class WorkDetail {
     // 审核时间
     private Timestamp auditorTime;
 
-    public WorkDetail(CheckBox checkbox, String workDetailNo, String status, String workNo, String workName,
+    public WorkDetail(CheckBox checkbox, String workDetailNo, Timestamp workDate, String status, String workNo, String workName,
             String unit, double unitPrice, int workNum, double money, String createUser, Timestamp createTime,
             String modifyUser, Timestamp modifyTime, String auditor, Timestamp auditorTime) {
         super();
         this.checkbox = checkbox;
         this.workDetailNo = workDetailNo;
+        this.workDate = workDate;
         this.status = status;
         this.workNo = workNo;
         this.workName = workName;
@@ -71,11 +75,12 @@ public class WorkDetail {
         this.auditorTime = auditorTime;
     }
 
-    public WorkDetail(String workDetailNo, String status, String workNo, String workName, String unit, double unitPrice,
+    public WorkDetail(String workDetailNo, Timestamp workDate, String status, String workNo, String workName, String unit, double unitPrice,
             int workNum, double money, String createUser, Timestamp createTime, String modifyUser, Timestamp modifyTime,
             String auditor, Timestamp auditorTime) {
         super();
         this.workDetailNo = workDetailNo;
+        this.workDate = workDate;
         this.status = status;
         this.workNo = workNo;
         this.workName = workName;
@@ -105,6 +110,14 @@ public class WorkDetail {
 
     public void setWorkDetailNo(String workDetailNo) {
         this.workDetailNo = workDetailNo;
+    }
+
+    public Timestamp getWorkDate() {
+        return workDate;
+    }
+
+    public void setWorkDate(Timestamp workDate) {
+        this.workDate = workDate;
     }
 
     public String getStatus() {

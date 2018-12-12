@@ -14,7 +14,7 @@ public class Work {
     // 单位单价
     private double unitPrice;
 
-    // 使用状态
+    // 使用状态 0--正常，1--禁用
     private String status;
 
     public Work(String workNo, String workName, String unit, double unitPrice, String status) {

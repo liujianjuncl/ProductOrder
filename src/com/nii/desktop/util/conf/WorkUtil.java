@@ -3,10 +3,16 @@ package com.nii.desktop.util.conf;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.nii.desktop.model.Work;
+import com.nii.desktop.model.WorkDetail;
 import com.nii.desktop.util.ui.AlertUtil;
+
+import javafx.scene.control.CheckBox;
 
 public class WorkUtil {
 
@@ -35,7 +41,7 @@ public class WorkUtil {
         return true;
     }
 
-    // 获取生产日报编号
+    // 获取间接生产日报编号
     public static String getWorkNo() {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -73,4 +79,80 @@ public class WorkUtil {
 
         return workNo;
     }
+
+    // 获取间接作业
+    public static Work getWorkByNo(String workNo) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        Work work = null;
+
+        try {
+            String sql = "select * from dbo.t_product_daily_work where isDelete = 0 and workNo = ? ";
+
+            conn = DBUtil.getConnection();
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, workNo);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                work = new Work(rs.getString("workNo"), rs.getString("workName"), rs.getString("unit"),
+                        rs.getDouble("unitPrice"), rs.getString("status"));
+            }
+
+        } catch (Exception e) {
+            Logger.getLogger(DailyUtil.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            DBUtil.release(conn, stmt, rs);
+        }
+
+        return work;
+    }
+    
+ // 获取间接作业明细编号
+    public static String getWorkDetailNo() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
+        String dateStr = sdf.format(new Date());
+        String workNo = dateStr + "000";
+
+        try {
+            String sql = "select max(workNo) as workNo from dbo.t_product_daily_work_detail ";
+
+            conn = DBUtil.getConnection();
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                String temp = rs.getString("workNo");
+                if (temp != null) {
+                    workNo = temp;
+                }
+            }
+
+            int seq = Integer.parseInt(workNo.substring(12)) + 1;
+            if (seq < 10) {
+                workNo = dateStr + "00" + seq;
+            } else if (seq >= 10 && seq < 100) {
+                workNo = dateStr + "0" + seq;
+            } else {
+                workNo = dateStr + seq;
+            }
+
+        } catch (Exception e) {
+            Logger.getLogger(DailyUtil.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            DBUtil.release(conn, stmt, rs);
+        }
+
+        return workNo;
+    }
+    
+    public static void main(String[] args) {
+        System.out.println(getWorkNo());
+        System.out.println(getWorkDetailNo());
+    }
+
 }
