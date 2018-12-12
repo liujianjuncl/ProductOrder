@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="workDetailVBox" stylesheets="@../css/WorkDetailTableView.css" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nii.desktop.controller.WorkTableDetailViewController">
+   <children>
+      <GridPane>
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="353.0" minWidth="10.0" prefWidth="321.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="442.0" minWidth="10.0" prefWidth="263.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="190.0" minWidth="0.0" prefWidth="4.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <HBox fx:id="operationHBox" prefHeight="30.0" prefWidth="223.0" GridPane.columnIndex="1">
+               <children>
+                  <Button fx:id="addWorkDetailBtn" mnemonicParsing="false" onAction="#addWorkDetailAction" text="新建" />
+               </children>
+            </HBox>
+            <HBox fx:id="searchHBox" prefHeight="30.0" prefWidth="300.0" spacing="10.0">
+               <children>
+                  <TextField fx:id="searchField" />
+                  <Button fx:id="searchBtn" mnemonicParsing="false" onAction="#workDetailSearchAction" text="搜索" />
+               </children>
+            </HBox>
+         </children>
+      </GridPane>
+      <TableView fx:id="workDetailTableView" VBox.vgrow="ALWAYS">
+        <columns>
+          <TableColumn fx:id="selectCol" prefWidth="30.0" text="勾选" />
+          <TableColumn fx:id="workDetailNoCol" prefWidth="120.0" text="间接日报单编号" />
+          <TableColumn fx:id="statusCol" prefWidth="150.0" text="状态" />
+          <TableColumn fx:id="workNoCol" prefWidth="120.0" text="作业编号" />
+          <TableColumn fx:id="workNameCol" prefWidth="100.0" text="作业名称" />
+          <TableColumn fx:id="unitCol" prefWidth="100.0" text="计量单位" />
+          <TableColumn fx:id="unitPriceCol" text="单位单价" />
+          <TableColumn fx:id="workNumCol" text="实际作业数量" />
+          <TableColumn fx:id="moneyCol" prefWidth="135.0" text="作业金额" />
+          <TableColumn fx:id="createUserCol" prefWidth="120.0" text="创建人" />
+          <TableColumn fx:id="createTimeCol" prefWidth="135.0" text="创建时间" />
+          <TableColumn fx:id="modifyUserCol" prefWidth="120.0" text="修改人" />
+          <TableColumn fx:id="modifyTimeCol" prefWidth="135.0" text="修改时间" />
+          <TableColumn fx:id="auditorCol" prefWidth="120.0" text="审核人" />
+          <TableColumn fx:id="auditorTimeCol" prefWidth="135.0" text="审核时间" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="UNCONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <!--
+      <Pagination fx:id="userTablePagination" prefHeight="9.0" prefWidth="615.0" />  -->
+   </children>
+</VBox>

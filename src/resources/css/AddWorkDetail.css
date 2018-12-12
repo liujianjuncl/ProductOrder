@@ -1,0 +1,69 @@
+#addWorkPane{
+	-fx-pref-height: 500px;
+	-fx-pref-width: 400px;
+}
+
+
+#addWorkLabel{
+	-fx-pref-width: 250px;
+	-fx-font-size: 20px;
+}
+
+#workNameLabel{
+	-fx-alignment: BASELINE_RIGHT;
+	-fx-pref-width: 100px;
+}
+
+#workNoField{
+    -fx-font-size: 10px;
+}
+
+#workNoLabel{
+    -fx-alignment: BASELINE_RIGHT;
+    -fx-pref-width: 100px;
+}
+
+#workNameField{
+	-fx-pref-width: 150px;
+	-fx-text-fill: BLACK;
+}
+
+#unitPriceField{
+	-fx-pref-width: 150px;
+}
+
+#confirmBtn{
+	-fx-pref-height: 10px;
+	-fx-pref-width: 60px;
+}
+
+#cancelBtn{
+	-fx-pref-height: 10px;
+	-fx-pref-width: 60px;
+}
+
+#unitLabel{
+	-fx-alignment: BASELINE_RIGHT;
+	-fx-pref-width: 100px;
+}
+
+#unitPriceLabel{
+	-fx-alignment: BASELINE_RIGHT;
+	-fx-pref-width: 100px;
+}
+
+#statusLabel{
+    -fx-alignment: BASELINE_RIGHT;
+    -fx-pref-width: 100px;
+}
+
+#unitCbox{
+	-fx-pref-width: 150px;
+}
+
+#statusCbox{
+    -fx-pref-width: 150px;
+}
+
+
+
