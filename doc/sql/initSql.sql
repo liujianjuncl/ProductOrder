@@ -127,6 +127,8 @@ GO
 ALTER TABLE [dbo].[t_product_daily_user] ADD  CONSTRAINT [DF_t_product_daily_user_isDelete]  DEFAULT ((0)) FOR [isDelete]
 GO
 
+ALTER TABLE dbo.t_product_daily_user ADD isAuditor smallint NULL
+GO
 
 INSERT INTO [AIS].[dbo].[t_product_daily_user]
            ([userNo]
@@ -139,12 +141,9 @@ INSERT INTO [AIS].[dbo].[t_product_daily_user]
            ,[createTime]
            ,[LastModifyTime]
            ,[isDelete])
-     VALUES ('0001', '管理员', 'lueSGJZetyySpUndWjMBEg==', 1, 1, 0, NULL, '2018-11-11 00:00:00.000',NULL, 0);
+     VALUES ('0001', '管理员', 'lueSGJZetyySpUndWjMBEg==', 1, 1, 0, NULL, '2018-11-11 00:00:00.000',NULL, 0, 1);
            
 GO
-
-
-ALTER TABLE dbo.t_product_daily_user ADD isAuditor smallint NULL
 
 
 CREATE TABLE [dbo].[t_product_daily_work](
@@ -158,6 +157,34 @@ CREATE TABLE [dbo].[t_product_daily_work](
 	[workNo] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
+
+
+
+CREATE TABLE [dbo].[t_product_daily_work_detail](
+	[workDetailNo] [nvarchar](50) NOT NULL,
+	[workDate] [datetime] NULL,
+	[status] [smallint] NULL,
+	[workNo] [nvarchar](50) NULL,
+	[workName] [nvarchar](50) NULL,
+	[unit] [nvarchar](50) NULL,
+	[unitPrice] [numeric](18, 4) NULL,
+	[workNum] [int] NULL,
+	[money] [numeric](18, 4) NULL,
+	[createUser] [nvarchar](50) NULL,
+	[createTime] [datetime] NULL,
+	[modifyUser] [nvarchar](50) NULL,
+	[modifyTime] [datetime] NULL,
+	[auditor] [nvarchar](50) NULL,
+	[auditorTime] [datetime] NULL,
+	[isDelete] [smallint] NULL,
+ CONSTRAINT [PK_t_product_daily_work_detail] PRIMARY KEY CLUSTERED 
+(
+	[workDetailNo] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
 
 
 
