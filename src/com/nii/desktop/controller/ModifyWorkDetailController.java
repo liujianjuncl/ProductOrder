@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import com.nii.desktop.model.Work;
+import com.nii.desktop.model.WorkDetail;
 import com.nii.desktop.util.conf.DBUtil;
 import com.nii.desktop.util.conf.SessionUtil;
 import com.nii.desktop.util.conf.Encoder;
@@ -31,6 +32,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -39,10 +41,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 
-public class AddWorkDetailController implements Initializable {
+public class ModifyWorkDetailController implements Initializable {
 
     @FXML
-    private AnchorPane addWorkDetailPane;
+    private AnchorPane modifyWorkDetailPane;
+    
+    @FXML
+    private Label workDetailNo;
 
     @FXML
     private TextField workNoField;
@@ -59,28 +64,25 @@ public class AddWorkDetailController implements Initializable {
     @FXML
     private TextField workNumField;
     
+    @FXML
+    private TextField workDetailMoney;
+    
     private Work work;
+    
+    private WorkDetail editWorkDetail;
 
     @SuppressWarnings("unchecked")
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // 根据作业编号获取作业信息
-        workNoField.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode().equals(KeyCode.ENTER)) {
-                    work = WorkUtil.getWorkByNo(workNoField.getText().trim());
-                    if (work == null) {
-                        AlertUtil.alertInfoLater(PropsUtil.getMessage("workNo.isNotExist"));
-                        return;
-                    } else {
-                        workNameField.setText(work.getWorkName());
-                        unitCbox.setValue(work.getUnit());
-                        unitPriceField.setText(Double.toString(work.getUnitPrice()));
-                    }
-                }
-            }
-        });
+        editWorkDetail = SessionUtil.WORKDETAILS.get("editWorkDetail");
+        workDetailNo.setText(editWorkDetail.getWorkDetailNo());
+        workNoField.setText(editWorkDetail.getWorkNo());
+        workNameField.setText(editWorkDetail.getWorkName());
+        unitCbox.setValue(editWorkDetail.getUnit());
+        unitPriceField.setText(Double.toString(editWorkDetail.getUnitPrice()));
+        workNumField.setText(Integer.toString(editWorkDetail.getWorkNum()));
+        workDetailMoney.setText(editWorkDetail.getWorkNum() * editWorkDetail.getUnitPrice() + ""); 
         
        // 实际作业数量只允许输入数字
         workNumField.textProperty().addListener(new ChangeListener<String>() {
@@ -92,6 +94,7 @@ public class AddWorkDetailController implements Initializable {
                     workNumField.setText(oldValue);
                     workNumField.setEditable(true);
                 }
+                workDetailMoney.setText(Double.toString(Integer.parseInt(workNumField.getText().trim()) * editWorkDetail.getUnitPrice())); 
             }
         });
     }
@@ -106,28 +109,16 @@ public class AddWorkDetailController implements Initializable {
         String workDetailNo = null;
 
         try {
-            String sql = "insert into dbo.t_product_daily_work_detail  "
-                    + "  values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sql = "update dbo.t_product_daily_work_detail set workNum = ?, money = ?, modifyUser = ?, modifyTime = ? where workDetailNo = ?";
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
             workDetailNo = WorkUtil.getWorkDetailNo();
 
-            stmt.setString(1, workDetailNo);
-            stmt.setTimestamp(2, new Timestamp(new Date().getTime()));
-            stmt.setInt(3, 0);
-            stmt.setString(4, work.getWorkNo());
-            stmt.setString(5, work.getWorkName());
-            stmt.setString(6, work.getUnit());
-            stmt.setDouble(7, work.getUnitPrice());
-            stmt.setInt(8, Integer.parseInt(workNum));
-            stmt.setDouble(9, work.getUnitPrice() * Integer.parseInt(workNum));
-            stmt.setString(10, SessionUtil.USERS.get("loginUser").getUserNo());
-            stmt.setTimestamp(11, new Timestamp(new Date().getTime()));
-            stmt.setString(12, null);
-            stmt.setTimestamp(13, null);
-            stmt.setString(14, null);
-            stmt.setTimestamp(15, null);
-            stmt.setInt(16, 0);
+            stmt.setString(1, workNumField.getText().trim());
+            stmt.setDouble(2, Integer.parseInt(workNumField.getText().trim()) * editWorkDetail.getUnitPrice());
+            stmt.setString(3, SessionUtil.USERS.get("loginUser").getUserNo());
+            stmt.setTimestamp(4, new Timestamp(new Date().getTime()));
+            stmt.setString(5, editWorkDetail.getWorkDetailNo());
 
             stmt.executeUpdate();
 
@@ -138,7 +129,7 @@ public class AddWorkDetailController implements Initializable {
             DBUtil.release(conn, stmt);
         }
 
-        AlertUtil.alertInfoLater(PropsUtil.getMessage("workDetail.add.success") + workDetailNo);
+        AlertUtil.alertInfoLater(PropsUtil.getMessage("workDetail.modify.success"));
         WorkTableDetailViewController.getdialogStage().close();
         // 新建完成刷新数据
         ((WorkTableDetailViewController) SessionUtil.CONTROLLERS.get("WorkTableDetailViewController")).refresh();
@@ -147,6 +138,7 @@ public class AddWorkDetailController implements Initializable {
     @FXML
     public void cancelBtnAction() {
         WorkTableDetailViewController.getdialogStage().close();
+        SessionUtil.WORKDETAILS.clear();
     }
 
 }

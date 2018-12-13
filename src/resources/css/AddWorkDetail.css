@@ -1,6 +1,6 @@
 #addWorkPane{
 	-fx-pref-height: 500px;
-	-fx-pref-width: 400px;
+	-fx-pref-width: 350px;
 }
 
 
@@ -15,6 +15,16 @@
 }
 
 #workNumLabel{
+	-fx-alignment: BASELINE_RIGHT;
+	-fx-pref-width: 100px;
+}
+
+#workDetailNoLabel{
+	-fx-alignment: BASELINE_RIGHT;
+	-fx-pref-width: 100px;
+}
+
+#moneyLabel{
 	-fx-alignment: BASELINE_RIGHT;
 	-fx-pref-width: 100px;
 }

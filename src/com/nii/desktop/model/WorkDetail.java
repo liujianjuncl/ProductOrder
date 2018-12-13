@@ -14,7 +14,7 @@ public class WorkDetail {
     // 作业日期
     private Timestamp workDate;
 
-    // 状态
+    // 审核状态 1--已审核，0--未审核
     private String status;
 
     // 作业编号 

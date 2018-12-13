@@ -89,7 +89,7 @@ public class WorkUtil {
         Work work = null;
 
         try {
-            String sql = "select * from dbo.t_product_daily_work where isDelete = 0 and workNo = ? ";
+            String sql = "select * from dbo.t_product_daily_work where workNo = ? ";
 
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
@@ -120,7 +120,7 @@ public class WorkUtil {
         String workNo = dateStr + "000";
 
         try {
-            String sql = "select max(workNo) as workNo from dbo.t_product_daily_work_detail ";
+            String sql = "select max(workDetailNo) as workNo from dbo.t_product_daily_work_detail ";
 
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);

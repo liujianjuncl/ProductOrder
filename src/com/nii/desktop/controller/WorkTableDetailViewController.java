@@ -13,7 +13,11 @@ import java.util.logging.Logger;
 import com.nii.desktop.model.Work;
 import com.nii.desktop.model.WorkDetail;
 import com.nii.desktop.util.conf.DBUtil;
+import com.nii.desktop.util.conf.DateUtil;
+import com.nii.desktop.util.conf.PropsUtil;
 import com.nii.desktop.util.conf.SessionUtil;
+import com.nii.desktop.util.conf.UserUtil;
+import com.nii.desktop.util.ui.AlertUtil;
 import com.nii.desktop.util.ui.ResourceLoader;
 import com.nii.desktop.util.ui.UIManager;
 
@@ -175,16 +179,24 @@ public class WorkTableDetailViewController implements Initializable {
 
         try {
             String sql = "select * from dbo.t_product_daily_work_detail where isDelete = 0 ";
+            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
+                sql = sql + " and createUser = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
+            }
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
 
             while (rs.next()) {
                 WorkDetail workDetail = new WorkDetail(new CheckBox(), rs.getString("workDetailNo"),
-                        rs.getTimestamp("workDate"), rs.getString("status"), rs.getString("workNo"),
+                        rs.getTimestamp("workDate"), rs.getInt("status") == 1 ? "已审核" : "未审核", rs.getString("workNo"),
                         rs.getString("workName"), rs.getString("unit"), rs.getDouble("unitPrice"), rs.getInt("workNum"),
-                        rs.getDouble("money"), rs.getString("createUser"), rs.getTimestamp("createTime"),
-                        rs.getString("modifyUser"), rs.getTimestamp("modifyTime"), rs.getString("auditor"),
+                        rs.getDouble("money"), UserUtil.getUser(rs.getString("createUser")).getUserName(),
+                        rs.getTimestamp("createTime"),
+                        UserUtil.getUser(rs.getString("modifyUser")) == null ? null
+                                : UserUtil.getUser(rs.getString("modifyUser")).getUserName(),
+                        rs.getTimestamp("modifyTime"),
+                        UserUtil.getUser(rs.getString("auditor")) == null ? null
+                                : UserUtil.getUser(rs.getString("auditor")).getUserName(),
                         rs.getTimestamp("auditorTime"));
                 workDataList.add(workDetail);
             }
@@ -250,8 +262,13 @@ public class WorkTableDetailViewController implements Initializable {
         });
     }
 
-    /* 修改用户 */
+    /* 修改间接日报单 */
     public void modifyWorkDetailAction(WorkDetail workDetail) {
+        if (workDetail.getWorkDate().compareTo(DateUtil.lastMonth26Day()) < 0
+                || workDetail.getWorkDate().compareTo(DateUtil.curMonth25Day()) > 0) {
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("workDetail.donot.modify"));
+            return;
+        }
         SessionUtil.WORKDETAILS.put("editWorkDetail", workDetail);
 
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -289,17 +306,24 @@ public class WorkTableDetailViewController implements Initializable {
 
         try {
             String sql = "select * from dbo.t_product_daily_work_detail where isDelete = 0 ";
-
+            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
+                sql = sql + " and createUser = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
+            }
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
 
             while (rs.next()) {
                 WorkDetail workDetail = new WorkDetail(new CheckBox(), rs.getString("workDetailNo"),
-                        rs.getTimestamp("workDate"), rs.getString("status"), rs.getString("workNo"),
+                        rs.getTimestamp("workDate"), rs.getInt("status") == 1 ? "已审核" : "未审核", rs.getString("workNo"),
                         rs.getString("workName"), rs.getString("unit"), rs.getDouble("unitPrice"), rs.getInt("workNum"),
-                        rs.getDouble("money"), rs.getString("createUser"), rs.getTimestamp("createTime"),
-                        rs.getString("modifyUser"), rs.getTimestamp("modifyTime"), rs.getString("auditor"),
+                        rs.getDouble("money"), UserUtil.getUser(rs.getString("createUser")).getUserName(),
+                        rs.getTimestamp("createTime"),
+                        UserUtil.getUser(rs.getString("modifyUser")) == null ? null
+                                : UserUtil.getUser(rs.getString("modifyUser")).getUserName(),
+                        rs.getTimestamp("modifyTime"),
+                        UserUtil.getUser(rs.getString("auditor")) == null ? null
+                                : UserUtil.getUser(rs.getString("auditor")).getUserName(),
                         rs.getTimestamp("auditorTime"));
                 workDataList.add(workDetail);
             }
@@ -319,6 +343,21 @@ public class WorkTableDetailViewController implements Initializable {
 
     @FXML
     public void workSearchAction() {
+
+    }
+
+    @FXML
+    public void deleteWorkDetailAction() {
+
+    }
+
+    @FXML
+    public void auditWorkDetailAction() {
+
+    }
+
+    @FXML
+    public void antiAuditWorkDetailAction() {
 
     }
 

@@ -7,14 +7,14 @@
 
 <AnchorPane fx:id="addWorkDetailPane" stylesheets="@../css/AddWorkDetail.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nii.desktop.controller.AddWorkDetailController">
    <children>
-      <Label fx:id="addWorkDetailLabel" layoutX="185.0" layoutY="37.0" prefHeight="27.0" prefWidth="187.0" text="新建作业项目" />
-      <GridPane layoutX="18.0" layoutY="98.0" prefHeight="230.0" prefWidth="444.0">
+      <Label fx:id="addWorkDetailLabel" layoutX="141.0" layoutY="37.0" prefHeight="27.0" prefWidth="100.0" text="新建间接日报单" />
+      <GridPane layoutX="22.0" layoutY="77.0" prefHeight="230.0" prefWidth="344.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="32.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="240.0" minWidth="10.0" prefWidth="229.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="83.0" minWidth="0.0" prefWidth="37.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="130.0" minWidth="10.0" prefWidth="41.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="43.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="240.0" minWidth="10.0" prefWidth="152.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="91.0" minWidth="0.0" prefWidth="44.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="130.0" minWidth="10.0" prefWidth="66.0" />
         </columnConstraints>
         <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -28,16 +28,16 @@
             <Label fx:id="workNoLabel" text="作业编号" />
             <TextField fx:id="workNoField" GridPane.columnIndex="2" />
             <Label fx:id="workNameLabel" text="作业名称" GridPane.rowIndex="1" />
-            <TextField fx:id="workNameField" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <TextField fx:id="workNameField" disable="true" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <Label fx:id="unitLabel" prefWidth="100" text="计量单位" GridPane.rowIndex="2" />
-            <ComboBox fx:id="unitCbox" disable="true" prefHeight="23.0" prefWidth="238.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <ComboBox fx:id="unitCbox" disable="true" prefHeight="23.0" prefWidth="238.0" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <Label fx:id="unitPriceLabel" text="单位单价" GridPane.rowIndex="3" />
-            <TextField fx:id="unitPriceField" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <TextField fx:id="unitPriceField" disable="true" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="2" GridPane.rowIndex="3" />
             <Label fx:id="workNumLabel" text="实际作业数量" GridPane.rowIndex="4" />
             <TextField fx:id="workNumField" GridPane.columnIndex="2" GridPane.rowIndex="4" />
          </children>
       </GridPane>
-      <HBox layoutX="153.0" layoutY="386.0" prefHeight="27.0" prefWidth="157.0" spacing="40.0">
+      <HBox layoutX="111.0" layoutY="340.0" prefHeight="27.0" prefWidth="157.0" spacing="40.0">
          <children>
             <Button fx:id="confirmBtn" mnemonicParsing="false" onAction="#confirmBtnAction" text="确定" />
             <Button fx:id="cancelBtn" lineSpacing="20.0" mnemonicParsing="false" onAction="#cancelBtnAction" text="取消" />
