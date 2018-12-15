@@ -545,7 +545,7 @@ public class DailyUtil {
     }
 
     // 设置当月日报单金额
-    public static void setBillmoney() {
+    public static double setBillmoney() {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -581,6 +581,7 @@ public class DailyUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return money;
     }
 
     public static void main(String[] args) {

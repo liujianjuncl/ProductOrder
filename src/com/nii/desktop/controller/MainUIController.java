@@ -88,6 +88,9 @@ public class MainUIController implements Initializable {
     
     @FXML
     private Label workMoney;
+    
+    @FXML
+    private Label sumMoney;
 
     public void setDailyMoney(String m) {
         this.dailyMoney.setText(m);
@@ -99,6 +102,10 @@ public class MainUIController implements Initializable {
 
     public void setBillCount(String count) {
         this.billCount.setText(count);
+    }
+    
+    public void setSumMoney(String m) {
+        this.sumMoney.setText(m);
     }
 
     /***/
@@ -113,6 +120,7 @@ public class MainUIController implements Initializable {
         DailyUtil.setBillnoCount();
         DailyUtil.setBillmoney();
         WorkUtil.setWorkMoney();
+        this.setSumMoney(DailyUtil.setBillmoney() + WorkUtil.setWorkMoney() + "");
         currentUser.setText(SessionUtil.USERS.get("loginUser").getUserName());
 
 //        numTextField.setEditable(false);

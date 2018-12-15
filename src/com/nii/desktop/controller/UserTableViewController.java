@@ -200,7 +200,7 @@ public class UserTableViewController implements Initializable {
                 isManager = rs.getInt("isManager") == 1 ? "ÊÇ" : "·ñ";
                 isDisable = rs.getInt("isDisable") == 1 ? "ÊÇ" : "·ñ";
                 isAuditor = rs.getInt("isAuditor") == 1 ? "ÊÇ" : "·ñ";
-                auditor = UserUtil.getUser(rs.getString("auditor")).getUserName();
+                auditor = UserUtil.getUser(rs.getString("auditor")) == null ? null : UserUtil.getUser(rs.getString("auditor")).getUserName();
                 userDataList.add(new User(new CheckBox(), userNo, userName, isPiecework, isManager, isDisable, isAuditor, auditor));
             }
 

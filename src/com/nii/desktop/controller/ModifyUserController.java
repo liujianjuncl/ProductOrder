@@ -87,7 +87,9 @@ public class ModifyUserController implements Initializable {
         isManagerCbox.setValue(user.getIsManager());
         isAuditorCbox.setValue(user.getIsAuditor());
         isDisableCbox.setValue(user.getIsDisable());
-        auditorCbox.setValue(auditorUser.getUserNo() + "-" + auditorUser.getUserName());
+        if(auditorUser != null) {
+            auditorCbox.setValue(auditorUser.getUserNo() + "-" + auditorUser.getUserName());
+        }
         
         if(!" «".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
             userNameField.setDisable(true);
@@ -130,7 +132,7 @@ public class ModifyUserController implements Initializable {
             password = PropsUtil.getConfigValue("user.default.password"); // ƒ¨»œ√‹¬Î
         }
 
-        boolean result = UserUtil.verifyUserInfo(userName, password, isPiecework, isManager, isDisable, isAuditor);
+        boolean result = UserUtil.verifyUserInfo(userName, password, isPiecework, isManager, isDisable, isAuditor, auditorValue);
 
         if (result) {
             Connection conn = null;

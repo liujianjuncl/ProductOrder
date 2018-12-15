@@ -48,16 +48,16 @@
       <TableView fx:id="workDetailTableView" prefHeight="400.0" prefWidth="2513.0" VBox.vgrow="ALWAYS">
         <columns>
           <TableColumn fx:id="selectCol" prefWidth="30.0" text="勾选" />
-          <TableColumn fx:id="workDetailNoCol" prefWidth="120.0" text="间接日报单编号" />
           <TableColumn fx:id="createUserCol" prefWidth="120.0" text="创建人" />
-          <TableColumn fx:id="workDateCol" prefWidth="150.0" text="生产日期" />
-          <TableColumn fx:id="statusCol" prefWidth="100.0" text="审核状态" />
-          <TableColumn fx:id="workNoCol" prefWidth="120.0" text="作业编号" />
+          <TableColumn fx:id="workNoCol" text="作业编号" />
           <TableColumn fx:id="workNameCol" prefWidth="200.0" text="作业名称" />
-          <TableColumn fx:id="unitCol" prefWidth="100.0" text="计量单位" />
+          <TableColumn fx:id="unitCol" text="计量单位" />
           <TableColumn fx:id="unitPriceCol" text="单位单价" />
           <TableColumn fx:id="workNumCol" text="实际作业数量" />
-          <TableColumn fx:id="moneyCol" prefWidth="135.0" text="作业金额" />
+          <TableColumn fx:id="moneyCol" text="作业金额" />
+          <TableColumn fx:id="statusCol" text="审核状态" />
+          <TableColumn fx:id="workDetailNoCol" prefWidth="120.0" text="间接日报单编号" />
+          <TableColumn fx:id="workDateCol" prefWidth="150.0" text="生产日期" />
           <TableColumn fx:id="createTimeCol" prefWidth="150.0" text="创建时间" />
           <TableColumn fx:id="modifyUserCol" prefWidth="120.0" text="修改人" />
           <TableColumn fx:id="modifyTimeCol" prefWidth="150.0" text="修改时间" />

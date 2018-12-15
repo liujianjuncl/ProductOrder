@@ -189,7 +189,7 @@ public class WorkUtil {
     }
 
     // 设置当月间接日报单金额
-    public static void setWorkMoney() {
+    public static double setWorkMoney() {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -214,6 +214,7 @@ public class WorkUtil {
         } finally {
             DBUtil.release(conn, stmt, rs);
         }
+        return workMoney;
     }
 
     public static void main(String[] args) {
