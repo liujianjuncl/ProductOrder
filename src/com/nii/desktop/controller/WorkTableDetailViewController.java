@@ -15,12 +15,8 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.nii.desktop.model.Daily;
-import com.nii.desktop.model.User;
-import com.nii.desktop.model.Work;
 import com.nii.desktop.model.WorkDetail;
 import com.nii.desktop.util.conf.DBUtil;
-import com.nii.desktop.util.conf.DailyUtil;
 import com.nii.desktop.util.conf.DateUtil;
 import com.nii.desktop.util.conf.PropsUtil;
 import com.nii.desktop.util.conf.SessionUtil;
@@ -29,7 +25,6 @@ import com.nii.desktop.util.conf.WorkUtil;
 import com.nii.desktop.util.ui.AlertUtil;
 import com.nii.desktop.util.ui.ResourceLoader;
 import com.nii.desktop.util.ui.UIManager;
-import com.sun.org.apache.xpath.internal.operations.And;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
