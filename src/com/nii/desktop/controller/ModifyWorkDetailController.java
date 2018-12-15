@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 import com.nii.desktop.model.Work;
 import com.nii.desktop.model.WorkDetail;
 import com.nii.desktop.util.conf.DBUtil;
+import com.nii.desktop.util.conf.DateUtil;
 import com.nii.desktop.util.conf.SessionUtil;
 import com.nii.desktop.util.conf.Encoder;
 import com.nii.desktop.util.conf.PropsUtil;
@@ -32,6 +33,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -67,7 +69,8 @@ public class ModifyWorkDetailController implements Initializable {
     @FXML
     private TextField workDetailMoney;
     
-    private Work work;
+    @FXML
+    private DatePicker workDate;
     
     private WorkDetail editWorkDetail;
 
@@ -77,6 +80,7 @@ public class ModifyWorkDetailController implements Initializable {
         // 根据作业编号获取作业信息
         editWorkDetail = SessionUtil.WORKDETAILS.get("editWorkDetail");
         workDetailNo.setText(editWorkDetail.getWorkDetailNo());
+        workDate.setValue(DateUtil.dateToLocalDate(editWorkDetail.getWorkDate()));
         workNoField.setText(editWorkDetail.getWorkNo());
         workNameField.setText(editWorkDetail.getWorkName());
         unitCbox.setValue(editWorkDetail.getUnit());
@@ -106,19 +110,18 @@ public class ModifyWorkDetailController implements Initializable {
 
         Connection conn = null;
         PreparedStatement stmt = null;
-        String workDetailNo = null;
 
         try {
-            String sql = "update dbo.t_product_daily_work_detail set workNum = ?, money = ?, modifyUser = ?, modifyTime = ? where workDetailNo = ?";
+            String sql = "update dbo.t_product_daily_work_detail set workNum = ?, money = ?, modifyUser = ?, modifyTime = ?, workDate = ? where workDetailNo = ?";
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
-            workDetailNo = WorkUtil.getWorkDetailNo();
 
-            stmt.setString(1, workNumField.getText().trim());
-            stmt.setDouble(2, Integer.parseInt(workNumField.getText().trim()) * editWorkDetail.getUnitPrice());
+            stmt.setString(1, workNum);
+            stmt.setDouble(2, Integer.parseInt(workNum) * editWorkDetail.getUnitPrice());
             stmt.setString(3, SessionUtil.USERS.get("loginUser").getUserNo());
             stmt.setTimestamp(4, new Timestamp(new Date().getTime()));
-            stmt.setString(5, editWorkDetail.getWorkDetailNo());
+            stmt.setTimestamp(5, new Timestamp(DateUtil.localDateToDate(workDate.getValue()).getTime()));
+            stmt.setString(6, editWorkDetail.getWorkDetailNo());
 
             stmt.executeUpdate();
 

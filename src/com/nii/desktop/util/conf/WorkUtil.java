@@ -85,7 +85,7 @@ public class WorkUtil {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        
+
         Work work = null;
 
         try {
@@ -108,8 +108,8 @@ public class WorkUtil {
 
         return work;
     }
-    
- // 获取间接作业明细编号
+
+    // 获取间接作业明细编号
     public static String getWorkDetailNo() {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -149,7 +149,44 @@ public class WorkUtil {
 
         return workNo;
     }
-    
+
+    // 获取间接作业明细
+    public static WorkDetail getWorkDetailByNo(String workDetailNo) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        WorkDetail workDetail = null;
+
+        try {
+            String sql = "select * from dbo.t_product_daily_work_detail where isDelete = 0 and workdetailNo = ? ";
+
+            conn = DBUtil.getConnection();
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, workDetailNo);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                workDetail = new WorkDetail(rs.getString("workDetailNo"), rs.getTimestamp("workDate"),
+                        rs.getInt("status") == 1 ? "已审核" : "未审核", rs.getString("workNo"), rs.getString("workName"),
+                        rs.getString("unit"), rs.getDouble("unitPrice"), rs.getInt("workNum"), rs.getDouble("money"),
+                        UserUtil.getUser(rs.getString("createUser")).getUserName(), rs.getTimestamp("createTime"),
+                        UserUtil.getUser(rs.getString("modifyUser")) == null ? null
+                                : UserUtil.getUser(rs.getString("modifyUser")).getUserName(),
+                        rs.getTimestamp("modifyTime"),
+                        UserUtil.getUser(rs.getString("auditor")) == null ? null
+                                : UserUtil.getUser(rs.getString("auditor")).getUserName(),
+                        rs.getTimestamp("auditorTime"));
+            }
+
+        } catch (Exception e) {
+            Logger.getLogger(DailyUtil.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            DBUtil.release(conn, stmt, rs);
+        }
+
+        return workDetail;
+    }
+
     public static void main(String[] args) {
         System.out.println(getWorkNo());
         System.out.println(getWorkDetailNo());

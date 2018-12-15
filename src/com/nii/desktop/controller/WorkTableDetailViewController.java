@@ -6,20 +6,27 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.nii.desktop.model.Daily;
+import com.nii.desktop.model.User;
 import com.nii.desktop.model.Work;
 import com.nii.desktop.model.WorkDetail;
 import com.nii.desktop.util.conf.DBUtil;
+import com.nii.desktop.util.conf.DailyUtil;
 import com.nii.desktop.util.conf.DateUtil;
 import com.nii.desktop.util.conf.PropsUtil;
 import com.nii.desktop.util.conf.SessionUtil;
 import com.nii.desktop.util.conf.UserUtil;
+import com.nii.desktop.util.conf.WorkUtil;
 import com.nii.desktop.util.ui.AlertUtil;
 import com.nii.desktop.util.ui.ResourceLoader;
 import com.nii.desktop.util.ui.UIManager;
+import com.sun.org.apache.xpath.internal.operations.And;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -306,9 +313,15 @@ public class WorkTableDetailViewController implements Initializable {
 
         try {
             String sql = "select * from dbo.t_product_daily_work_detail where isDelete = 0 ";
-            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
+            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())
+                    && !"是".equals(SessionUtil.USERS.get("loginUser").getIsAuditor())) {
                 sql = sql + " and createUser = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
             }
+
+            if (searchField.getText() != null && !"".equals(searchField.getText().trim())) {
+                sql = sql + " and workDetailNo = '" + searchField.getText().trim() + "'";
+            }
+
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
@@ -342,23 +355,139 @@ public class WorkTableDetailViewController implements Initializable {
     }
 
     @FXML
-    public void workSearchAction() {
+    public void deleteWorkDetailAction() {
+        if (getSelectedNum() == 0) {
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("comboBox.delete.noSelected"));
+        } else if (AlertUtil.alertConfirmLater(PropsUtil.getMessage("confirm.delete"))) {
+            List<String> workDetailNoList = getSelectedWorkDetailNoList();
 
+            Connection conn = null;
+            PreparedStatement stmt = null;
+
+            try {
+                String sql = "update dbo.t_product_daily_work_detail set isDelete = 1 where workDetailNo = ?";
+                conn = DBUtil.getConnection();
+                stmt = conn.prepareStatement(sql);
+
+                for (int i = 0; i < workDetailNoList.size(); i++) {
+                    String workDetailNo = workDetailNoList.get(i);
+                    stmt.setString(1, workDetailNo);
+                    stmt.executeUpdate();
+                }
+
+            } catch (Exception e) {
+                Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
+                return;
+            } finally {
+                DBUtil.release(conn, stmt);
+            }
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("workDetail.delete.success"));
+            // 删除完成刷新数据
+            refresh();
+        }
     }
 
-    @FXML
-    public void deleteWorkDetailAction() {
+    /* 获取被勾选的数量 */
+    public int getSelectedNum() {
+        int count = 0;
+        for (int i = 0; i < workDataList.size(); i++) {
+            if (workDataList.get(i).getCheckbox().isSelected()) {
+                count++;
+            }
+        }
+        return count;
+    }
 
+    /* 获取被勾选的记录 */
+    public WorkDetail getSingleSelectedWorkDetail() {
+        String workDetailNo = null;
+        for (int i = 0; i < workDataList.size(); i++) {
+            if (workDataList.get(i).getCheckbox().isSelected()) {
+                workDetailNo = workDataList.get(i).getWorkDetailNo();
+                break;
+            }
+        }
+
+        WorkDetail workDetail = WorkUtil.getWorkDetailByNo(workDetailNo);
+        return workDetail;
+    }
+
+    /* 获取所有被勾选的间接日报单编号 */
+    public List<String> getSelectedWorkDetailNoList() {
+        List<String> workDetailNoList = new ArrayList<String>();
+        for (int i = 0; i < workDataList.size(); i++) {
+            if (workDataList.get(i).getCheckbox().isSelected()) {
+                workDetailNoList.add(workDataList.get(i).getWorkDetailNo());
+            }
+        }
+
+        return workDetailNoList;
     }
 
     @FXML
     public void auditWorkDetailAction() {
+        if (getSelectedNum() == 0) {
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("workDetail.audit.noSelect"));
+        } else if (AlertUtil.alertConfirmLater(PropsUtil.getMessage("confirm.audit"))) {
+            List<String> workDetailNoList = getSelectedWorkDetailNoList();
 
+            Connection conn = null;
+            PreparedStatement stmt = null;
+
+            try {
+                String sql = "update dbo.t_product_daily_work_detail set status = 1 where workDetailNo = ?";
+                conn = DBUtil.getConnection();
+                stmt = conn.prepareStatement(sql);
+
+                for (int i = 0; i < workDetailNoList.size(); i++) {
+                    String workDetailNo = workDetailNoList.get(i);
+                    stmt.setString(1, workDetailNo);
+                    stmt.executeUpdate();
+                }
+
+            } catch (Exception e) {
+                Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
+                return;
+            } finally {
+                DBUtil.release(conn, stmt);
+            }
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("workDetail.audit.success"));
+            // 删除完成刷新数据
+            refresh();
+        }
     }
 
     @FXML
     public void antiAuditWorkDetailAction() {
+        if (getSelectedNum() == 0) {
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("workDetail.antiAudit.noSelect"));
+        } else if (AlertUtil.alertConfirmLater(PropsUtil.getMessage("confirm.antiAudit"))) {
+            List<String> workDetailNoList = getSelectedWorkDetailNoList();
 
+            Connection conn = null;
+            PreparedStatement stmt = null;
+
+            try {
+                String sql = "update dbo.t_product_daily_work_detail set status = 0 where workDetailNo = ?";
+                conn = DBUtil.getConnection();
+                stmt = conn.prepareStatement(sql);
+
+                for (int i = 0; i < workDetailNoList.size(); i++) {
+                    String workDetailNo = workDetailNoList.get(i);
+                    stmt.setString(1, workDetailNo);
+                    stmt.executeUpdate();
+                }
+
+            } catch (Exception e) {
+                Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
+                return;
+            } finally {
+                DBUtil.release(conn, stmt);
+            }
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("workDetail.antiAudit.success"));
+            // 删除完成刷新数据
+            refresh();
+        }
     }
 
 }

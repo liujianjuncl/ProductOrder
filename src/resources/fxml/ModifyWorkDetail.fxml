@@ -8,7 +8,7 @@
 <AnchorPane fx:id="modifyWorkDetailPane" prefHeight="468.0" prefWidth="421.0" stylesheets="@../css/AddWorkDetail.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nii.desktop.controller.ModifyWorkDetailController">
    <children>
       <Label fx:id="modifyWorkDetailLabel" layoutX="174.0" layoutY="29.0" prefHeight="27.0" prefWidth="100.0" text="新建间接日报单" />
-      <GridPane layoutX="22.0" layoutY="77.0" prefHeight="279.0" prefWidth="387.0">
+      <GridPane layoutX="22.0" layoutY="77.0" prefHeight="303.0" prefWidth="387.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="43.0" />
@@ -19,6 +19,7 @@
         <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -27,23 +28,25 @@
             <RowConstraints />
         </rowConstraints>
          <children>
-            <Label fx:id="workNoLabel" text="作业编号" GridPane.rowIndex="1" />
-            <TextField fx:id="workNoField" disable="true" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <Label fx:id="workNameLabel" text="作业名称" GridPane.rowIndex="2" />
-            <TextField fx:id="workNameField" disable="true" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <Label fx:id="unitLabel" prefWidth="100" text="计量单位" GridPane.rowIndex="3" />
-            <ComboBox fx:id="unitCbox" disable="true" prefHeight="23.0" prefWidth="238.0" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-            <Label fx:id="unitPriceLabel" text="单位单价" GridPane.rowIndex="4" />
-            <TextField fx:id="unitPriceField" disable="true" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-            <Label fx:id="workNumLabel" text="实际作业数量" GridPane.rowIndex="5" />
-            <TextField fx:id="workNumField" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            <Label fx:id="workNoLabel" text="作业编号" GridPane.rowIndex="2" />
+            <TextField fx:id="workNoField" disable="true" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Label fx:id="workNameLabel" text="作业名称" GridPane.rowIndex="3" />
+            <TextField fx:id="workNameField" disable="true" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <Label fx:id="unitLabel" prefWidth="100" text="计量单位" GridPane.rowIndex="4" />
+            <ComboBox fx:id="unitCbox" disable="true" prefHeight="23.0" prefWidth="238.0" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <Label fx:id="unitPriceLabel" text="单位单价" GridPane.rowIndex="5" />
+            <TextField fx:id="unitPriceField" disable="true" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            <Label fx:id="workNumLabel" text="实际作业数量" GridPane.rowIndex="6" />
+            <TextField fx:id="workNumField" GridPane.columnIndex="2" GridPane.rowIndex="6" />
             <Label fx:id="workDetailNoLabel" text="间接日报单编号" />
             <Label fx:id="workDetailNo" text=" " GridPane.columnIndex="2" />
-            <Label fx:id="moneyLabel" text="金额" GridPane.rowIndex="6" />
-            <TextField fx:id="workDetailMoney" disable="true" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+            <Label fx:id="moneyLabel" text="金额" GridPane.rowIndex="7" />
+            <TextField fx:id="workDetailMoney" disable="true" style="-fx-font-weight: bold; -fx-text-fill: BLACK;" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+            <Label fx:id="workDateLabel" text="生产日期" GridPane.rowIndex="1" />
+            <DatePicker fx:id="workDate" GridPane.columnIndex="2" GridPane.rowIndex="1" />
          </children>
       </GridPane>
-      <HBox layoutX="132.0" layoutY="395.0" prefHeight="27.0" prefWidth="157.0" spacing="40.0">
+      <HBox layoutX="132.0" layoutY="418.0" prefHeight="27.0" prefWidth="157.0" spacing="40.0">
          <children>
             <Button fx:id="confirmBtn" mnemonicParsing="false" onAction="#confirmBtnAction" text="确定" />
             <Button fx:id="cancelBtn" lineSpacing="20.0" mnemonicParsing="false" onAction="#cancelBtnAction" text="取消" />

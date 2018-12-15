@@ -9,6 +9,11 @@
 	-fx-font-size: 20px;
 }
 
+#workDateLabel{
+    -fx-alignment: BASELINE_RIGHT;
+    -fx-pref-width: 100px;
+}
+
 #workNameLabel{
 	-fx-alignment: BASELINE_RIGHT;
 	-fx-pref-width: 100px;
