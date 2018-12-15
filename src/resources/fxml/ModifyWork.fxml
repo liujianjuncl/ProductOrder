@@ -31,7 +31,7 @@
             <Label fx:id="workNameLabel" text="作业名称" GridPane.rowIndex="1" />
             <TextField fx:id="workNameField" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <Label fx:id="unitLabel" prefWidth="100" text="计量单位" GridPane.rowIndex="2" />
-            <ComboBox fx:id="unitCbox" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <ComboBox fx:id="unitCbox" style="-fx-font-weight: bold; -fx-font-size: 14" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <Label fx:id="unitPriceLabel" text="单位单价" GridPane.rowIndex="3" />
             <TextField fx:id="unitPriceField" GridPane.columnIndex="2" GridPane.rowIndex="3" />
             <Label fx:id="statusLabel" text="使用状态" GridPane.rowIndex="4" />

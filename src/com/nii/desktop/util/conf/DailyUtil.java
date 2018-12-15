@@ -577,7 +577,6 @@ public class DailyUtil {
             }
 
             ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController")).setDailyMoney(Double.toString(money));
-
         } catch (SQLException e) {
             e.printStackTrace();
         }

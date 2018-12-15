@@ -90,7 +90,7 @@ public class WorkUtil {
         Work work = null;
 
         try {
-            String sql = "select * from dbo.t_product_daily_work where workNo = ? ";
+            String sql = "select * from dbo.t_product_daily_work where status = 0 and workNo = ? ";
 
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
@@ -197,11 +197,24 @@ public class WorkUtil {
         double workMoney = 0.0;
 
         try {
-            String sql = "select sum(unitPrice * workNum) as workMoney from dbo.t_product_daily_work_detail "
-                    + " where isDelete = 0 and status = 1 and workDate >= '"
+            String sql = "select sum(work.unitPrice * work.workNum) as workMoney from dbo.t_product_daily_work_detail work  " + 
+                    " left join dbo.t_product_daily_user u on work.createUser = u.userNo  " + 
+                    " where work.isDelete = 0 and status = 1 and workDate >= '"
                     + DateUtil.SDF.format(DateUtil.lastMonth26Day()) + "' and workDate <= '"
                     + DateUtil.SDF.format(DateUtil.curMonth25Day()) + "'";
+            
+            // 如果当前用户既不是管理员也不是审核员，则只查询当前用户的间接日报单
+            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())
+                    && !"是".equals(SessionUtil.USERS.get("loginUser").getIsAuditor())) {
+                sql = sql + " and work.createUser = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
+            }
 
+            // 如果当前用户不是管理员，但是是审核员，则显示该用户名下的间接日报单
+            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())
+                    && "是".equals(SessionUtil.USERS.get("loginUser").getIsAuditor())) {
+                sql = sql + " and u.auditor = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
+            }
+            
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();

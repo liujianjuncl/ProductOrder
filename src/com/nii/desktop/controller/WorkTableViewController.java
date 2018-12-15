@@ -247,10 +247,11 @@ public class WorkTableViewController implements Initializable {
         workDataList.clear();
 
         try {
-            String sql = "select workNo, workName, unit, unitPrice, status from dbo.t_product_daily_work";
+            String sql = "select workNo, workName, unit, unitPrice, status from dbo.t_product_daily_work where workNo = ?";
             
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
+            stmt.setString(1, searchField.getText().trim());
             rs = stmt.executeQuery();
 
             while (rs.next()) {

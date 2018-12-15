@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 
 import com.nii.desktop.model.WorkDetail;
 import com.nii.desktop.util.conf.DBUtil;
+import com.nii.desktop.util.conf.DailyUtil;
 import com.nii.desktop.util.conf.DateUtil;
 import com.nii.desktop.util.conf.PropsUtil;
 import com.nii.desktop.util.conf.SessionUtil;
@@ -165,7 +166,7 @@ public class WorkTableDetailViewController implements Initializable {
     /** 初始化 */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        addDatatoTableView();
+//        addDatatoTableView();
         if (SessionUtil.CONTROLLERS.get("WorkTableDetailViewController") == null) {
             SessionUtil.CONTROLLERS.put("WorkTableDetailViewController", this);
         }
@@ -200,66 +201,65 @@ public class WorkTableDetailViewController implements Initializable {
 //        userTablePagination.setPageCount(1);
     }
 
-    /* 初始化表格数据 */
-    private void initData() {
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        // 添加表格数据前先清空
-        workDataList.clear();
-
-        double money = 0.0;
-        try {
-            String sql = "select * from dbo.t_product_daily_work_detail where isDelete = 0 " + " and workDate >= '"
-                    + DateUtil.SDF.format(DateUtil.lastMonth26Day()) + "'" + " and workDate <= '"
-                    + DateUtil.SDF.format(DateUtil.curMonth25Day()) + "'";
-
-            // 如果当前用户既不是管理员也不是审核员，则只显示当前用户的间接日报单
-            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())
-                    && !"是".equals(SessionUtil.USERS.get("loginUser").getIsAuditor())) {
-                sql = sql + " and createUser = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
-            }
-
-            // 如果当前用户不是管理员，但是是审核员，则显示该用户名下的间接日报单
-            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())
-                    && "是".equals(SessionUtil.USERS.get("loginUser").getIsAuditor())) {
-                sql = sql + " and auditor = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
-            }
-
-            conn = DBUtil.getConnection();
-            stmt = conn.prepareStatement(sql);
-            rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                WorkDetail workDetail = new WorkDetail(new CheckBox(), rs.getString("workDetailNo"),
-                        rs.getTimestamp("workDate"), rs.getInt("status") == 1 ? "已审核" : "未审核", rs.getString("workNo"),
-                        rs.getString("workName"), rs.getString("unit"), rs.getDouble("unitPrice"), rs.getInt("workNum"),
-                        rs.getDouble("money"), UserUtil.getUser(rs.getString("createUser")).getUserName(),
-                        rs.getTimestamp("createTime"),
-                        UserUtil.getUser(rs.getString("modifyUser")) == null ? null
-                                : UserUtil.getUser(rs.getString("modifyUser")).getUserName(),
-                        rs.getTimestamp("modifyTime"),
-                        UserUtil.getUser(rs.getString("auditor")) == null ? null
-                                : UserUtil.getUser(rs.getString("auditor")).getUserName(),
-                        rs.getTimestamp("auditorTime"));
-                workDataList.add(workDetail);
-                
-                money = money + rs.getDouble("unitPrice") * rs.getInt("workNum");
-            }
-            DecimalFormat df = new DecimalFormat("#.0000");
-            if (workDataList.size() == 0) {
-                AlertUtil.alertInfoLater(PropsUtil.getMessage("search.result.null"));
-                workMoney.setText("金额：0.0");
-            } else {
-                workMoney.setText("金额：" + df.format(money));
-            }
-        } catch (Exception e) {
-            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
-        } finally {
-            DBUtil.release(conn, stmt, rs);
-        }
-    }
+//    /* 初始化表格数据 */
+//    private void initData() {
+//        Connection conn = null;
+//        PreparedStatement stmt = null;
+//        ResultSet rs = null;
+//
+//        // 添加表格数据前先清空
+//        workDataList.clear();
+//
+//        double money = 0.0;
+//        try {
+//            String sql = "select work.* from dbo.t_product_daily_work_detail work " + 
+//                    " left join dbo.t_product_daily_user u on work.createUser = u.userNo " + 
+//                    " where work.isDelete = 0 ";
+//            // 如果当前用户既不是管理员也不是审核员，则只查询当前用户的间接日报单
+//            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())
+//                    && !"是".equals(SessionUtil.USERS.get("loginUser").getIsAuditor())) {
+//                sql = sql + " and work.createUser = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
+//            }
+//
+//            // 如果当前用户不是管理员，但是是审核员，则显示该用户名下的间接日报单
+//            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())
+//                    && "是".equals(SessionUtil.USERS.get("loginUser").getIsAuditor())) {
+//                sql = sql + " and u.auditor = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
+//            }
+//
+//            conn = DBUtil.getConnection();
+//            stmt = conn.prepareStatement(sql);
+//            rs = stmt.executeQuery();
+//
+//            while (rs.next()) {
+//                WorkDetail workDetail = new WorkDetail(new CheckBox(), rs.getString("workDetailNo"),
+//                        rs.getTimestamp("workDate"), rs.getInt("status") == 1 ? "已审核" : "未审核", rs.getString("workNo"),
+//                        rs.getString("workName"), rs.getString("unit"), rs.getDouble("unitPrice"), rs.getInt("workNum"),
+//                        rs.getDouble("money"), UserUtil.getUser(rs.getString("createUser")).getUserName(),
+//                        rs.getTimestamp("createTime"),
+//                        UserUtil.getUser(rs.getString("modifyUser")) == null ? null
+//                                : UserUtil.getUser(rs.getString("modifyUser")).getUserName(),
+//                        rs.getTimestamp("modifyTime"),
+//                        UserUtil.getUser(rs.getString("auditor")) == null ? null
+//                                : UserUtil.getUser(rs.getString("auditor")).getUserName(),
+//                        rs.getTimestamp("auditorTime"));
+//                workDataList.add(workDetail);
+//                
+//                money = money + rs.getDouble("unitPrice") * rs.getInt("workNum");
+//            }
+//            DecimalFormat df = new DecimalFormat("#.0000");
+//            if (workDataList.size() == 0) {
+//                AlertUtil.alertInfoLater(PropsUtil.getMessage("search.result.null"));
+//                workMoney.setText("金额：0.0");
+//            } else {
+//                workMoney.setText("金额：" + df.format(money));
+//            }
+//        } catch (Exception e) {
+//            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
+//        } finally {
+//            DBUtil.release(conn, stmt, rs);
+//        }
+//    }
 
     /* 新建作业 */
     @FXML
@@ -308,12 +308,12 @@ public class WorkTableDetailViewController implements Initializable {
 
         workDetailTableView.setItems(workDataList);
 
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                initData();
-            }
-        });
+//        Platform.runLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                initData();
+//            }
+//        });
     }
 
     /* 修改间接日报单 */
@@ -368,29 +368,31 @@ public class WorkTableDetailViewController implements Initializable {
         double money = 0.0;
 
         try {
-            String sql = "select * from dbo.t_product_daily_work_detail where isDelete = 0 ";
+            String sql = "select work.* from dbo.t_product_daily_work_detail work " + 
+                    " left join dbo.t_product_daily_user u on work.createUser = u.userNo " + 
+                    " where work.isDelete = 0 ";
             // 如果当前用户既不是管理员也不是审核员，则只查询当前用户的间接日报单
             if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())
                     && !"是".equals(SessionUtil.USERS.get("loginUser").getIsAuditor())) {
-                sql = sql + " and createUser = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
+                sql = sql + " and work.createUser = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
             }
 
             // 如果当前用户不是管理员，但是是审核员，则显示该用户名下的间接日报单
             if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())
                     && "是".equals(SessionUtil.USERS.get("loginUser").getIsAuditor())) {
-                sql = sql + " and auditor = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
+                sql = sql + " and u.auditor = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
             }
 
             if (userNo != null && !"".equals(userNo)) {
-                sql = sql + " and createUser like '%" + userNo + "%'";
+                sql = sql + " and work.createUser like '%" + userNo + "%'";
             }
 
             if (startDate != null) {
-                sql = sql + " and workDate >= '" + DateUtil.localDateToDateTimeStr(startDate) + "'";
+                sql = sql + " and work.workDate >= '" + DateUtil.localDateToDateTimeStr(startDate) + "'";
             }
 
             if (endDate != null) {
-                sql = sql + " and workDate <= '" + DateUtil.localDateToDateTimeStr(endDate) + "'";
+                sql = sql + " and work.workDate <= '" + DateUtil.localDateToDateTimeStr(endDate) + "'";
             }
 
             conn = DBUtil.getConnection();
@@ -414,6 +416,64 @@ public class WorkTableDetailViewController implements Initializable {
                 money = money + rs.getDouble("unitPrice") * rs.getInt("workNum");
 
             }
+            addDatatoTableView();
+            setWorkDetailAuditMoney();
+            ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController")).setSumMoney(DailyUtil.setBillmoney() + WorkUtil.setWorkMoney() + "");
+        } catch (Exception e) {
+            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            DBUtil.release(conn, stmt, rs);
+        }
+        workDetailTableView.refresh();
+    }
+    
+    @FXML
+    public void setWorkDetailAuditMoney() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        String userNo = userNoTextField.getText();
+        LocalDate startDate = startDatePicker.getValue();
+        LocalDate endDate = endDatePicker.getValue();
+
+        double money = 0.0;
+
+        try {
+            String sql = "select work.* from dbo.t_product_daily_work_detail work " + 
+                    " left join dbo.t_product_daily_user u on work.createUser = u.userNo " + 
+                    " where work.isDelete = 0 and work.status = 1 ";
+            // 如果当前用户既不是管理员也不是审核员，则只查询当前用户的间接日报单
+            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())
+                    && !"是".equals(SessionUtil.USERS.get("loginUser").getIsAuditor())) {
+                sql = sql + " and work.createUser = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
+            }
+
+            // 如果当前用户不是管理员，但是是审核员，则显示该用户名下的间接日报单
+            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())
+                    && "是".equals(SessionUtil.USERS.get("loginUser").getIsAuditor())) {
+                sql = sql + " and u.auditor = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
+            }
+
+            if (userNo != null && !"".equals(userNo)) {
+                sql = sql + " and createUser like '%" + userNo + "%'";
+            }
+
+            if (startDate != null) {
+                sql = sql + " and workDate >= '" + DateUtil.localDateToDateTimeStr(startDate) + "'";
+            }
+
+            if (endDate != null) {
+                sql = sql + " and workDate <= '" + DateUtil.localDateToDateTimeStr(endDate) + "'";
+            }
+
+            conn = DBUtil.getConnection();
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                money = money + rs.getDouble("unitPrice") * rs.getInt("workNum");
+            }
             DecimalFormat df = new DecimalFormat("#.0000");
             if (workDataList.size() == 0) {
                 AlertUtil.alertInfoLater(PropsUtil.getMessage("search.result.null"));
@@ -421,6 +481,8 @@ public class WorkTableDetailViewController implements Initializable {
             } else {
                 workMoney.setText("金额：" + df.format(money));
             }
+            addDatatoTableView();
+            WorkUtil.setWorkMoney();
         } catch (Exception e) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
         } finally {
@@ -431,8 +493,7 @@ public class WorkTableDetailViewController implements Initializable {
 
     /* 刷新数据 */
     public void refresh() {
-        initData();
-        addDatatoTableView();
+        workDetailSearchAction();
     }
 
     @FXML
@@ -598,7 +659,6 @@ public class WorkTableDetailViewController implements Initializable {
                 if ("已审核".equals(workDetailList.get(i).getStatus())) {
                     count++;
                 }
-                ;
             }
 
             if (count == 0) {

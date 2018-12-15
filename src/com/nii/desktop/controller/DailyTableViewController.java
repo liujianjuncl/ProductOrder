@@ -26,6 +26,7 @@ import com.nii.desktop.util.conf.DailyUtil;
 import com.nii.desktop.util.conf.DateUtil;
 import com.nii.desktop.util.conf.SessionUtil;
 import com.nii.desktop.util.conf.UserUtil;
+import com.nii.desktop.util.conf.WorkUtil;
 import com.nii.desktop.util.conf.PropsUtil;
 import com.nii.desktop.util.ui.AlertUtil;
 import com.nii.desktop.util.ui.ResourceLoader;
@@ -566,6 +567,7 @@ public class DailyTableViewController implements Initializable {
             } else {
                 dailyMoney.setText("½ð¶î£º" + df.format(money));
             }
+            ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController")).setSumMoney(DailyUtil.setBillmoney() + WorkUtil.setWorkMoney() + "");
             dailyTableView.refresh();
         } catch (Exception e) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
