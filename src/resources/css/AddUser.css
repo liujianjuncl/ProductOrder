@@ -53,6 +53,11 @@
     -fx-pref-width: 100px;
 }
 
+#auditorLabel{
+    -fx-alignment: BASELINE_RIGHT;
+    -fx-pref-width: 100px;
+}
+
 #isPieceworkCbox{
 	-fx-pref-width: 150px;
 }
@@ -62,6 +67,9 @@
 }
 
 #isAuditorCbox{
+    -fx-pref-width: 150px;
+}
+#auditorCbox{
     -fx-pref-width: 150px;
 }
 

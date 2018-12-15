@@ -101,6 +101,10 @@ public class UserTableViewController implements Initializable {
     /* 是否禁用 */
     @FXML
     private TableColumn<User, String> isDisableCol;
+    
+    /* 审核员 */
+    @FXML
+    private TableColumn<User, String> auditorCol;
 
     @FXML
     private TextField searchField;
@@ -143,8 +147,8 @@ public class UserTableViewController implements Initializable {
                     public void handle(MouseEvent event) {
                         // TODO Auto-generated method stub
                         if (event.getClickCount() == 2) {
-                            User user = row.getItem();
-                            System.out.println(user.getIsPiecework() + "--" + user.getIsManager() + "--" + user.getIsAuditor() + "--" + user.getIsDisable());
+                            User user = UserUtil.getUser(row.getItem().getUserNo());
+                            System.out.println(user.getIsPiecework() + "--" + user.getIsManager() + "--" + user.getIsAuditor() + "--" + user.getIsDisable() + "--" + user.getAuditor());
                             modifyUserAction(user);
                         }
                     }
@@ -175,12 +179,13 @@ public class UserTableViewController implements Initializable {
         String isManager = null;
         String isDisable = null;
         String isAuditor = null;
+        String auditor = null;
 
         // 添加表格数据前先清空
         userDataList.clear();
 
         try {
-            String sql = "select userNo, userName, isPiecework, isManager, isDisable, isAuditor from dbo.t_product_daily_user where isDelete = 0";
+            String sql = "select * from dbo.t_product_daily_user where isDelete = 0";
             if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
                 sql = sql + " and userNo = " + SessionUtil.USERS.get("loginUser").getUserNo();
             }
@@ -195,7 +200,8 @@ public class UserTableViewController implements Initializable {
                 isManager = rs.getInt("isManager") == 1 ? "是" : "否";
                 isDisable = rs.getInt("isDisable") == 1 ? "是" : "否";
                 isAuditor = rs.getInt("isAuditor") == 1 ? "是" : "否";
-                userDataList.add(new User(new CheckBox(), userNo, userName, isPiecework, isManager, isDisable, isAuditor));
+                auditor = UserUtil.getUser(rs.getString("auditor")).getUserName();
+                userDataList.add(new User(new CheckBox(), userNo, userName, isPiecework, isManager, isDisable, isAuditor, auditor));
             }
 
         } catch (Exception e) {
@@ -240,6 +246,7 @@ public class UserTableViewController implements Initializable {
         isManagerCol.setCellValueFactory(new PropertyValueFactory<User, String>("isManager"));
         isAuditorCol.setCellValueFactory(new PropertyValueFactory<User, String>("isAuditor"));
         isDisableCol.setCellValueFactory(new PropertyValueFactory<User, String>("isDisable"));
+        auditorCol.setCellValueFactory(new PropertyValueFactory<User, String>("auditor"));
 
         userTableView.setItems(userDataList);
 
@@ -332,6 +339,7 @@ public class UserTableViewController implements Initializable {
         String isManager = null;
         String isDisable = null;
         String isAuditor = null;
+        String auditor = null;
         
         String userInfo = searchField.getText().trim();
 
@@ -339,7 +347,7 @@ public class UserTableViewController implements Initializable {
         userDataList.clear();
 
         try {
-            String sql = "select userNo, userName, isPiecework, isManager, isDisable, isAuditor from dbo.t_product_daily_user where isDelete = 0";
+            String sql = "select * from dbo.t_product_daily_user where isDelete = 0";
             if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
                 sql = sql + " and userNo = " + SessionUtil.USERS.get("loginUser").getUserNo();
             }
@@ -359,9 +367,9 @@ public class UserTableViewController implements Initializable {
                 isManager = rs.getInt("isManager") == 1 ? "是" : "否";
                 isDisable = rs.getInt("isDisable") == 1 ? "是" : "否";
                 isAuditor = rs.getInt("isAuditor") == 1 ? "是" : "否";
-                userDataList.add(new User(new CheckBox(), userNo, userName, isPiecework, isManager, isDisable, isAuditor));
+                auditor = UserUtil.getUser(rs.getString("auditor")).getUserName();
+                userDataList.add(new User(new CheckBox(), userNo, userName, isPiecework, isManager, isDisable, isAuditor, auditor));
             }
-
         } catch (Exception e) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
         } finally {

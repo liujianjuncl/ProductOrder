@@ -6,7 +6,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -38,6 +41,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -63,6 +68,12 @@ public class WorkTableDetailViewController implements Initializable {
 
     @FXML
     private Button searchBtn;
+
+    @FXML
+    private Button auditWorkDetailBtn;
+
+    @FXML
+    private Button antiAuditWorkDetailBtn;
 
     @FXML
     private TableView<WorkDetail> workDetailTableView;
@@ -133,6 +144,18 @@ public class WorkTableDetailViewController implements Initializable {
     @FXML
     private TableColumn<WorkDetail, Timestamp> auditorTimeCol;
 
+    @FXML
+    private Label workMoney;
+
+    @FXML
+    private TextField userNoTextField;
+
+    @FXML
+    private DatePicker startDatePicker;
+
+    @FXML
+    private DatePicker endDatePicker;
+
     /* 系统stage */
     private static Stage dialogStage;
 
@@ -171,6 +194,13 @@ public class WorkTableDetailViewController implements Initializable {
             }
         });
 
+        // 只有管理员和审核员显示“审核”和“反审核”按钮
+        if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsAuditor())
+                && !"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
+            auditWorkDetailBtn.setVisible(false);
+            antiAuditWorkDetailBtn.setVisible(false);
+        }
+
         // 分页
 //        userTablePagination.setPageCount(1);
     }
@@ -184,11 +214,24 @@ public class WorkTableDetailViewController implements Initializable {
         // 添加表格数据前先清空
         workDataList.clear();
 
+        double money = 0.0;
         try {
-            String sql = "select * from dbo.t_product_daily_work_detail where isDelete = 0 ";
-            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
+            String sql = "select * from dbo.t_product_daily_work_detail where isDelete = 0 " + " and workDate >= '"
+                    + DateUtil.SDF.format(DateUtil.lastMonth26Day()) + "'" + " and workDate <= '"
+                    + DateUtil.SDF.format(DateUtil.curMonth25Day()) + "'";
+
+            // 如果当前用户既不是管理员也不是审核员，则只显示当前用户的间接日报单
+            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())
+                    && !"是".equals(SessionUtil.USERS.get("loginUser").getIsAuditor())) {
                 sql = sql + " and createUser = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
             }
+
+            // 如果当前用户不是管理员，但是是审核员，则显示该用户名下的间接日报单
+            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())
+                    && "是".equals(SessionUtil.USERS.get("loginUser").getIsAuditor())) {
+                sql = sql + " and auditor = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
+            }
+
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
@@ -206,6 +249,15 @@ public class WorkTableDetailViewController implements Initializable {
                                 : UserUtil.getUser(rs.getString("auditor")).getUserName(),
                         rs.getTimestamp("auditorTime"));
                 workDataList.add(workDetail);
+                
+                money = money + rs.getDouble("unitPrice") * rs.getInt("workNum");
+            }
+            DecimalFormat df = new DecimalFormat("#.0000");
+            if (workDataList.size() == 0) {
+                AlertUtil.alertInfoLater(PropsUtil.getMessage("search.result.null"));
+                workMoney.setText("金额：0.0");
+            } else {
+                workMoney.setText("金额：" + df.format(money));
             }
         } catch (Exception e) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
@@ -271,11 +323,14 @@ public class WorkTableDetailViewController implements Initializable {
 
     /* 修改间接日报单 */
     public void modifyWorkDetailAction(WorkDetail workDetail) {
-        if (workDetail.getWorkDate().compareTo(DateUtil.lastMonth26Day()) < 0
-                || workDetail.getWorkDate().compareTo(DateUtil.curMonth25Day()) > 0) {
-            AlertUtil.alertInfoLater(PropsUtil.getMessage("workDetail.donot.modify"));
-            return;
+        if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
+            if (workDetail.getWorkDate().compareTo(DateUtil.lastMonth26Day()) < 0
+                    || workDetail.getWorkDate().compareTo(DateUtil.curMonth25Day()) > 0) {
+                AlertUtil.alertInfoLater(PropsUtil.getMessage("workDetail.donot.modify"));
+                return;
+            }
         }
+
         SessionUtil.WORKDETAILS.put("editWorkDetail", workDetail);
 
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -308,18 +363,39 @@ public class WorkTableDetailViewController implements Initializable {
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
+        String userNo = userNoTextField.getText();
+        LocalDate startDate = startDatePicker.getValue();
+        LocalDate endDate = endDatePicker.getValue();
+
         // 添加表格数据前先清空
         workDataList.clear();
 
+        double money = 0.0;
+
         try {
             String sql = "select * from dbo.t_product_daily_work_detail where isDelete = 0 ";
+            // 如果当前用户既不是管理员也不是审核员，则只查询当前用户的间接日报单
             if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())
                     && !"是".equals(SessionUtil.USERS.get("loginUser").getIsAuditor())) {
                 sql = sql + " and createUser = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
             }
 
-            if (searchField.getText() != null && !"".equals(searchField.getText().trim())) {
-                sql = sql + " and workDetailNo = '" + searchField.getText().trim() + "'";
+            // 如果当前用户不是管理员，但是是审核员，则显示该用户名下的间接日报单
+            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())
+                    && "是".equals(SessionUtil.USERS.get("loginUser").getIsAuditor())) {
+                sql = sql + " and auditor = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
+            }
+
+            if (userNo != null && !"".equals(userNo)) {
+                sql = sql + " and createUser like '%" + userNo + "%'";
+            }
+
+            if (startDate != null) {
+                sql = sql + " and workDate >= '" + DateUtil.localDateToDateTimeStr(startDate) + "'";
+            }
+
+            if (endDate != null) {
+                sql = sql + " and workDate <= '" + DateUtil.localDateToDateTimeStr(endDate) + "'";
             }
 
             conn = DBUtil.getConnection();
@@ -339,6 +415,16 @@ public class WorkTableDetailViewController implements Initializable {
                                 : UserUtil.getUser(rs.getString("auditor")).getUserName(),
                         rs.getTimestamp("auditorTime"));
                 workDataList.add(workDetail);
+
+                money = money + rs.getDouble("unitPrice") * rs.getInt("workNum");
+
+            }
+            DecimalFormat df = new DecimalFormat("#.0000");
+            if (workDataList.size() == 0) {
+                AlertUtil.alertInfoLater(PropsUtil.getMessage("search.result.null"));
+                workMoney.setText("金额：0.0");
+            } else {
+                workMoney.setText("金额：" + df.format(money));
             }
         } catch (Exception e) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
@@ -424,24 +510,55 @@ public class WorkTableDetailViewController implements Initializable {
         return workDetailNoList;
     }
 
+    // 审核
     @FXML
     public void auditWorkDetailAction() {
         if (getSelectedNum() == 0) {
             AlertUtil.alertInfoLater(PropsUtil.getMessage("workDetail.audit.noSelect"));
         } else if (AlertUtil.alertConfirmLater(PropsUtil.getMessage("confirm.audit"))) {
             List<String> workDetailNoList = getSelectedWorkDetailNoList();
+            List<WorkDetail> workDetailList = new ArrayList<WorkDetail>();
+
+            for (int i = 0; i < workDetailNoList.size(); i++) {
+                workDetailList.add(WorkUtil.getWorkDetailByNo(workDetailNoList.get(i)));
+            }
+
+            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
+                for (int i = 0; i < workDetailList.size(); i++) {
+                    if (workDetailList.get(i).getWorkDate().compareTo(DateUtil.lastMonth26Day()) < 0
+                            || workDetailList.get(i).getWorkDate().compareTo(DateUtil.curMonth25Day()) > 0) {
+                        AlertUtil.alertInfoLater(PropsUtil.getMessage("workDetail.donot.audit"));
+                        return;
+                    }
+                }
+            }
+
+            int count = 0;
+            for (int i = 0; i < workDetailList.size(); i++) {
+                // 判断是否有未审核的间接日报单
+                if ("未审核".equals(workDetailList.get(i).getStatus())) {
+                    count++;
+                }
+            }
+
+            if (count == 0) {
+                AlertUtil.alertInfoLater(PropsUtil.getMessage("workDetail.no.audit"));
+                return;
+            }
 
             Connection conn = null;
             PreparedStatement stmt = null;
 
             try {
-                String sql = "update dbo.t_product_daily_work_detail set status = 1 where workDetailNo = ?";
+                String sql = "update dbo.t_product_daily_work_detail set status = 1, auditor = ?, auditorTime = ? where workDetailNo = ?";
                 conn = DBUtil.getConnection();
                 stmt = conn.prepareStatement(sql);
 
                 for (int i = 0; i < workDetailNoList.size(); i++) {
                     String workDetailNo = workDetailNoList.get(i);
-                    stmt.setString(1, workDetailNo);
+                    stmt.setString(1, SessionUtil.USERS.get("loginUser").getUserNo());
+                    stmt.setTimestamp(2, new Timestamp(new Date().getTime()));
+                    stmt.setString(3, workDetailNo);
                     stmt.executeUpdate();
                 }
 
@@ -457,12 +574,42 @@ public class WorkTableDetailViewController implements Initializable {
         }
     }
 
+    // 反审核
     @FXML
     public void antiAuditWorkDetailAction() {
         if (getSelectedNum() == 0) {
             AlertUtil.alertInfoLater(PropsUtil.getMessage("workDetail.antiAudit.noSelect"));
         } else if (AlertUtil.alertConfirmLater(PropsUtil.getMessage("confirm.antiAudit"))) {
             List<String> workDetailNoList = getSelectedWorkDetailNoList();
+            List<WorkDetail> workDetailList = new ArrayList<WorkDetail>();
+
+            for (int i = 0; i < workDetailNoList.size(); i++) {
+                workDetailList.add(WorkUtil.getWorkDetailByNo(workDetailNoList.get(i)));
+            }
+
+            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
+                for (int i = 0; i < workDetailList.size(); i++) {
+                    if (workDetailList.get(i).getWorkDate().compareTo(DateUtil.lastMonth26Day()) < 0
+                            || workDetailList.get(i).getWorkDate().compareTo(DateUtil.curMonth25Day()) > 0) {
+                        AlertUtil.alertInfoLater(PropsUtil.getMessage("workDetail.donot.antiAudit"));
+                        return;
+                    }
+                }
+            }
+
+            int count = 0;
+            for (int i = 0; i < workDetailList.size(); i++) {
+                // 判断是否有已审核的间接日报单
+                if ("已审核".equals(workDetailList.get(i).getStatus())) {
+                    count++;
+                }
+                ;
+            }
+
+            if (count == 0) {
+                AlertUtil.alertInfoLater(PropsUtil.getMessage("workDetail.no.antiAudit"));
+                return;
+            }
 
             Connection conn = null;
             PreparedStatement stmt = null;

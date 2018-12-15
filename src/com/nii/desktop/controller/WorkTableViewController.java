@@ -96,7 +96,7 @@ public class WorkTableViewController implements Initializable {
         }
         
         if(!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
-            addWorkBtn.setDisable(true);
+            addWorkBtn.setVisible(false);
         }
 
         // 双击某一行时，编辑该行

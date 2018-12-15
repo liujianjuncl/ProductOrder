@@ -3,6 +3,8 @@ package com.nii.desktop.util.conf;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -65,6 +67,7 @@ public class UserUtil {
         String isManager = null;
         String isDisable = null;
         String isAuditor = null;
+        String auditor = null;
 
         User user = null;
 
@@ -84,7 +87,8 @@ public class UserUtil {
                 isManager = rs.getInt("isManager") == 1 ? "是" : "否";
                 isDisable = rs.getInt("isDisable") == 1 ? "是" : "否";
                 isAuditor = rs.getInt("isAuditor") == 1 ? "是" : "否";
-                user = new User(userNo, userName, password, isPiecework, isManager, isDisable, isAuditor);
+                auditor = rs.getString("auditor");
+                user = new User(userNo, userName, password, isPiecework, isManager, isDisable, isAuditor, auditor);
             }
         } catch (Exception e) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
@@ -108,6 +112,7 @@ public class UserUtil {
         String isManager = null;
         String isDisable = null;
         String isAuditor = null;
+        String auditor = null;
 
         User user = null;
 
@@ -127,7 +132,8 @@ public class UserUtil {
                 isManager = rs.getInt("isManager") == 1 ? "是" : "否";
                 isDisable = rs.getInt("isDisable") == 1 ? "是" : "否";
                 isAuditor = rs.getInt("isAuditor") == 1 ? "是" : "否";
-                user = new User(userNo, userName, password, isPiecework, isManager, isDisable, isAuditor);
+                auditor = rs.getString("auditor");
+                user = new User(userNo, userName, password, isPiecework, isManager, isDisable, isAuditor, auditor);
             }
         } catch (Exception e) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
@@ -139,7 +145,7 @@ public class UserUtil {
     }
 
     /* 校验新建用户信息 */
-    public static boolean verifyUserInfo(String userName, String password, String isPiecework, String isManager, String isAuditor) {
+    public static boolean verifyUserInfo(String userName, String password, String isPiecework, String isManager, String isAuditor, String auditor) {
         if ("".equals(userName.trim())) {
             AlertUtil.alertInfoLater(PropsUtil.getMessage("userName.notnull"));
             return false;
@@ -179,13 +185,18 @@ public class UserUtil {
             AlertUtil.alertInfoLater(PropsUtil.getMessage("isAuditor.notnull"));
             return false;
         }
+        
+        if (auditor == null) {
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("auditor.notnull"));
+            return false;
+        }
 
         return true;
     }
 
     /* 校验新建用户信息 */
     public static boolean verifyUserInfo(String userName, String password, String isPiecework, String isManager,
-            String isDisable, String isAuditor) {
+            String isDisable, String isAuditor, String auditor) {
         if ("".equals(userName.trim())) {
             AlertUtil.alertInfoLater(PropsUtil.getMessage("userName.notnull"));
             return false;
@@ -230,12 +241,50 @@ public class UserUtil {
             AlertUtil.alertInfoLater(PropsUtil.getMessage("isDisable.notnull"));
             return false;
         }
+        
+        if (auditor == null) {
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("auditor.notnull"));
+            return false;
+        }
 
         return true;
+    }
+    
+    public static String[] getAllAuditors() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        String userNo = null;
+        String userName = null;
+        List<String> allAuditors = new ArrayList<String>();
+
+        String sql = "select * from dbo.t_product_daily_user where isDelete = 0 and isDisable = 0 and isAuditor = 1";
+        try {
+            conn = DBUtil.getConnection();
+            stmt = conn.prepareStatement(sql);
+
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                userNo = rs.getString("userNo");
+                userName = rs.getString("userName");
+                allAuditors.add(userNo + "-" + userName);
+            }
+        } catch (Exception e) {
+            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            DBUtil.release(conn, stmt, rs);
+        }
+        System.out.println(allAuditors);
+        String[] auditors = new String[allAuditors.size()];
+
+        return allAuditors.toArray(auditors);
     }
 
     public static void main(String[] args) {
         getMaxUserNo();
+        System.out.println(getAllAuditors()[0].substring(0, 4));
 //        Date now = new Date();
 //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss.S");
 //        System.out.println(now);

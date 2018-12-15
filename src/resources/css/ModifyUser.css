@@ -72,6 +72,15 @@
     -fx-pref-width: 150px;
 }
 
+#auditorLabel{
+    -fx-alignment: BASELINE_RIGHT;
+    -fx-pref-width: 100px;
+}
+
+#auditorCbox{
+    -fx-pref-width: 150px;
+}
+
 #isDisableLabel{
 	-fx-alignment: BASELINE_RIGHT;
 	-fx-pref-width: 100px;

@@ -40,6 +40,7 @@
           <TableColumn fx:id="isManagerCol" prefWidth="75.0" text="是否管理员" />
           <TableColumn fx:id="isAuditorCol" prefWidth="75.0" text="是否审核员" />
           <TableColumn fx:id="isDisableCol" prefWidth="75.0" text="是否禁用" />
+          <TableColumn fx:id="auditorCol" prefWidth="75.0" text="审核员" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

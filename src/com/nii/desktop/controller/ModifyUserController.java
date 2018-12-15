@@ -64,6 +64,9 @@ public class ModifyUserController implements Initializable {
 
     @FXML
     private CheckBox defaultPasswordCheckBox;
+    
+    @FXML
+    private ComboBox<String> auditorCbox;
 
     private User user;
 
@@ -74,20 +77,29 @@ public class ModifyUserController implements Initializable {
         isManagerCbox.setItems(FXCollections.observableArrayList("是", "否"));
         isAuditorCbox.setItems(FXCollections.observableArrayList("是", "否"));
         isDisableCbox.setItems(FXCollections.observableArrayList("是", "否"));
+        auditorCbox.setItems(FXCollections.observableArrayList(UserUtil.getAllAuditors()));
 
         user = SessionUtil.USERS.get("editUser");
+        User auditorUser = UserUtil.getUser(user.getAuditor());
         userNoLabelShow.setText(user.getUserNo());
         userNameField.setText(user.getUserName());
         isPieceworkCbox.setValue(user.getIsPiecework());
         isManagerCbox.setValue(user.getIsManager());
         isAuditorCbox.setValue(user.getIsAuditor());
         isDisableCbox.setValue(user.getIsDisable());
+        auditorCbox.setValue(auditorUser.getUserNo() + "-" + auditorUser.getUserName());
         
         if(!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
             userNameField.setDisable(true);
             isPieceworkCbox.setDisable(true);
             isManagerCbox.setDisable(true);
             isAuditorCbox.setDisable(true);
+            isDisableCbox.setDisable(true);
+            auditorCbox.setDisable(true);;
+        }
+        
+       // 如果当前登录用户不是管理员，则不显示增加和删除按钮
+        if ("是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
             isDisableCbox.setDisable(true);
         }
 
@@ -112,6 +124,7 @@ public class ModifyUserController implements Initializable {
         String isManager = (String) isManagerCbox.getValue();
         String isAuditor = (String) isAuditorCbox.getValue();
         String isDisable = (String) isDisableCbox.getValue();
+        String auditorValue = ((String) auditorCbox.getValue());
 
         if (defaultPasswordCheckBox.isSelected()) {
             password = PropsUtil.getConfigValue("user.default.password"); // 默认密码
@@ -127,9 +140,11 @@ public class ModifyUserController implements Initializable {
 
             try {
                 String sql = "update dbo.t_product_daily_user set userName = ?, password = ?, isPiecework = ?, "
-                        + "isManager = ?, isAuditor = ?, isDisable = ?, lastModifyTime = ? where isDelete = 0 and userNo = ?";
+                        + "isManager = ?, isAuditor = ?, isDisable = ?, lastModifyTime = ?, auditor = ? where isDelete = 0 and userNo = ?";
                 conn = DBUtil.getConnection();
                 stmt = conn.prepareStatement(sql);
+                
+                String auditorNo = auditorValue.substring(0, 4);
 
                 stmt.setString(1, userName);
                 stmt.setString(2, Encoder.encrypt(password));
@@ -138,7 +153,8 @@ public class ModifyUserController implements Initializable {
                 stmt.setInt(5, isAuditor == "是" ? 1 : 0);
                 stmt.setInt(6, isDisable == "是" ? 1 : 0);
                 stmt.setTimestamp(7, new Timestamp(new Date().getTime()));
-                stmt.setString(8, userNo);
+                stmt.setString(8, auditorNo);
+                stmt.setString(9, userNo);
 
                 stmt.executeUpdate();
 

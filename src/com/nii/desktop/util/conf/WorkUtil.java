@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.nii.desktop.controller.MainUIController;
 import com.nii.desktop.model.Work;
 import com.nii.desktop.model.WorkDetail;
 import com.nii.desktop.util.ui.AlertUtil;
@@ -185,6 +186,34 @@ public class WorkUtil {
         }
 
         return workDetail;
+    }
+
+    // 设置当月间接日报单金额
+    public static void setWorkMoney() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        double workMoney = 0.0;
+
+        try {
+            String sql = "select sum(unitPrice * workNum) as workMoney from dbo.t_product_daily_work_detail "
+                    + " where isDelete = 0 and status = 1 and workDate >= '"
+                    + DateUtil.SDF.format(DateUtil.lastMonth26Day()) + "' and workDate <= '"
+                    + DateUtil.SDF.format(DateUtil.curMonth25Day()) + "'";
+
+            conn = DBUtil.getConnection();
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                workMoney = rs.getDouble("workMoney");
+            }
+            ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController")).setWorkMoney(workMoney + "");
+        } catch (Exception e) {
+            Logger.getLogger(DailyUtil.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            DBUtil.release(conn, stmt, rs);
+        }
     }
 
     public static void main(String[] args) {

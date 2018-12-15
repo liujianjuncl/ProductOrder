@@ -219,6 +219,9 @@ public class DailyTableViewController implements Initializable {
 
     @FXML
     private DatePicker endDatePicker;
+    
+    @FXML
+    private Label dailyMoney;
 
     /* 系统stage */
     private static Stage dialogStage;
@@ -238,6 +241,8 @@ public class DailyTableViewController implements Initializable {
         if (SessionUtil.CONTROLLERS.get("DailyTableViewController") == null) {
             SessionUtil.CONTROLLERS.put("DailyTableViewController", this);
         }
+        
+        dailyMoney.setText("金额：0.0");
 
         // 双击某一行时，编辑该行
         dailyTableView.setRowFactory(new Callback<TableView<Daily>, TableRow<Daily>>() {
@@ -259,8 +264,8 @@ public class DailyTableViewController implements Initializable {
             }
         });
         
-        // 设置任务单数量
-        DailyUtil.queryBillnoCount();
+        // 设置日报单数量
+        DailyUtil.setBillnoCount();
         // 分页
 //        dailyTablePagination.setPageCount(1);
     }
@@ -316,7 +321,7 @@ public class DailyTableViewController implements Initializable {
                             + rs.getInt("processQty6") * rs.getDouble("processPrice6");
                 }
                 DecimalFormat df = new DecimalFormat("#.0000");
-                ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController")).setMoney(df.format(money));
+                dailyMoney.setText("金额：" + df.format(money));
             }
         } catch (Exception e) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
@@ -557,9 +562,9 @@ public class DailyTableViewController implements Initializable {
             DecimalFormat df = new DecimalFormat("#.0000");
             if (dailyDataList.size() == 0) {
                 AlertUtil.alertInfoLater(PropsUtil.getMessage("search.result.null"));
-                ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController")).setMoney("0.0");
+                dailyMoney.setText("金额：0.0");
             } else {
-                ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController")).setMoney(df.format(money));
+                dailyMoney.setText("金额：" + df.format(money));
             }
             dailyTableView.refresh();
         } catch (Exception e) {

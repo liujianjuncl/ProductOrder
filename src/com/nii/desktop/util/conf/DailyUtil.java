@@ -44,7 +44,7 @@ public class DailyUtil {
                     + "from dbo.ICMO c left join dbo.t_ICItemCore icc on c.FItemID = icc.FItemID "
                     + "left join dbo.t_Item item1 on c.FHeadSelfJ01103 = item1.FitemID "
                     + "left join dbo.t_Item item2 on c.FHeadSelfJ01105 = item2.FitemID "
-                    + "left join dbo.t_Item item3 on c.FHeadSelfJ01107 = item3.FitemID " 
+                    + "left join dbo.t_Item item3 on c.FHeadSelfJ01107 = item3.FitemID "
                     + "where c.FBillNo = ? and FCancellation = 0 ";
 
             conn = DBUtil.getConnection();
@@ -508,37 +508,76 @@ public class DailyUtil {
 
         return daily;
     }
-    
- // 刷新任务单数量
-    public static void queryBillnoCount() {
+
+    // 设置当月日报单金额
+    public static void setBillnoCount() {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         Date curMonth25Day = DateUtil.curMonth25Day();
         Date lastMonth26Day = DateUtil.lastMonth26Day();
-        
+
         int billCount = 0;
-        
+
         try {
             String sql1 = "select count(distinct billNo) as billCount from dbo.t_product_daily_bill_detail "
                     + " where isDelete = 0 and productDate >= '" + DateUtil.SDF.format(lastMonth26Day)
                     + "' and productDate <= '" + DateUtil.SDF.format(curMonth25Day) + "'";
-            
+
             if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
                 sql1 = sql1 + " and createUser = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
             }
-            
+
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql1);
             rs = stmt.executeQuery();
-            
-            while(rs.next()) {
+
+            while (rs.next()) {
                 billCount = rs.getInt("billCount");
             }
-          System.out.println(billCount);
+
             ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController")).setBillCount(billCount + "");
-            
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 设置当月日报单金额
+    public static void setBillmoney() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        Date curMonth25Day = DateUtil.curMonth25Day();
+        Date lastMonth26Day = DateUtil.lastMonth26Day();
+
+        double money = 0.0;
+
+        try {
+            String sql = "select sum(resProcessQty1 * resProcessPrice1 + resProcessQty2 * resProcessPrice2"
+                    + " + resProcessQty3 * resProcessPrice3 + processQty1 * processPrice1"
+                    + " + processQty2 * processPrice2 + processQty3 * processPrice3"
+                    + " + processQty4 * processPrice4 + processQty5 * processPrice5"
+                    + " + processQty6 * processPrice6) as money from dbo.t_product_daily_bill_detail "
+                    + " where isDelete = 0 and productDate >= '" + DateUtil.SDF.format(lastMonth26Day)
+                    + "' and productDate <= '" + DateUtil.SDF.format(curMonth25Day) + "'";
+
+            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
+                sql = sql + " and createUser = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
+            }
+
+            conn = DBUtil.getConnection();
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                money = rs.getDouble("money");
+            }
+
+            ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController")).setDailyMoney(Double.toString(money));
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

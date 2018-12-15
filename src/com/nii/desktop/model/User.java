@@ -29,19 +29,22 @@ public class User {
 
     // 是否禁用 1:是，0：否
     private SimpleStringProperty isDisable = new SimpleStringProperty();
-    
+
     // 是否审核员 1:是，0：否
     private SimpleStringProperty isAuditor = new SimpleStringProperty();
+
+    // 审核员
+    private SimpleStringProperty auditor = new SimpleStringProperty();
 
     // 定义为 final 好像是一种规范做法
     private StringProperty status = new SimpleStringProperty();
 
     public User() {
-        
+
     }
 
-    public User(String userNo, String userName, String password, String isPiecework, String isManager,
-            String isDisable, String isAuditor) {
+    public User(String userNo, String userName, String password, String isPiecework, String isManager, String isDisable,
+            String isAuditor, String auditor) {
         setUserNo(userNo);
         setUserName(userName);
         setPassword(password);
@@ -49,10 +52,11 @@ public class User {
         setIsManager(isManager);
         setIsDisable(isDisable);
         setIsAuditor(isAuditor);
+        setAuditor(auditor);
     }
 
     public User(CheckBox checkbox, String userNo, String userName, String isPiecework, String isManager,
-            String isDisable, String isAuditor) {
+            String isDisable, String isAuditor, String auditor) {
         setCheckbox(checkbox);
         setUserNo(userNo);
         setUserName(userName);
@@ -60,6 +64,7 @@ public class User {
         setIsManager(isManager);
         setIsDisable(isDisable);
         setIsAuditor(isAuditor);
+        setAuditor(auditor);
     }
 
     public CheckBox getCheckbox() {
@@ -141,7 +146,7 @@ public class User {
     public void setIsDisable(String isDisable) {
         this.isDisable.set(isDisable);
     }
-    
+
     public String getIsAuditor() {
         return isAuditor.get();
     }
@@ -152,6 +157,18 @@ public class User {
 
     public void setIsAuditor(String isAuditor) {
         this.isAuditor.set(isAuditor);
+    }
+    
+    public String getAuditor() {
+        return auditor.get();
+    }
+
+    public SimpleStringProperty auditorProperty() {
+        return auditor;
+    }
+
+    public void setAuditor(String auditor) {
+        this.auditor.set(auditor);
     }
 
     // * 特别说明： xxxProperty 方法名，是 fx 的规范，只要属性名加上 Peoperty() 作为方法名，fx 就能自动监听该属性的变化！

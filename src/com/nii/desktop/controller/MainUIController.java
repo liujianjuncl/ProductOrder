@@ -2,6 +2,7 @@ package com.nii.desktop.controller;
 
 import com.nii.desktop.util.conf.DailyUtil;
 import com.nii.desktop.util.conf.SessionUtil;
+import com.nii.desktop.util.conf.WorkUtil;
 import com.nii.desktop.util.ui.ResourceLoader;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -80,13 +81,20 @@ public class MainUIController implements Initializable {
     private Label currentUser;
 
     @FXML
-    private Label money;
+    private Label dailyMoney;
 
     @FXML
     private Label billCount;
+    
+    @FXML
+    private Label workMoney;
 
-    public void setMoney(String m) {
-        this.money.setText(m);
+    public void setDailyMoney(String m) {
+        this.dailyMoney.setText(m);
+    }
+    
+    public void setWorkMoney(String m) {
+        this.workMoney.setText(m);
     }
 
     public void setBillCount(String count) {
@@ -102,8 +110,9 @@ public class MainUIController implements Initializable {
         dailyManageButton.setStyle("-fx-background-color: #808080");
         loadDailyTableView();
 
-        DailyUtil.queryBillnoCount();
-        money.setText("0.0");
+        DailyUtil.setBillnoCount();
+        DailyUtil.setBillmoney();
+        WorkUtil.setWorkMoney();
         currentUser.setText(SessionUtil.USERS.get("loginUser").getUserName());
 
 //        numTextField.setEditable(false);
@@ -124,7 +133,6 @@ public class MainUIController implements Initializable {
         workDetailManageButton.setStyle(null);
         rightPane.getChildren().clear();
         loadUserTableView();
-        money.setText("0.0");
     }
 
     @FXML
@@ -135,7 +143,6 @@ public class MainUIController implements Initializable {
         workDetailManageButton.setStyle(null);
         rightPane.getChildren().clear();
         loadDailyTableView();
-        money.setText("0.0");
     }
 
     @FXML
@@ -146,7 +153,6 @@ public class MainUIController implements Initializable {
         workManageButton.setStyle(null);
         rightPane.getChildren().clear();
         loadWorkDetailTableView();
-        money.setText("0.0");
     }
 
     @FXML
@@ -157,7 +163,6 @@ public class MainUIController implements Initializable {
         workDetailManageButton.setStyle(null);
         rightPane.getChildren().clear();
         loadWorkTableView();
-        money.setText("0.0");
     }
 
     @SuppressWarnings("static-access")

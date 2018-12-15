@@ -55,10 +55,14 @@ public class AddUserController implements Initializable {
 
     @FXML
     private ComboBox isManagerCbox;
-    
+
     /* 是否审核员 */
     @FXML
     private ComboBox isAuditorCbox;
+
+    /* 审核员 */
+    @FXML
+    private ComboBox auditorCbox;
 
     @FXML
     private CheckBox defaultPasswordCheckBox;
@@ -70,6 +74,7 @@ public class AddUserController implements Initializable {
         isPieceworkCbox.setItems(FXCollections.observableArrayList("是", "否"));
         isManagerCbox.setItems(FXCollections.observableArrayList("是", "否"));
         isAuditorCbox.setItems(FXCollections.observableArrayList("是", "否"));
+        auditorCbox.setItems(FXCollections.observableArrayList(UserUtil.getAllAuditors()));
 
         /** 监听CheckBox */
         defaultPasswordCheckBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
@@ -91,12 +96,13 @@ public class AddUserController implements Initializable {
         String isPiecework = (String) isPieceworkCbox.getValue();
         String isManager = (String) isManagerCbox.getValue();
         String isAuditor = (String) isAuditorCbox.getValue();
+        String auditorValue = ((String) auditorCbox.getValue());
 
         if (defaultPasswordCheckBox.isSelected()) {
             password = PropsUtil.getConfigValue("user.default.password"); // 默认密码
         }
 
-        boolean result = UserUtil.verifyUserInfo(userName, password, isPiecework, isManager, isAuditor);
+        boolean result = UserUtil.verifyUserInfo(userName, password, isPiecework, isManager, isAuditor, auditorValue);
 
         if (result) {
             Connection conn = null;
@@ -105,19 +111,23 @@ public class AddUserController implements Initializable {
 
             try {
                 String sql = "insert into dbo.t_product_daily_user (userNo, userName, password, isPiecework, "
-                        + "isManager, isDisable, createTime, isAuditor) values (?,?,?,?,?,?,?,?)";
+                        + "isManager, isDisable, createUser, createTime, isAuditor, auditor) values (?,?,?,?,?,?,?,?,?,?)";
                 conn = DBUtil.getConnection();
                 stmt = conn.prepareStatement(sql);
                 userNo = UserUtil.getMaxUserNo();
-
+                
+                String auditorNo = auditorValue.substring(0, 4);
+                
                 stmt.setString(1, userNo);
                 stmt.setString(2, userName);
                 stmt.setString(3, Encoder.encrypt(password));
                 stmt.setInt(4, isPiecework == "是" ? 1 : 0);
                 stmt.setInt(5, isManager == "是" ? 1 : 0);
                 stmt.setInt(6, 0);
-                stmt.setTimestamp(7, new Timestamp(new Date().getTime()));
-                stmt.setInt(8, isAuditor == "是" ? 1 : 0);
+                stmt.setString(7, SessionUtil.USERS.get("loginUser").getUserNo());
+                stmt.setTimestamp(8, new Timestamp(new Date().getTime()));
+                stmt.setInt(9, isAuditor == "是" ? 1 : 0);
+                stmt.setString(10, auditorNo);
 
                 stmt.executeUpdate();
 

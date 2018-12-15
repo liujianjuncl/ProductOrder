@@ -47,7 +47,7 @@ public class ModifyWorkDetailController implements Initializable {
 
     @FXML
     private AnchorPane modifyWorkDetailPane;
-    
+
     @FXML
     private Label workDetailNo;
 
@@ -65,13 +65,13 @@ public class ModifyWorkDetailController implements Initializable {
 
     @FXML
     private TextField workNumField;
-    
+
     @FXML
     private TextField workDetailMoney;
-    
+
     @FXML
     private DatePicker workDate;
-    
+
     private WorkDetail editWorkDetail;
 
     @SuppressWarnings("unchecked")
@@ -86,9 +86,9 @@ public class ModifyWorkDetailController implements Initializable {
         unitCbox.setValue(editWorkDetail.getUnit());
         unitPriceField.setText(Double.toString(editWorkDetail.getUnitPrice()));
         workNumField.setText(Integer.toString(editWorkDetail.getWorkNum()));
-        workDetailMoney.setText(editWorkDetail.getWorkNum() * editWorkDetail.getUnitPrice() + ""); 
-        
-       // 实际作业数量只允许输入数字
+        workDetailMoney.setText(editWorkDetail.getWorkNum() * editWorkDetail.getUnitPrice() + "");
+
+        // 实际作业数量只允许输入数字
         workNumField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -98,13 +98,23 @@ public class ModifyWorkDetailController implements Initializable {
                     workNumField.setText(oldValue);
                     workNumField.setEditable(true);
                 }
-                workDetailMoney.setText(Double.toString(Integer.parseInt(workNumField.getText().trim()) * editWorkDetail.getUnitPrice())); 
+                workDetailMoney.setText(Double
+                        .toString(Integer.parseInt(workNumField.getText().trim()) * editWorkDetail.getUnitPrice()));
             }
         });
     }
 
     @FXML
     public void confirmBtnAction() {
+        Timestamp workDateV = new Timestamp(DateUtil.localDateToDate(workDate.getValue()).getTime());
+
+        if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
+            if (workDateV.compareTo(DateUtil.lastMonth26Day()) < 0
+                    || workDateV.compareTo(DateUtil.curMonth25Day()) > 0) {
+                AlertUtil.alertInfoLater(PropsUtil.getMessage("workDetail.donot.modify.workDate"));
+                return;
+            }
+        }
 
         String workNum = workNumField.getText().trim();
 
