@@ -250,6 +250,59 @@ public class UserUtil {
         return true;
     }
     
+    /* 校验修改用户信息 */
+    public static boolean verifyModifyUserInfo(String userName, String password, String isPiecework, String isManager,
+            String isDisable, String isAuditor, String auditor) {
+        if ("".equals(userName.trim())) {
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("userName.notnull"));
+            return false;
+        }
+
+        if (userName.trim().length() > 10) {
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("userName.length"));
+            return false;
+        }
+
+        if(!"".equals(password.trim())) {
+            if (password.trim().length() < 6) {
+                AlertUtil.alertInfoLater(PropsUtil.getMessage("password.length.min"));
+                return false;
+            }
+
+            if (password.trim().length() > 18) {
+                AlertUtil.alertInfoLater(PropsUtil.getMessage("password.length.max"));
+                return false;
+            }
+        }
+
+        if (isPiecework == null) {
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("isPiecework.notnull"));
+            return false;
+        }
+
+        if (isManager == null) {
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("isManager.notnull"));
+            return false;
+        }
+        
+        if (isAuditor == null) {
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("isAuditor.notnull"));
+            return false;
+        }
+
+        if (isDisable == null) {
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("isDisable.notnull"));
+            return false;
+        }
+        
+        if (auditor == null) {
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("auditor.notnull"));
+            return false;
+        }
+
+        return true;
+    }
+    
     public static String[] getAllAuditors() {
         Connection conn = null;
         PreparedStatement stmt = null;

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -10,16 +11,16 @@
    <children>
       <GridPane prefHeight="60.0" prefWidth="3015.0">
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="647.0" minWidth="52.0" prefWidth="91.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="647.0" minWidth="52.0" prefWidth="166.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="647.0" minWidth="25.0" prefWidth="35.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="647.0" minWidth="33.0" prefWidth="74.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1038.0" minWidth="154.0" prefWidth="154.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1038.0" minWidth="17.0" prefWidth="27.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1038.0" minWidth="62.0" prefWidth="66.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1038.0" minWidth="64.0" prefWidth="67.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1504.0" minWidth="10.0" prefWidth="76.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1729.0" minWidth="10.0" prefWidth="155.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="647.0" minWidth="52.0" prefWidth="70.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="647.0" minWidth="52.0" prefWidth="161.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="647.0" minWidth="25.0" prefWidth="32.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="647.0" minWidth="33.0" prefWidth="70.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1038.0" minWidth="153.0" prefWidth="158.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1038.0" minWidth="17.0" prefWidth="33.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1038.0" minWidth="62.0" prefWidth="73.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1038.0" minWidth="58.0" prefWidth="63.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1504.0" minWidth="10.0" prefWidth="61.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1729.0" minWidth="10.0" prefWidth="181.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -28,10 +29,13 @@
          <children>
             
             <Button fx:id="searchBtn" mnemonicParsing="false" onAction="#workDetailSearchAction" text="搜索" GridPane.columnIndex="6" GridPane.rowIndex="1" />
-         <Button fx:id="addWorkDetailBtn" mnemonicParsing="false" onAction="#addWorkDetailAction" text="新建" GridPane.columnIndex="7" />
-         <Button fx:id="deleteWorkDetailBtn" mnemonicParsing="false" onAction="#deleteWorkDetailAction" text="删除" GridPane.columnIndex="7" GridPane.rowIndex="1" />
-            <Button fx:id="antiAuditWorkDetailBtn" mnemonicParsing="false" onAction="#antiAuditWorkDetailAction" text="反审核" GridPane.columnIndex="8" GridPane.rowIndex="1" />
-            <Button fx:id="auditWorkDetailBtn" mnemonicParsing="false" onAction="#auditWorkDetailAction" text="审核" GridPane.columnIndex="8" />
+         <Button fx:id="addWorkDetailBtn" mnemonicParsing="false" onAction="#addWorkDetailAction" text="新建" GridPane.columnIndex="7" GridPane.rowIndex="1" />
+         <Button fx:id="deleteWorkDetailBtn" mnemonicParsing="false" onAction="#deleteWorkDetailAction" text="删除" GridPane.columnIndex="8" GridPane.rowIndex="1" />
+            <Button fx:id="antiAuditWorkDetailBtn" mnemonicParsing="false" onAction="#antiAuditWorkDetailAction" text="反审核" GridPane.columnIndex="6" />
+            <Button fx:id="auditWorkDetailBtn" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#auditWorkDetailAction" style="-fx-translate-x: 115;" text="审核" GridPane.columnIndex="4">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets></Button>
             <Label text="用户编号：" />
             <TextField fx:id="userNoTextField" GridPane.columnIndex="1" />
             <Label text="开始时间：" GridPane.rowIndex="1" />

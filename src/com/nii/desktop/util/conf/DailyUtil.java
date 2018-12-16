@@ -510,7 +510,7 @@ public class DailyUtil {
     }
 
     // 设置当月日报单金额
-    public static void setBillnoCount() {
+    public static void setBillnoCount(String userNo) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -527,6 +527,10 @@ public class DailyUtil {
 
             if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
                 sql1 = sql1 + " and createUser = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
+            }
+            
+            if(!"".equals(userNo)) {
+                sql1 = sql1 + " and createUser = '" + userNo + "'";
             }
 
             conn = DBUtil.getConnection();
@@ -545,7 +549,7 @@ public class DailyUtil {
     }
 
     // 设置当月日报单金额
-    public static double setBillmoney() {
+    public static double setBillmoney(String userNo) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -566,6 +570,10 @@ public class DailyUtil {
 
             if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
                 sql = sql + " and createUser = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
+            }
+            
+            if(!"".equals(userNo)) {
+                sql = sql + " and createUser = '" + userNo + "'";
             }
 
             conn = DBUtil.getConnection();

@@ -120,8 +120,8 @@ public class ModifyUserController implements Initializable {
 
     @FXML
     public void confirmBtnAction() {
-        String userName = userNameField.getText();
-        String password = passwordField.getText();
+        String userName = userNameField.getText().trim();
+        String password = passwordField.getText().trim();
         String isPiecework = (String) isPieceworkCbox.getValue();
         String isManager = (String) isManagerCbox.getValue();
         String isAuditor = (String) isAuditorCbox.getValue();
@@ -132,7 +132,7 @@ public class ModifyUserController implements Initializable {
             password = PropsUtil.getConfigValue("user.default.password"); // 默认密码
         }
 
-        boolean result = UserUtil.verifyUserInfo(userName, password, isPiecework, isManager, isDisable, isAuditor, auditorValue);
+        boolean result = UserUtil.verifyModifyUserInfo(userName, password, isPiecework, isManager, isDisable, isAuditor, auditorValue);
 
         if (result) {
             Connection conn = null;
@@ -141,22 +141,25 @@ public class ModifyUserController implements Initializable {
             String userNo = user.getUserNo();
 
             try {
-                String sql = "update dbo.t_product_daily_user set userName = ?, password = ?, isPiecework = ?, "
-                        + "isManager = ?, isAuditor = ?, isDisable = ?, lastModifyTime = ?, auditor = ? where isDelete = 0 and userNo = ?";
+                String sql = "update dbo.t_product_daily_user set userName = ?, isPiecework = ?, "
+                        + "isManager = ?, isAuditor = ?, isDisable = ?, lastModifyTime = ?, auditor = ? ";
+                if(!"".equals(password)) {
+                    sql = sql + ", password = " + Encoder.encrypt(password);
+                }
+                sql = sql + "where isDelete = 0 and userNo = ?";
                 conn = DBUtil.getConnection();
                 stmt = conn.prepareStatement(sql);
                 
                 String auditorNo = auditorValue.substring(0, 4);
 
                 stmt.setString(1, userName);
-                stmt.setString(2, Encoder.encrypt(password));
-                stmt.setInt(3, isPiecework == "是" ? 1 : 0);
-                stmt.setInt(4, isManager == "是" ? 1 : 0);
-                stmt.setInt(5, isAuditor == "是" ? 1 : 0);
-                stmt.setInt(6, isDisable == "是" ? 1 : 0);
-                stmt.setTimestamp(7, new Timestamp(new Date().getTime()));
-                stmt.setString(8, auditorNo);
-                stmt.setString(9, userNo);
+                stmt.setInt(2, isPiecework == "是" ? 1 : 0);
+                stmt.setInt(3, isManager == "是" ? 1 : 0);
+                stmt.setInt(4, isAuditor == "是" ? 1 : 0);
+                stmt.setInt(5, isDisable == "是" ? 1 : 0);
+                stmt.setTimestamp(6, new Timestamp(new Date().getTime()));
+                stmt.setString(7, auditorNo);
+                stmt.setString(8, userNo);
 
                 stmt.executeUpdate();
 

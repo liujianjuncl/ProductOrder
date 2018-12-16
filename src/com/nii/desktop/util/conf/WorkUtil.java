@@ -189,7 +189,7 @@ public class WorkUtil {
     }
 
     // 设置当月间接日报单金额
-    public static double setWorkMoney() {
+    public static double setWorkMoney(String userNo) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -213,6 +213,10 @@ public class WorkUtil {
             if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())
                     && "是".equals(SessionUtil.USERS.get("loginUser").getIsAuditor())) {
                 sql = sql + " and u.auditor = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
+            }
+            
+            if(!"".equals(userNo)) {
+                sql = sql + " and work.createUser = '" + userNo + "'";
             }
             
             conn = DBUtil.getConnection();

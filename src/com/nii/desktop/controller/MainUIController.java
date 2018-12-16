@@ -117,10 +117,6 @@ public class MainUIController implements Initializable {
         dailyManageButton.setStyle("-fx-background-color: #808080");
         loadDailyTableView();
 
-        DailyUtil.setBillnoCount();
-        DailyUtil.setBillmoney();
-        WorkUtil.setWorkMoney();
-        this.setSumMoney(DailyUtil.setBillmoney() + WorkUtil.setWorkMoney() + "");
         currentUser.setText(SessionUtil.USERS.get("loginUser").getUserName());
 
 //        numTextField.setEditable(false);

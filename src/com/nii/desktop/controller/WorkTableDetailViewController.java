@@ -5,6 +5,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
@@ -318,6 +319,11 @@ public class WorkTableDetailViewController implements Initializable {
 
     /* 修改间接日报单 */
     public void modifyWorkDetailAction(WorkDetail workDetail) {
+        if("已审核".equals(workDetail.getStatus())) {
+            AlertUtil.alertInfoLater(PropsUtil.getMessage("audit.workDetail.donot.modify"));
+            return;
+        }
+        
         if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
             if (workDetail.getWorkDate().compareTo(DateUtil.lastMonth26Day()) < 0
                     || workDetail.getWorkDate().compareTo(DateUtil.curMonth25Day()) > 0) {
@@ -358,7 +364,7 @@ public class WorkTableDetailViewController implements Initializable {
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        String userNo = userNoTextField.getText();
+        String userNo = userNoTextField.getText().trim();
         LocalDate startDate = startDatePicker.getValue();
         LocalDate endDate = endDatePicker.getValue();
 
@@ -394,6 +400,10 @@ public class WorkTableDetailViewController implements Initializable {
             if (endDate != null) {
                 sql = sql + " and work.workDate <= '" + DateUtil.localDateToDateTimeStr(endDate) + "'";
             }
+            
+            if (userNo != null && !"".equals(userNo)) {
+                sql = sql + " and work.createUser like '%" + userNo + "%'";
+            }
 
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
@@ -418,7 +428,7 @@ public class WorkTableDetailViewController implements Initializable {
             }
             addDatatoTableView();
             setWorkDetailAuditMoney();
-            ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController")).setSumMoney(DailyUtil.setBillmoney() + WorkUtil.setWorkMoney() + "");
+            ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController")).setSumMoney(DailyUtil.setBillmoney(userNo) + WorkUtil.setWorkMoney(userNo) + "");
         } catch (Exception e) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
         } finally {
@@ -433,7 +443,7 @@ public class WorkTableDetailViewController implements Initializable {
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        String userNo = userNoTextField.getText();
+        String userNo = userNoTextField.getText().trim();
         LocalDate startDate = startDatePicker.getValue();
         LocalDate endDate = endDatePicker.getValue();
 
@@ -456,15 +466,15 @@ public class WorkTableDetailViewController implements Initializable {
             }
 
             if (userNo != null && !"".equals(userNo)) {
-                sql = sql + " and createUser like '%" + userNo + "%'";
+                sql = sql + " and work.createUser like '%" + userNo + "%'";
             }
 
             if (startDate != null) {
-                sql = sql + " and workDate >= '" + DateUtil.localDateToDateTimeStr(startDate) + "'";
+                sql = sql + " and work.workDate >= '" + DateUtil.localDateToDateTimeStr(startDate) + "'";
             }
 
             if (endDate != null) {
-                sql = sql + " and workDate <= '" + DateUtil.localDateToDateTimeStr(endDate) + "'";
+                sql = sql + " and work.workDate <= '" + DateUtil.localDateToDateTimeStr(endDate) + "'";
             }
 
             conn = DBUtil.getConnection();
@@ -482,7 +492,7 @@ public class WorkTableDetailViewController implements Initializable {
                 workMoney.setText("金额：" + df.format(money));
             }
             addDatatoTableView();
-            WorkUtil.setWorkMoney();
+            WorkUtil.setWorkMoney(userNo);
         } catch (Exception e) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
         } finally {
@@ -509,10 +519,16 @@ public class WorkTableDetailViewController implements Initializable {
             try {
                 String sql = "update dbo.t_product_daily_work_detail set isDelete = 1 where workDetailNo = ?";
                 conn = DBUtil.getConnection();
+                conn.setAutoCommit(false);
                 stmt = conn.prepareStatement(sql);
 
                 for (int i = 0; i < workDetailNoList.size(); i++) {
                     String workDetailNo = workDetailNoList.get(i);
+                    WorkDetail workD = WorkUtil.getWorkDetailByNo(workDetailNo);
+                    if("已审核".equals(workD.getStatus())) {
+                        AlertUtil.alertInfoLater(PropsUtil.getMessage("audit.workDetail.donot.delete"));
+                        return;
+                    }
                     stmt.setString(1, workDetailNo);
                     stmt.executeUpdate();
                 }
@@ -521,6 +537,11 @@ public class WorkTableDetailViewController implements Initializable {
                 Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
                 return;
             } finally {
+                try {
+                    conn.rollback();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 DBUtil.release(conn, stmt);
             }
             AlertUtil.alertInfoLater(PropsUtil.getMessage("workDetail.delete.success"));

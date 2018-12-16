@@ -265,8 +265,6 @@ public class DailyTableViewController implements Initializable {
             }
         });
         
-        // 设置日报单数量
-        DailyUtil.setBillnoCount();
         // 分页
 //        dailyTablePagination.setPageCount(1);
     }
@@ -497,8 +495,8 @@ public class DailyTableViewController implements Initializable {
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        String userNo = userNoTextField.getText();
-        String billNo = billNoTextField.getText();
+        String userNo = userNoTextField.getText().trim();
+        String billNo = billNoTextField.getText().trim();
         LocalDate startDate = startDatePicker.getValue();
         LocalDate endDate = endDatePicker.getValue();
 
@@ -567,7 +565,11 @@ public class DailyTableViewController implements Initializable {
             } else {
                 dailyMoney.setText("金额：" + df.format(money));
             }
-            ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController")).setSumMoney(DailyUtil.setBillmoney() + WorkUtil.setWorkMoney() + "");
+            
+            // 设置日报单数量
+            DailyUtil.setBillnoCount(userNo);
+            
+            ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController")).setSumMoney(DailyUtil.setBillmoney(userNo) + WorkUtil.setWorkMoney(userNo) + "");
             dailyTableView.refresh();
         } catch (Exception e) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
