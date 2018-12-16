@@ -527,6 +527,11 @@ public class WorkTableDetailViewController implements Initializable {
                     WorkDetail workD = WorkUtil.getWorkDetailByNo(workDetailNo);
                     if("“—…Û∫À".equals(workD.getStatus())) {
                         AlertUtil.alertInfoLater(PropsUtil.getMessage("audit.workDetail.donot.delete"));
+                        try {
+                            conn.rollback();
+                        } catch (SQLException ex) {
+                            ex.printStackTrace();
+                        }
                         return;
                     }
                     stmt.setString(1, workDetailNo);
@@ -535,13 +540,7 @@ public class WorkTableDetailViewController implements Initializable {
 
             } catch (Exception e) {
                 Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
-                return;
             } finally {
-                try {
-                    conn.rollback();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
                 DBUtil.release(conn, stmt);
             }
             AlertUtil.alertInfoLater(PropsUtil.getMessage("workDetail.delete.success"));
