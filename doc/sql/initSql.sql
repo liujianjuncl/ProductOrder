@@ -191,6 +191,7 @@ CREATE TABLE [dbo].[t_product_daily_work_detail](
 
 GO
 
-
+--创建索引
+create index index_createUser_billNo_productDate on dbo.t_product_daily_bill_detail(createUser, billNo, productDate);
 
 
