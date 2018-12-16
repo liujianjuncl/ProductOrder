@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -189,7 +190,7 @@ public class WorkUtil {
     }
 
     // 设置当月间接日报单金额
-    public static double setWorkMoney(String userNo) {
+    public static double setWorkMoney(String userNo, LocalDate startDate, LocalDate endDate) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -217,6 +218,14 @@ public class WorkUtil {
             
             if(!"".equals(userNo)) {
                 sql = sql + " and work.createUser = '" + userNo + "'";
+            }
+            
+            if (startDate != null) {
+                sql = sql + " and work.workDate >= '" + DateUtil.localDateToDateTimeStr(startDate) + "'";
+            }
+
+            if (endDate != null) {
+                sql = sql + " and work.workDate <= '" + DateUtil.localDateToDateTimeStr(endDate) + "'";
             }
             
             conn = DBUtil.getConnection();

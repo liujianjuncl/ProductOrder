@@ -319,11 +319,11 @@ public class WorkTableDetailViewController implements Initializable {
 
     /* 修改间接日报单 */
     public void modifyWorkDetailAction(WorkDetail workDetail) {
-        if("已审核".equals(workDetail.getStatus())) {
+        if ("已审核".equals(workDetail.getStatus())) {
             AlertUtil.alertInfoLater(PropsUtil.getMessage("audit.workDetail.donot.modify"));
             return;
         }
-        
+
         if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
             if (workDetail.getWorkDate().compareTo(DateUtil.lastMonth26Day()) < 0
                     || workDetail.getWorkDate().compareTo(DateUtil.curMonth25Day()) > 0) {
@@ -374,9 +374,9 @@ public class WorkTableDetailViewController implements Initializable {
         double money = 0.0;
 
         try {
-            String sql = "select work.* from dbo.t_product_daily_work_detail work " + 
-                    " left join dbo.t_product_daily_user u on work.createUser = u.userNo " + 
-                    " where work.isDelete = 0 ";
+            String sql = "select work.* from dbo.t_product_daily_work_detail work "
+                    + " left join dbo.t_product_daily_user u on work.createUser = u.userNo "
+                    + " where work.isDelete = 0 ";
             // 如果当前用户既不是管理员也不是审核员，则只查询当前用户的间接日报单
             if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())
                     && !"是".equals(SessionUtil.USERS.get("loginUser").getIsAuditor())) {
@@ -400,7 +400,7 @@ public class WorkTableDetailViewController implements Initializable {
             if (endDate != null) {
                 sql = sql + " and work.workDate <= '" + DateUtil.localDateToDateTimeStr(endDate) + "'";
             }
-            
+
             if (userNo != null && !"".equals(userNo)) {
                 sql = sql + " and work.createUser like '%" + userNo + "%'";
             }
@@ -428,7 +428,8 @@ public class WorkTableDetailViewController implements Initializable {
             }
             addDatatoTableView();
             setWorkDetailAuditMoney();
-            ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController")).setSumMoney(DailyUtil.setBillmoney(userNo) + WorkUtil.setWorkMoney(userNo) + "");
+            ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController")).setSumMoney(
+                    DailyUtil.setBillmoney(userNo) + WorkUtil.setWorkMoney(userNo, startDate, endDate) + "");
         } catch (Exception e) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
         } finally {
@@ -436,7 +437,7 @@ public class WorkTableDetailViewController implements Initializable {
         }
         workDetailTableView.refresh();
     }
-    
+
     @FXML
     public void setWorkDetailAuditMoney() {
         Connection conn = null;
@@ -447,12 +448,16 @@ public class WorkTableDetailViewController implements Initializable {
         LocalDate startDate = startDatePicker.getValue();
         LocalDate endDate = endDatePicker.getValue();
 
+        // 将时间条件存到缓存中，在其他地方调用
+        SessionUtil.PARAMS.put("workStartDate", startDate);
+        SessionUtil.PARAMS.put("workEndDate", endDate);
+
         double money = 0.0;
 
         try {
-            String sql = "select work.* from dbo.t_product_daily_work_detail work " + 
-                    " left join dbo.t_product_daily_user u on work.createUser = u.userNo " + 
-                    " where work.isDelete = 0 and work.status = 1 ";
+            String sql = "select work.* from dbo.t_product_daily_work_detail work "
+                    + " left join dbo.t_product_daily_user u on work.createUser = u.userNo "
+                    + " where work.isDelete = 0 and work.status = 1 ";
             // 如果当前用户既不是管理员也不是审核员，则只查询当前用户的间接日报单
             if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())
                     && !"是".equals(SessionUtil.USERS.get("loginUser").getIsAuditor())) {
@@ -492,7 +497,7 @@ public class WorkTableDetailViewController implements Initializable {
                 workMoney.setText("金额：" + df.format(money));
             }
             addDatatoTableView();
-            WorkUtil.setWorkMoney(userNo);
+            WorkUtil.setWorkMoney(userNo, startDate, endDate);
         } catch (Exception e) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
         } finally {
@@ -521,11 +526,10 @@ public class WorkTableDetailViewController implements Initializable {
                 conn = DBUtil.getConnection();
                 conn.setAutoCommit(false);
                 stmt = conn.prepareStatement(sql);
-
                 for (int i = 0; i < workDetailNoList.size(); i++) {
                     String workDetailNo = workDetailNoList.get(i);
                     WorkDetail workD = WorkUtil.getWorkDetailByNo(workDetailNo);
-                    if("已审核".equals(workD.getStatus())) {
+                    if ("已审核".equals(workD.getStatus())) {
                         AlertUtil.alertInfoLater(PropsUtil.getMessage("audit.workDetail.donot.delete"));
                         try {
                             conn.rollback();
@@ -536,6 +540,7 @@ public class WorkTableDetailViewController implements Initializable {
                     }
                     stmt.setString(1, workDetailNo);
                     stmt.executeUpdate();
+                    conn.commit();
                 }
 
             } catch (Exception e) {

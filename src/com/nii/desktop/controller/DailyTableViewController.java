@@ -220,7 +220,7 @@ public class DailyTableViewController implements Initializable {
 
     @FXML
     private DatePicker endDatePicker;
-    
+
     @FXML
     private Label dailyMoney;
 
@@ -242,7 +242,7 @@ public class DailyTableViewController implements Initializable {
         if (SessionUtil.CONTROLLERS.get("DailyTableViewController") == null) {
             SessionUtil.CONTROLLERS.put("DailyTableViewController", this);
         }
-        
+
         dailyMoney.setText("金额：0.0");
 
         // 双击某一行时，编辑该行
@@ -264,7 +264,7 @@ public class DailyTableViewController implements Initializable {
                 return row;
             }
         });
-        
+
         // 分页
 //        dailyTablePagination.setPageCount(1);
     }
@@ -499,7 +499,7 @@ public class DailyTableViewController implements Initializable {
         String billNo = billNoTextField.getText().trim();
         LocalDate startDate = startDatePicker.getValue();
         LocalDate endDate = endDatePicker.getValue();
-        
+
         String last3Month = DateUtil.last3MonthDateTimeStr();
 
         // 添加表格数据前先清空
@@ -512,7 +512,7 @@ public class DailyTableViewController implements Initializable {
             if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
                 sql = sql + " and createUser = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
             }
-            
+
             if (userNo != null && !"".equals(userNo)) {
                 sql = sql + " and createUser = '" + userNo + "'";
             }
@@ -524,7 +524,7 @@ public class DailyTableViewController implements Initializable {
             if (startDate != null) {
                 sql = sql + " and productDate >= '" + DateUtil.localDateToDateTimeStr(startDate) + "'";
             } else {
-                sql = sql + " and productDate >= '" + last3Month;
+                sql = sql + " and productDate >= '" + last3Month + "'";
             }
 
             if (endDate != null) {
@@ -569,11 +569,15 @@ public class DailyTableViewController implements Initializable {
             } else {
                 dailyMoney.setText("金额：" + df.format(money));
             }
-            
+
             // 设置日报单数量
             DailyUtil.setBillnoCount(userNo);
-            
-            ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController")).setSumMoney(DailyUtil.setBillmoney(userNo) + WorkUtil.setWorkMoney(userNo) + "");
+
+            ((MainUIController) SessionUtil.CONTROLLERS.get("MainUIController"))
+                    .setSumMoney(DailyUtil.setBillmoney(userNo)
+                            + WorkUtil.setWorkMoney(userNo, (LocalDate) SessionUtil.PARAMS.get("workStartDate"),
+                                    (LocalDate) SessionUtil.PARAMS.get("workEndDate"))
+                            + "");
             dailyTableView.refresh();
         } catch (Exception e) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);

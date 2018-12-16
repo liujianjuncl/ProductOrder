@@ -29,5 +29,8 @@ public class SessionUtil {
 
     // 用于存储全局作业
     public static Map<String, WorkDetail> WORKDETAILS = new HashMap<String, WorkDetail>();
+    
+   // 用于存储全局变量
+    public static Map<String, Object> PARAMS = new HashMap<String, Object>();
 
 }
