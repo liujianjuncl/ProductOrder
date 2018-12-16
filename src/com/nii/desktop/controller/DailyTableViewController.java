@@ -499,6 +499,8 @@ public class DailyTableViewController implements Initializable {
         String billNo = billNoTextField.getText().trim();
         LocalDate startDate = startDatePicker.getValue();
         LocalDate endDate = endDatePicker.getValue();
+        
+        String last3Month = DateUtil.last3MonthDateTimeStr();
 
         // 添加表格数据前先清空
         dailyDataList.clear();
@@ -512,15 +514,17 @@ public class DailyTableViewController implements Initializable {
             }
             
             if (userNo != null && !"".equals(userNo)) {
-                sql = sql + " and createUser like '%" + userNo + "%'";
+                sql = sql + " and createUser = '" + userNo + "'";
             }
 
             if (billNo != null && !"".equals(billNo)) {
-                sql = sql + " and billNo like '%" + billNo + "%'";
+                sql = sql + " and billNo = '" + billNo + "'";
             }
 
             if (startDate != null) {
                 sql = sql + " and productDate >= '" + DateUtil.localDateToDateTimeStr(startDate) + "'";
+            } else {
+                sql = sql + " and productDate >= '" + last3Month;
             }
 
             if (endDate != null) {

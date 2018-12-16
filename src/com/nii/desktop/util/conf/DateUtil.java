@@ -215,7 +215,7 @@ public final class DateUtil {
     }
 
     // 获取3个月前的今天
-    public static String last3MonthDateTimeStr() throws ParseException {
+    public static String last3MonthDateTimeStr()  {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         cal.add(Calendar.MONTH, -3);
