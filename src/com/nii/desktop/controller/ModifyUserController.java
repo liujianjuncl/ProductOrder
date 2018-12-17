@@ -100,7 +100,7 @@ public class ModifyUserController implements Initializable {
             auditorCbox.setDisable(true);;
         }
         
-       // 如果当前登录用户不是管理员，则不显示增加和删除按钮
+       // 当前用户自己不可禁用自己
         if (user.getUserNo().equals(SessionUtil.USERS.get("loginUser").getUserNo())) {
             isDisableCbox.setDisable(true);
         }
