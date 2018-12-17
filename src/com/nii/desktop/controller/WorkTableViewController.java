@@ -11,7 +11,9 @@ import java.util.logging.Logger;
 
 import com.nii.desktop.model.Work;
 import com.nii.desktop.util.conf.DBUtil;
+import com.nii.desktop.util.conf.PropsUtil;
 import com.nii.desktop.util.conf.SessionUtil;
+import com.nii.desktop.util.ui.AlertUtil;
 import com.nii.desktop.util.ui.ResourceLoader;
 import com.nii.desktop.util.ui.UIManager;
 
@@ -232,7 +234,7 @@ public class WorkTableViewController implements Initializable {
     }
 
     @FXML
-    public void userSearchAction() {
+    public void workSearchAction() {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -243,26 +245,33 @@ public class WorkTableViewController implements Initializable {
         double unitPrice = 0.0;
         String status = null;
         
+        String searchWorkNo = searchField.getText().trim();
+        
         // 添加表格数据前先清空
         workDataList.clear();
 
         try {
-            String sql = "select workNo, workName, unit, unitPrice, status from dbo.t_product_daily_work where workNo = ?";
+            String sql = "select workNo, workName, unit, unitPrice, status from dbo.t_product_daily_work where 1 = 1 ";
+            if(!"".equals(searchWorkNo)) {
+                sql = sql + " and workNo = '" + searchWorkNo + "'";
+            }
             
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
-            stmt.setString(1, searchField.getText().trim());
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                workNo = rs.getString("userNo");
-                workName = rs.getString("userName");
+                workNo = rs.getString("workNo");
+                workName = rs.getString("workName");
                 unit = rs.getString("unit");
                 unitPrice = rs.getDouble("unitPrice");
                 status = rs.getInt("status") == 1 ? "禁用" : "正常";
                 workDataList.add(new Work(workNo, workName, unit, unitPrice, status));
             }
-
+            
+            if (workDataList.size() == 0) {
+                AlertUtil.alertInfoLater(PropsUtil.getMessage("search.result.null"));
+            } 
         } catch (Exception e) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
         } finally {
@@ -276,10 +285,4 @@ public class WorkTableViewController implements Initializable {
         initData();
         addDatatoTableView();
     }
-
-    @FXML
-    public void workSearchAction() {
-
-    }
-
 }
