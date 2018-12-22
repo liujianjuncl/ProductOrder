@@ -42,7 +42,7 @@ public final class UIManager {
 
     /* ÇÐ»»µ½µÇÂ¼½çÃæ */
     public static void switchLoginUI() {
-        primaryStage.setTitle(CommonConstant.LOGIN_WINDOW_TITLE);
+        primaryStage.setTitle(PropsUtil.getMessage("login.window.title"));
 
         Pane pane = null;
         try {
