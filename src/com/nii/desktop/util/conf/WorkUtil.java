@@ -19,7 +19,7 @@ import javafx.scene.control.CheckBox;
 public class WorkUtil {
 
     /* 校验新建作业目录信息 */
-    public static boolean verifyUserInfo(String workName, String unit, String unitPrice, String status) {
+    public static boolean verifyWorkInfo(String workName, String unit, String unitPrice, String status) {
         if ("".equals(workName.trim())) {
             AlertUtil.alertInfoLater(PropsUtil.getMessage("workName.notnull"));
             return false;
@@ -42,7 +42,7 @@ public class WorkUtil {
 
         return true;
     }
-
+    
     // 获取间接生产日报编号
     public static String getWorkNo() {
         Connection conn = null;

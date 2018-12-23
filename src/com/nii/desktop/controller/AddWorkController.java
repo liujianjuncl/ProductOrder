@@ -73,7 +73,7 @@ public class AddWorkController implements Initializable {
         String unitPrice = unitPriceField.getText();
         String status = (String) statusCbox.getValue();
 
-        boolean result = WorkUtil.verifyUserInfo(workName, unit, unitPrice, status);
+        boolean result = WorkUtil.verifyWorkInfo(workName, unit, unitPrice, status);
 
         if (result) {
             Connection conn = null;
@@ -91,7 +91,7 @@ public class AddWorkController implements Initializable {
                 stmt.setString(2, workName);
                 stmt.setString(3, unit);
                 stmt.setDouble(4, Double.parseDouble(unitPrice));
-                stmt.setInt(5, status == "½ûÓÃ" ? 1 : 0);
+                stmt.setInt(5, "½ûÓÃ".equals(status) ? 1 : 0);
 
                 stmt.executeUpdate();
 
