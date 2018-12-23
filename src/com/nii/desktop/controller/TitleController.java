@@ -45,5 +45,9 @@ public class TitleController {
         SessionUtil.USERS.clear();
         SessionUtil.CONTROLLERS.clear();
         SessionUtil.DAILYS.clear();
+        SessionUtil.WORKS.clear();
+        SessionUtil.WORKDETAILS.clear();
+        SessionUtil.PARAMS.clear();
+        SessionUtil.STAGES.clear();
     }
 }
