@@ -177,10 +177,4 @@ public class LoginUIController implements Initializable {
 
         return controller.isOkClicked();
     }
-
-    @FXML
-    public void userOnMouseExited() {
-        System.out.println("userOnMouseExited");
-    }
-
 }

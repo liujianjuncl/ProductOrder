@@ -282,7 +282,6 @@ public class WorkTableViewController implements Initializable {
 
     /* Ë¢ÐÂÊý¾Ý */
     public void refresh() {
-        initData();
-        addDatatoTableView();
+    	workSearchAction();
     }
 }
