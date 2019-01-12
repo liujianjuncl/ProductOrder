@@ -196,12 +196,9 @@ create index index_createUser_billNo_productDate on dbo.t_product_daily_bill_det
 
 
 --20190112修改
+--日报明细表中增加创建人姓名、修改人姓名字段
 ALTER TABLE dbo.t_product_daily_bill_detail ADD createUserName [nvarchar](50)  NULL
-GO
-
 ALTER TABLE dbo.t_product_daily_bill_detail ADD modifyUserName [nvarchar](50)  NULL
-GO
-
 
 update t1
 set t1.createUserName = t2.userName
@@ -214,18 +211,11 @@ from dbo.t_product_daily_bill_detail t1
 left join dbo.t_product_daily_user t2 on t1.modifyUser = t2.userNo
 
 
-
+--间接日报表中增加创建人姓名、修改人姓名、审核人员姓名、备注字段
 ALTER TABLE dbo.t_product_daily_work_detail ADD createUserName [nvarchar](50)  NULL
-
-
 ALTER TABLE dbo.t_product_daily_work_detail ADD modifyUserName [nvarchar](50)  NULL
-
-
 ALTER TABLE dbo.t_product_daily_work_detail ADD auditorName [nvarchar](50)  NULL
-
-
 ALTER TABLE dbo.t_product_daily_work_detail ADD remark [nvarchar](1000)  NULL
-
 
 
 update t1
@@ -243,7 +233,7 @@ set t1.auditorName = t2.userName
 from dbo.t_product_daily_work_detail t1
 left join dbo.t_product_daily_user t2 on t1.auditor = t2.userNo
 
-
+--用户表中增加审核人员姓名字段
 ALTER TABLE dbo.t_product_daily_user ADD auditorName [nvarchar](50)  NULL
 
 update t1
