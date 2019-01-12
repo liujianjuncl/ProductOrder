@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
+import com.nii.desktop.model.User;
 import com.nii.desktop.model.Work;
 import com.nii.desktop.util.conf.DBUtil;
 import com.nii.desktop.util.conf.SessionUtil;
@@ -32,6 +33,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
@@ -58,6 +60,9 @@ public class AddWorkDetailController implements Initializable {
 
 	@FXML
 	private TextField workNumField;
+	
+	@FXML
+	private TextArea remarkField;
 
 	private Work work;
 
@@ -119,15 +124,18 @@ public class AddWorkDetailController implements Initializable {
 
 	@FXML
 	public void confirmBtnAction() {
+		
+		User loginUser = SessionUtil.USERS.get("loginUser");
 
 		String workNum = workNumField.getText().trim();
+		String remark = remarkField.getText().trim();
 
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		String workDetailNo = null;
 
 		try {
-			String sql = "insert into dbo.t_product_daily_work_detail  " + "  values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			String sql = "insert into dbo.t_product_daily_work_detail  " + "  values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			conn = DBUtil.getConnection();
 			stmt = conn.prepareStatement(sql);
 			workDetailNo = WorkUtil.getWorkDetailNo();
@@ -151,13 +159,17 @@ public class AddWorkDetailController implements Initializable {
 			stmt.setDouble(7, work.getUnitPrice());
 			stmt.setInt(8, Integer.parseInt(workNum));
 			stmt.setDouble(9, work.getUnitPrice() * Integer.parseInt(workNum));
-			stmt.setString(10, SessionUtil.USERS.get("loginUser").getUserNo());
+			stmt.setString(10, loginUser.getUserNo());
 			stmt.setTimestamp(11, new Timestamp(new Date().getTime()));
 			stmt.setString(12, null);
 			stmt.setTimestamp(13, null);
 			stmt.setString(14, null);
 			stmt.setTimestamp(15, null);
 			stmt.setInt(16, 0);
+			stmt.setString(17, loginUser.getUserName());
+			stmt.setString(18, null);
+			stmt.setString(19, null);
+			stmt.setString(20, remark);
 
 			stmt.executeUpdate();
 

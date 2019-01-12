@@ -10,13 +10,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.nii.desktop.controller.MainUIController;
+import com.nii.desktop.model.User;
 import com.nii.desktop.model.Work;
 import com.nii.desktop.model.WorkDetail;
 import com.nii.desktop.util.ui.AlertUtil;
 
-import javafx.scene.control.CheckBox;
-
 public class WorkUtil {
+	
+	private static User loginUser = SessionUtil.USERS.get("loginUser");
 
     /* 校验新建作业目录信息 */
     public static boolean verifyWorkInfo(String workName, String unit, String unitPrice, String status) {
@@ -171,13 +172,11 @@ public class WorkUtil {
                 workDetail = new WorkDetail(rs.getString("workDetailNo"), rs.getTimestamp("workDate"),
                         rs.getInt("status") == 1 ? "已审核" : "未审核", rs.getString("workNo"), rs.getString("workName"),
                         rs.getString("unit"), rs.getDouble("unitPrice"), rs.getInt("workNum"), rs.getDouble("money"),
-                        UserUtil.getUser(rs.getString("createUser")).getUserName(), rs.getTimestamp("createTime"),
-                        UserUtil.getUser(rs.getString("modifyUser")) == null ? null
-                                : UserUtil.getUser(rs.getString("modifyUser")).getUserName(),
-                        rs.getTimestamp("modifyTime"),
-                        UserUtil.getUser(rs.getString("auditor")) == null ? null
-                                : UserUtil.getUser(rs.getString("auditor")).getUserName(),
-                        rs.getTimestamp("auditorTime"));
+                        rs.getString("createUser"), rs.getTimestamp("createTime"),
+                        rs.getString("modifyUser"), rs.getTimestamp("modifyTime"),
+                        rs.getString("auditor"), rs.getTimestamp("auditorTime"),
+                        rs.getString("createUserName"), rs.getString("modifyUserName"), 
+                        rs.getString("auditorName"), rs.getString("remark"));
             }
 
         } catch (Exception e) {
@@ -205,15 +204,15 @@ public class WorkUtil {
                     + DateUtil.SDF.format(DateUtil.curMonth25Day()) + "'";
             
             // 如果当前用户既不是管理员也不是审核员，则只查询当前用户的间接日报单
-            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())
-                    && !"是".equals(SessionUtil.USERS.get("loginUser").getIsAuditor())) {
-                sql = sql + " and work.createUser = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
+            if (!"是".equals(loginUser.getIsManager())
+                    && !"是".equals(loginUser.getIsAuditor())) {
+                sql = sql + " and work.createUser = '" + loginUser.getUserNo() + "'";
             }
 
             // 如果当前用户不是管理员，但是是审核员，则显示该用户名下的间接日报单
-            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())
-                    && "是".equals(SessionUtil.USERS.get("loginUser").getIsAuditor())) {
-                sql = sql + " and u.auditor = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
+            if (!"是".equals(loginUser.getIsManager())
+                    && "是".equals(loginUser.getIsAuditor())) {
+                sql = sql + " and u.auditor = '" + loginUser.getUserNo() + "'";
             }
             
             if(!"".equals(userNo)) {

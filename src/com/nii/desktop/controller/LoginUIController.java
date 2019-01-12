@@ -116,17 +116,17 @@ public class LoginUIController implements Initializable {
             return;
         }
 
-        User user = UserUtil.getLoginUser(userNo);
-
-        if (user == null) {
+        User loginUser = UserUtil.getLoginUser(userNo);
+        
+        if (loginUser == null) {
             AlertUtil.alertInfoLater(PropsUtil.getMessage("login.user.notExist"));
             return;
         } else {
-            if (!user.getPassword().equals(Encoder.encrypt(password))) {
+            if (!loginUser.getPassword().equals(Encoder.encrypt(password))) {
                 AlertUtil.alertInfoLater(PropsUtil.getMessage("login.user.password.error"));
                 return;
             }
-            SessionUtil.USERS.put("loginUser", user);
+            SessionUtil.USERS.put("loginUser", loginUser);
             UIManager.switchMainUI();
         }
     }

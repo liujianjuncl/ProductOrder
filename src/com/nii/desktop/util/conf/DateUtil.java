@@ -99,6 +99,16 @@ public final class DateUtil {
     public static String localDateToDateTimeStr(LocalDate localDate) {
         return SDF_DETAIL.format(localDateToDate(localDate));
     }
+    
+    /**
+     * 获取当天的日期
+     *
+     * @param localDate
+     * @return date
+     */
+    public static String currentDayDateStr() {
+        return SDF.format(localDateToDate(LocalDate.now()));
+    }
 
     /**
      * 将LocalDate转换成java.sql.Date
@@ -301,14 +311,16 @@ public final class DateUtil {
 //        System.out.println(cal.get(Calendar.DAY_OF_MONTH));
 //        System.out.println(SDF.format(curMonth25Day()));
 //        System.out.println(SDF.format(lastMonth26Day()));
-        Date date = SDF.parse("2018-11-26");
-        LocalDate d = dateToLocalDate(date);
-        System.out.println(SDF.format(lastMonth26Day()));
-        System.out.println(SDF.format(curMonth25Day()));
-        System.out.println(SDF.format(getLastMonth26Day(d)));
-        System.out.println(SDF.format(getMonth25Day(d)));
-        System.out.println("abc".substring(0, 2));
-        System.out.println("00.01000".indexOf("."));
+//        Date date = SDF.parse("2018-11-26");
+//        LocalDate d = dateToLocalDate(date);
+//        System.out.println(SDF.format(lastMonth26Day()));
+//        System.out.println(SDF.format(curMonth25Day()));
+//        System.out.println(SDF.format(getLastMonth26Day(d)));
+//        System.out.println(SDF.format(getMonth25Day(d)));
+//        System.out.println("abc".substring(0, 2));
+//        System.out.println("00.01000".indexOf("."));
+        
+        System.out.println(currentDayDateStr());
         
         
     }

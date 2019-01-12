@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
+import com.nii.desktop.model.User;
 import com.nii.desktop.model.Work;
 import com.nii.desktop.model.WorkDetail;
 import com.nii.desktop.util.conf.DBUtil;
@@ -36,6 +37,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
@@ -71,8 +73,13 @@ public class ModifyWorkDetailController implements Initializable {
 
     @FXML
     private DatePicker workDate;
+    
+    @FXML
+    private TextArea remarkField;
 
     private WorkDetail editWorkDetail;
+    
+    private User loginUser = SessionUtil.USERS.get("loginUser");
 
     @SuppressWarnings("unchecked")
     @Override
@@ -87,6 +94,7 @@ public class ModifyWorkDetailController implements Initializable {
         unitPriceField.setText(Double.toString(editWorkDetail.getUnitPrice()));
         workNumField.setText(Integer.toString(editWorkDetail.getWorkNum()));
         workDetailMoney.setText(editWorkDetail.getWorkNum() * editWorkDetail.getUnitPrice() + "");
+        remarkField.setText(editWorkDetail.getRemark());
 
         // 实际作业数量只允许输入数字
         workNumField.textProperty().addListener(new ChangeListener<String>() {
@@ -108,7 +116,7 @@ public class ModifyWorkDetailController implements Initializable {
     public void confirmBtnAction() {
         Timestamp workDateV = new Timestamp(DateUtil.localDateToDate(workDate.getValue()).getTime());
 
-        if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
+        if (!"是".equals(loginUser.getIsManager())) {
             if (workDateV.compareTo(DateUtil.lastMonth26Day()) < 0
                     || workDateV.compareTo(DateUtil.curMonth25Day()) > 0) {
                 AlertUtil.alertInfoLater(PropsUtil.getMessage("workDetail.donot.modify.workDate"));
@@ -117,21 +125,24 @@ public class ModifyWorkDetailController implements Initializable {
         }
 
         String workNum = workNumField.getText().trim();
+        String remark = remarkField.getText().trim();
 
         Connection conn = null;
         PreparedStatement stmt = null;
 
         try {
-            String sql = "update dbo.t_product_daily_work_detail set workNum = ?, money = ?, modifyUser = ?, modifyTime = ?, workDate = ? where workDetailNo = ?";
+            String sql = "update dbo.t_product_daily_work_detail set workNum = ?, money = ?, modifyUser = ?, modifyTime = ?, workDate = ?, modifyUserName = ?, remark = ? where workDetailNo = ?";
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
 
             stmt.setString(1, workNum);
             stmt.setDouble(2, Integer.parseInt(workNum) * editWorkDetail.getUnitPrice());
-            stmt.setString(3, SessionUtil.USERS.get("loginUser").getUserNo());
+            stmt.setString(3, loginUser.getUserNo());
             stmt.setTimestamp(4, new Timestamp(new Date().getTime()));
             stmt.setTimestamp(5, new Timestamp(DateUtil.localDateToDate(workDate.getValue()).getTime()));
-            stmt.setString(6, editWorkDetail.getWorkDetailNo());
+            stmt.setString(6, loginUser.getUserName());
+            stmt.setString(7, remark);
+            stmt.setString(8, editWorkDetail.getWorkDetailNo());
 
             stmt.executeUpdate();
 

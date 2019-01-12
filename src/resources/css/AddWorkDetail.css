@@ -77,6 +77,11 @@
     -fx-pref-width: 100px;
 }
 
+#remarkLabel{
+    -fx-alignment: BASELINE_RIGHT;
+    -fx-pref-width: 100px;
+}
+
 #unitCbox{
 	-fx-pref-width: 150px;
 }

@@ -67,6 +67,7 @@
           <TableColumn fx:id="modifyTimeCol" prefWidth="150.0" text="修改时间" />
           <TableColumn fx:id="auditorCol" prefWidth="120.0" text="审核人" />
           <TableColumn fx:id="auditorTimeCol" prefWidth="150.0" text="审核时间" />
+          <TableColumn fx:id="remarkCol" prefWidth="250.0" text="备注" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="UNCONSTRAINED_RESIZE_POLICY" />

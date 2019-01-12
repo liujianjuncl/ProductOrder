@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 import javafx.scene.control.CheckBox;
 
-public class WorkDetail {
+public class WorkDetail implements Cloneable {
 
     private CheckBox checkbox; // 复选框
 
@@ -52,10 +52,27 @@ public class WorkDetail {
 
     // 审核时间
     private Timestamp auditorTime;
+    
+    // 创建人员姓名
+    private String createUserName;
+    
+    // 修改人员姓名
+    private String modifyUserName;
+    
+    // 审核人员姓名
+    private String auditorName;
+    
+    // 备注
+    private String remark;
+    
+    public WorkDetail() {
+		super();
+	}
 
     public WorkDetail(CheckBox checkbox, String workDetailNo, Timestamp workDate, String status, String workNo, String workName,
             String unit, double unitPrice, int workNum, double money, String createUser, Timestamp createTime,
-            String modifyUser, Timestamp modifyTime, String auditor, Timestamp auditorTime) {
+            String modifyUser, Timestamp modifyTime, String auditor, Timestamp auditorTime,
+            String createUserName, String modifyUserName, String auditorName, String remark) {
         super();
         this.checkbox = checkbox;
         this.workDetailNo = workDetailNo;
@@ -73,11 +90,15 @@ public class WorkDetail {
         this.modifyTime = modifyTime;
         this.auditor = auditor;
         this.auditorTime = auditorTime;
+        this.createUserName = createUserName;
+        this.modifyUserName = modifyUserName;
+        this.auditorName = auditorName;
+        this.remark = remark;
     }
 
     public WorkDetail(String workDetailNo, Timestamp workDate, String status, String workNo, String workName, String unit, double unitPrice,
             int workNum, double money, String createUser, Timestamp createTime, String modifyUser, Timestamp modifyTime,
-            String auditor, Timestamp auditorTime) {
+            String auditor, Timestamp auditorTime, String createUserName, String modifyUserName, String auditorName, String remark) {
         super();
         this.workDetailNo = workDetailNo;
         this.workDate = workDate;
@@ -94,6 +115,14 @@ public class WorkDetail {
         this.modifyTime = modifyTime;
         this.auditor = auditor;
         this.auditorTime = auditorTime;
+        this.createUserName = createUserName;
+        this.modifyUserName = modifyUserName;
+        this.auditorName = auditorName;
+        this.remark = remark;
+    }
+    
+    public WorkDetail clone() throws CloneNotSupportedException {
+        return (WorkDetail) super.clone();
     }
 
     public CheckBox getCheckbox() {
@@ -223,4 +252,38 @@ public class WorkDetail {
     public void setAuditorTime(Timestamp auditorTime) {
         this.auditorTime = auditorTime;
     }
+
+	public String getCreateUserName() {
+		return createUserName;
+	}
+
+	public void setCreateUserName(String createUserName) {
+		this.createUserName = createUserName;
+	}
+
+	public String getModifyUserName() {
+		return modifyUserName;
+	}
+
+	public void setModifyUserName(String modifyUserName) {
+		this.modifyUserName = modifyUserName;
+	}
+
+	public String getAuditorName() {
+		return auditorName;
+	}
+
+	public void setAuditorName(String auditorName) {
+		this.auditorName = auditorName;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+    
+    
 }

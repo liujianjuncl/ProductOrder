@@ -111,12 +111,13 @@ public class AddUserController implements Initializable {
 
             try {
                 String sql = "insert into dbo.t_product_daily_user (userNo, userName, password, isPiecework, "
-                        + "isManager, isDisable, createUser, createTime, isAuditor, auditor) values (?,?,?,?,?,?,?,?,?,?)";
+                        + "isManager, isDisable, createUser, createTime, isAuditor, auditor, auditorName) values (?,?,?,?,?,?,?,?,?,?,?)";
                 conn = DBUtil.getConnection();
                 stmt = conn.prepareStatement(sql);
                 userNo = UserUtil.getMaxUserNo();
                 
                 String auditorNo = auditorValue.substring(0, 4);
+                String auditorName = auditorValue.substring(5);
                 
                 stmt.setString(1, userNo);
                 stmt.setString(2, userName);
@@ -128,6 +129,7 @@ public class AddUserController implements Initializable {
                 stmt.setTimestamp(8, new Timestamp(new Date().getTime()));
                 stmt.setInt(9, isAuditor == "是" ? 1 : 0);
                 stmt.setString(10, auditorNo);
+                stmt.setString(11, auditorName);
 
                 stmt.executeUpdate();
 
@@ -148,6 +150,11 @@ public class AddUserController implements Initializable {
     @FXML
     public void cancelBtnAction() {
         UserTableViewController.getdialogStage().close();
+    }
+    
+    public static void main(String[] args) {
+    	System.out.println("0002-刘世华".substring(0, 4));
+    	System.out.println("0002-刘世华".substring(5));
     }
 
 }

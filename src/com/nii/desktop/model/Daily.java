@@ -5,7 +5,7 @@ import java.time.LocalDate;
 
 import javafx.scene.control.CheckBox;
 
-public class Daily {
+public class Daily implements Cloneable{
 
     private CheckBox checkbox; // 复选框
 
@@ -77,11 +77,11 @@ public class Daily {
 
     private int proQty6; // 工序6本次实作数量
 
-    private String createUser; // 创建用户
+    private String createUserNo; // 创建用户
 
     private Timestamp createTime; // 创建时间
 
-    private String modifyUser; // 修改用户
+    private String modifyUserNo; // 修改用户
 
     private Timestamp modifyTime; // 修改时间
 
@@ -90,14 +90,22 @@ public class Daily {
     private int isDelete; // 删除标志 1：删除 0：正常
 
     private int sequence; // 日报序号，用于记录同一个生产任务单中日报编号
+    
+    private String createUserName; // 创建用户名称
+    
+    private String modifyUserName; // 修改用户名称
 
-    public Daily(String dailyNo, String billNo, String materialCode, String materialName, String model, int planQty,
+    public Daily() {
+		super();
+	}
+
+	public Daily(String dailyNo, String billNo, String materialCode, String materialName, String model, int planQty,
             LocalDate proDate, String resPro1, double resProPrice1, int resProQty1, String resPro2, double resProPrice2,
             int resProQty2, String resPro3, double resProPrice3, int resProQty3, String pro1, double proPrice1,
             int proQty1, String pro2, double proPrice2, int proQty2, String pro3, double proPrice3, int proQty3,
             String pro4, double proPrice4, int proQty4, String pro5, double proPrice5, int proQty5, String pro6,
-            double proPrice6, int proQty6, String createUser, Timestamp createTime, String modifyUser,
-            Timestamp modifyTime, int isPiecework, int isDelete, int sequence) {
+            double proPrice6, int proQty6, String createUserNo, Timestamp createTime, String modifyUserNo,
+            Timestamp modifyTime, int isPiecework, int isDelete, int sequence, String createUserName, String modifyUserName) {
         super();
         this.dailyNo = dailyNo;
         this.billNo = billNo;
@@ -133,21 +141,23 @@ public class Daily {
         this.pro6 = pro6;
         this.proPrice6 = proPrice6;
         this.proQty6 = proQty6;
-        this.createUser = createUser;
+        this.createUserNo = createUserNo;
         this.createTime = createTime;
-        this.modifyUser = modifyUser;
+        this.modifyUserNo = modifyUserNo;
         this.modifyTime = modifyTime;
         this.isPiecework = isPiecework;
         this.isDelete = isDelete;
         this.sequence = sequence;
+        this.createUserName = createUserName;
+        this.modifyUserName = modifyUserName;
     }
 
     public Daily(CheckBox checkbox, String dailyNo, String billNo, String materialCode, String materialName,
             String model, int planQty, LocalDate proDate, String resPro1, int resProQty1, String resPro2,
             int resProQty2, String resPro3, int resProQty3, String pro1, int proQty1, String pro2, int proQty2,
             String pro3, int proQty3, String pro4, int proQty4, String pro5, int proQty5, String pro6, int proQty6,
-            String createUser, Timestamp createTime, String modifyUser, Timestamp modifyTime, int isPiecework,
-            int isDelete, int sequence) {
+            String createUserNo, Timestamp createTime, String modifyUserNo, Timestamp modifyTime, int isPiecework,
+            int isDelete, int sequence, String createUserName, String modifyUserName) {
         super();
         this.checkbox = checkbox;
         this.dailyNo = dailyNo;
@@ -175,13 +185,15 @@ public class Daily {
         this.proQty5 = proQty5;
         this.pro6 = pro6;
         this.proQty6 = proQty6;
-        this.createUser = createUser;
+        this.createUserNo = createUserNo;
         this.createTime = createTime;
-        this.modifyUser = modifyUser;
+        this.modifyUserNo = modifyUserNo;
         this.modifyTime = modifyTime;
         this.isPiecework = isPiecework;
         this.isDelete = isDelete;
         this.sequence = sequence;
+        this.createUserName = createUserName;
+        this.modifyUserName = modifyUserName;
     }
 
     public Daily(CheckBox checkbox, String dailyNo, String billNo, String materialCode, String materialName,
@@ -207,6 +219,10 @@ public class Daily {
         this.model = model;
         this.planQty = planQty;
         this.proDate = proDate;
+    }
+    
+    public Daily clone() throws CloneNotSupportedException {
+        return (Daily) super.clone();
     }
 
     public CheckBox getCheckbox() {
@@ -489,12 +505,12 @@ public class Daily {
         this.proQty6 = proQty6;
     }
 
-    public String getCreateUser() {
-        return createUser;
+    public String getCreateUserNo() {
+        return createUserNo;
     }
 
-    public void setCreateUser(String createUser) {
-        this.createUser = createUser;
+    public void setCreateUserNo(String createUserNo) {
+        this.createUserNo = createUserNo;
     }
 
     public Timestamp getCreateTime() {
@@ -505,12 +521,12 @@ public class Daily {
         this.createTime = createTime;
     }
 
-    public String getModifyUser() {
-        return modifyUser;
+    public String getModifyUserNo() {
+        return modifyUserNo;
     }
 
-    public void setModifyUser(String modifyUser) {
-        this.modifyUser = modifyUser;
+    public void setModifyUserNo(String modifyUserNo) {
+        this.modifyUserNo = modifyUserNo;
     }
 
     public Timestamp getModifyTime() {
@@ -544,5 +560,21 @@ public class Daily {
     public void setSequence(int sequence) {
         this.sequence = sequence;
     }
+
+	public String getCreateUserName() {
+		return createUserName;
+	}
+
+	public void setCreateUserName(String createUserName) {
+		this.createUserName = createUserName;
+	}
+
+	public String getModifyUserName() {
+		return modifyUserName;
+	}
+
+	public void setModifyUserName(String modifyUserName) {
+		this.modifyUserName = modifyUserName;
+	}
 
 }

@@ -69,6 +69,8 @@ public class ModifyUserController implements Initializable {
     private ComboBox<String> auditorCbox;
 
     private User user;
+    
+    private User loginUser = SessionUtil.USERS.get("loginUser");
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -91,7 +93,7 @@ public class ModifyUserController implements Initializable {
             auditorCbox.setValue(auditorUser.getUserNo() + "-" + auditorUser.getUserName());
         }
         
-        if(!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
+        if(!"是".equals(loginUser.getIsManager())) {
             userNameField.setDisable(true);
             isPieceworkCbox.setDisable(true);
             isManagerCbox.setDisable(true);
@@ -101,7 +103,7 @@ public class ModifyUserController implements Initializable {
         }
         
        // 当前用户自己不可禁用自己
-        if (user.getUserNo().equals(SessionUtil.USERS.get("loginUser").getUserNo())) {
+        if (user.getUserNo().equals(loginUser.getUserNo())) {
             isDisableCbox.setDisable(true);
         }
 
@@ -142,15 +144,16 @@ public class ModifyUserController implements Initializable {
 
             try {
                 String sql = "update dbo.t_product_daily_user set userName = ?, isPiecework = ?, "
-                        + "isManager = ?, isAuditor = ?, isDisable = ?, lastModifyTime = ?, auditor = ? ";
+                        + "isManager = ?, isAuditor = ?, isDisable = ?, lastModifyTime = ?, auditor = ?, auditorName = ? ";
                 if(!"".equals(password)) {
-                    sql = sql + ", password = " + Encoder.encrypt(password);
+                    sql = sql + ", password = '" + Encoder.encrypt(password) + "'";
                 }
-                sql = sql + "where isDelete = 0 and userNo = ?";
+                sql = sql + " where isDelete = 0 and userNo = ?";
                 conn = DBUtil.getConnection();
                 stmt = conn.prepareStatement(sql);
                 
                 String auditorNo = auditorValue.substring(0, 4);
+                String auditorName = auditorValue.substring(5);
 
                 stmt.setString(1, userName);
                 stmt.setInt(2, isPiecework == "是" ? 1 : 0);
@@ -159,7 +162,8 @@ public class ModifyUserController implements Initializable {
                 stmt.setInt(5, isDisable == "是" ? 1 : 0);
                 stmt.setTimestamp(6, new Timestamp(new Date().getTime()));
                 stmt.setString(7, auditorNo);
-                stmt.setString(8, userNo);
+                stmt.setString(8, auditorName);
+                stmt.setString(9, userNo);
 
                 stmt.executeUpdate();
 

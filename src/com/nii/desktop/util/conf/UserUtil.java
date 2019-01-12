@@ -68,6 +68,7 @@ public class UserUtil {
         String isDisable = null;
         String isAuditor = null;
         String auditor = null;
+        String auditorName = null;
 
         User user = null;
 
@@ -88,7 +89,8 @@ public class UserUtil {
                 isDisable = rs.getInt("isDisable") == 1 ? "是" : "否";
                 isAuditor = rs.getInt("isAuditor") == 1 ? "是" : "否";
                 auditor = rs.getString("auditor");
-                user = new User(userNo, userName, password, isPiecework, isManager, isDisable, isAuditor, auditor);
+                auditorName = rs.getString("auditorName");
+                user = new User(userNo, userName, password, isPiecework, isManager, isDisable, isAuditor, auditor, auditorName);
             }
         } catch (Exception e) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
@@ -113,6 +115,7 @@ public class UserUtil {
         String isDisable = null;
         String isAuditor = null;
         String auditor = null;
+        String auditorName = null;
 
         User user = null;
 
@@ -133,7 +136,8 @@ public class UserUtil {
                 isDisable = rs.getInt("isDisable") == 1 ? "是" : "否";
                 isAuditor = rs.getInt("isAuditor") == 1 ? "是" : "否";
                 auditor = rs.getString("auditor");
-                user = new User(userNo, userName, password, isPiecework, isManager, isDisable, isAuditor, auditor);
+                auditorName = rs.getString("auditorName");
+                user = new User(userNo, userName, password, isPiecework, isManager, isDisable, isAuditor, auditor, auditorName);
             }
         } catch (Exception e) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);

@@ -583,10 +583,10 @@ public class AddDailyController implements Initializable {
         Date lastDate26Day = DateUtil.lastMonth26Day();
 
         // 获取登录用户
-        User user = SessionUtil.USERS.get("loginUser");
+        User loginUser = SessionUtil.USERS.get("loginUser");
 
         // 普通员工只允许增加上个月26号到本月25号的生产日报！
-        if (!"是".equals(user.getIsManager()) && (lastDate26Day.compareTo(DateUtil.localDateToDate(proDate)) > 0
+        if (!"是".equals(loginUser.getIsManager()) && (lastDate26Day.compareTo(DateUtil.localDateToDate(proDate)) > 0
                 || curDate25Day.compareTo(DateUtil.localDateToDate(proDate)) < 0)) {
             AlertUtil.alertInfoLater(PropsUtil.getMessage("donot.daily.modify"));
             return;
@@ -627,16 +627,16 @@ public class AddDailyController implements Initializable {
                     Integer.valueOf("".equals(processQty5.getText().trim()) ? "0" : processQty5.getText().trim()), process6.getText(),
                     Double.valueOf(processPrice6.getText()),
                     Integer.valueOf("".equals(processQty6.getText().trim()) ? "0" : processQty6.getText().trim()),
-                    SessionUtil.USERS.get("loginUser").getUserNo(), new Timestamp(new Date().getTime()),
-                    SessionUtil.USERS.get("loginUser").getUserNo(), new Timestamp(new Date().getTime()),
-                    "是".equals(SessionUtil.USERS.get("loginUser").getIsPiecework()) ? 1 : 0, 0,
-                    DailyUtil.getDailyDetailSeq(billNo));
+                    loginUser.getUserNo(), new Timestamp(new Date().getTime()),
+                    loginUser.getUserNo(), new Timestamp(new Date().getTime()),
+                    "是".equals(loginUser.getIsPiecework()) ? 1 : 0, 0,
+                    DailyUtil.getDailyDetailSeq(billNo), loginUser.getUserName(), loginUser.getUserName());
 
             boolean result = DailyUtil.addDaily(dpq, daily);
             if (result) {
                 AlertUtil.alertInfoLater(PropsUtil.getMessage("daily.add.success") + dailyNo);
                 // 新建完成刷新数据
-                ((DailyTableViewController) SessionUtil.CONTROLLERS.get("DailyTableViewController")).refresh();
+                ((DailyTableViewController) SessionUtil.CONTROLLERS.get("DailyTableViewController")).refreshCurDay();
                 DailyTableViewController.getdialogStage().close();
             } else {
                 AlertUtil.alertInfoLater(PropsUtil.getMessage("daily.add.fail") + dailyNo);

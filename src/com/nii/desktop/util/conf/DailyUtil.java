@@ -15,8 +15,11 @@ import com.nii.desktop.controller.AddDailyController;
 import com.nii.desktop.controller.MainUIController;
 import com.nii.desktop.model.Daily;
 import com.nii.desktop.model.DailyProcessQty;
+import com.nii.desktop.model.User;
 
 public class DailyUtil {
+	
+	private static User loginUser = SessionUtil.USERS.get("loginUser");
 
     // 将生产任务表中的数据同步到生产任务执行汇总表中
     public static void addProductDailyTotal(String billNo) {
@@ -219,7 +222,7 @@ public class DailyUtil {
         try {
             // 插入日报数据
             String sql = "insert into dbo.t_product_daily_bill_detail values(?, ?, ?, ?, ?, ?, ?, ?, "
-                    + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
@@ -258,13 +261,15 @@ public class DailyUtil {
             stmt.setString(32, daily.getPro6());
             stmt.setDouble(33, daily.getProPrice6());
             stmt.setInt(34, daily.getProQty6());
-            stmt.setString(35, daily.getCreateUser());
+            stmt.setString(35, daily.getCreateUserNo());
             stmt.setTimestamp(36, daily.getCreateTime());
-            stmt.setString(37, daily.getModifyUser());
+            stmt.setString(37, daily.getModifyUserNo());
             stmt.setTimestamp(38, daily.getModifyTime());
             stmt.setInt(39, daily.getIsPiecework());
             stmt.setInt(40, daily.getIsDelete());
             stmt.setInt(41, daily.getSequence());
+            stmt.setString(42, daily.getCreateUserName());
+            stmt.setString(43, daily.getModifyUserName());
 
             DailyProcessQty dailyProcessQty = new DailyProcessQty(daily.getBillNo(), daily.getDailyNo(),
                     daily.getProDate(), daily.getPlanQty(), dpq.getResProQty1() + daily.getResProQty1(),
@@ -301,7 +306,7 @@ public class DailyUtil {
             String sql = "update dbo.t_product_daily_bill_detail set resProcessQty1 = ?, "
                     + "resProcessQty2 = ?, resProcessQty3 = ?, processQty1 = ?, processQty2 = ?, "
                     + "processQty3 = ?, processQty4 = ?, processQty5 = ?, processQty6 = ?, "
-                    + "productDate = ?, modifyUser = ?, modifyTime = ? where dailyNo = ? and isDelete = 0 ";
+                    + "productDate = ?, modifyUser = ?, modifyTime = ?, modifyUserName = ? where dailyNo = ? and isDelete = 0 ";
 
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
@@ -316,9 +321,11 @@ public class DailyUtil {
             stmt.setInt(8, dailyProcessQty.getProQty5());
             stmt.setInt(9, dailyProcessQty.getProQty6());
             stmt.setDate(10, DateUtil.localDateToSqlDate(productDate));
-            stmt.setString(11, SessionUtil.USERS.get("loginUser").getUserNo());
+            stmt.setString(11, loginUser.getUserNo());
             stmt.setTimestamp(12, new Timestamp(new Date().getTime()));
-            stmt.setString(13, dailyProcessQty.getDailyNo());
+            stmt.setString(13, loginUser.getUserName());
+            stmt.setString(14, dailyProcessQty.getDailyNo());
+            
             stmt.executeUpdate();
 
             // 修改生产日报汇总表数据：汇总表中原实作数量+本次修改的实作数量-修改前的实作数量
@@ -498,7 +505,8 @@ public class DailyUtil {
                         rs.getDouble("processPrice5"), rs.getInt("processQty5"), rs.getString("process6"),
                         rs.getDouble("processPrice6"), rs.getInt("processQty6"), rs.getString("createUser"),
                         rs.getTimestamp("createTime"), rs.getString("modifyUser"), rs.getTimestamp("modifyTime"),
-                        rs.getInt("isPiecework"), rs.getInt("isDelete"), rs.getInt("sequence"));
+                        rs.getInt("isPiecework"), rs.getInt("isDelete"), rs.getInt("sequence"), 
+                        rs.getString("createUserName"), rs.getString("modifyUserName"));
             }
         } catch (Exception e) {
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, e);
@@ -525,8 +533,8 @@ public class DailyUtil {
                     + " where isDelete = 0 and productDate >= '" + DateUtil.SDF.format(lastMonth26Day)
                     + "' and productDate <= '" + DateUtil.SDF.format(curMonth25Day) + "'";
 
-            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
-                sql1 = sql1 + " and createUser = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
+            if (!"是".equals(loginUser.getIsManager())) {
+                sql1 = sql1 + " and createUser = '" + loginUser.getUserNo() + "'";
             }
             
             if(!"".equals(userNo)) {
@@ -568,8 +576,8 @@ public class DailyUtil {
                     + " where isDelete = 0 and productDate >= '" + DateUtil.SDF.format(lastMonth26Day)
                     + "' and productDate <= '" + DateUtil.SDF.format(curMonth25Day) + "'";
 
-            if (!"是".equals(SessionUtil.USERS.get("loginUser").getIsManager())) {
-                sql = sql + " and createUser = '" + SessionUtil.USERS.get("loginUser").getUserNo() + "'";
+            if (!"是".equals(loginUser.getIsManager())) {
+                sql = sql + " and createUser = '" + loginUser.getUserNo() + "'";
             }
             
             if(!"".equals(userNo)) {
