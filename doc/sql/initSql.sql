@@ -139,7 +139,7 @@ INSERT INTO [AIS].[dbo].[t_product_daily_user]
            ,[createTime]
            ,[LastModifyTime]
            ,[isDelete])
-     VALUES ('0001', '管理员', 'lueSGJZetyySpUndWjMBEg==', 1, 1, 0, NULL, '2018-11-11 00:00:00.000',NULL, 0, 1);
+     VALUES ('0001', '管理员', 'lueSGJZetyySpUndWjMBEg==', 0, 1, 0, NULL, '2018-11-11 00:00:00.000',NULL, 0, 1, '0001');
            
 GO
 
@@ -193,5 +193,62 @@ GO
 
 --创建索引
 create index index_createUser_billNo_productDate on dbo.t_product_daily_bill_detail(createUser, billNo, productDate);
+
+
+--20190112修改
+ALTER TABLE dbo.t_product_daily_bill_detail ADD createUserName [nvarchar](50)  NULL
+GO
+
+ALTER TABLE dbo.t_product_daily_bill_detail ADD modifyUserName [nvarchar](50)  NULL
+GO
+
+
+update t1
+set t1.createUserName = t2.userName
+from dbo.t_product_daily_bill_detail t1
+left join dbo.t_product_daily_user t2 on t1.createUser = t2.userNo
+
+update t1
+set t1.modifyUserName = t2.userName
+from dbo.t_product_daily_bill_detail t1
+left join dbo.t_product_daily_user t2 on t1.modifyUser = t2.userNo
+
+
+
+ALTER TABLE dbo.t_product_daily_work_detail ADD createUserName [nvarchar](50)  NULL
+
+
+ALTER TABLE dbo.t_product_daily_work_detail ADD modifyUserName [nvarchar](50)  NULL
+
+
+ALTER TABLE dbo.t_product_daily_work_detail ADD auditorName [nvarchar](50)  NULL
+
+
+ALTER TABLE dbo.t_product_daily_work_detail ADD remark [nvarchar](1000)  NULL
+
+
+
+update t1
+set t1.createUserName = t2.userName
+from dbo.t_product_daily_work_detail t1
+left join dbo.t_product_daily_user t2 on t1.createUser = t2.userNo
+
+update t1
+set t1.modifyUserName = t2.userName
+from dbo.t_product_daily_work_detail t1
+left join dbo.t_product_daily_user t2 on t1.modifyUser = t2.userNo
+
+update t1
+set t1.auditorName = t2.userName
+from dbo.t_product_daily_work_detail t1
+left join dbo.t_product_daily_user t2 on t1.auditor = t2.userNo
+
+
+ALTER TABLE dbo.t_product_daily_user ADD auditorName [nvarchar](50)  NULL
+
+update t1
+set t1.auditorName = t2.userName
+from dbo.t_product_daily_user t1
+left join dbo.t_product_daily_user t2 on t1.auditor = t2.userNo
 
 
