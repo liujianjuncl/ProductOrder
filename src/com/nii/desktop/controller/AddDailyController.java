@@ -21,7 +21,6 @@ import com.nii.desktop.util.conf.DBUtil;
 import com.nii.desktop.util.conf.DailyUtil;
 import com.nii.desktop.util.conf.DateUtil;
 import com.nii.desktop.util.conf.SessionUtil;
-import com.nii.desktop.util.conf.UserUtil;
 import com.nii.desktop.util.conf.PropsUtil;
 import com.nii.desktop.util.ui.AlertUtil;
 

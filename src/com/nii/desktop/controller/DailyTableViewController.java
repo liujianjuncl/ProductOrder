@@ -615,6 +615,7 @@ public class DailyTableViewController implements Initializable {
 		} finally {
 			DBUtil.release(conn, stmt, rs);
 		}
+		dailyTableView.setItems(dailyDataList);
 	}
 
 	/* 获取被勾选的数量 */
@@ -656,8 +657,9 @@ public class DailyTableViewController implements Initializable {
 
 	/* 刷新数据 */
 	public void refresh() {
-		dailyTableView.setItems(dailyDataList);
 		searchDailyAction();
+		dailyTableView.setItems(dailyDataList);
+		dailyTableView.refresh();
 	}
 	
 	/* 刷新当天数据 */

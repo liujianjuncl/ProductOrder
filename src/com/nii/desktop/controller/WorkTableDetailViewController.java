@@ -540,12 +540,13 @@ public class WorkTableDetailViewController implements Initializable {
         } finally {
             DBUtil.release(conn, stmt, rs);
         }
-        workDetailTableView.refresh();
+        workDetailTableView.setItems(workDataList);
     }
 
     /* Ë¢ÐÂÊý¾Ý */
     public void refresh() {
         workDetailSearchAction();
+        workDetailTableView.refresh();
     }
 
     @FXML
