@@ -689,7 +689,7 @@ public class DailyTableViewController implements Initializable {
 			conn = DBUtil.getConnection();
 			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery();
-			System.out.println("while begin  : " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()));
+			
 			Daily initDaily = new Daily();
 			while (rs.next()) {
 				Daily daily = initDaily.clone();
@@ -742,7 +742,7 @@ public class DailyTableViewController implements Initializable {
 						+ rs.getInt("processQty5") * rs.getDouble("processPrice5")
 						+ rs.getInt("processQty6") * rs.getDouble("processPrice6");
 			}
-			System.out.println("while end  : " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()));
+			
 			DecimalFormat df = new DecimalFormat("#.0000");
 			if (dailyDataList.size() == 0) {
 				AlertUtil.alertInfoLater(PropsUtil.getMessage("search.result.null"));
