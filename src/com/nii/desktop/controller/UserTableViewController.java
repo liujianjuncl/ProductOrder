@@ -426,6 +426,7 @@ public class UserTableViewController implements Initializable {
     /* Ë¢ÐÂÊý¾Ý */
     public void refresh() {
         addDatatoTableView();
+        userTableView.setItems(userDataList);
     }
 
 }
