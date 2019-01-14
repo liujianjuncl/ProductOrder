@@ -121,12 +121,12 @@ PRIMARY KEY CLUSTERED
 
 GO
 
-ALTER TABLE [dbo].[t_product_daily_user] ADD  CONSTRAINT [DF_t_product_daily_user_isDisable]  DEFAULT ((0)) FOR [isDisable]
+
+ALTER TABLE dbo.t_product_daily_user ADD isAuditor smallint NULL
 GO
 
-ALTER TABLE [dbo].[t_product_daily_user] ADD  CONSTRAINT [DF_t_product_daily_user_isDelete]  DEFAULT ((0)) FOR [isDelete]
+ALTER TABLE dbo.t_product_daily_user ADD auditor [nvarchar](50)  NULL
 GO
-
 
 INSERT INTO [AIS].[dbo].[t_product_daily_user]
            ([userNo]
@@ -141,14 +141,6 @@ INSERT INTO [AIS].[dbo].[t_product_daily_user]
            ,[isDelete])
      VALUES ('0001', '管理员', 'lueSGJZetyySpUndWjMBEg==', 0, 1, 0, NULL, '2018-11-11 00:00:00.000',NULL, 0, 1, '0001');
            
-GO
-
-
-ALTER TABLE dbo.t_product_daily_user ADD isAuditor smallint NULL
-GO
-
-
-ALTER TABLE dbo.t_product_daily_user ADD auditor [nvarchar](50)  NULL
 GO
 
 
