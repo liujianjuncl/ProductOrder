@@ -23,8 +23,6 @@ import com.nii.desktop.util.ui.ResourceLoader;
 import com.nii.desktop.util.ui.UIManager;
 
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -196,8 +194,6 @@ public class UserTableViewController implements Initializable {
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
             
-            User auditorUser = null;
-
             while (rs.next()) {
                 userNo = rs.getString("userNo");
                 userName = rs.getString("userName");

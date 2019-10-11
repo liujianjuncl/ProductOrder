@@ -3,9 +3,7 @@ package com.nii.desktop.controller;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -13,37 +11,23 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import com.nii.desktop.model.User;
-import com.nii.desktop.model.Work;
 import com.nii.desktop.model.WorkDetail;
 import com.nii.desktop.util.conf.DBUtil;
 import com.nii.desktop.util.conf.DateUtil;
 import com.nii.desktop.util.conf.SessionUtil;
-import com.nii.desktop.util.conf.Encoder;
 import com.nii.desktop.util.conf.PropsUtil;
-import com.nii.desktop.util.conf.UserUtil;
-import com.nii.desktop.util.conf.WorkUtil;
 import com.nii.desktop.util.ui.AlertUtil;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
 
 public class ModifyWorkDetailController implements Initializable {
 

@@ -27,7 +27,7 @@ public class SessionUtil {
     // 用于存储全局作业
     public static Map<String, Work> WORKS = new HashMap<String, Work>();
 
-    // 用于存储全局作业
+    // 用于存储全局作业明细
     public static Map<String, WorkDetail> WORKDETAILS = new HashMap<String, WorkDetail>();
     
    // 用于存储全局变量

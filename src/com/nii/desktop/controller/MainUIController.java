@@ -1,8 +1,6 @@
 package com.nii.desktop.controller;
 
-import com.nii.desktop.util.conf.DailyUtil;
 import com.nii.desktop.util.conf.SessionUtil;
-import com.nii.desktop.util.conf.WorkUtil;
 import com.nii.desktop.util.ui.ResourceLoader;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

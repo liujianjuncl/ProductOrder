@@ -1,6 +1,5 @@
 package com.nii.desktop.model;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 
 public class DailyProcessQty {

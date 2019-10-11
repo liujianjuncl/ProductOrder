@@ -306,7 +306,7 @@ public final class DateUtil {
 
     public static void main(String[] args) throws ParseException {
         Calendar cal = Calendar.getInstance();
-//        System.out.println(cal.get(Calendar.YEAR));
+        System.out.println(cal.get(Calendar.YEAR));
 //        System.out.println(cal.get(Calendar.MONTH) + 1);
 //        System.out.println(cal.get(Calendar.DAY_OF_MONTH));
 //        System.out.println(SDF.format(curMonth25Day()));
