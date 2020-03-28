@@ -214,6 +214,14 @@ public final class DateUtil {
         }
         return null;
     }
+    
+    // 获取指定日期加1天的日期
+    public static Date getDateAdd1Day(LocalDate d) throws ParseException {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(localDateToDate(d));
+        cal.add(Calendar.DAY_OF_MONTH, 1);
+        return cal.getTime();
+    }
 
     // 获取指定日期所在月上个月26号的日期
     public static Date getLastMonth26Day(LocalDate d) throws ParseException {
@@ -306,22 +314,23 @@ public final class DateUtil {
 
     public static void main(String[] args) throws ParseException {
         Calendar cal = Calendar.getInstance();
-        System.out.println(cal.get(Calendar.YEAR));
+//        System.out.println(cal.get(Calendar.YEAR));
 //        System.out.println(cal.get(Calendar.MONTH) + 1);
 //        System.out.println(cal.get(Calendar.DAY_OF_MONTH));
 //        System.out.println(SDF.format(curMonth25Day()));
 //        System.out.println(SDF.format(lastMonth26Day()));
-//        Date date = SDF.parse("2018-11-26");
-//        LocalDate d = dateToLocalDate(date);
-//        System.out.println(SDF.format(lastMonth26Day()));
-//        System.out.println(SDF.format(curMonth25Day()));
+        Date date = SDF.parse("2018-11-26");
+        LocalDate d = dateToLocalDate(date);
+          System.out.println(SDF.format(lastMonth26Day()));
+          System.out.println(SDF.format(curMonth25Day()));
 //        System.out.println(SDF.format(getLastMonth26Day(d)));
 //        System.out.println(SDF.format(getMonth25Day(d)));
 //        System.out.println("abc".substring(0, 2));
 //        System.out.println("00.01000".indexOf("."));
         
-        System.out.println(currentDayDateStr());
+//        System.out.println(currentDayDateStr());
         
+          System.out.println(dateToLocalDate(getDateAdd1Day(d)));
         
     }
 }

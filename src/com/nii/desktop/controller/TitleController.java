@@ -40,14 +40,14 @@ public class TitleController {
 
     @FXML
     public void onActionExitLink() {
-        UIManager.getPrimaryStage().close();
-        UIManager.switchLoginUI();
-        SessionUtil.USERS.clear();
+    	SessionUtil.USERS.clear();
         SessionUtil.CONTROLLERS.clear();
         SessionUtil.DAILYS.clear();
         SessionUtil.WORKS.clear();
         SessionUtil.WORKDETAILS.clear();
         SessionUtil.PARAMS.clear();
         SessionUtil.STAGES.clear();
+        UIManager.getPrimaryStage().close();
+        UIManager.switchLoginUI();
     }
 }

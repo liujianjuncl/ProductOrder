@@ -404,7 +404,7 @@ public class WorkTableDetailViewController implements Initializable {
             }
 
             if (endDate != null) {
-                sql = sql + " and work.workDate <= '" + DateUtil.localDateToDateTimeStr(endDate) + "'";
+                sql = sql + " and work.workDate <= '" + DateUtil.localDateToDateTimeStr(DateUtil.dateToLocalDate(DateUtil.getDateAdd1Day(endDate))) + "'";
             }
 
             if (userNo != null && !"".equals(userNo)) {
